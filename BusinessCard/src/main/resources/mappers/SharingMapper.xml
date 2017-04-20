@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="global.scit.bizcard.dao.SharingDAO">
+	<select id="listCardBooks" resultType="CardBooks">
+		select
+		b.book_num,
+		b.m_id,
+		b.book_name,
+		b.grade,
+		c.m_id room_host,
+		a.memberCount
+		from
+		(select * from
+		cardbooks where m_id=#{m_id}) b,
+		cardbooks c,
+		(select book_num,
+		count(m_id) memberCount from cardbooks group by book_num
+		order by
+		book_num) a
+		where
+		c.grade= 'manager' and
+		b.m_id= #{m_id} and
+		b.book_num=c.book_num and
+		a.book_num=b.book_num
+	</select>
+
+	<insert id="makeRoom" parameterType="CardBooks">
+		INSERT INTO CARDBOOKS (
+		BOOK_NUM,
+		M_ID,
+		BOOK_NAME,
+		GRADE
+		) VALUES (
+		cardbooks_seq.nextval,
+		#{m_id},
+		#{book_name},
+		#{grade}
+		)
+	</insert>
+
+
+	<select id="selectOneRoom" parameterType="int" resultType="HashMap">
+		SELECT
+		BOOK_NUM,
+		M_ID,
+		BOOK_NAME,
+		GRADE
+		FROM CARDBOOKS
+		WHERE BOOK_NUM =
+		#{book_num}
+
+	</select>
+
+	<select id="inviteList" resultType="Member" parameterType="HashMap">
+		SELECT
+		M_ID,
+		M_PASSWORD,
+		M_EMAIL,
+		M_NAME
+		FROM MEMBER
+		<if test="searchTitle != null and searchText!=null">
+			<choose>
+				<when test="searchTitle == 'm_id'">
+					WHERE M_ID like '%'||#{searchText}||'%'
+				</when>
+				<when test="searchTitle == 'm_name'">
+					WHERE M_NAME like '%'||#{searchText}||'%'
+				</when>
+			</choose>
+		</if>
+	</select>
+
+	<insert id="invite" parameterType="Message">
+		INSERT INTO MESSAGE (
+		TARGETID,
+		SENDER,
+		MESSAGE,
+		SENDDATE,
+		TYPE,
+		BOOK_NUM
+		) VALUES (
+		#{targetId},
+		#{sender},
+		#{message},
+		SYSDATE,
+		#{type},
+		#{book_num}
+		)
+	</insert>
+
+	<select id="messageList" parameterType="String" resultType="Message">
+		SELECT
+		TARGETID, SENDER, MESSAGE, OPENDATE, TYPE,
+		BOOK_NUM,
+		case
+		when
+		to_char(SENDDATE,'YY-MM-DD') = to_char(sysdate, 'YY-MM-DD')
+		then
+		to_char(SENDDATE,'HH24:MI:SS')
+		else to_char(SENDDATE,'YY-MM-DD')
+		end as
+		SENDDATE
+		FROM MESSAGE
+		WHERE TARGETID = #{m_id} or SENDER = #{m_id}
+		ORDER
+		BY SENDDATE
+		DESC
+	</select>
+
+	<insert id="writeMessage" parameterType="Message">
+		INSERT INTO MESSAGE (
+		TARGETID,
+		SENDER,
+		MESSAGE,
+		SENDDATE,
+		TYPE,
+		BOOK_NUM
+		) VALUES (
+		#{targetId},
+		#{sender},
+		#{message},
+		SYSDATE,
+		#{type},
+		#{book_num}
+		)
+	</insert>
+
+	<insert id="readMessage" parameterType="Message">
+		UPDATE MESSAGE
+		SET
+		OPENDATE = sysdate
+		WHERE message = #{message} and book_num = #{book_num}
+	</insert>
+
+	<insert id="joinRoom" parameterType="CardBooks">
+		INSERT INTO CARDBOOKS (
+		BOOK_NUM,
+		M_ID,
+		BOOK_NAME,
+		GRADE
+		) VALUES (
+		#{book_num},
+		#{m_id},
+		(select book_name from cardbooks where book_num=#{book_num} and rownum=1),
+		#{grade}
+		)
+
+
+	</insert>
+
+</mapper>

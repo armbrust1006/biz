@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="global.scit.bizcard.vo.Card" alias="Card" />
+		<typeAlias type="global.scit.bizcard.vo.CardImage" alias="CardImage" />
+		<typeAlias type="global.scit.bizcard.vo.Member" alias="Member" />
+		<typeAlias type="global.scit.bizcard.vo.CardBooks" alias="CardBooks" />
+		<typeAlias type="global.scit.bizcard.vo.Message" alias="Message"/>
+		<typeAlias type="global.scit.bizcard.vo.Note" alias="Note" />
+		<typeAlias alias="Board" type="global.scit.bizcard.vo.Board"/>
+	</typeAliases>
+	<mappers>
+		<mapper resource="mappers/cardMapper.xml" />
+		<mapper resource="mappers/cardImageMapper.xml" />
+		<mapper resource="mappers/MemberMapper.xml" />
+		<mapper resource="mappers/SharingMapper.xml" />
+		<mapper resource="mappers/NoteMapper.xml" />
+		<mapper resource="mappers/boardMapper.xml"/>
+	</mappers>
+	
+</configuration>
+

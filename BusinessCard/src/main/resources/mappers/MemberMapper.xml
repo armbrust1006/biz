@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="global.scit.bizcard.dao.MemberDAO">
+	<select id="selectM" resultType="Member" parameterType="map" >
+		select m_id, m_password 
+		from MEMBER 
+		where m_id=#{m_id} and m_password=#{m_password}
+	</select>
+	
+	<insert id="insertM" parameterType="Member"> 
+		INSERT INTO MEMBER (m_id, m_password, m_email, m_name) 
+		VALUES (#{m_id}, #{m_password}, #{m_email}, #{m_name}) 
+	</insert>
+	
+	<select id="idCheck" resultType="Member" parameterType="string">
+      select * from member where M_id = #{id}
+   </select>
+
+	<select id="emailCheck" resultType="Member" parameterType="string">
+      select * from member where M_email = #{email}
+   </select>
+
+</mapper>
+

@@ -1,0 +1,188 @@
+package global.scit.bizcard.vo;
+
+import java.util.Date;
+
+public class Card extends CardImage {
+	private String name, company, depart, position, address, email, telephone, fax, mobile, language, logoImg;
+
+	public Card() {
+	}
+
+	public Card(String m_id, int cardNum, String cardType, Date inputDate) {
+		super(m_id, cardNum, cardType, inputDate);
+	}
+
+	public Card(int cardNum, String m_id, String cardType, String name, String company, String depart, String position,
+			String address, String email, String telephone, String fax, String mobile, String language, String logoImg,
+			Date inputDate) {
+		super(m_id, cardNum, cardType, inputDate);
+		this.name = name;
+		this.company = company;
+		this.depart = depart;
+		this.position = position;
+		this.address = address;
+		this.email = email;
+		this.telephone = telephone;
+		this.fax = fax;
+		this.mobile = mobile;
+		this.language = language;
+		this.logoImg = logoImg;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public String getDepart() {
+		return depart;
+	}
+
+	public void setDepart(String depart) {
+		this.depart = depart;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public String getFax() {
+		return fax;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String getLogoImg() {
+		return logoImg;
+	}
+
+	public void setLogoImg(String logoImg) {
+		this.logoImg = logoImg;
+	}
+
+	@Override
+	public int getCardNum() {
+		// TODO Auto-generated method stub
+		return super.getCardNum();
+	}
+
+	@Override
+	public void setCardNum(int cardnum) {
+		// TODO Auto-generated method stub
+		super.setCardNum(cardnum);
+	}
+
+	@Override
+	public String getM_id() {
+		// TODO Auto-generated method stub
+		return super.getM_id();
+	}
+
+	@Override
+	public void setM_id(String m_id) {
+		// TODO Auto-generated method stub
+		super.setM_id(m_id);
+	}
+
+	@Override
+	public String getCardType() {
+		// TODO Auto-generated method stub
+		return super.getCardType();
+	}
+
+	@Override
+	public void setCardType(String cardType) {
+		// TODO Auto-generated method stub
+		super.setCardType(cardType);
+	}
+
+	@Override
+	public String getImagePath() {
+		// TODO Auto-generated method stub
+		return super.getImagePath();
+	}
+
+	@Override
+	public void setImagePath(String imagePath) {
+		// TODO Auto-generated method stub
+		super.setImagePath(imagePath);
+	}
+
+	@Override
+	public Date getInputdate() {
+		// TODO Auto-generated method stub
+		return super.getInputdate();
+	}
+
+	@Override
+	public void setInputdate(Date inputDate) {
+		// TODO Auto-generated method stub
+		super.setInputdate(inputDate);
+	}
+
+	@Override
+	public String toString() {
+		return "Card [name=" + name + ", company=" + company + ", depart=" + depart + ", position=" + position
+				+ ", address=" + address + ", email=" + email + ", telephone=" + telephone + ", fax=" + fax
+				+ ", mobile=" + mobile + ", language=" + language + ", logoImg=" + logoImg + ", toString()="
+				+ super.toString() + "]";
+	}
+
+}
