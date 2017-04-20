@@ -29,5 +29,15 @@ public class NoteRepository {
 		return list;
 	}
 	
-	
+	public int addNote(Note note) {
+		NoteDAO dao = sqlSession.getMapper(NoteDAO.class);
+		int result =0;
+		try {
+			result = dao.addNote(note);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

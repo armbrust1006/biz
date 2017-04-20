@@ -7,4 +7,5 @@ import global.scit.bizcard.vo.Note;
 public interface NoteDAO {
 
 	public List<Note> noteList (String m_id) throws Exception;
+	public int addNote(Note note) throws Exception;
 }

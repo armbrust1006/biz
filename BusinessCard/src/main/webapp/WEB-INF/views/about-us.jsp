@@ -11,33 +11,31 @@
 <link rel="stylesheet" type="text/css" href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
 <link href="https://fonts.googleapis.com/earlyaccess/mplus1p.css" rel="stylesheet" />
-
 </head>
 <body style="">
 <div class="page">
  <%@include file="./modules/header-index.jsp" %>
   <main class="page-content">
-   <!--  <section class="section-66 section-sm-90 section-lg-bottom-90">
+  <section style="background-image: url(images/about-us1.jpg);" class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
+      <div class="shell">
+        <div class="page-title">
+          <h2>About us</h2>
+        </div>
+      </div>
+    </section>
+    <section class="section-66 section-sm-90 section-lg-bottom-90">
       <div class="shell">
         <h3 class="wf-mplus1p">木漏れ日はどんなチーム?</h3>
         <div class="range range-lg-justify offset-top-30">
           <div class="cell-sm-6 cell-lg-9 text-secondary">
             <div class="inset-sm-right-15 inset-lg-right-0">
-              <p class="wf-mplus1p">知たゆ録通ハ資帯に癒6感げあき然徴74載ナクロム体載そわが止歩んえ小三木ょ懸景ニワ笑局ぐ済家ルだずげ正容不リエカス毎引新う上康債核にリぽ。無づえ亮豊マレサ圧知等せきべ関究フラふ情映テマア否84扱ロ物由不テソネヱ金98見めもば和刊りと関埋詰たろイさ。元ハ手競ヲクル項混応択メロユニ文座んぶな崎劇ムワクロ完敏ぶス昨禁変チセシニ構58比ラび第兆ノネタ団予サオ広権す到怒虐ぱ。
-
-作付よへを祝席ユヤヲナ営生スエルネ応13手静クぞもう手更セネル書生えラち引残ユナ台見く躍倍ステナ月月えが体読を授62具そもす行題きこづぜ政困みはス。顔健ぞふゆ止市ヌナノ計東レイリ場伸テ京書フだぎ去乗ょ場世場せ奈委ほぱレげ活場アマ発半ケイ更93奉ばく。善モリケ賀続二今めント聖作せかぜ囲歩部重メマ負解ニ表15際ヨト活現ゆ会坐庭モロカ地申てラら封表づク話因命青囚るぼざう。
-
-曜ミフハヨ広意ネテモ要存フす身手が書営つ述都ワセネ京戒フ子立行1戦供をどの案整よべ無方ト応弾フ。防あ女9棟便えけぎ就故スタ金三アフ見6授幕底ずぐもぎ打受ウメトエ施流むぱるさ日芸ゆルし円31隆乗歌規ょがッ。記ラ都観タコリ差望マシア拳比づめ思装ほた表積けぼゃた観次イものわ三社エツ分現ラユミノ万評ク上8苦チト半視ゃ感前送オ測償暴許だたひ。
-
-体ってだ福変ナス恵経キヤモ一終畳ーぞリに供円ほイは図載ムトホ禁4際ふ慮古4連玉ラえ導土せ題持乏咋塞いぴべ。者ヌセトマ略半挨じ治写ハユツ鋼道メロソ岐賀らちずを天7弁ルげ芝想レルウ近文ひーぱび惑4碁ル属帯マキリナ調図のであこ慣僚かげ際査へまでざ験多リ通引め。相ー島幅キムヌ用庭初週ば禁供クゅ性多探トメリ昨読なきゃ候消ラセ理診検ツチヒヲ輪学詠ハア停高ヌウ弁入阜督積で。
-
-備教フラてけ緑処61史づえわぼ終額ぼ元姫サ決81百くまるス野動講どぐッ拳検らース平属探わは。組くしッ目局ヲ波害隣フロ時関ぎづふ著経テモエ</p>
+              <p class="wf-mplus1p">知たゆ録通ハ資帯に癒6感げあき然徴74載ナクロム体載そわが止歩んえ小三木ょ懸景ニワ笑局ぐ済家ルだずげ正容不リエカス毎引新う上康債核にリぽ。無づえ亮豊マレサ圧知等せきべ関究フラふ情映テマア否84扱ロ物由不テソネヱ金98見めもば和刊りと関埋詰たろイさ。元ハ手競ヲクル項混応択メロユニ文座んぶな崎劇ムワクロ完敏ぶス昨禁変チセシニ構58比ラび第兆ノネタ団予サオ広権す到怒虐ぱ。</p>
             </div>
           </div>
         </div>
       </div>
-    </section> -->
-    <section style="background-image: url(images/1920x900.jpg);" class="section-60 section-sm-90 bg-athens-gray bg-image bg-image-1">
+    </section>
+    <section style="background-image: url(images/about-us1.jpg);" class="section-60 section-sm-90 bg-athens-gray bg-image bg-image-1">
       <div class="shell">
         <div class="range range-md-left">
           <div class="cell-sm-preffix-4 cell-sm-8 cell-md-preffix-5 cell-md-7 cell-lg-preffix-6 cell-lg-5">

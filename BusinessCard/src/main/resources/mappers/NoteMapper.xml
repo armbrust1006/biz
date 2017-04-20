@@ -8,4 +8,10 @@
 	where m_id=#{m_id}
 </select>
 
+<insert id="addNote" parameterType="Note">
+	insert into CARDNOTE_TEST values(
+		#{m_id}, '1', #{start}, #{end}, sysdate, #{title}
+	) 
+</insert>
+
 </mapper>

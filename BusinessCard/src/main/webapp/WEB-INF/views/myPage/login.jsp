@@ -12,7 +12,21 @@
 <link rel="stylesheet" type="text/css" href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
 <script src="js/jquery-3.1.1.min.js"></script>
-
+<script>
+function idCheck() {
+	var result = "${errorMSG}";
+	if(result.length==0) {
+		return true;
+	} else {
+		$('#myModal').modal({
+	    	backdrop : true,
+	    	keyboard : true,
+	    	show : true
+		});
+		return false;
+	};
+}
+</script>
 </head>
 <!-- body 배경화면 이미지크기 1920x900 -->
 <body style="background-image: url(images/main3.jpg);" class="one-screen-page bg-gray-darker bg-image">
@@ -59,7 +73,7 @@
               </div>
 
               <!-- novalidate은 유효성 검사를 하지 않도록 지정할 때 사용.  -->
-              <form class="form-modern form-darker offset-top-40" novalidate="novalidate" action="login" method="POST">
+              <form class="form-modern form-darker offset-top-40" novalidate="novalidate" action="login" method="POST" onsubmit="return idCheck();">
                 <div class="block-inner">
                   <div class="form-group">
                     <input type="text" class="form-control form-control-has-validation" data-constraints="@Required" name="m_id" id="m_id" placeholder="ID">
@@ -88,26 +102,12 @@
           </div>
         </div>
       </div>
-      <div class="divider-spectrum"></div>
+     <!--  <div class="divider-spectrum"></div> -->
     </footer>
   </div>
 </div>
 <%@include file="../modules/form-output-global.jsp" %>
 <script src="js/core.min.js"></script> 
 <script src="js/script.js"></script>
-
-<script>
-$(function(){
-
-	<c:if test="${not empty errorMSG}">
-    $('#myModal').modal({
-    
-			    	backdrop : true,
-			    	keyboard : true,
-			    	show : true
-    }); 
-    </c:if>
-});
-</script>
 </body>
 </html>
