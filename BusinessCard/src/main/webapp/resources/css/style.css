@@ -10994,7 +10994,7 @@ body {
 
 .page-head {
     position: relative;
-    z-index: 10000;
+    z-index: 1030;
     background-color: #fff;
 }
 
@@ -45965,7 +45965,7 @@ html.boxed .rd-navbar--is-clone {
 }
 
 .dtp-header {
-    background: #217ED3;
+    background: #204ac8;
     color: #fff;
     text-align: center;
     padding: 0.3rem;
@@ -45974,7 +45974,7 @@ html.boxed .rd-navbar--is-clone {
 
 .dtp-date,
 .dtp-time {
-    background: #7ed1bb;
+    background: #b4b4b4;
     text-align: center;
     color: #fff;
     padding: 10px;
@@ -46061,9 +46061,8 @@ html.boxed .rd-navbar--is-clone {
     padding: 0.38rem 0.5rem 0.35rem 0.4rem;
     border-radius: 50% !important;
 }
-
 .dtp table.dtp-picker-days tr > td > a.selected {
-    background: #217ED3;
+    background: #14d396;
     color: #fff;
 }
 
@@ -46127,7 +46126,7 @@ html.boxed .rd-navbar--is-clone {
 
 .dtp-actual-meridien a.selected,
 .dtp-actual-meridien a:hover {
-    background: #217ED3;
+    background: #204ac8;
     color: #fff;
 }
 
@@ -46150,7 +46149,7 @@ html.boxed .rd-navbar--is-clone {
 
 .dtp-picker-time > a.dtp-select-hour.selected,
 .dtp-picker-time > a.dtp-select-hour:hover {
-    background: #217ED3;
+    background: #204ac8;
     color: #fff;
 }
 
@@ -46164,7 +46163,7 @@ html.boxed .rd-navbar--is-clone {
 
 .dtp-picker-time > a.dtp-select-minute:hover,
 .dtp-picker-time > a.dtp-select-minute.selected {
-    background: #217ED3;
+    background: #204ac8;
     color: #fff;
 }
 
@@ -46214,12 +46213,12 @@ html[class*="ie"] .dtp-hour-hand {
 }
 
 .dtp-hand.on {
-    background: #217ED3;
+    background: #204ac8;
 }
 
 .dtp-buttons {
     padding: 0 1rem 1rem 1rem;
-    text-align: right;
+    text-align: center;
 }
 
 .dtp .invisible {

@@ -10,21 +10,22 @@
 <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/earlyaccess/mplus1p.css" rel="stylesheet" />
 </head>
 <body style="">
 <div class="page">
   <%@include file="./modules/header.jsp" %>
   <main class="page-content">
-    <!-- <section style="background-image: url(images/1920x900.jpg);" class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
+    <section style="background-image: url(images/about-us1.jpg);" class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
       <div class="shell">
         <div class="page-title">
           <h2>About us</h2>
         </div>
       </div>
-    </section> -->
+    </section>
     <section class="section-66 section-sm-90 section-lg-bottom-90">
       <div class="shell">
-        <h3>木漏れ日はどんなチーム?</h3>
+        <h3 class="wf-mplus1p">木漏れ日はどんなチーム?</h3>
         <div class="range range-lg-justify offset-top-30">
           <div class="cell-sm-6 cell-lg-5 text-secondary">
             <div class="inset-sm-right-15 inset-lg-right-0">
@@ -34,7 +35,7 @@
         </div>
       </div>
     </section>
-    <section style="background-image: url(images/1920x900.jpg);" class="section-60 section-sm-90 bg-athens-gray bg-image bg-image-1">
+    <section style="background-image: url(images/about-us1.jpg);" class="section-60 section-sm-90 bg-athens-gray bg-image bg-image-1">
       <div class="shell">
         <div class="range range-md-left">
           <div class="cell-sm-preffix-4 cell-sm-8 cell-md-preffix-5 cell-md-7 cell-lg-preffix-6 cell-lg-5">
