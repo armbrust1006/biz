@@ -510,6 +510,27 @@
 		});
 	}
 
+	function getSharedCard() {
+		$.ajax({
+			method : "post",
+			url : "",
+			data : {
+
+			},
+			success : function() {
+				console.log("SUCCESS");
+				sharedCard()
+			},
+			error : function() {
+				console.log("ERROR");
+			}
+		});
+	}
+
+	function sharedCard() {
+
+	}
+
 	//탈퇴
 	$("#withdrawalForm").on('show.bs.modal', function(event) {
 		var button = $(event.relatedTarget)
