@@ -239,6 +239,29 @@
 </script>
 </head>
 <body style="">
+	<div class="modal fade" id="myModal">
+		<div class="modal-dialog">
+			<div class="modal-content" style="margin-top: 35%">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body">
+					<h6 id="myInput"></h6>
+				</div>
+				<div class="modal-footer">
+					<div class="group-lg group-middle group-sm offset-top-30">
+						<button type="button" class="btn btn-default btn-sm"
+							data-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+			<!-- modal-content -->
+		</div>
+		<!-- modal-dialog -->
+	</div>
+	<!-- modal -->
+
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
@@ -403,26 +426,5 @@
 	<script src="js/core.min.js"></script>
 	<script src="js/script.js"></script>
 	<script src="js/custom-file-input.js"></script>
-	<!-- The Modal -->
-	<div class="modal-open">
-		<div id="myModal" class="modal">
-			<!-- Modal content -->
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<br> <br>
-					<div class="modal-header">
-						<h3>
-							Warning
-							<button id="modal-close" data-dismiss="modal" class="close">
-								&times;</button>
-						</h3>
-					</div>
-					<div class="modal-body">
-						<h6 id="myInput"></h6>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </body>
 </html>

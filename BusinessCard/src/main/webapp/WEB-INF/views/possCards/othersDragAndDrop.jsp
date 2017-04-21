@@ -233,36 +233,32 @@
 </script>
 </head>
 <body style="">
-<div class="modal fade" id="myModal">
-            <div class="modal-dialog">
-               <div class="modal-content" style="margin-top:35%">
-                  <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                     <h4 class="modal-title"></h4>
-                  </div>
-                  <div class="modal-body">
-                     <h6 id="myInput"></h6>
-                  </div>
-                  <div class="modal-footer">
-                     <div class="group-lg group-middle group-sm offset-top-30">
-                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" >닫기</button>
-                     </div>
-                  </div>
-               </div> <!-- modal-content -->
-            </div> <!-- modal-dialog -->
-         </div> <!-- modal -->
+	<div class="modal fade" id="myModal">
+		<div class="modal-dialog">
+			<div class="modal-content" style="margin-top: 35%">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body">
+					<h6 id="myInput"></h6>
+				</div>
+				<div class="modal-footer">
+					<div class="group-lg group-middle group-sm offset-top-30">
+						<button type="button" class="btn btn-default btn-sm"
+							data-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+			<!-- modal-content -->
+		</div>
+		<!-- modal-dialog -->
+	</div>
+	<!-- modal -->
 
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
-		<!-- <section style="background-image: url(images/1920x900.jpg);"
-			class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
-			<div class="shell">
-				<div class="page-title">
-					<h2>Register My Business Card</h2>
-				</div>
-			</div>
-		</section> -->
 		<section class="section-60 section-sm-top-90 section-sm-bottom-100">
 			<div class="shell">
 				<div class="range">
@@ -362,7 +358,7 @@
 									</div>
 								</div>
 
-								<div class="cell-sm-3 offset-top-20">
+								<div class="cell-sm-3 offset-top-30">
 									<div class="form-group">
 										<input class="inputfile inputfile-1" type="file" id="logo"
 											name="logo" style="display: none;"
@@ -376,7 +372,7 @@
 									</div>
 								</div>
 
-								<div></div>
+								<div class="cell-sm-3 offset-top-20"></div>
 								<div
 									class="cell-xs-2 offset-top-32 offset-xs-top-30 offset-sm-top-50">
 									<button type="button" id="creatCard"
@@ -391,8 +387,8 @@
 
 								<div
 									class="cell-xs-2 offset-top-22 offset-xs-top-30 offset-sm-top-50">
-									<button type="reset" class="btn btn-silver-outline btn-block" id="reset"
-										align="center">Reset</button>
+									<button type="reset" class="btn btn-silver-outline btn-block"
+										id="reset" align="center">Reset</button>
 								</div>
 							</div>
 						</form>
@@ -416,26 +412,5 @@
 	<script src="js/core.min.js"></script>
 	<script src="js/script.js"></script>
 	<script src="js/custom-file-input.js"></script>
-	<!-- The Modal -->
-	<div class="modal-open">
-		<div id="myModal" class="modal">
-			<!-- Modal content -->
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<br> <br>
-					<div class="modal-header">
-						<h3>
-							Warning
-							<button id="modal-close" data-dismiss="modal" class="close">
-								&times;</button>
-						</h3>
-					</div>
-					<div class="modal-body">
-						<h6 id="myInput"></h6>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </body>
 </html>

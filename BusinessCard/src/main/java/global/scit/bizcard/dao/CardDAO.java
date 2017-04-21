@@ -20,4 +20,6 @@ public interface CardDAO {
 	public int shareCheck(int cardnum, int book_num) throws Exception;
 
 	public int share(String m_id, int book_num, int cardnum) throws Exception;
+
+	public Card selectMyCard(String loginID) throws Exception;
 }

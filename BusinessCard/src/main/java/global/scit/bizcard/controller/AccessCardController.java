@@ -47,26 +47,19 @@ import global.scit.bizcard.vo.CardBooks;
 import global.scit.bizcard.vo.CardImage;
 
 @Controller
-public class CardController {
+public class AccessCardController {
 
-	private static final Logger logger = LoggerFactory.getLogger(CardController.class);
+	private static final Logger logger = LoggerFactory.getLogger(AccessCardController.class);
 
 	@Autowired
 	private CardRepository cardRepository;
 	@Autowired
 	private CardImageRepository cardImageRepository;
-	@Autowired
-	private SharingRepository shareRepository;
 
 	final String uploadPathLogo = "/CardImageFile/logo";
 	final String uploadPathCard = "/CardImageFile/card";
 	final String uploadPathOCR = "/CardImageFile/OCR";
 	final String getPathOCR = "C:\\CardImageFile\\OCR\\";
-
-	@RequestMapping(value = "/myCard", method = RequestMethod.GET)
-	public String cardCreate() {
-		return "selectCardType";
-	}
 
 	/**
 	 * 카드 생성 및 데이터 저장
@@ -89,8 +82,8 @@ public class CardController {
 			card.setLogoImg("");
 		}
 		cardRepository.insertCard(card);
-		
-		if(card.getCardType() == "other"){
+
+		if (card.getCardType() == "other") {
 			CardImage cardImage = new CardImage();
 			cardImage.setM_id(m_id);
 			cardImage.setCardNum(cardnum);
@@ -123,6 +116,14 @@ public class CardController {
 		return res;
 	}
 
+	/**
+	 * OCR 이미지 스캔
+	 * 
+	 * @param language
+	 * @param file
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/imageScan", method = RequestMethod.POST)
 	public String ocrScan(String language, MultipartFile file, Model model) {
 		if (!file.isEmpty() && !language.isEmpty()) {
@@ -138,11 +139,14 @@ public class CardController {
 		return "myPage/OCRResult";
 	}
 
-	@RequestMapping(value = "/layoutForm", method = RequestMethod.GET)
-	public String add() {
-		return "layoutForm";
-	}
-
+	/**
+	 * 카드 검색
+	 * 
+	 * @param select
+	 * @param search
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/searchCard", method = RequestMethod.GET)
 	public String cardSearchs(String select, String search, Model model) {
 		logger.info("search : " + search + ", select : " + select);
@@ -156,19 +160,6 @@ public class CardController {
 		logger.info(list.toString());
 		model.addAttribute("list", list);
 		return "possCards/cardSearch";
-	}
-
-	/**
-	 * 명함 데이터 가져오기
-	 * 
-	 * @param session
-	 * @param sort
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/myCardList", method = RequestMethod.GET)
-	public String myCardList() {
-		return "myPage/myCardList";
 	}
 
 	@RequestMapping(value = "/listSort", method = RequestMethod.POST)
@@ -193,7 +184,6 @@ public class CardController {
 	 * 
 	 * @param response
 	 * @param card
-	 *            이미지 경로
 	 * @return
 	 */
 	@RequestMapping(value = "/downloadImage", method = RequestMethod.GET)
@@ -237,7 +227,6 @@ public class CardController {
 	 * 
 	 * @param response
 	 * @param card
-	 *            이미지 경로
 	 * @return
 	 */
 	@RequestMapping(value = "/downloadOCRImage", method = RequestMethod.GET)
@@ -277,6 +266,23 @@ public class CardController {
 	}
 
 	/**
+	 * 내 명함 페이지
+	 * 
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/selectMyCard", method = RequestMethod.GET)
+	public String selectMyCard(HttpSession session, Model model) {
+
+		String loginID = (String) session.getAttribute("m_id");
+		Card myCard = cardRepository.selectMyCard(loginID);
+		model.addAttribute("MyCard", myCard);
+
+		return "myPage/selectMyCard";
+	}
+
+	/**
 	 * [현택] 명함 하나 선택 페이지로 이동
 	 * 
 	 * @param cardnum
@@ -293,23 +299,6 @@ public class CardController {
 		System.out.println(selectedCard.toString() + "보자보자");
 		model.addAttribute("selectedCard", selectedCard);
 		return "possCards/selectOneCard";
-	}
-
-	/**
-	 * [현택] 명함 공유 시 공유방 목록 호출
-	 * 
-	 * @param session
-	 * @param model
-	 * @param cardnum
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/showShareRoom", method = RequestMethod.GET)
-	public ArrayList<CardBooks> showShareRoom(HttpSession session) {
-		String m_id = (String) session.getAttribute("m_id");
-		// 공유방 전체 목록 호출
-		ArrayList<CardBooks> cList = shareRepository.listCardBooks(m_id);
-		System.out.println(cList.toString() + "공유방목록");
-		return cList;
 	}
 
 	/**
@@ -332,6 +321,12 @@ public class CardController {
 		return 0;
 	}
 
+	/**
+	 * TTS(Text To Speech) 기능
+	 * 
+	 * @param textToSpeech
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/listen", method = RequestMethod.POST)
 	public String listen(String textToSpeech) {
@@ -400,7 +395,11 @@ public class CardController {
 	}
 
 	/**
-	 * [현택] 길찾기에서 경유지 목록 보여주기
+	 * 길찾기에서 경유지 목록 보여주기
+	 * 
+	 * @param session
+	 * @param sort
+	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/addStop", method = RequestMethod.GET)
@@ -418,6 +417,14 @@ public class CardController {
 		return list;
 	}
 
+	/**
+	 * 지도 다중 경로
+	 * 
+	 * @param session
+	 * @param sort
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/routeStopBy", method = RequestMethod.GET)
 	public String routeStopBy(HttpSession session, String sort, Model model) {
 		ArrayList<Card> list = new ArrayList<>();

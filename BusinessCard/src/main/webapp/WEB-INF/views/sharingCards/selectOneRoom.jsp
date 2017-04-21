@@ -515,11 +515,11 @@
 			method : "post",
 			url : "",
 			data : {
-
+				book_num : 
 			},
-			success : function() {
+			success : function(res) {
 				console.log("SUCCESS");
-				sharedCard()
+				sharedCard(res);
 			},
 			error : function() {
 				console.log("ERROR");
