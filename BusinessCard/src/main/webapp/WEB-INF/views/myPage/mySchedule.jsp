@@ -12,6 +12,8 @@
 	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/fullcalendar.css">
+<link rel="stylesheet" href="css/jquery-ui-1.9.2.custom.min.css">
+<link rel="stylesheet" href="css/jquery.qtip.min.css" >
 <style>
 #calendarBody {
 	margin: 40px 10px;
@@ -32,6 +34,7 @@
 <script>
 $(document).ready(function() {
 	init();
+	$('#add').on("click", add);
 });	
 	
 	function init() {
@@ -39,49 +42,15 @@ $(document).ready(function() {
 			type : "get",
 			url : "noteList",
 			data : {'m_id' : "${sessionScope.m_id}"},
-			success : noteResult
+			success : output
 		});
 	};
 
-	function noteResult(resp) {
-		var eventData=[];
-		var result =JSON.stringify(resp);
-		alert(result);
-		for (var i=0; i<result.length; i++){
-			var note = resp[i].note.val();
-			alert(note);
-			/* var strDate = moment(resp[i].startdate).format('YYYY-MM-DD');
-			var edDate = moment(resp[i].enddate).format('YYYY-MM-DD'); */
-			alert(strDate);
-			eventData.push({
-					title : note,
-					start : strDate,
-					end : edDate
-			});
-/* 		alert(JSON.stringify(eventData[i])); */
-			$('#calendar').fullCalendar({
-				header : {
-					left : 'prev,next today',
-					center : 'title',
-					right : 'month,basicWeek,basicDay'
-				},
-				defaultDate : '2017-04-14',
-				navLinks : true, // can click day/week names to navigate views
-				editable : true,
-				eventLimit : true, // allow "more" link when too many events
-				events : eventData
-			});
-		}
-	};
-	
-	/* function output(eventData){
-		alert(eventData);
-		var note = resp.title.toString();
-		var start = resp.strDate.toString();
-		var end = resp.edDate.toString();
+ 	
+	function output(eventData){
 	$('#calendar').fullCalendar({
 			header : {
-				left : 'prev,next today',
+				left : 'prev, next today',
 				center : 'title',
 				right : 'month,basicWeek,basicDay'
 			},
@@ -89,206 +58,162 @@ $(document).ready(function() {
 			navLinks : true, // can click day/week names to navigate views
 			editable : true,
 			eventLimit : true, // allow "more" link when too many events
-			events : eventData
-			
+			events : eventData,
+			eventClick: function(calEvent, jsEvent, view) {
+				var title = calEvent.title;
+				var dateKey = calEvent.start;
+		        var detail = {'cardnum' : title, 'start' : dateKey};
+		        openModal(title);
+		        $.ajax({
+		        	type : "POST",
+		        	url : "getCard",
+		        	data : detail,
+		        	success : function(resp){
+		        		
+		        	}
+		        });
+				
+		        // change the border color just for fun
+		        $(this).css('background-color', '#1a75ff');
+
+		    },
+			dayClick: function(date, view) {
+		        // change the day's background color just for fun
+				$(this).css('background-color', '#c2f0f0');
+				openModal();
+			}
 		});
-	}; */
+	};
+	
+	function openModal(title){
+		$('#test').html(title);
+		$('#myModal').modal({
+	    	backdrop : true,
+	    	keyboard : true,
+	    	show : true
+		});
+	}
+	
+	function add() {
+		alert('작동점검');
+		var sDate = document.getElementById('start').value;
+		var eDate = document.getElementById('end').value;
+		var message = document.getElementById('title').value;
+		var addData = {
+				"m_id" : "${sessionScope.m_id}",
+				"start" : sDate,
+				"end" : eDate,
+				"title": message
+		};	
+		if (sDate.length==0 || eDate.length==0 || message.length==0) {
+			alert('일정과 메세지를 입력하세요');
+		}
+		/* if (sDate < eDate) {
+			alert('시작일은 반드시 종료일보다 앞선 날짜여야 합니다.');
+			return false;
+		} */
+		alert("check");
+		$.ajax({
+			type : "post",
+			url : "addNote",
+			data : addData,
+			success : function(resp) {
+				if (resp == 0) {
+					init();
+					alert("일정을 등록 했습니다.");
+					$("#start").val("");
+					$("#end").val("");
+					$("#title").val("");
+				} else {
+					alert("일정 등록 실패");
+				}
+			},
+			error : function() {
+				alert("error");
+			}
+		});
+	}
 </script>
 </head>
 <body style="">
-<div class="page">
+
+	<div class="modal fade" id="myModal">
+		<div class="modal-dialog">
+			<div class="modal-content" style="margin-top: 10%">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h5 class="modal-title">새 일정 입력</h5>
+				</div>
+				<div class="modal-body">
+					<span id="test"></span>
+				</div>
+				<div class="modal-footer">
+					<div class="group-lg group-middle group-sm offset-top-30">
+						<button type="button" class="btn btn-primary btn-shadow btn-sm"
+							id="addSchedule">일정입력</button>
+						<button type="reset" class="btn btn-primary btn-shadow btn-sm">초기화</button>
+						<button type="button" class="btn btn-default btn-sm"
+							data-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+			<!-- modal-content -->
+		</div>
+		<!-- modal-dialog -->
+	</div>
+	<!-- modal -->
+
+	<div class="page">
 <%@include file="../modules/header.jsp"%>
 	<main class="page-content">
-		<section class="section-60 section-sm-75 section-lg-8">
-			<div class="shell">
-				<div class="range">
-					<!-- 왼쪽 영역 -->
-					<div class="cell-md-8 cell-lg-8">
-						<!-- <div class="offset-top-20 offset-sm-top-40">
-        		<div id = "calendarBody" class="cell-xs-9"> -->
-						<div id="calendar"></div>
-						<!--  	 	</div>
-        	</div> -->
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="section-66 section-sm-90 section-lg-4">
-			<div class="shell">
-				<!-- 오른쪽 영역 -->
-				<div class="cell-md-4 cell-lg-4 offset-top-50 offset-md-top-0">
-					<div class="inset-md-left-15 inset-md-right-10">
-						<div class="range">
-							<!-- <div class="cell-sm-6 cell-md-6"> -->
-
-							<!-- 실제 폼 영역 -->
-							<h4>새 일정 입력</h4>
-							<form data-form-output="form-output-global" data-form-type="contact" class="form-modern">
-								<input type="hidden" name="m_id" id="m_id" value="${sessionScope.m_id}">
-								<div class="range range-7">
-									<div class="cell-sm-3 offset-top-30">
-										<div class="form-group">
-											<input id="startDate" type="text" name="startDate"
-												data-constraints="@Required" data-time-picker="date"
-												class="form-control"> <label for="startDate"
-												class="form-label">StartDate</label>
-										</div>
-									</div>
-									<div class="cell-sm-3 offset-top-30">
-										<div class="form-group">
-											<input id="endDate" type="text" name="endDate"
-												data-constraints="@Required" data-time-picker="date"
-												class="form-control"> <label for="endDate"
-												class="form-label">EndDate</label>
-										</div>
-									</div>
-									<div class="cell-xs-6 offset-top-30">
-										<div class="form-group">
-											<div class="textarea-lined-wrap">
-												<textarea id="note" name="note"
-													data-constraints="@Required" class="form-control"></textarea>
-												<label for="note" class="form-label">Message</label>
-											</div>
-										</div>
-									</div>
-									<div
-										class="cell-xs-3 offset-top-30 offset-xs-top-30 offset-sm-top-50">
-										<input type="button" class="btn btn-primary btn-block"
-											id="Save" value="Save" />
-									</div>
-									<div
-										class="cell-xs-3 offset-top-22 offset-xs-top-30 offset-sm-top-50">
-										<button type="reset" class="btn btn-silver-outline btn-block">Reset</button>
-									</div>
-								</div>
-							</form>
-							<!-- 폼 영역 끝 -->
-							<!-- </div> -->
-						</div>
-					</div>
-				</div>
-				<!-- 오른쪽 영역 끝 -->
-			</div>
-		</section>
-
-
-
-
-		<section class="section-66 section-sm-90 bg-gray-light">
-			<div class="shell">
-				<h3>Your Career Starts Here</h3>
-				<p style="max-width: 440px;">
-					Can't find the job you want? Send your resume to <a
-						class="__cf_email__" href=""
-						data-cfemail="93fafdf5fcd3f7f6fefcfffafdf8bdfce1f4">philip@gmail.com</a>,
-					and we'll contact you when a new position opens.
-				</p>
-				<div class="range">
-					<div class="cell-sm-6">
-						<a href="#" class="block-vacation">
-							<h5>Senior Software Developer</h5>
-							<div class="block-meta">
-								<ul class="list-objects-inline">
-									<li><span
-										class="icon icon-xs-smaller icon-primary material-icons-location_on"></span><span>London</span></li>
-									<li><span
-										class="icon icon-xs-smaller icon-primary material-icons-av_timer"></span><span>Full
-											Time</span></li>
-									<li><span
-										class="icon icon-xs-smaller icon-primary mdi mdi-calendar"></span>
-										<time datetime="2016-01-01">6 hours ago</time></li>
-								</ul>
-							</div>
-						</a>
-					</div>
-					<div class="cell-sm-6 offset-top-30 offset-sm-top-0">
-						<a href="#" class="block-vacation">
-							<h5>Digital Content Designer</h5>
-							<div class="block-meta">
-								<ul class="list-objects-inline">
-									<li><span
-										class="icon icon-xs-smaller icon-primary material-icons-location_on"></span><span>Athlanta</span></li>
-									<li><span
-										class="icon icon-xs-smaller icon-primary material-icons-av_timer"></span><span>Freelance</span></li>
-									<li><span
-										class="icon icon-xs-smaller icon-primary mdi mdi-calendar"></span>
-										<time datetime="2016-01-01">3 day ago</time></li>
-								</ul>
-							</div>
-						</a>
-					</div>
-					<div class="cell-sm-6 offset-top-30">
-						<a href="#" class="block-vacation">
-							<h5>Lead Product Designer</h5>
-							<div class="block-meta">
-								<ul class="list-objects-inline">
-									<li><span
-										class="icon icon-xs-smaller icon-primary material-icons-location_on"></span><span>Oakland</span></li>
-									<li><span
-										class="icon icon-xs-smaller icon-primary material-icons-av_timer"></span><span>Full
-											Time</span></li>
-									<li><span
-										class="icon icon-xs-smaller icon-primary mdi mdi-calendar"></span>
-										<time datetime="2016-01-01">4 days ago</time></li>
-								</ul>
-							</div>
-						</a>
-					</div>
-					<div class="cell-sm-6 offset-top-30">
-						<a href="#" class="block-vacation">
-							<h5>Motion Designer</h5>
-							<div class="block-meta">
-								<ul class="list-objects-inline">
-									<li><span
-										class="icon icon-xs-smaller icon-primary material-icons-location_on"></span><span>New
-											York</span></li>
-									<li><span
-										class="icon icon-xs-smaller icon-primary material-icons-av_timer"></span><span>Full
-											Time</span></li>
-									<li><span
-										class="icon icon-xs-smaller icon-primary mdi mdi-calendar"></span>
-										<time datetime="2016-01-01">week ago</time></li>
-								</ul>
-							</div>
-						</a>
-					</div>
-					<div class="cell-sm-6 offset-top-30">
-						<a href="#" class="block-vacation">
-							<h5>Jr. Graphic Designer</h5>
-							<div class="block-meta">
-								<ul class="list-objects-inline">
-									<li><span
-										class="icon icon-xs-smaller icon-primary material-icons-location_on"></span><span>Bristol</span></li>
-									<li><span
-										class="icon icon-xs-smaller icon-primary material-icons-av_timer"></span><span>Freelance</span></li>
-									<li><span
-										class="icon icon-xs-smaller icon-primary mdi mdi-calendar"></span>
-										<time datetime="2016-01-01">month ago</time></li>
-								</ul>
-							</div>
-						</a>
-					</div>
-					<div class="cell-sm-6 offset-top-30">
-						<a href="#" class="block-vacation">
-							<h5>Marketing Coordinator</h5>
-							<div class="block-meta">
-								<ul class="list-objects-inline">
-									<li><span
-										class="icon icon-xs-smaller icon-primary material-icons-location_on"></span><span>Tampa</span></li>
-									<li><span
-										class="icon icon-xs-smaller icon-primary material-icons-av_timer"></span><span>Full
-											Time</span></li>
-									<li><span
-										class="icon icon-xs-smaller icon-primary mdi mdi-calendar"></span>
-										<time datetime="2016-01-01">May 12, 2016</time></li>
-								</ul>
-							</div>
-						</a>
-					</div>
-				</div>
-			</div>
-		</section>
+		<section class="section-50 section-sm-top-75 section-lg-top-90">
+      		<div class="shell">
+        		<div class="range range-sm-center">
+        		 
+        		<!-- 달력 -->
+          		<div class="cell-sm-12 cell-md-9">
+            		<div id="calendar"></div>
+          		</div>
+         
+         		<!-- 입력 폼 -->
+        	 	<div class="cell-sm-12 cell-md-3 offset-top-50 offset-md-top-90">
+        	 	<!-- data-form-output="form-output-global" data-form-type="contact" -->
+            <form class="form-modern offset-top-30" > 
+                <div class="cell-xs-4 offset-top-30 offset-xs-top-30 offset-sm-top-50">
+               
+				<div class="form-group">
+					<span class="input-group-addon">
+                    <input type="text" name="start" id="start" data-constraints="@Required" data-time-picker="date" class="form-control">
+                    <label for="start" class="form-label">from</label>
+					</span>
+                  </div>
+                  <div class="form-group">
+                    <span class="input-group-addon">
+                    <input type="text" name="end" id="end" data-constraints="@Required" data-time-picker="date" class="form-control">
+                    <label for="end" class="form-label">to</label>
+                    </span>
+                  </div>
+                 <div class="form-group">
+	                <textarea name="title" id="title" data-constraints="@Required" class="form-control"></textarea>
+    	            <label for="title" class="form-label">Message</label> 
+                 </div>
+                  <div class="form-group">
+                  <input type="hidden" value="${sessionScope.m_id}" name="m_id"/>
+                  <button id="add" class="btn btn-sm btn-primary btn-block">Send</button>
+                  <button type="reset" class="btn btn-sm btn-silver-outline btn-block">Reset</button>
+                  </div>
+                </div>
+                </div>
+                <!-- type="submit" -->
+                
+                
+            </form>
+         		</div>
+         		
+        		</div>
+        	</div>
+        </section>
+		
 		</main>
 		<%@include file="../modules/footer.jsp"%>
 	</div>
@@ -296,5 +221,6 @@ $(document).ready(function() {
 	<script src="js/core.min.js"></script>
 	<script src="js/script.js"></script>
 	<script src="js/fullcalendar.min.js"></script>
+	<script src="js/jquery.qtip.min.js"></script>
 </body>
 </html>

@@ -8,100 +8,84 @@ public class Note {
 	
 	/*@JsonFormat (shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")*/
 	
+	private String m_id;
 	private int cardnum;
 	private String inputdate;
-	private String startdate;
-	private String enddate;
-	private String note;
+	private String start;
+	private String end;
+	private String title;
 	
 	public Note() {
 	}
 
-
-	public Note(String inputdate, String startdate, String enddate) {
-		this.inputdate = inputdate;
-		this.startdate = startdate;
-		this.enddate = enddate;
-	}
-
-
-	public Note(int cardnum, String startdate, String enddate, String inputdate, String note, String m_id) {
-		this.cardnum = cardnum;
-		this.startdate = startdate;
-		this.enddate = enddate;
-		this.inputdate = inputdate;
-		this.note = note;
+	
+	
+	public Note(String m_id, int cardnum, String inputdate, String start, String end, String title) {
+		super();
 		this.m_id = m_id;
+		this.cardnum = cardnum;
+		this.inputdate = inputdate;
+		this.start = start;
+		this.end = end;
+		this.title = title;
 	}
 
 
-	private String m_id;
+
 	public String getM_id() {
 		return m_id;
 	}
-
 
 	public void setM_id(String m_id) {
 		this.m_id = m_id;
 	}
 
-
 	public int getCardnum() {
 		return cardnum;
 	}
-
 
 	public void setCardnum(int cardnum) {
 		this.cardnum = cardnum;
 	}
 
-
-	public String getStartdate() {
-		return startdate;
-	}
-
-
-	public void setStartdate(String startdate) {
-		this.startdate = startdate;
-	}
-
-
-	public String getEnddate() {
-		return enddate;
-	}
-
-
-	public void setEnddate(String enddate) {
-		this.enddate = enddate;
-	}
-
-
 	public String getInputdate() {
 		return inputdate;
 	}
-
 
 	public void setInputdate(String inputdate) {
 		this.inputdate = inputdate;
 	}
 
-
-	public String getNote() {
-		return note;
+	public String getStart() {
+		return start;
 	}
 
+	public void setStart(String start) {
+		this.start = start;
+	}
 
-	public void setNote(String note) {
-		this.note = note;
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Note [cardnum=" + cardnum + ", startdate=" + startdate + ", enddate=" + enddate + ", inputdate="
-				+ inputdate + ", note=" + note + ", m_id=" + m_id + "]";
+		return "Note [m_id=" + m_id + ", cardnum=" + cardnum + ", inputdate=" + inputdate + ", start=" + start
+				+ ", end=" + end + ", title=" + title + "]";
 	}
-
-
+	
 	
 }

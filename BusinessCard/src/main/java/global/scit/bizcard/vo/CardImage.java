@@ -4,17 +4,19 @@ import java.util.Date;
 
 public class CardImage {
 	private int cardNum;
-	private String m_id, cardType, imagePath;
+	private String m_id, cardType, imagePath, shared;
 	private Date inputDate;
 
 	public CardImage() {
 	}
 
-	public CardImage(int cardNum, String m_id, String cardType, String imagePath, Date inputDate) {
+	public CardImage(int cardNum, String m_id, String cardType, String imagePath, String shared, Date inputDate) {
+		super();
 		this.cardNum = cardNum;
 		this.m_id = m_id;
 		this.cardType = cardType;
 		this.imagePath = imagePath;
+		this.shared = shared;
 		this.inputDate = inputDate;
 	}
 
@@ -65,10 +67,26 @@ public class CardImage {
 		this.inputDate = inputDate;
 	}
 
+	public String getShared() {
+		return shared;
+	}
+
+	public void setShared(String shared) {
+		this.shared = shared;
+	}
+
+	public Date getInputDate() {
+		return inputDate;
+	}
+
+	public void setInputDate(Date inputDate) {
+		this.inputDate = inputDate;
+	}
+
 	@Override
 	public String toString() {
 		return "CardImage [cardNum=" + cardNum + ", m_id=" + m_id + ", cardType=" + cardType + ", imagePath="
-				+ imagePath + ", inputDate=" + inputDate + "]";
+				+ imagePath + ", shared=" + shared + ", inputDate=" + inputDate + "]";
 	}
 
 }

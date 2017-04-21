@@ -1,12 +1,11 @@
 package global.scit.bizcard.repository;
 
-import java.util.Map;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import global.scit.bizcard.dao.CardImageDAO;
+import global.scit.bizcard.vo.Card;
 import global.scit.bizcard.vo.CardImage;
 
 @Repository
@@ -63,10 +62,32 @@ public class CardImageRepository implements CardImageDAO {
 	}
 
 	@Override
-	public int setMyCardList(CardImage cardImage){
+	public int setMyCardList(CardImage cardImage) {
 		CardImageDAO dao = sqlSession.getMapper(CardImageDAO.class);
 		try {
 			return dao.setMyCardList(cardImage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public Card setMyCardSharing(CardImage cardImage) {
+		CardImageDAO dao = sqlSession.getMapper(CardImageDAO.class);
+		try {
+			return dao.setMyCardSharing(cardImage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public int sharedChange(CardImage cardImage) {
+		CardImageDAO dao = sqlSession.getMapper(CardImageDAO.class);
+		try {
+			return dao.sharedChange(cardImage);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

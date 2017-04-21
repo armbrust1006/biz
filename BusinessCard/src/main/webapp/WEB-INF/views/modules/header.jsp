@@ -63,7 +63,7 @@
                   <li class="active"><a>MYPAGE</a>
                         <ul class="rd-navbar-dropdown" for="mypage">
                           <li><a href="selectCardType">내 명함 등록</a></li>
-                          <li><a href="manageMyCard">내 명함 관리</a></li>
+                          <li><a href="myCard">내 명함 관리</a></li>
                           <li><a href="myPage">내 정보 관리</a></li>
                           <li><a href="mySchedule">내 일정 관리</a></li> <!-- 캘린더API구현 위치 -->
                         </ul>

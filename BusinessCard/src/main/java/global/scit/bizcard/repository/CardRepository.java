@@ -41,6 +41,7 @@ public class CardRepository implements CardDAO {
 	@Override
 	public Card selectOneCard(Card c) {
 		CardDAO dao = sqlsession.getMapper(CardDAO.class);
+		System.out.println(c);
 		try {
 			return dao.selectOneCard(c);
 		} catch (Exception e) {
@@ -84,10 +85,10 @@ public class CardRepository implements CardDAO {
 	}
 
 	@Override
-	public List<Card> getOCRMachData(String mach) {
+	public List<Card> getOCRMachining(String mach) {
 		CardDAO dao = sqlsession.getMapper(CardDAO.class);
 		try {
-			return dao.getOCRMachData(mach);
+			return dao.getOCRMachining(mach);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

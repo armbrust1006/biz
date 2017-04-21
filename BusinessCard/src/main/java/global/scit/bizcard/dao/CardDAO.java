@@ -11,7 +11,7 @@ public interface CardDAO {
 
 	public List<Card> myCardListData(Map<String, Object> sortMap) throws Exception;
 
-	public List<Card> getOCRMachData(String mach) throws Exception;
+	public List<Card> getOCRMachining(String mach) throws Exception;
 
 	public Card selectOneCard(Card c) throws Exception;
 

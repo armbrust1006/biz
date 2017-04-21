@@ -24,17 +24,34 @@ import global.scit.bizcard.vo.Message;
 public class SharingController {
 
 	@Autowired
-	SharingRepository sRPS;
+	SharingRepository SharingRepository;
 	// 멤버 선언
 	List<HashMap<String, Object>> roomList; // 공유방 하나에 대한 정보가 담김
 	int book_num; // 공유방 하나 클릭했을 때 그 방의 번호
 	String targetId; // 초대장 받는 아이디
 
+	/**
+	 * [현택] 명함 공유 시 공유방 목록 호출
+	 * 
+	 * @param session
+	 * @param model
+	 * @param cardnum
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/showShareRoom", method = RequestMethod.GET)
+	public ArrayList<CardBooks> showShareRoom(HttpSession session) {
+		String m_id = (String) session.getAttribute("m_id");
+		// 공유방 전체 목록 호출
+		ArrayList<CardBooks> cList = SharingRepository.listCardBooks(m_id);
+		System.out.println(cList.toString() + "공유방목록");
+		return cList;
+	}
+
 	// 1. 공유방 목록보기
 	@RequestMapping(value = "/sharingRoom", method = RequestMethod.GET)
 	public String sharedCardsList(Model model, HttpSession session) {
 		String m_id = (String) session.getAttribute("m_id");
-		ArrayList<CardBooks> cList = sRPS.listCardBooks(m_id);
+		ArrayList<CardBooks> cList = SharingRepository.listCardBooks(m_id);
 		model.addAttribute("CardBooks", cList);
 		return "sharingCards/sharingRoom";
 	}
@@ -45,7 +62,7 @@ public class SharingController {
 		String m_id = (String) session.getAttribute("m_id");
 		card.setM_id(m_id);
 		card.setGrade("manager");
-		sRPS.makeRoom(card);
+		SharingRepository.makeRoom(card);
 		return "redirect:/sharingRoom";
 	}
 
@@ -53,7 +70,7 @@ public class SharingController {
 	@RequestMapping(value = "/selectOneRoom", method = RequestMethod.GET)
 	public String selectOneRoom(int book_num, Model model) {
 		this.book_num = book_num;
-		this.roomList = sRPS.selectOneRoom(book_num);
+		this.roomList = SharingRepository.selectOneRoom(book_num);
 		model.addAttribute("book_num", book_num);
 		model.addAttribute("roomList", roomList);
 		return "sharingCards/selectOneRoom";
@@ -65,7 +82,7 @@ public class SharingController {
 	public ArrayList<Member> inviteList(HttpSession session, Model model,
 			@RequestParam(value = "searchTitle", defaultValue = "") String searchTitle,
 			@RequestParam(value = "searchText", defaultValue = "") String searchText) {
-		ArrayList<Member> iList = sRPS.inviteList(searchTitle, searchText);
+		ArrayList<Member> iList = SharingRepository.inviteList(searchTitle, searchText);
 		for (int i = 0; i < iList.size(); i++) {
 			if (iList.get(i).getM_id().equals(session.getAttribute("m_id"))) {
 				iList.remove(i);
@@ -93,7 +110,7 @@ public class SharingController {
 		message.setTargetId(targetId); // 메시지 받는 사람 set
 		message.setType("invitation"); // 메시지 타입을 초대장으로 set
 		message.setBook_num(book_num); // 방 번호 set 하기
-		sRPS.invite(message);
+		SharingRepository.invite(message);
 		return null;
 	}
 
@@ -111,7 +128,7 @@ public class SharingController {
 	public String selectOneRoom(HttpSession session, Model model) {
 		ArrayList<Message> inbox = new ArrayList<>();
 		String m_id = (String) session.getAttribute("m_id");
-		ArrayList<Message> messageList = sRPS.messageList(m_id);
+		ArrayList<Message> messageList = SharingRepository.messageList(m_id);
 		for (Message message : messageList) {
 			if (message.getTargetId().equals(m_id)) {
 				inbox.add(message);
@@ -127,7 +144,7 @@ public class SharingController {
 	public ArrayList<Message> inBoxList(HttpSession session, Model model) {
 		ArrayList<Message> inbox = new ArrayList<>();
 		String m_id = (String) session.getAttribute("m_id");
-		ArrayList<Message> messageList = sRPS.messageList(m_id);
+		ArrayList<Message> messageList = SharingRepository.messageList(m_id);
 		for (Message message : messageList) {
 			if (message.getTargetId().equals(m_id)) {
 				inbox.add(message);
@@ -142,7 +159,7 @@ public class SharingController {
 	public ArrayList<Message> outBoxList(HttpSession session) {
 		ArrayList<Message> outbox = new ArrayList<>();
 		String m_id = (String) session.getAttribute("m_id");
-		ArrayList<Message> messageList = sRPS.messageList(m_id);
+		ArrayList<Message> messageList = SharingRepository.messageList(m_id);
 		for (Message message : messageList) {
 			if (message.getSender().equals(m_id)) {
 				outbox.add(message);
@@ -158,7 +175,7 @@ public class SharingController {
 		message.setSender(m_id);
 		message.setType("message");
 		message.setBook_num(0000); // 일반 메시지의 경우 0000을 임의로 set한다.
-		sRPS.writeMessage(message);
+		SharingRepository.writeMessage(message);
 		return "redirect:/messageList";
 	}
 
@@ -176,7 +193,7 @@ public class SharingController {
 		m.setBook_num(book_num);
 		m.setSender(sender);
 		m.setMessage(message);
-		sRPS.readMessage(m);
+		SharingRepository.readMessage(m);
 		return "sharingCards/invitedCard";
 	}
 
@@ -188,7 +205,7 @@ public class SharingController {
 		card.setM_id(m_id);
 		card.setGrade("member");
 		System.out.println(card.toString() + "초대수락");
-		sRPS.joinRoom(card);
+		SharingRepository.joinRoom(card);
 
 		return null;
 	}
