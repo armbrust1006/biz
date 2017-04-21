@@ -123,26 +123,14 @@
 		card c
 		where
 		img.cardnum = c.cardnum
+		and
+		img.m_id=#{m_id}
 		<choose>
 			<when test="cardNum != 0">
 				and c.cardnum = #{cardNum}
 			</when>
 			<when test="cardNum == 0">
 				and img.cardType = 'my'
-			</when>
-		</choose>
-		<choose>
-			<when test="cardNum != 0">
-				and
-				img.m_id in
-				(select m_id from
-				mycardindex
-				where
-				m_id=#{m_id})
-			</when>
-			<when test="cardNum == 0">
-				and
-				img.m_id=#{m_id}
 			</when>
 		</choose>
 	</select>

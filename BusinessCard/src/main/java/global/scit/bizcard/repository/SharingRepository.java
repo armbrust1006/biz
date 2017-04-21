@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import global.scit.bizcard.dao.SharingDAO;
 import global.scit.bizcard.vo.CardBooks;
+import global.scit.bizcard.vo.CardImage;
 import global.scit.bizcard.vo.Member;
 import global.scit.bizcard.vo.Message;
 
@@ -115,6 +116,16 @@ public class SharingRepository {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	public List<CardImage> getRoomCards(int card) {
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.getRoomCards(card);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

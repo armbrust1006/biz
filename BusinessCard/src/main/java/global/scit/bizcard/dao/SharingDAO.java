@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import global.scit.bizcard.vo.CardBooks;
+import global.scit.bizcard.vo.CardImage;
 import global.scit.bizcard.vo.Member;
 import global.scit.bizcard.vo.Message;
 
@@ -25,7 +26,9 @@ public interface SharingDAO {
 	public int writeMessage(Message message) throws Exception;
 
 	public int readMessage(Message message) throws Exception;
-	
+
 	public int joinRoom(CardBooks card) throws Exception;
-	
+
+	public List<CardImage> getRoomCards(int card) throws Exception;
+
 }

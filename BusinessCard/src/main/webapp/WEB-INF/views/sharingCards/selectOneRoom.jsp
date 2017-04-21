@@ -80,11 +80,13 @@
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
 <script>
 	window.onload = function() {
+		getSharedCard();
 		document.getElementById("searchInvite").onclick = inviteList;// 초대검색
 		document.getElementById("tab4").onclick = allMember;// 구성원 클릭
 
 		document.getElementById("tab2").onclick = loadList;
-		document.getElementById("writeClick").onclick = asdf;
+		document.getElementById("tab1").onclick = getSharedCard;
+		//document.getElementById("writeClick").onclick = asdf;
 	}
 
 	//초대 검색
@@ -135,6 +137,7 @@
 
 	// 공유방의 구성원 목록보기
 	function allMember() {
+		console.log("tab4");
 		$.ajax({
 			type : "get",
 			url : "allMember",
@@ -311,7 +314,6 @@
 			error : function() {
 				alert('실패');
 			}
-
 		});
 	}
 
@@ -481,7 +483,6 @@
 					}
 
 				});
-
 	}
 
 	function updateCom(boardnum) {
@@ -511,11 +512,13 @@
 	}
 
 	function getSharedCard() {
+		console.log("image");
+		var booknums = document.getElementById("book_num").value;
 		$.ajax({
 			method : "post",
-			url : "",
+			url : "getRoomCard",
 			data : {
-				book_num : 
+				"book_num" : booknums
 			},
 			success : function(res) {
 				console.log("SUCCESS");
@@ -527,8 +530,15 @@
 		});
 	}
 
-	function sharedCard() {
-
+	function sharedCard(res) {
+		var div = document.getElementById("tabs-1-1");
+		var htmlText = "";
+		for (var i = 0; i < res.length; i++) {
+			htmlText += "<a href='#?cardnum=" + res[i].cardNum
+					+ "'><img src=downloadImage?card=" + res[i].imagePath
+					+ " alt='' width='400' height='200' /></a>";
+		}
+		div.innerHTML = htmlText;
 	}
 
 	//탈퇴
@@ -569,7 +579,6 @@
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
-
 		<section style="background-image: url(images/1920x900.jpg);"
 			class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
 			<div class="shell">
@@ -584,12 +593,15 @@
 				<div class="range range-sm-center">
 					<div class="cell-xs-12 text-center">
 						<h3>뭔가 제목 입력 안하면 지우기</h3>
+						<input type="hidden" value="${book_num}" id="book_num"
+							name="book_num">
 					</div>
 					<div class="cell-lg-10 offset-top-40">
 						<div id="tabs-1"
 							class="tabs-custom tabs-horizontal tabs-corporate">
 							<ul class="nav nav-tabs">
-								<li class="active"><a href="#tabs-1-1" data-toggle="tab">명함첩</a></li>
+								<li class="active"><a id="tab1" href="#tabs-1-1"
+									data-toggle="tab">명함첩</a></li>
 								<li><a id="tab2" href="#tabs-1-2" data-toggle="tab">게시판</a></li>
 								<li><a id="tab3" href="#tabs-1-3" data-toggle="tab">초대하기</a></li>
 								<li><a id="tab4" href="#tabs-1-4" data-toggle="tab">구성원</a></li>
@@ -597,7 +609,7 @@
 							</ul>
 							<div class="tab-content text-secondary">
 								<div id="tabs-1-1" class="tab-pane fade in active">
-									<img src="images/370x278.jpg" alt="" width="400" height="200" />
+									<!-- <img src="" alt="" width="400" height="200" /> -->
 								</div>
 								<div id="tabs-1-2" class="tab-pane fade">
 

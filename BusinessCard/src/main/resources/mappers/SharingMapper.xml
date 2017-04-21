@@ -129,7 +129,8 @@
 		UPDATE MESSAGE
 		SET
 		OPENDATE = sysdate
-		WHERE message = #{message} and book_num = #{book_num}
+		WHERE message = #{message} and book_num =
+		#{book_num}
 	</insert>
 
 	<insert id="joinRoom" parameterType="CardBooks">
@@ -141,11 +142,17 @@
 		) VALUES (
 		#{book_num},
 		#{m_id},
-		(select book_name from cardbooks where book_num=#{book_num} and rownum=1),
+		(select
+		book_name from cardbooks where book_num=#{book_num} and rownum=1),
 		#{grade}
 		)
-
-
 	</insert>
+
+	<select id="getRoomCards" resultType="CardImage" parameterType="Integer">
+		select c.cardnum, c.m_id, c.imagePath
+		from sharedCard s, cardImage c
+		where s.cardNum=c.cardNum 
+		and book_num=#{book_num}
+	</select>
 
 </mapper>

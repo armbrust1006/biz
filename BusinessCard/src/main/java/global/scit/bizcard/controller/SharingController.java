@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import global.scit.bizcard.repository.SharingRepository;
 import global.scit.bizcard.vo.CardBooks;
+import global.scit.bizcard.vo.CardImage;
 import global.scit.bizcard.vo.Member;
 import global.scit.bizcard.vo.Message;
 
@@ -207,6 +208,16 @@ public class SharingController {
 		System.out.println(card.toString() + "초대수락");
 		SharingRepository.joinRoom(card);
 
+		return null;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/getRoomCard", method = RequestMethod.POST)
+	public ArrayList<CardImage> roomCard(int book_num, HttpSession session) {
+		ArrayList<CardImage> cardList = (ArrayList<CardImage>) SharingRepository.getRoomCards(book_num);
+		if (cardList != null) {
+			return cardList;
+		}
 		return null;
 	}
 
