@@ -69,7 +69,7 @@ $(document).ready(function() {
 		        	url : "getCard",
 		        	data : detail,
 		        	success : function(resp){
-		        		
+		        		alert(resp);
 		        	}
 		        });
 				
@@ -178,6 +178,7 @@ $(document).ready(function() {
          		<!-- 입력 폼 -->
         	 	<div class="cell-sm-12 cell-md-3 offset-top-50 offset-md-top-90">
         	 	<!-- data-form-output="form-output-global" data-form-type="contact" -->
+        	 	<h5> 새 일정 입력</h5>
             <form class="form-modern offset-top-30" > 
                 <div class="cell-xs-4 offset-top-30 offset-xs-top-30 offset-sm-top-50">
                
@@ -192,6 +193,12 @@ $(document).ready(function() {
                     <input type="text" name="end" id="end" data-constraints="@Required" data-time-picker="date" class="form-control">
                     <label for="end" class="form-label">to</label>
                     </span>
+                  </div>
+                  <div class="form-group">
+                  <span class="input-group-addon">
+                    <input id="feedback-time" type="text" name="time" data-constraints="@Required" data-time-picker="time" class="form-control">
+                    <label for="feedback-time" class="form-label">Time Interval</label>
+                  </span>
                   </div>
                  <div class="form-group">
 	                <textarea name="title" id="title" data-constraints="@Required" class="form-control"></textarea>

@@ -70,7 +70,6 @@ public class NoteController {
 			newNote.setStart(sDate);
 			newNote.setEnd(eDate);
 			newNote.setTitle(note.getTitle());
-			System.out.println(newNote.toString()+"toString출력");
 			result = noteRPS.addNote(newNote);
 		return result;
 	}
