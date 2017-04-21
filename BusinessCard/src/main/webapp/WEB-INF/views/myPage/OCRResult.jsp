@@ -25,8 +25,8 @@
 }
 
 #fileImage {
-	width: 600px;
-	height: 300px;
+	max-height: 300px;
+	max-width: 600px;
 }
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>

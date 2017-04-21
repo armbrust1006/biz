@@ -20,7 +20,6 @@
 	<insert id="insertCard" parameterType="Card">
 		insert into card
 		values(
-		#{m_id},
 		#{cardNum},
 		#{name},
 		#{company},
