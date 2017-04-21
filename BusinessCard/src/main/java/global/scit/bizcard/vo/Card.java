@@ -178,6 +178,30 @@ public class Card extends CardImage {
 	}
 
 	@Override
+	public String getShared() {
+		// TODO Auto-generated method stub
+		return super.getShared();
+	}
+
+	@Override
+	public void setShared(String shared) {
+		// TODO Auto-generated method stub
+		super.setShared(shared);
+	}
+
+	@Override
+	public Date getInputDate() {
+		// TODO Auto-generated method stub
+		return super.getInputDate();
+	}
+
+	@Override
+	public void setInputDate(Date inputDate) {
+		// TODO Auto-generated method stub
+		super.setInputDate(inputDate);
+	}
+
+	@Override
 	public String toString() {
 		return "Card [name=" + name + ", company=" + company + ", depart=" + depart + ", position=" + position
 				+ ", address=" + address + ", email=" + email + ", telephone=" + telephone + ", fax=" + fax

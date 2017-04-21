@@ -38,6 +38,15 @@ DROP TABLE Message
 DROP TABLE Board 
 	CASCADE CONSTRAINTS;
 
+/* OCR매칭정보 */
+DROP TABLE OCRMachining 
+	CASCADE CONSTRAINTS;
+	
+DROP SEQUENCE cardnum_seq;
+DROP SEQUENCE replynum_seq;
+DROP SEQUENCE board_seq;
+DROP SEQUENCE cardbooks_seq;
+
 /* 이 밑부터 테이블 생성 */
 
 /* 회원정보 */
@@ -106,13 +115,6 @@ ALTER TABLE CardImage
 	ADD
 		CONSTRAINT PK_CardImage
 		PRIMARY KEY (
-			cardnum
-		);
-
-ALTER TABLE CardImage
-	ADD
-		CONSTRAINT UK_CardImage
-		UNIQUE (
 			cardnum
 		);
 
@@ -205,7 +207,7 @@ ALTER TABLE Board
 		);
 
 /* OCR매칭정보 */
-CREATE TABLE OCRMachingData (
+CREATE TABLE OCRMachining (
 	mach VARCHAR2(50), /* 명함 판별 */
 	name VARCHAR2(50), /* 이름 */
 	company VARCHAR2(50), /* 회사명 */
@@ -217,23 +219,6 @@ CREATE TABLE OCRMachingData (
 	fax VARCHAR2(30), /* 팩스 */
 	mobile VARCHAR2(30) /* 휴대폰 */
 );
-
-/* 공유 명함 상세2 */
-CREATE TABLE Reply2 (
-	book_num NUMBER NOT NULL, /* 명함첩번호 */
-	cardnum NUMBER NOT NULL, /* 일련번호 */
-	m_id VARCHAR2(20) NOT NULL, /* 아이디 */
-	reply_num NUMBER NOT NULL, /* 댓글번호 */
-	inputdate DATE DEFAULT sysdate NOT NULL, /* 등록날짜 */
-	reply VARCHAR2(100) NOT NULL /* 댓글 */
-);
-
-ALTER TABLE Reply2
-	ADD
-		CONSTRAINT UK_Reply2
-		UNIQUE (
-			reply_num
-		);
 
 ALTER TABLE Card
 	ADD
@@ -358,11 +343,6 @@ ALTER TABLE Board
     
 		
 /* 시퀸스 */
-drop SEQUENCE cardnum_seq;
-drop SEQUENCE replynum_seq;
-drop SEQUENCE board_seq;
-drop SEQUENCE cardbooks_seq;
-
 CREATE SEQUENCE cardnum_seq;
 CREATE SEQUENCE replynum_seq;
 CREATE SEQUENCE board_seq;

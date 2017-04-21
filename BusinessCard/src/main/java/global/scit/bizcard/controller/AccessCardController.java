@@ -66,7 +66,7 @@ public class AccessCardController {
 	 * 
 	 * @param card
 	 * @param logo
-	 * @return
+	 * @return 보유 카드 목록으로 이동
 	 */
 
 	@RequestMapping(value = "/saveCardData", method = RequestMethod.POST)
@@ -83,14 +83,15 @@ public class AccessCardController {
 		}
 		cardRepository.insertCard(card);
 
-		if (card.getCardType() == "other") {
+		if (card.getCardType().equalsIgnoreCase("other")) {
 			CardImage cardImage = new CardImage();
 			cardImage.setM_id(m_id);
 			cardImage.setCardNum(cardnum);
+			logger.info(cardImage.toString());
 			cardImageRepository.setMyCardList(cardImage);
 		}
 
-		return "login_home";
+		return "possCards/myPossCardList";
 	}
 
 	/**
@@ -140,6 +141,19 @@ public class AccessCardController {
 	}
 
 	/**
+	 * 명함 데이터 가져오기
+	 * 
+	 * @param session
+	 * @param sort
+	 * @param model
+	 * @return 카드 보유 목록
+	 */
+	@RequestMapping(value = "/myCardList", method = RequestMethod.GET)
+	public String myCardList() {
+		return "possCards/myPossCardList";
+	}
+
+	/**
 	 * 카드 검색
 	 * 
 	 * @param select
@@ -162,6 +176,13 @@ public class AccessCardController {
 		return "possCards/cardSearch";
 	}
 
+	/**
+	 * 내 보유 명함 리스트 검색 함수
+	 * 
+	 * @param session
+	 * @param sort
+	 * @return
+	 */
 	@RequestMapping(value = "/listSort", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<Card> myCardListSort(HttpSession session,
 			@RequestParam(value = "sort", defaultValue = "date") String sort) {
@@ -263,23 +284,6 @@ public class AccessCardController {
 		}
 
 		return null;
-	}
-
-	/**
-	 * 내 명함 페이지
-	 * 
-	 * @param session
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/selectMyCard", method = RequestMethod.GET)
-	public String selectMyCard(HttpSession session, Model model) {
-
-		String loginID = (String) session.getAttribute("m_id");
-		Card myCard = cardRepository.selectMyCard(loginID);
-		model.addAttribute("MyCard", myCard);
-
-		return "myPage/selectMyCard";
 	}
 
 	/**

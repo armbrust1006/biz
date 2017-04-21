@@ -18,6 +18,17 @@
 		#{imagePath}
 		)
 	</insert>
+	
+	<insert id="setMyCardList" parameterType="CardImage">
+		insert into
+		MyCardIndex
+		(m_id, cardNum)
+		values
+		(
+		#{m_id},
+		#{cardNum}
+		)
+	</insert>
 
 	<select id="getImageNumber" resultType="Integer" parameterType="String">
 		select cardnum
@@ -39,4 +50,10 @@
 	<select id="checkExistMine" resultType="String" parameterType="String">
 		select m_id from CARDIMAGE where m_id=#{m_id}
 	</select>
+	
+	<update id="sharedChange" parameterType="CardImage">
+		update CardImage
+		set shared=#{shared}
+		where cardNum=#{cardNum}
+	</update>
 </mapper>
