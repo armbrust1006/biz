@@ -3,7 +3,7 @@
 <mapper namespace="global.scit.bizcard.dao.NoteDAO" >
 
 <select id="noteList" resultType="Note" parameterType="String">
-	select  to_char(startdate, 'yyyy-MM-dd') as startdate, to_char(enddate, 'yyyy-MM-dd') as enddate, note
+	select  to_char(startdate, 'yyyy-MM-dd') as "start", to_char(enddate, 'yyyy-MM-dd') as "end", note as "title"
 	from cardnote_test
 	where m_id=#{m_id}
 </select>
