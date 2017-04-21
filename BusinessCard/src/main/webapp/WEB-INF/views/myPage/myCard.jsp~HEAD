@@ -35,6 +35,21 @@
 	margin: 0px;
 }
 
+#sharedChange {
+	display: inline-block;
+	border-radius: 1px;
+	background-color: #0da375;
+	border: none;
+	color: #FFFFFF;
+	text-align: center;
+	font-size: 15px;
+	padding: 5px;
+	width: 150px;
+	transition: all 0.5s;
+	cursor: pointer;
+	margin: 0px;
+}
+
 .button span {
 	cursor: pointer;
 	display: inline-block;
@@ -124,36 +139,31 @@
 
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-	/* shared check */
-	$(document).ready(function() {
-		$("#share").click(function() {
+	var error = "${error}";
+	if (error != null && error != '') {
+		alert(error);
+		document.location.href = "${pageContext.request.contextPath}/selectCardType";
+		//document.location.href = "selectCardType";
+	}
 
-			$.ajax({
-				url : '/sharering',
-				type : 'post',
-				success : function() {
-					alert("쉐어!");
-				},
-				error : function() {
-					alert("쉐어디비연결안됨");
-				}
-			})
+	/* Open Select */
+	window.onload = function() {
+		var openValue = document.getElementById("shared").value;
+		if (openValue == "y" || openValue == "Y") {
+			$("#sharedChange").css("background-color", "#ff2b32");
+		} else if (openValue == "n" || openValue == "N") {
+			$("#sharedChange").css("background-color", "#8c8c8c");
+		}
 
-		})
-
-		$("#noShare").click(function() {
-			$.ajax({
-				url : '/noSharering',
-				type : 'post',
-				success : function() {
-					alert("노쉐어!");
-				},
-				error : function() {
-					alert("노쉐어디비연결안됨");
-				}
-			})
-		})
-	})
+		document.getElementById("sharedChange").onclick = function() {
+			if (openValue == "y" || openValue == "Y") {
+				document.getElementById("shared").value = "n";
+			} else if (openValue == "n" || openValue == "N") {
+				document.getElementById("shared").value = "y";
+			}
+			document.getElementById("sharedChangeForm").submit();
+		};
+	}
 
 	/* map start */
 	function initMap() {
@@ -399,6 +409,41 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- 공유 modal -->
+	<div class="modal fade" id="errorModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<br> <br> <br> <br> <br> <br>
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">공유하기</h4>
+					<h6 class="modal-title">공유할 명함방을 선택하세요.</h6>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<!-- 						<label for="message-text" class="control-label">공유방</label> <input
+								type="text" class="form-control" id="message-title"
+								placeholder="타이틀을 입력하세요."> <label for="message-text"
+								class="control-label">NOTE</label> <label>안녕?</label>
+							<textarea class="form-control" id="message-text"></textarea>
+							<label for="message-text" class="control-label">NOTE</label>
+							<textarea class="form-control" id="message-text"></textarea> -->
+							<div class="form-group" id="shareRoomList">d</div>
+						</div>
+						<input type="button" class="btn btn-primary-outline btn-shadow"
+							data-dismiss="modal" value="닫기"> <input type="button"
+							class="btn btn-primary btn-shadow" id="writeMemo" value="저장">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- modal 끝 -->
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
@@ -414,7 +459,8 @@
 							<div class="product-main">
 								<div class="product-slider">
 									<div class="item">
-										<img src="images/sktCard.jpg" alt="" width="800" height="400" />
+										<img src="downloadImage?card=${myCard.imagePath}" alt=""
+											width="800" height="400" />
 									</div>
 									<!-- 지도 시작 -->
 									<h5></h5>
@@ -422,18 +468,30 @@
 									<!-- 지도 끝 -->
 									<h5></h5>
 									<div>
-										<input type="radio" id="share" name="shared" value="y">
-										<label for="radio1">공유함</label> <input type="radio"
-											id="noShare" name="shared" value="n"> <label
-											for="radio2">공유 안함</label>
-
+										<form action="myCard" method="post" id="sharedChangeForm"
+											name="sharedChangeForm">
+											<input type="hidden" value="${myCard.cardNum}" id="cardNum"
+												name="cardNum"> <input type="hidden"
+												value="${myCard.shared}" id="shared" name="shared">
+											<button type="button" class="button"
+												style="vertical-align: middle" data-whatever="@mdo"
+												id="sharedChange" name="sharedChange">
+												<c:choose>
+													<c:when test="${myCard.shared == 'y'}">
+														<span>공개 중</span>
+													</c:when>
+													<c:when test="${myCard.shared == 'n'}">
+														<span>공개 중지 중</span>
+													</c:when>
+												</c:choose>
+											</button>
+										</form>
 									</div>
 
 								</div>
 
 
 								<div class="product-body">
-									<input type="hidden" id="cardNum" value="${myCard.cardNum}">
 									<h5 class="product-brand">${myCard.company}&nbsp;${myCard.depart}</h5>
 									<h4 class="product-header">
 										${myCard.name}&nbsp;${myCard.position} <a href="javascript:;"
