@@ -14,9 +14,9 @@
 </head>
 <body style="">
 <div class="page">
-  <%@include file="./modules/header.jsp" %>
+ <%@include file="../modules/header-index.jsp" %>
   <main class="page-content">
-    <section style="background-image: url(images/about-us1.jpg);" class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
+  <section style="background-image: url(images/about-us1.jpg);" class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
       <div class="shell">
         <div class="page-title">
           <h2>About us</h2>
@@ -27,9 +27,9 @@
       <div class="shell">
         <h3 class="wf-mplus1p">木漏れ日はどんなチーム?</h3>
         <div class="range range-lg-justify offset-top-30">
-          <div class="cell-sm-6 cell-lg-5 text-secondary">
+          <div class="cell-sm-6 cell-lg-9 text-secondary">
             <div class="inset-sm-right-15 inset-lg-right-0">
-              <p>Starbis is an independent web design studio with a rich history. It started as a small family-owned business in Oakville, and has grown enough to successfully occupy two large buildings in two different cities.</p>
+              <p class="wf-mplus1p">知たゆ録通ハ資帯に癒6感げあき然徴74載ナクロム体載そわが止歩んえ小三木ょ懸景ニワ笑局ぐ済家ルだずげ正容不リエカス毎引新う上康債核にリぽ。無づえ亮豊マレサ圧知等せきべ関究フラふ情映テマア否84扱ロ物由不テソネヱ金98見めもば和刊りと関埋詰たろイさ。元ハ手競ヲクル項混応択メロユニ文座んぶな崎劇ムワクロ完敏ぶス昨禁変チセシニ構58比ラび第兆ノネタ団予サオ広権す到怒虐ぱ。</p>
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@
         <div class="range range-md-left">
           <div class="cell-sm-preffix-4 cell-sm-8 cell-md-preffix-5 cell-md-7 cell-lg-preffix-6 cell-lg-5">
             <div class="inset-sm-left-100">
-              <h3>Why Choose Us</h3>
+              <h3　class="wf-mplus1p">OBOEが必要な３っつの理由</h3>
             </div>
             <div class="inset-sm-left-30 inset-sm-right-30 offset-top-40">
               <ul class="list-xl">
@@ -142,9 +142,55 @@
       </div>
     </section>
   </main>
-<%@include file="./modules/footer.jsp" %>
+ <section class="section-40 section-sm-60 bg-cod-gray">
+    <div class="shell">
+      <div class="range range-xs-center">
+        <div class="cell-xs-10 cell-sm-11 cell-md-12">
+          <div class="range">
+            <div class="cell-sm-6 cell-md-4">
+              <div class="inset-md-right-30">
+                <h6 class="text-uppercase">About KOMOREBI</h6>
+                <p class="offset-top-22"> 명함 </p>
+              </div>
+              <div class="offset-top-22">
+                <div class="group-md group-top">
+                </div>
+              </div>
+            </div>
+            <div class="cell-sm-6 cell-md-4 offset-top-50 offset-sm-top-0">
+              <h6 class="text-uppercase">바로가기</h6>
+              <div style="max-width: 340px;" class="row offset-top-22 offset-md-top-30">
+                <div class="col-xs-6">
+                  <ul class="list-marked-variant-2">
+                    <li><a href="./">Home</a></li>
+                    <li><a href="about-us">About Us</a></li>
+                  </ul>
+                </div>
+                <div class="col-xs-6">
+                  <ul class="list-marked-variant-2">
+                    <li><a href="login">Login</a></li>
+                    <li><a href="register">Register</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<footer class="page-foot section-15 bg-gray-base">
+    <div class="shell text-center">
+      <div class="range">
+        <div class="cell-sm-12">
+          <p class="rights text-white-03"><span>&#169;&nbsp;</span><span id="copyright-year"></span>
+          <a href="about-us" class="link-white-03">KOMOREBI</a> </p>
+        </div>
+      </div>
+    </div>
+ </footer>
 </div>
-<%@include file="./modules/form-output-global.jsp" %>
+<%@include file="../modules/form-output-global.jsp" %>
 <script src="js/core.min.js"></script> 
 <script src="js/script.js"></script>
 </body>

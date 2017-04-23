@@ -56,6 +56,7 @@ public class CardImageRepository implements CardImageDAO {
 		try {
 			result = dao.checkExistMine(id);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
