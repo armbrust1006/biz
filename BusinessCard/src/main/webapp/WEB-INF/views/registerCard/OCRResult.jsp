@@ -31,6 +31,11 @@
 }
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		console.log($("#language").val());
+	});
+</script>
 </head>
 <body style="">
 	<div class="page">
@@ -60,7 +65,8 @@
 							</div>
 						</div>
 						<div class="cell-md-4 cell-lg-4" id="rightImage">
-							<img src="downloadOCRImage?card=${card.imagePath}" alt="" id="fileImage" style="" />
+							<img src="downloadOCRImage?card=${card.imagePath}" alt=""
+								id="fileImage" style="" />
 						</div>
 					</div>
 					<!-- 오른쪽 부분 -->
@@ -75,8 +81,9 @@
 								<input type="hidden" id="m_id" name="m_id" value="${m_id}">
 								<input type="hidden" id="cardType" name="cardType"
 									value="${type}"> <input type="hidden" id="imagePath"
-									name="imagePath" value="${card.imagePath}"> <input type="hidden"
-									id="layout_num" name="layout_num" value="${card.layout_num}">
+									name="imagePath" value="${card.imagePath}"> <input
+									type="hidden" id="layout_num" name="layout_num"
+									value="${card.layout_num}">
 								<!--항목  -->
 								<div class="cell-sm-3">
 									<div class="form-group">
@@ -156,15 +163,15 @@
 									<div class="form-group" class="form-control" align="left">
 										<label>Language&nbsp;&nbsp;:</label> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										</span> <input type="radio" name="language" value="kor" id="language"
-											<c:if test="${card.language=='kor'}">checked</c:if>
+											<c:if test="${card.language eq 'kor'}">checked</c:if>
 											style="cursor: pointer"> <label for="kor"
 											style="cursor: pointer">KOR</label>&nbsp;&nbsp;&nbsp; <input
 											type="radio" name="language" value="eng" id="language"
-											<c:if test="${card.language=='eng'}">checked</c:if>
+											<c:if test="${card.language eq 'eng'}">checked</c:if>
 											style="cursor: pointer"> <label for="eng"
 											style="cursor: pointer">ENG</label>&nbsp;&nbsp;&nbsp; <input
 											type="radio" name="language" value="jpn" id="language"
-											<c:if test="${card.language=='jpn'}">checked</c:if>
+											<c:if test="${card.language eq 'jap'}">checked</c:if>
 											style="cursor: pointer"> <label for="jpn"
 											style="cursor: pointer">JPN</label>
 									</div>

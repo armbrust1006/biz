@@ -178,7 +178,6 @@ public class AccessCardController {
 	@RequestMapping(value = "/imageScan", method = RequestMethod.POST)
 	public String ocrScan(Card card, MultipartFile file, Model model) {
 		if (file != null && card != null) {
-			String fileName = file.getOriginalFilename();
 			String savedFile = FileService.saveFile(file, uploadPathOCR);
 			Tess4J tess4j = new Tess4J();
 			String result = tess4j.getTess4J(getPathOCR + savedFile, card.getLanguage());
