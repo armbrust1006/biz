@@ -1,58 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en" class="wide wow-animation">
 <head>
 <title>OBEO</title>
 <meta name="format-detection" content="telephone=no">
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="viewport"
+	content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
 <meta charset="utf-8">
 <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="css/css.css">
 <link rel="stylesheet" href="css/style.css">
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
-<!-- <style>
-.button {
-	display: inline-block;
-	border-radius: 1px;
-	background-color: #f4511e;
-	border: none;
-	color: #FFFFFF;
-	text-align: center;
-	font-size: 15px;
-	padding: 5px;
-	width: 100px;
-	transition: all 0.5s;
-	cursor: pointer;
-	margin: 0px;
-}
-
-.button span {
-	cursor: pointer;
-	display: inline-block;
-	position: relative;
-	transition: 0.5s;
-}
-
-.button span:after {
-	content: '\00bb';
-	position: absolute;
-	opacity: 0;
-	top: 0;
-	right: -20px;
-	transition: 0.5s;
-}
-
-.button:hover span {
-	padding-right: 25px;
-}
-
-.button:hover span:after {
-	opacity: 1;
-	right: 0;
-}
-</style> -->
 <script>
 	$(document).ready(function() {
 		inBoxList();
@@ -92,8 +53,8 @@
 							msg += "<td>" + item.message + "</td>";
 							msg += "<td>" + item.senddate + "</td>";
 							if (item.type == 'message') {
-								msg += "<td><button class='btn btn-info btn-xs' id='flip1' book_num=0><span>메시지</span></button></td></td>";
-							} else {
+								msg += "<td><button class='btn btn-info btn-xs' id='flip1' book_num=0 ><span>메시지</span></button></td></td>";
+							} else if(item.type == 'invitation'){
 								msg += "<td><button class='btn btn-info btn-xs' id='flip2' book_num='" + item.book_num + "'><span>초대장</span></button></td>";
 							}
 							msg += "</tr>";
@@ -106,6 +67,7 @@
 	}
 
 	function flip() {
+		alert('너는왜?');
 		var book_num = $(this).attr("book_num");
 		var sender = $(this).closest('tr').find('td:eq(0)').text();
 		var message = $(this).closest('tr').find('td:eq(1)').text();
@@ -193,35 +155,37 @@
 </script>
 </head>
 <body style="">
-<div class="page">
-<%@include file="../modules/header.jsp"%>
-<main class="page-content">
-	<section class="section-60 section-sm-90 section-lg-bottom-120">	
-		<div class="shell">
-        <div class="range range-sm-center range-lg-center range-lg-10">
-          <div class="cell-sm-10 cell-md-10 ">
-              	<h3>메세지 박스</h3>
-                <p>회원들과 주고 받은 메세지를 확인하세요</p>
-                <div class="group-middle group-lg offset-top-30 offset-bottom-40 text-center">
-						<div class="btn btn-primary-outline btn-shadow" id="inBoxList">InBox</div>
-						<div class="btn btn-primary-outline btn-shadow" id="outBoxList">OutBox</div>
-						<div class="btn btn-primary-outline btn-shadow" id="writeMessageForm">Write</div>
+	<div class="page">
+		<%@include file="../modules/header.jsp"%>
+		<main class="page-content">
+		<section class="section-60 section-sm-90 section-lg-bottom-120">
+			<div class="shell">
+				<div class="range range-sm-center range-lg-center range-lg-10">
+					<div class="cell-sm-10 cell-md-10 ">
+						<h3>메세지 박스</h3>
+						<p>회원들과 주고 받은 메세지를 확인하세요</p>
+						<div
+							class="group-middle group-lg offset-top-30 offset-bottom-40 text-center">
+							<div class="btn btn-primary-outline btn-shadow" id="inBoxList">InBox</div>
+							<div class="btn btn-primary-outline btn-shadow" id="outBoxList">OutBox</div>
+							<div class="btn btn-primary-outline btn-shadow"
+								id="writeMessageForm">Write</div>
+						</div>
+					</div>
+					<div class="cell-sm-10 cell-md-10 cell-top-40">
+						<div class="group-middle offset-top-30 offset-bottom-40">
+							<div id="showMessage"></div>
+						</div>
+					</div>
 				</div>
-           </div>
-              <div class="cell-sm-10 cell-md-10 cell-top-40">
-				<div class="group-middle offset-top-30 offset-bottom-40">
-					<div id="showMessage"></div>
-				</div>	
-			  </div>
-         </div>
-         </div>
-     </section>
-		
-</main>
-<%@include file="../modules/footer.jsp"%>
-</div>
-<%@include file="../modules/form-output-global.jsp" %>
-<script src="js/core.min.js"></script>
-<script src="js/script.js"></script>
+			</div>
+		</section>
+
+		</main>
+		<%@include file="../modules/footer.jsp"%>
+	</div>
+	<%@include file="../modules/form-output-global.jsp"%>
+	<script src="js/core.min.js"></script>
+	<script src="js/script.js"></script>
 </body>
 </html>

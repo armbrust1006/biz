@@ -29,6 +29,7 @@ public class NoteController {
 		return "myPage/mySchedule";
 	}
 	
+	
 	@ResponseBody
 	@RequestMapping (value="noteList", method=RequestMethod.GET)
 	public List<Note> noteList(String m_id) {
@@ -36,6 +37,7 @@ public class NoteController {
 		List<Note> noteList = noteRPS.noteList(m_id);
 		return noteList;
 	}
+	
 	
 	/**
 	 * @param start 변환할 시작 날짜
@@ -47,6 +49,7 @@ public class NoteController {
 	@ResponseBody
 	@RequestMapping (value="addNote", method=RequestMethod.POST)
 	public int formattedDate (Note note, Model model) {
+		System.out.println("controller"+note.toString());
 		SimpleDateFormat fromFormat = new SimpleDateFormat("EEEE dd MMMMM yyyy");
 		SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date fromDate = null;
@@ -66,10 +69,19 @@ public class NoteController {
 		{
 			e.printStackTrace();
 		}
+		
 			newNote.setM_id(note.getM_id());
 			newNote.setStart(sDate);
 			newNote.setEnd(eDate);
 			newNote.setTitle(note.getTitle());
+			if (note.getCardnum()!=0) {
+				newNote.setCardnum(note.getCardnum());
+				newNote.setColor("#ffc34d");
+			}else{
+				newNote.setCardnum(1);
+				newNote.setColor("#0052cc");
+			}			
+			System.out.println("보내기전 확인" + newNote.toString());
 			result = noteRPS.addNote(newNote);
 		return result;
 	}
@@ -88,10 +100,11 @@ public class NoteController {
 		return toFormat.format(date);
 	}
 	 */
-	
+	@ResponseBody
 	@RequestMapping (value="getCard", method=RequestMethod.POST)
-	public String popupDetail(int card, String date) {
-		
-		return "";
+	public String popupDetail(Note note, Model model) {
+		String result = (String)noteRPS.getCard(note);
+		model.addAttribute("path", result);
+		return result;
 	}
 }

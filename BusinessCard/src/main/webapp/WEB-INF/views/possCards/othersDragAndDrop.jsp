@@ -266,7 +266,7 @@
 						<h3>drag page - Insert Informations</h3>
 						<form action="saveCardData"
 							class="rd-mailform form-modern offset-top-30" method="post"
-							id="cardForm" name="cardForm"
+							id="insertForm" name="insertForm"
 							data-form-output="form-output-global" data-form-type="order"
 							enctype="multipart/form-data">
 							<div class="range range-7">

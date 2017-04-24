@@ -14,13 +14,13 @@ public class Note {
 	private String start;
 	private String end;
 	private String title;
+	private String color;
 	
 	public Note() {
 	}
 
 	
-	
-	public Note(String m_id, int cardnum, String inputdate, String start, String end, String title) {
+	public Note(String m_id, int cardnum, String inputdate, String start, String end, String title, String color) {
 		super();
 		this.m_id = m_id;
 		this.cardnum = cardnum;
@@ -28,8 +28,8 @@ public class Note {
 		this.start = start;
 		this.end = end;
 		this.title = title;
+		this.color = color;
 	}
-
 
 
 	public String getM_id() {
@@ -81,11 +81,24 @@ public class Note {
 	}
 
 
+	public String getColor() {
+		return color;
+	}
+
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Note [m_id=" + m_id + ", cardnum=" + cardnum + ", inputdate=" + inputdate + ", start=" + start
-				+ ", end=" + end + ", title=" + title + "]";
+				+ ", end=" + end + ", title=" + title + ", color=" + color + "]";
 	}
+
+
 	
 	
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import global.scit.bizcard.dao.NoteDAO;
+import global.scit.bizcard.vo.CardImage;
 import global.scit.bizcard.vo.Note;
 
 @Repository
@@ -39,5 +40,17 @@ public class NoteRepository {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public String getCard(Note note) {
+		String Cimg = null;
+		NoteDAO dao = sqlSession.getMapper(NoteDAO.class);
+		try {
+			Cimg = dao.getCard(note);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Cimg;
 	}
 }

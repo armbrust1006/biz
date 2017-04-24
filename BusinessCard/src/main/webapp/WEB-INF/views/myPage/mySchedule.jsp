@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en" class="wide wow-animation">
 <head>
@@ -54,28 +55,26 @@ $(document).ready(function() {
 				center : 'title',
 				right : 'month,basicWeek,basicDay'
 			},
-			defaultDate : '2017-04-14',
+			defaultDate : '2017-04-28',
 			navLinks : true, // can click day/week names to navigate views
 			editable : true,
 			eventLimit : true, // allow "more" link when too many events
 			events : eventData,
 			eventClick: function(calEvent, jsEvent, view) {
 				var title = calEvent.title;
-				var dateKey = calEvent.start;
-		        var detail = {'cardnum' : title, 'start' : dateKey};
-		        openModal(title);
+				var strDate = moment(calEvent.start).format('YYYY-MM-DD');
 		        $.ajax({
 		        	type : "POST",
 		        	url : "getCard",
-		        	data : detail,
+		        	data : {'start' : strDate, 'title' : title },
 		        	success : function(resp){
-		        		alert(resp);
+		        		var t = "<img src='downloadImage?card="+resp+" alt='' width='800' height='400' />";
+		        		$('#test').html(t);
+		        		openModal();		        		
 		        	}
 		        });
-				
 		        // change the border color just for fun
 		        $(this).css('background-color', '#1a75ff');
-
 		    },
 			dayClick: function(date, view) {
 		        // change the day's background color just for fun
@@ -85,8 +84,7 @@ $(document).ready(function() {
 		});
 	};
 	
-	function openModal(title){
-		$('#test').html(title);
+	function openModal(){
 		$('#myModal').modal({
 	    	backdrop : true,
 	    	keyboard : true,
@@ -142,16 +140,13 @@ $(document).ready(function() {
 			<div class="modal-content" style="margin-top: 10%">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h5 class="modal-title">새 일정 입력</h5>
+					<h5 class="modal-title">상세 정보 확인</h5>
 				</div>
 				<div class="modal-body">
-					<span id="test"></span>
+ 					<div id="test"></div>
 				</div>
 				<div class="modal-footer">
 					<div class="group-lg group-middle group-sm offset-top-30">
-						<button type="button" class="btn btn-primary btn-shadow btn-sm"
-							id="addSchedule">일정입력</button>
-						<button type="reset" class="btn btn-primary btn-shadow btn-sm">초기화</button>
 						<button type="button" class="btn btn-default btn-sm"
 							data-dismiss="modal">닫기</button>
 					</div>
@@ -166,7 +161,7 @@ $(document).ready(function() {
 	<div class="page">
 <%@include file="../modules/header.jsp"%>
 	<main class="page-content">
-		<section class="section-50 section-sm-top-75 section-lg-top-90">
+		<section class="section-50 section-sm-top-75 section-lg-top-70">
       		<div class="shell">
         		<div class="range range-sm-center">
         		 
@@ -176,9 +171,12 @@ $(document).ready(function() {
           		</div>
          
          		<!-- 입력 폼 -->
-        	 	<div class="cell-sm-12 cell-md-3 offset-top-50 offset-md-top-90">
+        	 	<div class="cell-sm-12 cell-md-3 offset-top-50 offset-md-top-20">
         	 	<!-- data-form-output="form-output-global" data-form-type="contact" -->
-        	 	<h5> 새 일정 입력</h5>
+        	 	<div class="item">
+        	 	<img src="downloadImage?card=${path}" alt="" width="800" height="400" />
+        	 	</div>
+        	 	<h5>새 일정 입력</h5>
             <form class="form-modern offset-top-30" > 
                 <div class="cell-xs-4 offset-top-30 offset-xs-top-30 offset-sm-top-50">
                
@@ -194,12 +192,12 @@ $(document).ready(function() {
                     <label for="end" class="form-label">to</label>
                     </span>
                   </div>
-                  <div class="form-group">
+                 <!--  <div class="form-group">
                   <span class="input-group-addon">
                     <input id="feedback-time" type="text" name="time" data-constraints="@Required" data-time-picker="time" class="form-control">
                     <label for="feedback-time" class="form-label">Time Interval</label>
                   </span>
-                  </div>
+                  </div> -->
                  <div class="form-group">
 	                <textarea name="title" id="title" data-constraints="@Required" class="form-control"></textarea>
     	            <label for="title" class="form-label">Message</label> 
@@ -212,15 +210,12 @@ $(document).ready(function() {
                 </div>
                 </div>
                 <!-- type="submit" -->
-                
-                
             </form>
          		</div>
          		
         		</div>
         	</div>
         </section>
-		
 		</main>
 		<%@include file="../modules/footer.jsp"%>
 	</div>
