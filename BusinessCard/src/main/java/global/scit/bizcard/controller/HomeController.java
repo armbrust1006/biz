@@ -29,37 +29,48 @@ public class HomeController {
 	public String about(HttpSession session) {
 		String id = (String) session.getAttribute("m_id");
 		if (id != null) {
-			return "about-us-user";
+			return "home/about-us-user";
 		}
-		return "about-us";
+		return "home/about-us";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
-		return "myPage/login";
+		return "home/login";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+
+	@RequestMapping (value="/login", method = RequestMethod.POST)
 	public String login(Member member, HttpSession session, Model model) {
 		Member selectM = MemberRepository.selectM(member);
-		if (selectM != null) {
-			session.setAttribute("m_id", member.getM_id());
-			return "login_home";
+		String checkExistMine = null; 
+		if(selectM!=null) {
+			session.setAttribute("m_id", selectM.getM_id());
+			checkExistMine = CardImageRepository.checkExistMine(selectM.getM_id());
+			logger.info("checkExistMine"+checkExistMine);
+			if (checkExistMine!=null) {
+				logger.info("여기");
+				return "home/login_myHome";
+			} else {
+				return "home/login_home";
+			}
 		} else {
 			model.addAttribute("errorMSG", "登録された会員情報がございません。<br> 入力したID・パスワードを確認してください。");
-			return "myPage/login";
+			return "home/login";
 		}
 	}
-
-	@RequestMapping(value = "/login_home", method = RequestMethod.GET)
+	
+	@RequestMapping (value="login_home", method = RequestMethod.GET)
 	public String index_home(HttpSession session) {
-		String id = (String) session.getAttribute("m_id");
-		if (id != null) {
-			return "login_home";
+		String id = (String)session.getAttribute("m_id");
+		String checkExistMine = CardImageRepository.checkExistMine(id);
+		if (checkExistMine!=null) {
+			return "home/login_myHome";
 		} else {
-			return "redirect:/";
+			return "home/login_home";
 		}
 	}
+	
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register() {
@@ -95,7 +106,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/faq", method = RequestMethod.GET)
 	public String faq() {
-		return "faq";
+		return "home/faq";
 	}
 
 	/**

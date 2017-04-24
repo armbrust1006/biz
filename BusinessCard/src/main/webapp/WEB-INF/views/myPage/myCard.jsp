@@ -142,7 +142,7 @@
 	var error = "${error}";
 	if (error != null && error != '') {
 		alert(error);
-		document.location.href = "${pageContext.request.contextPath}/selectCardType";
+		document.location.href = "${pageContext.request.contextPath}/selectCardType?type=my";
 		//document.location.href = "selectCardType";
 	}
 
@@ -163,6 +163,32 @@
 			}
 			document.getElementById("sharedChangeForm").submit();
 		};
+
+		document.getElementById("cardUpdate").onclick = function() {
+			updateTOdelteForm("myCardUpdate");
+		};
+		document.getElementById("cardDelete").onclick = function() {
+			updateTOdelteForm("cardDelete");
+		};
+	}
+
+	/* 수정 및 삭제 함수 */
+	function updateTOdelteForm(path) {
+		var cardnum = document.getElementById("cardNum").value;
+		var method = method || "post";
+		var form = document.createElement("form");
+		form.setAttribute("method", method);
+		form.setAttribute("action", path);
+
+		var hiddenField = document.createElement("input");
+		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("id", "cardNum");
+		hiddenField.setAttribute("name", "cardNum");
+		hiddenField.setAttribute("value", cardnum);
+		form.appendChild(hiddenField);
+
+		document.body.appendChild(form);
+		form.submit();
 	}
 
 	/* map start */
@@ -267,7 +293,7 @@
 			url : "share",
 			data : {
 				"book_num" : book_num,
-				"cardnum" : cardnum
+				"cardNum" : cardnum
 			},
 			success : function(resp) {
 				if (resp == 1) {
@@ -463,10 +489,10 @@
 											width="800" height="400" />
 									</div>
 									<!-- 지도 시작 -->
-									<h5></h5>
+									<br>
 									<div id="map"></div>
 									<!-- 지도 끝 -->
-									<h5></h5>
+									<br>
 									<div>
 										<form action="myCard" method="post" id="sharedChangeForm"
 											name="sharedChangeForm">
@@ -487,7 +513,7 @@
 											</button>
 										</form>
 									</div>
-
+									<br>
 								</div>
 
 
@@ -645,9 +671,11 @@
 												</div>
 											</div>
 										</div>
+										<div class="btn btn-primary-outline btn-shadow"
+											id="cardUpdate">수정</div>
+										<div class="btn btn-primary-outline btn-shadow"
+											id="cardDelete">삭제</div>
 									</div>
-
-
 								</div>
 
 

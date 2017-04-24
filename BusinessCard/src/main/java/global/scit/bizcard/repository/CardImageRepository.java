@@ -56,6 +56,7 @@ public class CardImageRepository implements CardImageDAO {
 		try {
 			result = dao.checkExistMine(id);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
@@ -103,6 +104,17 @@ public class CardImageRepository implements CardImageDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public int updateCardImage(CardImage cardImage) {
+		CardImageDAO dao = sqlSession.getMapper(CardImageDAO.class);
+		try {
+			return dao.updateCardImage(cardImage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

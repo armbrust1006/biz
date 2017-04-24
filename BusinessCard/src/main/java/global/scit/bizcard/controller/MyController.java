@@ -24,56 +24,6 @@ public class MyController {
 	@Autowired
 	private CardImageRepository cardImageRepository;
 
-	@RequestMapping(value = "/selectCardType", method = RequestMethod.GET)
-	public String myCard(HttpSession session, Model model) {
-		if (cardImageRepository.myCardExist(String.valueOf(session.getAttribute("m_id"))) != null) {
-			model.addAttribute("error", "이미 명함을 갖고 계십니다.");
-		}
-		return "myPage/selectCardType";
-	}
-
-	@RequestMapping(value = "/registerMyCard", method = RequestMethod.GET)
-	public String registerMyCard(int type) {
-		if (type == 0) {
-			return "myPage/DragAndDrop";
-		} else if (type == 1) {
-			return "myPage/OCRPage";
-		} else {
-			return "myPage/registerMyCard";
-		}
-	}
-
-	/**
-	 * 타인명함등록 카드 유형 선택페이지 이동
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/selectOthersCardTypes", method = RequestMethod.GET)
-	public String registerOthersCard() {
-		return "possCards/selectOthersCardTypes";
-	}
-
-	/**
-	 * 타인명함카드 입력 페이지 이동
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/registerOthersCard", method = RequestMethod.GET)
-	public String registerOthersCard(int type) {
-		if (type == 0) {
-			return "possCards/othersDragAndDrop";
-		} else if (type == 1) {
-			return "possCards/othersOCRPage";
-		} else {
-			return "possCards/registerOthersCard";
-		}
-	}
-
-	@RequestMapping(value = "/registerPoss", method = RequestMethod.GET)
-	public String registerPoss() {
-		return "possCards/registerPossCard";
-	}
-
 	/* 개인 정보 수정 페이지로 이동. - 개인 명함 정보 수정이 아님. */
 	@RequestMapping(value = "/myPage", method = RequestMethod.GET)
 	public String myDetail() {
@@ -93,11 +43,10 @@ public class MyController {
 		card.setM_id(String.valueOf(session.getAttribute("m_id")));
 		logger.info("card:" + card.toString());
 		Card myCard = cardRepository.selectOneCard(card);
-		logger.info("my:" + myCard.toString());
-		if (myCard != null) {
-			model.addAttribute("myCard", myCard);
+		if (myCard == null) {
+			model.addAttribute("error", "명함이 생성되어 있지 않아 명함 생성 페이지로 이동합니다!");
 		} else {
-			model.addAttribute("error", "내 명함 없음");
+			model.addAttribute("myCard", myCard);
 		}
 		return "myPage/myCard";
 	}
