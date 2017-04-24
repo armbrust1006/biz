@@ -39,13 +39,46 @@ public class SharingRepository {
 		}
 		return 0;
 	}
-
+	
+	public int getBookNum(CardBooks card){
+		int result = 0;
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			result = dao.getBookNum(card);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+		
+	}
+	
+	public int insertManager(CardBooks card){
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.insertManager(card);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	
 	public List<HashMap<String, Object>> selectOneRoom(int book_num) {
 		SharingDAO dao = sql.getMapper(SharingDAO.class);
 		try {
 			return dao.selectOneRoom(book_num);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<HashMap<String, Object>> allMember(int book_num) {
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.allMember(book_num);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -74,6 +107,16 @@ public class SharingRepository {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	public int joinRoom(CardBooks card) {
+	SharingDAO dao = sql.getMapper(SharingDAO.class);
+	try {
+		return dao.joinRoom(card);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return 0;
 	}
 
 	public ArrayList<Message> messageList(String m_id) {
@@ -107,18 +150,21 @@ public class SharingRepository {
 		}
 		return 0;
 	}
-
-	public int joinRoom(CardBooks card) {
-		SharingDAO dao = sql.getMapper(SharingDAO.class);
-		try {
-			return dao.joinRoom(card);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return 0;
+	
+	public int leaveRoom(CardBooks card) {
+	SharingDAO dao = sql.getMapper(SharingDAO.class);
+	try {
+		return dao.leaveRoom(card);
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return 0;
 	}
 
-	public List<CardImage> getRoomCards(int card) {
+
+
+/*	public List<CardImage> getRoomCards(int card) {
 		SharingDAO dao = sql.getMapper(SharingDAO.class);
 		try {
 			return dao.getRoomCards(card);
@@ -126,6 +172,8 @@ public class SharingRepository {
 			e.printStackTrace();
 		}
 		return null;
-	}
+	}*/
+
+
 
 }

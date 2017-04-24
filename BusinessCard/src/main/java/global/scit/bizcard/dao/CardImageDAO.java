@@ -1,5 +1,4 @@
 package global.scit.bizcard.dao;
-
 import global.scit.bizcard.vo.Card;
 import global.scit.bizcard.vo.CardImage;
 

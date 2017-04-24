@@ -14,6 +14,9 @@
 <link rel="stylesheet" type="text/css"
 	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .makebutton {
 	position: relative;
@@ -75,6 +78,27 @@
 	opacity: 1;
 	right: 0;
 }
+
+#Sharemodal {
+	margin-top: 50px;
+}
+
+#mainCard {
+	/* 	background-color: #416469; */
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background-color: #1F45B0
+}
+
+#li {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+#enter {
+	width: 200px;
+	margin-left: 300px;
+}
 </style>
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
@@ -91,7 +115,6 @@
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<br> <br> <br> <br> <br> <br>
 				<div class="modal-header">
 					<form method="post" action="makeRoom">
 						<button type="button" class="close" data-dismiss="modal"
@@ -114,18 +137,16 @@
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
-		<section class="section-60 section-sm-90 section-lg-bottom-15">
+		<section
+			class="section-60 section-sm-90 section-md-bottom-20 bg-gray-dark">
 			<div class="shell">
 				<div class="range range-lg-center">
 					<div class="cell-sm-6 cell-md-6 cell-lg-8 ">
-						<h3>Create New Room</h3>
-						<p>공유 명함첩을 개설하여 사람들과 명함을 공유하세요.</p>
+						<h2>Create New Room</h2>
+						<h5>공유 명함첩을 개설하여 사람들과 명함을 공유하세요.</h5>
 					</div>
-					<div
-						class="cell-sm-5 cell-md-4 cell-lg-3 cell-lg-preffix-1 offset-top-40 offset-sm-top-0">
-						<!-- <input type="button" class="btn btn-primary btn-block"
-						onclick="makeRoomForm()" value="명함첩 만들기"> -->
-
+					<div id="Sharemodal"
+						class="cell-sm-5 cell-md-2 cell-lg-3 cell-lg-preffix-1 offset-top-40 offset-sm-top-0">
 						<!-- 모달버튼 -->
 						<button type="button" class="makebutton"
 							style="vertical-align: middle" data-toggle="modal"
@@ -140,11 +161,53 @@
 				</div>
 			</div>
 		</section>
-
 		<section
-			class="bg-decoration-wrap bg-decoration-bottom section-bottom-60 section-lg-top-100 section-lg-bottom-100 bg-whisper">
-			<div class="shell bg-decoration-content">
-				<div class="range range-sm-center">
+			class="section-60 section-sm-90 section-md-bottom-120 bg-gray-dark">
+			<div class="shell">
+				<div class="w3-container">
+					<c:forEach var="card" items="${CardBooks}">
+						<div
+							class="cell-sm-2 cell-md-6 col-sm-6 height-fill offset-top-30">
+							<div class="w3-card-4 " style="width: 100%;">
+								<header class="w3-container" id="mainCard">
+									<i class="fa fa-address-book" style="font-size: 24px">
+										${card.book_name}</i>
+
+								</header>
+								<div class="w3-container w3-blue"></div>
+								<footer class="w3-container w3-white" id="footerCard">
+									<ul>
+
+										<li id="li"><i class="fa fa-calendar"
+											style="font-size: 24px"></i> 개설날짜 | ${card.inputdate}</li>
+
+										<li id="li"><i class="fa fa-child"
+											style="font-size: 24px"></i> 개설자 | ${card.book_master}</li>
+
+										<li id="li"><i class="fa fa-codepen"
+											style="font-size: 24px"></i> 구성원| 매퍼 listCardBooks 쿼리다시짜야함</li>
+
+										<li id="li"><i class="fa fa-list-alt"
+											style="font-size: 24px"></i> 공유카드 | (몇 장)쿼리새로만들어야함</li>
+
+										<a href="selectOneRoom?book_num=${card.book_num}">
+											<li id="li"><button type="button" id="enter"
+													class="btn btn-primary btn-sm">입장하기</button></li>
+										</a>
+
+									</ul>
+
+								</footer>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+
+
+			<%-- 			<div class="shell text-center">
+				<h3>What Clients Say?</h3>
+				<div class="range range-xs-center range-sm-left offset-top-40">
 					<div class="cell-md-10 cell-lg-12">
 						<div class="range range-sm-bottom">
 
@@ -179,42 +242,14 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> --%>
 		</section>
 
-		<!-- 이 폼을 써 보는건 어떨까 --> <!-- <section class="section-66 section-sm-90 bg-gray-light">
-      <div class="shell">
-        <h4>내가 개설한 공유방 목록</h4>
-        <p style="max-width: 440px;">Can't find the job you want? Send your resume to <a class="__cf_email__" href="" data-cfemail="93fafdf5fcd3f7f6fefcfffafdf8bdfce1f4">philip@gmail.com</a>, and we'll contact you when a new position opens.</p>
-        <div class="range">
-         
-          <div class="cell-sm-6"><a href="#" class="block-vacation">
-            <h5>1</h5>
-            <div class="block-meta">
-              <ul class="list-objects-inline">
-                <li><span class="icon icon-xs-smaller icon-primary material-icons-location_on"></span><span>London</span></li>
-                <li><span class="icon icon-xs-smaller icon-primary material-icons-av_timer"></span><span>Full Time</span></li>
-                <li><span class="icon icon-xs-smaller icon-primary mdi mdi-calendar"></span>
-                  <time datetime="2016-01-01">6 hours ago</time>
-                </li>
-              </ul>
-            </div>
-            </a> </div>
-          <div class="cell-sm-6 offset-top-30 offset-sm-top-0"><a href="#" class="block-vacation">
-            <h5>2</h5>
-            <div class="block-meta">
-              <ul class="list-objects-inline">
-                <li><span class="icon icon-xs-smaller icon-primary material-icons-location_on"></span><span>Athlanta</span></li>
-                <li><span class="icon icon-xs-smaller icon-primary material-icons-av_timer"></span><span>Freelance</span></li>
-                <li><span class="icon icon-xs-smaller icon-primary mdi mdi-calendar"></span>
-                  <time datetime="2016-01-01">3 day ago</time>
-                </li>
-              </ul>
-            </div>
-            </a> </div>
-        </div>
-      </div>
- </section> --> <!-- 추천 폼 끝 --> </main>
+
+
+
+
+		</main>
 		<%@include file="../modules/footer.jsp"%>
 	</div>
 	<%@include file="../modules/form-output-global.jsp"%>

@@ -30,6 +30,8 @@
 											<textarea id="feedback-message" name="message"
 												data-constraints="@Required" class="form-control"></textarea>
 											<label for="feedback-message" class="form-label">Message</label>
+											<input type="hidden" name="targetId" value="${targetId}">
+											<input type="hidden" name="book_num" value="${book_num}">
 										</div>
 									</div>
 								</div>

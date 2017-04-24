@@ -130,17 +130,22 @@
 	// 초대 목록에서 한 사람 선택
 	function invite() {
 		var targetId = $(this).attr("target-id"); // 초대할 사람 선택 시 m_id 받아옴
-		var url = 'invitationCard?targetId=' + targetId;
+		var book_num = $("#book_num").val();
+		var url = 'invitationCard?targetId=' + targetId+'&book_num='+book_num;
 		window.open(url, "invitationCard",
 				"top=200, left=400, width=300, height=500, resizable=no");
 	}
 
 	// 공유방의 구성원 목록보기
 	function allMember() {
-		console.log("tab4");
+		var book_num = $("#book_num").val();
+		alert(book_num);
 		$.ajax({
 			type : "get",
 			url : "allMember",
+			data : {
+				"book_num" : book_num
+			},
 			success : outMemberList
 		});
 	}
@@ -151,11 +156,13 @@
 		msg += "<tr>";
 		msg += "<td>" + "I  D" + "</td>";
 		msg += "<td>" + "이 름" + "</td>";
+		msg += "<td>" + "가입날짜" + "</td>";
 		msg += "</tr>";
 		$.each(resp, function(index, item) {
 			msg += "<tr>";
 			msg += "<td>" + item.M_ID + "</td>";
 			msg += "<td>" + item.GRADE + "</td>";
+			msg += "<td>" + item.INPUTDATE + "</td>";
 			msg += "</tr>";
 		});
 		msg += '</table>';
@@ -552,30 +559,32 @@
 
 </head>
 <body style="">
-	<!-- 탈퇴 modal -->
+
+	<!-- 탈퇴 modal 시작 -->
 	<div class="modal fade" id="withdrawalForm" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<br> <br> <br> <br> <br> <br>
 				<div class="modal-header">
-					<form method="post" action="">
+					<form method="post" action="leaveRoom">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<h6 class="modal-title">탈퇴하시겠습니까?</h6>
-						<input type="text" class="form-control" id="memo-title"
-							name="book_name" placeholder="이름을 입력하세요."> <input
-							type="button" class="btn btn-primary-outline btn-shadow"
-							data-dismiss="modal" value="취소"> <input type="submit"
+						<input type="hidden" value="${book_num}" id="book_num"
+							name="book_num"> <input type="button"
+							class="btn btn-primary-outline btn-shadow" data-dismiss="modal"
+							value="취소"> <input type="submit"
 							class="btn btn-primary btn-shadow" id="writeMemo" value="확인">
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- modal 끝 -->
+	<!-- 탈퇴 modal 끝 -->
+
+
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
@@ -605,7 +614,7 @@
 								<li><a id="tab2" href="#tabs-1-2" data-toggle="tab">게시판</a></li>
 								<li><a id="tab3" href="#tabs-1-3" data-toggle="tab">초대하기</a></li>
 								<li><a id="tab4" href="#tabs-1-4" data-toggle="tab">구성원</a></li>
-								<li><a href="#tabs-1-5" data-toggle="tab">Tab 5</a></li>
+								<li><a href="#tabs-1-5" data-toggle="tab">탈퇴</a></li>
 							</ul>
 							<div class="tab-content text-secondary">
 								<div id="tabs-1-1" class="tab-pane fade in active">
