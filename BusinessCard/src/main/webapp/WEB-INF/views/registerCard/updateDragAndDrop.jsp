@@ -30,7 +30,7 @@
 		
 		document.getElementById("reset").onclick = canvasClear;
 		document.getElementById("cardView").onclick = cardView;
-		document.getElementById("creatCard").onclick = imageSave;
+		document.getElementById("updateCard").onclick = imageSave;
 
 		canvas.addEventListener("mousedown", function (e) {
 		 	e.preventDefault();
@@ -211,15 +211,16 @@
 		
 		var imageData = canvas.toDataURL("image/png");
 		var loginID = document.getElementById("m_id").value;
+		var cardnum = document.getElementById("cardNum").value;
 
 		$.ajax({
 			type : 'post',
-			url : 'saveCanvasImage',
+			url : 'updateCanvasImage',
 			dataType : 'json',
 			data : {
 				imageBase64 : imageData,
 				m_id : loginID,
-				cardType : "my"
+				"cardNum" : cardnum
 			},
 			timeout : 100000,
 			async : false,
@@ -285,12 +286,13 @@
 							enctype="multipart/form-data">
 							<div class="range range-7">
 								<input type="hidden" id="m_id" name="m_id" value="${m_id}">
-								<input type="hidden" id="cardType" name="cardType" value="my">
+								<input type="hidden" id="cardNum" name="cardNum"
+									value="${card.cardNum}">
 								<!--항목  -->
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="name" type="text" name="name"
+										<input id="name" type="text" name="name" value="${card.name}"
 											data-constraints="@Required" class="form-control"> <label
 											for="name" class="form-label rd-input-label">Name</label>
 									</div>
@@ -298,7 +300,7 @@
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="company" type="text" name="company"
+										<input id="company" type="text" name="company" value="${card.company}"
 											data-constraints="@Required" class="form-control"> <label
 											for="company" class="form-label rd-input-label">Company</label>
 									</div>
@@ -307,7 +309,7 @@
 								<div class="cell-sm-3">
 									<div class="form-group">
 										<div>
-											<input id="depart" type="text" name="depart"
+											<input id="depart" type="text" name="depart" value="${card.depart}"
 												data-constraints="@Required" class="form-control"> <label
 												for="depart" class="form-label rd-input-label">Department</label>
 										</div>
@@ -316,7 +318,7 @@
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="position" type="text" name="position"
+										<input id="position" type="text" name="position" value="${card.position}"
 											data-constraints="@Required" class="form-control"> <label
 											for="position" class="form-label rd-input-label">Position</label>
 									</div>
@@ -324,7 +326,7 @@
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="address" type="text" name="address"
+										<input id="address" type="text" name="address" value="${card.address}"
 											data-constraints="@Required" class="form-control"> <label
 											for="address" class="form-label rd-input-label">Address</label>
 									</div>
@@ -332,7 +334,7 @@
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="email" type="email" name="email"
+										<input id="email" type="email" name="email" value="${card.email}"
 											data-constraints="@Email @Required" class="form-control">
 										<label for="email" class="form-label rd-input-label">E-mail</label>
 									</div>
@@ -340,7 +342,7 @@
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="telephone" type="text" name="telephone"
+										<input id="telephone" type="text" name="telephone" value="${card.telephone}"
 											data-constraints="@Required" class="form-control"> <label
 											for="telephone" class="form-label rd-input-label">Telephone</label>
 									</div>
@@ -348,7 +350,7 @@
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="fax" type="text" name="fax"
+										<input id="fax" type="text" name="fax" value="${card.fax}"
 											data-constraints="@Required" class="form-control"> <label
 											for="fax" class="form-label rd-input-label">Fax</label>
 									</div>
@@ -356,7 +358,7 @@
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="mobile" type="text" name="mobile"
+										<input id="mobile" type="text" name="mobile" value="${card.mobile}"
 											data-constraints="@Required" class="form-control"> <label
 											for="mobile" class="form-label rd-input-label">Mobile</label>
 									</div>
@@ -364,18 +366,18 @@
 
 								<div class="cell-sm-3 offset-top-20">
 									<div class="form-group" align="left">
-										한국어<input type="radio" name="language" value="kor"
-											id="language" checked="checked"> 일본어 <input
-											type="radio" name="language" value="eng" id="language">
-										영어 <input type="radio" name="language" value="jap"
-											id="language">
+										KOR <input type="radio" name="language" value="kor"
+											id="language" <c:if test="${card.language eq 'kor'}">checked</c:if>> JPN <input
+											type="radio" name="language" value="jpn" id="language" <c:if test="${card.language eq 'jpn'}">checked</c:if>>
+										ENG <input type="radio" name="language" value="eng"
+											id="language" <c:if test="${card.language eq 'eng'}">checked</c:if>>
 									</div>
 								</div>
 
 								<div class="cell-sm-3 offset-top-30">
 									<div class="form-group">
 										<input class="inputfile inputfile-1" type="file" id="logo"
-											name="logo" style="display: none;"
+											name="logo" value="${card.logoimg}" style="display: none;"
 											data-multiple-caption="{count} files selected" multiple=""
 											accept="image/*"> <label for="logo" id="stext"><svg
 												xmlns="http://www.w3.org/2000/svg" width="20" height="17"
@@ -389,8 +391,8 @@
 								<div class="cell-sm-3 offset-top-20"></div>
 								<div
 									class="cell-xs-2 offset-top-32 offset-xs-top-30 offset-sm-top-50">
-									<button type="button" id="creatCard"
-										class="btn btn-primary btn-block">Register!</button>
+									<button type="button" id="updateCard"
+										class="btn btn-primary btn-block">Update</button>
 								</div>
 
 								<div

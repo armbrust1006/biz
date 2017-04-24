@@ -1,12 +1,13 @@
 package global.scit.bizcard.dao;
+
 import global.scit.bizcard.vo.Card;
 import global.scit.bizcard.vo.CardImage;
 
 public interface CardImageDAO {
 
-	public CardImage myCardExist(String m_id) throws Exception;
-
 	public int saveCardImage(CardImage cardImage) throws Exception;
+
+	public int updateCardImage(CardImage cardImage) throws Exception;
 
 	public int setMyCardList(CardImage cardImage) throws Exception;
 
@@ -19,4 +20,6 @@ public interface CardImageDAO {
 	public String checkExistMine(String id) throws Exception;
 
 	public Card setMyCardSharing(CardImage cardImage) throws Exception;
+
+	public CardImage myCardExist(String m_id) throws Exception;
 }

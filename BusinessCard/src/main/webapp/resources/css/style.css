@@ -45965,7 +45965,7 @@ html.boxed .rd-navbar--is-clone {
 }
 
 .dtp-header {
-    background: #204ac8;
+    background: #5478e4;
     color: #fff;
     text-align: center;
     padding: 0.3rem;
@@ -46126,7 +46126,7 @@ html.boxed .rd-navbar--is-clone {
 
 .dtp-actual-meridien a.selected,
 .dtp-actual-meridien a:hover {
-    background: #204ac8;
+    background: #5478e4;
     color: #fff;
 }
 
@@ -46149,7 +46149,7 @@ html.boxed .rd-navbar--is-clone {
 
 .dtp-picker-time > a.dtp-select-hour.selected,
 .dtp-picker-time > a.dtp-select-hour:hover {
-    background: #204ac8;
+    background: #5478e4;
     color: #fff;
 }
 
@@ -46163,7 +46163,7 @@ html.boxed .rd-navbar--is-clone {
 
 .dtp-picker-time > a.dtp-select-minute:hover,
 .dtp-picker-time > a.dtp-select-minute.selected {
-    background: #204ac8;
+    background: #5478e4;
     color: #fff;
 }
 
@@ -46213,7 +46213,7 @@ html[class*="ie"] .dtp-hour-hand {
 }
 
 .dtp-hand.on {
-    background: #204ac8;
+    background: #14d396;
 }
 
 .dtp-buttons {

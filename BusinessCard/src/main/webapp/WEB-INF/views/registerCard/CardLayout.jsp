@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en" class="wide wow-animation">
 <head>
@@ -22,7 +23,14 @@
 	})(document, window, 0);
 
 	var canvas;
+	var context;
+	var file;
+	var reader;
+	var layout_num;
+
 	$(document).ready(function() {
+		layout_num = document.getElementById("layout_num").value;
+
 		$("input").on("keyup", cardView);
 		$('input:file').on("change", cardView);
 		document.getElementById("reset").onclick = canvasClear;
@@ -76,7 +84,8 @@
 		}
 
 		var imageData = canvas.toDataURL("image/png");
-		var loginID = document.getElementById("m_id").value;
+		var loginId = document.getElementById("m_id").value;
+		var type = document.getElementById("cardType").value;
 
 		$.ajax({
 			type : 'post',
@@ -84,8 +93,9 @@
 			dataType : 'json',
 			data : {
 				imageBase64 : imageData,
-				m_id : loginID,
-				cardType : "my"
+				m_id : loginId,
+				cardType : type,
+				"layout_num" : layout_num
 			},
 			timeout : 100000,
 			async : false,
@@ -106,16 +116,18 @@
 	/* 명함 생성 */
 	function cardView() {
 		canvas = document.getElementById("myCanvas");
-		var context = canvas.getContext("2d");
-		var file = document.querySelector("input[type=file]").files[0];
-		var reader = new FileReader();
+		context = canvas.getContext("2d");
+		file = document.querySelector("input[type=file]").files[0];
+		reader = new FileReader();
 
 		/* 명함 clear */
 		context.clearRect(0, 0, canvas.width, canvas.height);
-		var type = window.location.search;
+		// 레이아웃 함수
+		cardSelect();
+	}
 
-		if (type == "?type=2") {
-
+	function cardSelect() {
+		if (layout_num == 2) {
 			/* 명함 로고 */
 			if (file != null) {
 				reader.addEventListener("load", function() {
@@ -156,10 +168,9 @@
 					+ document.getElementById("fax").value, 200, 240);
 			context.fillText("E-mail | komorebi@komorebi.com"
 					+ document.getElementById("email").value, 200, 260);
-
 		}//2번 if
 
-		else if (type == "?type=3") {
+		else if (layout_num == 3) {
 			/* 명함 로고 */
 			if (file != null) {
 				reader.addEventListener("load", function() {
@@ -202,7 +213,7 @@
 					+ document.getElementById("email").value, 300, 260);
 		}//3번 if
 
-		else if (type == "?type=4") {
+		else if (layout_num == 4) {
 			/* 명함 로고 */
 			if (file != null) {
 				reader.addEventListener("load", function() {
@@ -245,10 +256,9 @@
 			context.font = "20px Arial";
 			context.fillText("C.P. 010-4013-1414"
 					+ document.getElementById("mobile").value, 350, 180);
-
 		}//4번 if
 
-		else if (type == "?type=5") {
+		else if (layout_num == 5) {
 			/* 명함 로고 */
 			if (file != null) {
 				reader.addEventListener("load", function() {
@@ -288,10 +298,9 @@
 					+ document.getElementById("fax").value, 70, 240);
 			context.fillText("E-mail  | komorebi@komorebi.com"
 					+ document.getElementById("email").value, 70, 260);
-
 		}//5번 if
 
-		else if (type == "?type=6") {
+		else if (layout_num == 6) {
 			/* 명함 로고 */
 			if (file != null) {
 				reader.addEventListener("load", function() {
@@ -331,10 +340,8 @@
 					+ document.getElementById("fax").value, 70, 240);
 			context.fillText("E-mail  | komorebi@komorebi.com"
 					+ document.getElementById("email").value, 70, 260);
-
 		}//6번 if
-
-	}//cardview 메소드 if
+	}
 </script>
 </head>
 <body style="">
@@ -354,6 +361,7 @@
 				<div class="range">
 					<div class="cell-md-9 cell-lg-7">
 						<h3>Insert Informations</h3>
+						<!-- 폼 시작 -->
 						<form action="saveCardData"
 							class="rd-mailform form-modern offset-top-30" method="post"
 							id="cardForm" name="cardForm"
@@ -361,7 +369,9 @@
 							enctype="multipart/form-data">
 							<div class="range range-7">
 								<input type="hidden" id="m_id" name="m_id" value="${m_id}">
-								<input type="hidden" id="cardType" name="cardType" value="my">
+								<input type="hidden" id="cardType" name="cardType"
+									value="${cardType}"> <input type="hidden" id="layout_num"
+									name="layout_num" value="${layout_num}">
 								<!--항목  -->
 
 								<div class="cell-sm-3">
@@ -447,9 +457,9 @@
 										<input type="radio" name="language" value="eng" id="language"
 											style="cursor: pointer"> <label for="eng"
 											style="cursor: pointer">ENG</label>&nbsp;&nbsp;&nbsp; <input
-											type="radio" name="language" value="jap" id="language"
-											style="cursor: pointer"> <label for="jap"
-											style="cursor: pointer">JAP</label>
+											type="radio" name="language" value="jpn" id="language"
+											style="cursor: pointer"> <label for="jpn"
+											style="cursor: pointer">JPN</label>
 									</div>
 								</div>
 
@@ -481,9 +491,7 @@
 								</div>
 							</div>
 						</form>
-
 						<!--폼 끝  -->
-
 					</div>
 					<!-- 오른쪽 부분 -->
 					<div

@@ -23,10 +23,13 @@
     var img = new Image();
 	var items = [];
 	var selectItem = -1;
+	var layout_num;
 	
 	window.onload = function() {
+		layout_num = document.getElementById("myCanvas").value;
 		canvas = document.getElementById("myCanvas");
 		ctx = canvas.getContext("2d");
+		
 		document.getElementById("reset").onclick = canvasClear;
 		document.getElementById("cardView").onclick = cardView;
 		document.getElementById("creatCard").onclick = imageSave;
@@ -82,7 +85,7 @@
 	}
 
 	/* 명함 clear */
-	function canvasClear() {
+	function canvasClear(){
 		if (canvas != null) {
 			var ctx = canvas.getContext("2d");
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -182,6 +185,11 @@
 		var mobileV = document.getElementById("mobile").value;
 		var languageV = document.getElementById("language").value;
 
+		if (canvas == null) {
+			$('#myInput').html("Please create card!");
+			$("#myModal").modal();
+			return;
+		}
 		if (nameV == null || nameV == "") {
 			$('#myInput').html("Please check the name!");
 			$("#myModal").modal();
@@ -205,6 +213,7 @@
 		
 		var imageData = canvas.toDataURL("image/png");
 		var loginID = document.getElementById("m_id").value;
+		var type = document.getElementById("cardType").value;
 
 		$.ajax({
 			type : 'post',
@@ -213,7 +222,8 @@
 			data : {
 				imageBase64 : imageData,
 				m_id : loginID,
-				cardType : "my"
+				cardType : type,
+				"layout_num" : layout_num
 			},
 			timeout : 100000,
 			async : false,
@@ -259,11 +269,19 @@
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
+		<section style="background-image: url(images/1920x900.jpg);"
+			class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
+			<div class="shell">
+				<div class="page-title">
+					<h2>Register My Business Card</h2>
+				</div>
+			</div>
+		</section>
 		<section class="section-60 section-sm-top-90 section-sm-bottom-100">
 			<div class="shell">
 				<div class="range">
 					<div class="cell-md-9 cell-lg-7">
-						<h3>drag page - Insert Informations</h3>
+						<h3>Insert Informations</h3>
 						<form action="saveCardData"
 							class="rd-mailform form-modern offset-top-30" method="post"
 							id="insertForm" name="insertForm"
@@ -271,7 +289,9 @@
 							enctype="multipart/form-data">
 							<div class="range range-7">
 								<input type="hidden" id="m_id" name="m_id" value="${m_id}">
-								<input type="hidden" id="cardType" name="cardType" value="my">
+								<input type="hidden" id="cardType" name="cardType"
+									value="${cardType}"> <input type="hidden"
+									id="layout_num" name="layout_num" value="${layout_num}">
 								<!--항목  -->
 
 								<div class="cell-sm-3">
@@ -350,10 +370,10 @@
 
 								<div class="cell-sm-3 offset-top-20">
 									<div class="form-group" align="left">
-										한국어<input type="radio" name="language" value="kor"
-											id="language" checked="checked"> 일본어 <input
-											type="radio" name="language" value="eng" id="language">
-										영어 <input type="radio" name="language" value="jap"
+										KOR <input type="radio" name="language" value="kor"
+											id="language" checked="checked"> JPN <input
+											type="radio" name="language" value="jpn" id="language">
+										ENG <input type="radio" name="language" value="eng"
 											id="language">
 									</div>
 								</div>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en" class="wide wow-animation">
 <head>
@@ -59,9 +60,7 @@
 							</div>
 						</div>
 						<div class="cell-md-4 cell-lg-4" id="rightImage">
-							<input type="file" id="file"
-								value="downloadOCRImage?card=${file}" style="display: none;">
-							<img src="downloadOCRImage?card=${file}" alt="" id="fileImage" />
+							<img src="downloadOCRImage?card=${card.imagePath}" alt="" id="fileImage" style="" />
 						</div>
 					</div>
 					<!-- 오른쪽 부분 -->
@@ -74,8 +73,10 @@
 							enctype="multipart/form-data">
 							<div class="range range-7">
 								<input type="hidden" id="m_id" name="m_id" value="${m_id}">
-								<input type="hidden" id="cardType" name="cardType" value="my">
-
+								<input type="hidden" id="cardType" name="cardType"
+									value="${type}"> <input type="hidden" id="imagePath"
+									name="imagePath" value="${card.imagePath}"> <input type="hidden"
+									id="layout_num" name="layout_num" value="${card.layout_num}">
 								<!--항목  -->
 								<div class="cell-sm-3">
 									<div class="form-group">
@@ -155,14 +156,17 @@
 									<div class="form-group" class="form-control" align="left">
 										<label>Language&nbsp;&nbsp;:</label> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										</span> <input type="radio" name="language" value="kor" id="language"
-											checked="checked" style="cursor: pointer"> <label
-											for="kor" style="cursor: pointer">KOR</label>&nbsp;&nbsp;&nbsp;
-										<input type="radio" name="language" value="eng" id="language"
+											<c:if test="${card.language=='kor'}">checked</c:if>
+											style="cursor: pointer"> <label for="kor"
+											style="cursor: pointer">KOR</label>&nbsp;&nbsp;&nbsp; <input
+											type="radio" name="language" value="eng" id="language"
+											<c:if test="${card.language=='eng'}">checked</c:if>
 											style="cursor: pointer"> <label for="eng"
 											style="cursor: pointer">ENG</label>&nbsp;&nbsp;&nbsp; <input
-											type="radio" name="language" value="jap" id="language"
-											style="cursor: pointer"> <label for="jap"
-											style="cursor: pointer">JAP</label>
+											type="radio" name="language" value="jpn" id="language"
+											<c:if test="${card.language=='jpn'}">checked</c:if>
+											style="cursor: pointer"> <label for="jpn"
+											style="cursor: pointer">JPN</label>
 									</div>
 								</div>
 

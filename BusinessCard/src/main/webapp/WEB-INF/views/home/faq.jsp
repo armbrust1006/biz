@@ -13,7 +13,7 @@
 </head>
 <body style="">
 <div class="page">
-<%@include file="./modules/header.jsp" %>
+<%@include file="../modules/header.jsp" %>
   <main class="page-content">
    <!--  <section style="background-image: url(images/1920x900.jpg);" class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
       <div class="shell">
@@ -168,9 +168,9 @@
       </div>-->
     </section> 
   </main>
-<%@include file="./modules/footer.jsp" %>
+<%@include file="../modules/footer.jsp" %>
 </div>
-<%@include file="./modules/form-output-global.jsp" %>
+<%@include file="../modules/form-output-global.jsp" %>
 <script src="js/core.min.js"></script> 
 <script src="js/script.js"></script>
 </body>

@@ -10,7 +10,7 @@
 		<typeAlias type="global.scit.bizcard.vo.CardBooks" alias="CardBooks" />
 		<typeAlias type="global.scit.bizcard.vo.Message" alias="Message"/>
 		<typeAlias type="global.scit.bizcard.vo.Note" alias="Note" />
-		<typeAlias alias="Board" type="global.scit.bizcard.vo.Board"/>
+		<typeAlias type="global.scit.bizcard.vo.Board" alias="Board" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/cardMapper.xml" />

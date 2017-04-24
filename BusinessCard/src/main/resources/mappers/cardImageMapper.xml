@@ -8,17 +8,25 @@
 		insert into
 		CardImage
 		(
-		m_id, cardnum, cardType, imagePath
+		m_id, cardnum, cardType, imagePath, layout_num
 		)
 		values
 		(
 		#{m_id},
 		cardnum_seq.nextval,
 		#{cardType},
-		#{imagePath}
+		#{imagePath},
+		#{layout_num}
 		)
 	</insert>
 
+	<update id="updateCardImage" parameterType="CardImage">
+		update cardimage
+		set imagePath=#{imagePath}
+		where m_id=#{m_id}
+		and cardNum=#{cardNum}
+	</update>
+	
 	<insert id="setMyCardList" parameterType="CardImage">
 		insert into
 		MyCardIndex

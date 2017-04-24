@@ -31,8 +31,27 @@
 		#{fax},
 		#{mobile},
 		#{language},
-		#{logoImg})
+		#{logoImg},
+		#{imgOriginal})
 	</insert>
+
+	<update id="updateCard" parameterType="Card">
+		update card
+		set
+		name=#{name},
+		company=#{company},
+		depart=#{depart},
+		position=#{position},
+		address=#{address},
+		email=#{email},
+		telephone=#{telephone},
+		fax=#{fax},
+		mobile=#{mobile},
+		language=#{language},
+		logoImg=#{logoImg},
+		imgOriginal=#{imgOriginal}
+		where cardNum=#{cardNum}
+	</update>
 
 	<select id="searchCards" resultType="Card" parameterType="Map">
 		select
@@ -106,7 +125,7 @@
 		select
 		img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as
 		"cardType", img.shared as
-		"shared", c.name as "name", c.company as
+		"shared", img.layout_num as "layout_num", c.name as "name", c.company as
 		"company", c.depart as
 		"depart",
 		c.position as "position", c.address as

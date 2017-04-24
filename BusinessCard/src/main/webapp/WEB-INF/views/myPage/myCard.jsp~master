@@ -35,6 +35,21 @@
 	margin: 0px;
 }
 
+#sharedChange {
+	display: inline-block;
+	border-radius: 1px;
+	background-color: #0da375;
+	border: none;
+	color: #FFFFFF;
+	text-align: center;
+	font-size: 15px;
+	padding: 5px;
+	width: 150px;
+	transition: all 0.5s;
+	cursor: pointer;
+	margin: 0px;
+}
+
 .button span {
 	cursor: pointer;
 	display: inline-block;
@@ -124,6 +139,32 @@
 
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
+	var error = "${error}";
+	if (error != null && error != '') {
+		alert(error);
+		document.location.href = "${pageContext.request.contextPath}/selectCardType";
+		//document.location.href = "selectCardType";
+	}
+
+	/* Open Select */
+	window.onload = function() {
+		var openValue = document.getElementById("shared").value;
+		if (openValue == "y" || openValue == "Y") {
+			$("#sharedChange").css("background-color", "#ff2b32");
+		} else if (openValue == "n" || openValue == "N") {
+			$("#sharedChange").css("background-color", "#8c8c8c");
+		}
+
+		document.getElementById("sharedChange").onclick = function() {
+			if (openValue == "y" || openValue == "Y") {
+				document.getElementById("shared").value = "n";
+			} else if (openValue == "n" || openValue == "N") {
+				document.getElementById("shared").value = "y";
+			}
+			document.getElementById("sharedChangeForm").submit();
+		};
+	}
+
 	/* map start */
 	function initMap() {
 		var map = new google.maps.Map(document.getElementById('map'), {
@@ -161,6 +202,7 @@
 	})
 	$(document).ready(function() {
 		$("#writeMemo").on("click", writeMemo);
+
 	});
 
 	function writeMemo() {
@@ -184,14 +226,6 @@
 		$("#showShareRoom").on('click', shareRoomAjax);
 	});
 
-	function clickSendMail(){
-		document.sendForm.action = "sendMail";
-		document.sendForm.submit();
-		
-		alert("클릭실행");
-		return true;
-	}
-	
 	function shareRoomAjax() {
 		$.ajax({
 			type : "get",
@@ -299,8 +333,6 @@
 		audio = "<embed src="+source+" autostart='true' allowscriptaccess='always'"+
 		"enablehtmlaccess='true' allowfullscreen='true' width='422' height='240' type='video/mp4'></embed><br>";
 		$("#resultAudio").html(audio);
-	
-		
 	}
 </script>
 <script async defer
@@ -377,6 +409,41 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- 공유 modal -->
+	<div class="modal fade" id="errorModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<br> <br> <br> <br> <br> <br>
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">공유하기</h4>
+					<h6 class="modal-title">공유할 명함방을 선택하세요.</h6>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<!-- 						<label for="message-text" class="control-label">공유방</label> <input
+								type="text" class="form-control" id="message-title"
+								placeholder="타이틀을 입력하세요."> <label for="message-text"
+								class="control-label">NOTE</label> <label>안녕?</label>
+							<textarea class="form-control" id="message-text"></textarea>
+							<label for="message-text" class="control-label">NOTE</label>
+							<textarea class="form-control" id="message-text"></textarea> -->
+							<div class="form-group" id="shareRoomList">d</div>
+						</div>
+						<input type="button" class="btn btn-primary-outline btn-shadow"
+							data-dismiss="modal" value="닫기"> <input type="button"
+							class="btn btn-primary btn-shadow" id="writeMemo" value="저장">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- modal 끝 -->
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
@@ -392,23 +459,43 @@
 							<div class="product-main">
 								<div class="product-slider">
 									<div class="item">
-										<img src="downloadImage?card=${selectedCard.imagePath}" alt=""
+										<img src="downloadImage?card=${myCard.imagePath}" alt=""
 											width="800" height="400" />
 									</div>
-
 									<!-- 지도 시작 -->
 									<h5></h5>
 									<div id="map"></div>
 									<!-- 지도 끝 -->
+									<h5></h5>
+									<div>
+										<form action="myCard" method="post" id="sharedChangeForm"
+											name="sharedChangeForm">
+											<input type="hidden" value="${myCard.cardNum}" id="cardNum"
+												name="cardNum"> <input type="hidden"
+												value="${myCard.shared}" id="shared" name="shared">
+											<button type="button" class="button"
+												style="vertical-align: middle" data-whatever="@mdo"
+												id="sharedChange" name="sharedChange">
+												<c:choose>
+													<c:when test="${myCard.shared == 'y'}">
+														<span>공개 중</span>
+													</c:when>
+													<c:when test="${myCard.shared == 'n'}">
+														<span>공개 중지 중</span>
+													</c:when>
+												</c:choose>
+											</button>
+										</form>
+									</div>
 
 								</div>
+
+
 								<div class="product-body">
-									<input type="hidden" id="cardNum"
-										value="${selectedCard.cardNum}">
-									<h5 class="product-brand">${selectedCard.company}&nbsp;${selectedCard.depart}</h5>
+									<h5 class="product-brand">${myCard.company}&nbsp;${myCard.depart}</h5>
 									<h4 class="product-header">
-										${selectedCard.name}&nbsp;${selectedCard.position} <a
-											href="javascript:;" onclick="textToSpeech();"> <span
+										${myCard.name}&nbsp;${myCard.position} <a href="javascript:;"
+											onclick="textToSpeech();"> <span
 											class="icon icon-md icon-primary fa-bullhorn"></span></a> <input
 											type="hidden" value="주현택" id="textToSpeech">
 										<button type="button" class="button"
@@ -438,7 +525,7 @@
 														aria-controls="accordionOneCollapse1" class="collapsed">
 														<span class="icon icon-md icon-primary fa-tablet"></span>
 														&nbsp;&nbsp;휴대전화
-														<p>${selectedCard.mobile}</p>
+														<p>${myCard.mobile}</p>
 														<div class="panel-arrow"></div>
 													</a>
 												</div>
@@ -461,7 +548,7 @@
 														aria-controls="accordionOneCollapse2" class="collapsed">
 														<span class="icon icon-md icon-primary fa-envelope-o"></span>
 														&nbsp;&nbsp;이메일
-														<p>${selectedCard.email}</p>
+														<p>${myCard.email}</p>
 														<div class="panel-arrow"></div>
 													</a>
 												</div>
@@ -470,25 +557,25 @@
 												aria-labelledby="accordionOneHeading2"
 												class="panel-collapse collapse">
 												<div class="panel-body">
-													
-													<form name="sendForm" method="post">
-													
-													<label>보내는사람 : ${m_email}</label><br>
-													<input type="hidden" name="my_id" value="${m_email}">
-													<input type="text" placeholder="gmail 비밀번호" name="my_Password" width="100%"><br>
-													<input type="hidden" name="user" value="${selectedCard.email}">
-													<input type="text" placeholder="제목" name="title" width="100%"><br>
-													<textarea placeholder="내용" name="message" cols="60"  rows="10"></textarea>
-												
-												
-													<input type="button" value="보내기" onclick="return clickSendMail();">
-													<input type="reset">
+
+													<form action="sendMail" method="post">
+
+														<label>보내는사람 : ${m_email}</label><br> <input
+															type="hidden" name="my_id" value="${m_email}"> <input
+															type="text" placeholder="gmail 비밀번호" name="my_Password"
+															width="100%"><br> <input type="hidden"
+															name="user" value="${myCard.email}"> <input
+															type="text" placeholder="제목" name="title" width="100%"><br>
+														<textarea placeholder="내용" name="message" cols="60"
+															rows="10"></textarea>
+
+														<input type="submit" value="보내기">
 													</form>
-													
-													
-													
-													
-													
+
+
+
+
+
 												</div>
 											</div>
 										</div>
@@ -501,7 +588,7 @@
 														aria-controls="accordionOneCollapse3" class="collapsed">
 														<span class="icon icon-md icon-primary fa-phone"></span>
 														&nbsp;&nbsp;회사 전화
-														<p>${selectedCard.telephone}</p>
+														<p>${myCard.telephone}</p>
 														<div class="panel-arrow"></div>
 													</a>
 												</div>
@@ -522,7 +609,7 @@
 														data-parent="#accordionOne" href="#accordionOneCollapse4"
 														aria-controls="accordionOneCollapse4" class="collapsed">
 														<span class="icon icon-md icon-primary fa-fax"></span>&nbsp;&nbsp;&nbsp;팩스
-														<p>${selectedCard.fax}</p>
+														<p>${myCard.fax}</p>
 														<div class="panel-arrow"></div>
 													</a>
 												</div>
@@ -544,8 +631,8 @@
 														aria-controls="accordionOneCollapse5" class="collapsed">
 														<span class="icon icon-md icon-primary fa-map-marker"></span>&nbsp;&nbsp;&nbsp;회사
 														주소
-														<p>${selectedCard.address}</p> <input type="hidden"
-														id="address" value="${selectedCard.address}">
+														<p>${myCard.address}</p> <input type="hidden" id="address"
+														value="${myCard.address}">
 														<div class="panel-arrow"></div>
 													</a>
 												</div>
@@ -558,10 +645,12 @@
 												</div>
 											</div>
 										</div>
-										<div class="btn btn-primary-outline btn-shadow"
-											id="cardDelete">삭제</div>
 									</div>
+
+
 								</div>
+
+
 							</div>
 						</div>
 					</div>
