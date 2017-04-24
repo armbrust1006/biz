@@ -15,6 +15,16 @@
 	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
 <style>
+#formation {
+	position: relative;
+	left: 50%;
+}
+
+.formation td {
+	vertical-align: middle;
+	padding-left: 30%;
+}
+
 .makebutton {
 	position: relative;
 	background-color: #4982e5;
@@ -76,271 +86,373 @@
 	right: 0;
 }
 </style>
+
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
-<script type="text/javascript">
-	$("#makeRoomForm").on('show.bs.modal', function(event) {
-		var button = $(event.relatedTarget)
-		var modal = $(this)
-		modal.find('.modal-body input').val(recipient)
+<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script>
+	var emailflag = false;
+	var checknumflag = false;
+
+	$(document).ready(function() {
+
+		$('#userid').on('keyup', idcheck);
+		$('#m_email').on('keyup', emailcheck);
+		//처음 접근할때 text박스를 숨긴다.
+		$('#test').hide();
+
+		$('#userid').on('change', idcheck2);
+		$('#m_email').on('change', emailcheck2);
+	});
+
+	function idcheck2() {
+		var id2 = $('#userid').val();
+
+		if (id2.length == 0) {
+			$('#idcheck').text('');
+		}
+
+	}
+	function emailcheck2() {
+		var email2 = $('#m_email').val();
+
+		if (email2.length == 0) {
+			$('#emailcheck2').text('');
+		}
+	}
+
+	function idcheck() {
+		var id = $('#userid').val();
+		$.ajax({
+			url : 'idcheck',
+			type : 'POST',
+			data : {
+				id : id
+			},
+			dataType : 'text',
+			success : idsuccess
+		});
+	}
+
+	function idsuccess(text) {
+		var id = $('#userid').val();
+		if (text == '1') {
+			$('#idcheck').text('중복된 아이디가 존재합니다.');
+		} else if (text == '0') {
+			if (id.length == 0) {
+				$('#idcheck').text('');
+			} else {
+				$('#idcheck').text('이 아이디는 사용할 수 있습니다.');
+			}
+		}
+	}
+	function emailcheck() {
+		var email = $('#m_email').val();
+		$.ajax({
+			url : 'emailchecksss',
+			type : 'POST',
+			data : {
+				email : email
+			},
+			dataType : 'text',
+			success : emailsuccess
+		});
+	}
+
+	function emailsuccess(text) {
+		var email = $('#m_email').val();
+		if (text == '1') {
+			$('#emailcheck2').text('중복된 이메일입니다.');
+		} else if (text == '0') {
+			if (email.length == 0) {
+				$('#emailcheck2').text('');
+			} else {
+				$('#emailcheck2').text('이 이메일은 사용할 수 있습니다.');
+				emailflag = true;
+			}
+		}
+
+	};
+
+	function flag() {
+		$.ajax({
+			type : "post",
+			url : "checknum",
+
+			success : function(data) {
+				if (num == data) {
+					alert("인증에 성공하였습니다.");
+					checknumflag = true;
+
+					return true;
+				}
+
+				else {
+					alert("인증번호가 일치하지 않습니다.");
+					checknumflag = false;
+
+					return false;
+				}
+			},
+
+			error : function(e) {
+				console.log(e);
+			}
+		})
+	}
+
+	$(function() {
+		$("#checknumc").on("click", function() {
+			var email = $("#m_email").val();
+			var checkbutton = $("#checknumc").val();
+			var num = $("#checknum").val();
+
+			if (checkbutton == "메일인증") {
+				$.ajax({
+					type : "post",
+					url : "emailcheck",
+
+					data : {
+						user : email
+					},
+
+					success : function(data) {
+						if (emailflag == true) {
+							console.log("메일로 인증번호가 전송되었습니다.");
+							alert("메일로 인증번호가 발송되었습니다.");
+
+							document.getElementById("checknumc").value = "확인";
+							//text박스가 보여지게된다.
+							$('#test').show();
+						}
+
+						else {
+							alert("이메일 인증이 완료되지 않았습니다. 이메일 인증을 완료하세요");
+							return false;
+						}
+					},
+
+					error : function(e) {
+						console.log(e);
+					}
+				})
+
+			}
+
+			else {
+				//if (checkbutton == "인증번호 체크")
+				$.ajax({
+					type : "post",
+					url : "checknum",
+
+					success : function(data) {
+						if (num == data) {
+							alert("인증에 성공하였습니다.");
+							checknumflag = true;
+
+							return true;
+						}
+
+						else {
+							alert("인증번호가 일치하지 않습니다.");
+							checknumflag = false;
+
+							return false;
+						}
+					},
+
+					error : function(e) {
+						console.log(e);
+					}
+				})
+			}
+		})
 	})
+	function c_alert(output_msg, title_msg) {
+		if (!title_msg)
+			title_msg = 'Alert';
+		if (!output_msg)
+			output_msg = 'No Message to Display.';
+		$("<div></div>").html(output_msg).dialog({
+			title : title_msg,
+			resizable : false,
+			modal : true,
+			buttons : {
+				"Ok" : function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+	}
+	function c_alert(output_msg) {
+		$('#modal-body').html(output_msg);
+		$('#myModal').modal({
+			backdrop : true,
+			keyboard : true,
+			show : true
+		});
+	}
+
+	function modalCheck() {
+		var id = document.getElementById('userid');
+		var password = document.getElementById('m_password');
+		var email = document.getElementById('m_email');
+		var name = document.getElementById('m_name');
+
+		if (id.value.length == 0 || password.value.length == 0
+				|| email.value.length == 0 || name.value.length == 0
+				|| checknumflag == false) {
+
+			$('#myModal').modal({
+				backdrop : true,
+				keyboard : true,
+				show : true
+			});
+			return false;
+		} else {
+			alert('완료');
+			location.href = "login";
+
+		}
+
+	}
 </script>
 </head>
 <body>
-	<!-- 공유 modal -->
-	<div class="modal fade" id="makeRoomForm" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="myModal">
+
 		<div class="modal-dialog">
-			<div class="modal-content">
+			<div class="modal-content" style="margin-top: 30%">
 				<div class="modal-header">
-					<form method="post" action="makeRoom">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h4 class="modal-title" id="exampleModalLabel">명함첩 만들기</h4>
-						<h6 class="modal-title">공유할 명함방 이름을 작성하세요.</h6>
-						<input type="text" class="form-control" id="memo-title"
-							name="book_name" placeholder="이름을 입력하세요."> <input
-							type="button" class="btn btn-primary-outline btn-shadow"
-							data-dismiss="modal" value="취소"> <input type="submit"
-							class="btn btn-primary btn-shadow" id="writeMemo" value="만들기">
-					</form>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Modal Header</h4>
+				</div>
+				<div class="modal-body" id="modal-body">정확하게 입력해주세요.</div>
+				<div class="modal-footer">
+					<div class="group-lg group-middle group-sm offset-top-30">
+						<button type="button" class="btn btn-default btn-sm"
+							data-dismiss="modal">닫기</button>
+					</div>
 				</div>
 			</div>
+			<!-- modal-content -->
 		</div>
+		<!-- modal-dialog -->
 	</div>
 	<!-- modal 끝 -->
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
-		<section class="section-60 section-sm-90 section-lg-bottom-15">
+		<section class="section-66 section-sm-90 section-lg-bottom-120">
 			<div class="shell">
-				<div class="range range-lg-center">
-					<div class="cell-sm-6 cell-md-6 cell-lg-8 ">
-						<h3>Create New Room</h3>
-						<p>공유 명함첩을 개설하여 사람들과 명함을 공유하세요.</p>
-					</div>
-					<div
-						class="cell-sm-5 cell-md-4 cell-lg-3 cell-lg-preffix-1 offset-top-40 offset-sm-top-0">
-						<!-- <input type="button" class="btn btn-primary btn-block"
-						onclick="makeRoomForm()" value="명함첩 만들기"> -->
+				<h3 class="text-center">회원정보 수정</h3>
+				<div class="range offset-top-20	">
+					<div class="cell-sm-6 offset-top-20 offset-sm-top-0">
 
-						<!-- 모달버튼 -->
-						<button type="button" class="makebutton"
-							style="vertical-align: middle" data-toggle="modal"
-							data-target="#makeRoomForm" data-whatever="@mdo"
-							id="showShareRoom">
-							<span>명함첩 만들기</span>
-						</button>
-						<!-- 모달버튼 -->
+						<div class=center>
+							<div class="inset-lg-left-60 inset-lg-right-60" id="formation">
+								<blockquote class="quote-bordered">
+									<div class="quote-body">
+										<div class="quote-open">
+											<svg version="1.1" baseprofile="tiny"
+												xmlns="https://www.w3.org/2000/svg"
+												xmlns:xlink="https://www.w3.org/1999/xlink" width="37px"
+												height="27px" viewbox="0 0 21 15" preserveAspectRatio="none">
+                      <path
+													d="M9.597,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.349,1.316                    c-1.287,0-2.414-0.44-3.382-1.316C0.482,12.811,0,11.758,0,10.535c0-1.226,0.58-2.716,1.739-4.473L5.603,0H9.34L6.956,6.37                    C8.716,7.145,9.597,8.493,9.597,10.412z M20.987,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.35,1.316                    c-1.288,0-2.415-0.44-3.381-1.316c-0.966-0.879-1.45-1.931-1.45-3.154c0-1.226,0.582-2.716,1.74-4.473L16.994,0h3.734l-2.382,6.37                    C20.106,7.145,20.987,8.493,20.987,10.412z"></path>
+                    </svg>
+										</div>
+										<div class="quote-body-inner">
+
+											<form
+												class="rd-mailform form-modern form-darker offset-top-20"
+												action="register" method="POST">
+												<table class="table table-primary">
+													<thead>
+														<tr>
+															<th>ID</th>
+															<td><div class="form-group">
+																	<input id="userid" type="text" name="m_id"
+																		value="${member.m_id }"
+																		class="form-control form-control-has-validation" "readonly">
+																	<span id="idcheck" style="color: red"></span> <label
+																		for="userid" class="form-validation"></label>
+																</div></td>
+														</tr>
+														<tr>
+															<th>Password</th>
+															<td><div class="form-group offset-top-22">
+																	<input id="m_password" type="password"
+																		name="m_password" value="${member.m_password }"
+																		class="form-control form-control-has-validation">
+																	<label for="m_password" class="form-label"></label> <span
+																		id="pass" style="color: red"></span> <span
+																		class="form-validation"></span>
+																</div></td>
+														</tr>
+														<tr>
+															<th>Email</th>
+															<td><div class="form-group offset-top-10">
+																	<input id="m_email" type="email" name="m_email"
+																		value="${member.m_email }" class="form-control">
+																	<label for="m_email" class="form-label"></label> <span
+																		id="emailcheck2" style="color: red"> </span> <span
+																		class="form-validation"></span>
+																	<!-- 메일 인증버튼 누르면 화면이 바뀌고, 줄도 변경되어서 조금 깔끔하게 나옴 -->
+																	<!-- style="float: middle; margin-top:15px" -->
+																</div>
+																<div id="test2" class="form-group ofset-top-22">
+																	<div class="form-group" id="test">
+																		<input id="checknum" type="text" name="checknum"
+																			class="form-control" placeholder="메일로 전송된 인증번호 입력">
+																		<span class="form-validation"></span> <label
+																			class="form-label rd-input-label" for="checknum"></label>
+																	</div>
+																	<input type="button" id="checknumc" name="checknumc"
+																		value="메일인증" class="btn btn-info btn-shadow btn-xs">
+																</div></td>
+														</tr>
+														<tr>
+															<th>Name</th>
+															<td>
+																<div class="form-group offset-top-22">
+																	<input id="m_name" type="text" name="m_name"
+																		value="${member.m_name }" class="form-control">
+																	<span id="namecheck" style="color: red"></span> <span
+																		class="form-validation"></span>
+																</div>
+															</td>
+														</tr>
+														<tr>
+															<td colspan="2">
+																<div class="offset-top-30 offset-sm-top-40">
+																	<input type="hidden" id="_chk_id" name="chk_Id"
+																		value="0">
+																	<button type="submit" class="btn btn-primary btn-block"
+																		onclick="return modalCheck();">Modify</button>
+
+
+																</div>
+															</td>
+														</tr>
+													</thead>
+												</table>
+
+											</form>
+
+										</div>
+									</div>
+							</blockquote>
+							</div>
+						</div>
+
 
 
 					</div>
 				</div>
 			</div>
 		</section>
-
-		<%-- <section
-			class="bg-decoration-wrap bg-decoration-bottom section-bottom-60 section-lg-top-100 section-lg-bottom-100 bg-whisper">
-			<div class="shell bg-decoration-content">
-				<div class="range range-sm-center">
-					<div class="cell-md-10 cell-lg-12">
-						<div class="range range-sm-bottom">
-
-							<c:forEach var="card" items="${CardBooks}">
-								<div class="cell-sm-6 cell-lg-3" style="margin-bottom: 40px">
-									<div class="pricing-table">
-										<div class="pricing-table-label">
-											<p>${card.grade}</p>
-										</div>
-										<div class="pricing-table-body">
-											<h5 class="pricing-table-header">
-												<span>${card.book_name}</span>
-											</h5>
-											<div class="pricing-object pricing-object-lg">
-												<span class="small small-top">명함</span><span class="price">0</span><span
-													class="small small-bottom">개</span>
-											</div>
-											<div class="divider-circle"></div>
-											<ul class="pricing-list">
-												<li>개설날짜| <span class="text-ubold">칼럼추가필요</span></li>
-												<li>개설자| <span class="text-ubold">${card.room_host}&nbsp님</span></li>
-												<li>구성원| <span class="text-ubold">${card.memberCount}&nbsp명</span></li>
-											</ul>
-										</div>
-										<div class="pricing-table-footer">
-											<a href="selectOneRoom?book_num=${card.book_num}"
-												class="btn btn-round-bottom btn-default btn-block">입장하기</a>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section> --%>
-
-
-		<section
-			class="section-60 section-sm-90 section-md-bottom-120 bg-gray-dark">
-			
-						<div class="shell">
-				<div class="range range-lg-center">
-					<div class="cell-sm-6 cell-md-6 cell-lg-8 ">
-						<h3>Create New Room</h3>
-						<p>공유 명함첩을 개설하여 사람들과 명함을 공유하세요.</p>
-					</div>
-					<div
-						class="cell-sm-5 cell-md-4 cell-lg-3 cell-lg-preffix-1 offset-top-40 offset-sm-top-0">
-						<!-- <input type="button" class="btn btn-primary btn-block"
-						onclick="makeRoomForm()" value="명함첩 만들기"> -->
-
-						<!-- 모달버튼 -->
-						<button type="button" class="makebutton"
-							style="vertical-align: middle" data-toggle="modal"
-							data-target="#makeRoomForm" data-whatever="@mdo"
-							id="showShareRoom">
-							<span>명함첩 만들기</span>
-						</button>
-						<!-- 모달버튼 -->
-
-
-					</div>
-				</div>
-			</div>
-			
-			<div class="shell text-center">
-				<h3>What Clients Say?</h3>
-				<div class="range range-xs-center range-sm-left offset-top-40">
-					<div class="cell-md-10 cell-lg-12">
-						<div class="range range-sm-bottom">
-
-							<c:forEach var="card" items="${CardBooks}">
-								<div class="cell-sm-6 cell-lg-6" style="margin-bottom: 40px">
-									<div class="pricing-table">
-										<div class="pricing-table-label">
-											<p>${card.grade}</p>
-										</div>
-										<div class="pricing-table-body">
-											<h5 class="pricing-table-header">
-												<span>${card.book_name}</span>
-											</h5>
-											<div class="pricing-object pricing-object-lg">
-												<span class="small small-top">명함</span><span class="price">0</span><span
-													class="small small-bottom">개</span>
-											</div>
-											<div class="divider-circle"></div>
-											<ul class="pricing-list">
-												<li>개설날짜| <span class="text-ubold">칼럼추가필요</span></li>
-												<li>개설자| <span class="text-ubold">${card.room_host}&nbsp님</span></li>
-												<li>구성원| <span class="text-ubold">${card.memberCount}&nbsp명</span></li>
-											</ul>
-										</div>
-										<div class="pricing-table-footer">
-											<a href="selectOneRoom?book_num=${card.book_num}"
-												class="btn btn-round-bottom btn-default btn-block">입장하기</a>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-					</div>
-
-
-
-					<%--             <blockquote class="quote-vertical quote-vertical-inverse">
-              <div class="quote-body">
-                <div class="quote-open">
-                  <svg version="1.1" baseprofile="tiny" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="12px" viewbox="0 0 21 15" overflow="scroll" xml:space="preserve" preserveAspectRatio="none">
-                    <path d="M9.597,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.349,1.316                  c-1.287,0-2.414-0.44-3.382-1.316C0.482,12.811,0,11.758,0,10.535c0-1.226,0.58-2.716,1.739-4.473L5.603,0H9.34L6.956,6.37                  C8.716,7.145,9.597,8.493,9.597,10.412z M20.987,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.35,1.316                  c-1.288,0-2.415-0.44-3.381-1.316c-0.966-0.879-1.45-1.931-1.45-3.154c0-1.226,0.582-2.716,1.74-4.473L16.994,0h3.734l-2.382,6.37                  C20.106,7.145,20.987,8.493,20.987,10.412z"></path>
-                  </svg>
-                </div>
-                <p class="quote-text"> <q>The one thing I am sure about right now is that my next web startup will be developed by Starbis.</q> </p>
-              </div>
-              <div class="quote-meta">
-                <figure class="quote-image"><img src="images/113x113.png" alt="" width="113" height="113"/> </figure>
-                <cite>Axel Merphy</cite>
-                <p class="caption">Freelance developer</p>
-              </div>
-            </blockquote> --%>
-				</div>
-				<%--           <div class="cell-sm-4 offset-top-60 offset-sm-top-0">
-            <blockquote class="quote-vertical quote-vertical-inverse">
-              <div class="quote-body">
-                <div class="quote-open">
-                  <svg version="1.1" baseprofile="tiny" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="12px" viewbox="0 0 21 15" overflow="scroll" xml:space="preserve" preserveAspectRatio="none">
-                    <path d="M9.597,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.349,1.316                  c-1.287,0-2.414-0.44-3.382-1.316C0.482,12.811,0,11.758,0,10.535c0-1.226,0.58-2.716,1.739-4.473L5.603,0H9.34L6.956,6.37                  C8.716,7.145,9.597,8.493,9.597,10.412z M20.987,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.35,1.316                  c-1.288,0-2.415-0.44-3.381-1.316c-0.966-0.879-1.45-1.931-1.45-3.154c0-1.226,0.582-2.716,1.74-4.473L16.994,0h3.734l-2.382,6.37                  C20.106,7.145,20.987,8.493,20.987,10.412z"></path>
-                  </svg>
-                </div>
-                <p class="quote-text"> <q>Theyve developed a large multipage website with lots of additional functions in just two weeks.</q> </p>
-              </div>
-              <div class="quote-meta">
-                <figure class="quote-image"><img src="images/113x113.png" alt="" width="113" height="113"/> </figure>
-                <cite>Amelia Lee</cite>
-                <p class="caption">Sales, demolink.org</p>
-              </div>
-            </blockquote>
-          </div> --%>
-				<%--           <div class="cell-sm-4 offset-top-60 offset-sm-top-0">
-            <blockquote class="quote-vertical quote-vertical-inverse">
-              <div class="quote-body">
-                <div class="quote-open">
-                  <svg version="1.1" baseprofile="tiny" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="12px" viewbox="0 0 21 15" overflow="scroll" xml:space="preserve" preserveAspectRatio="none">
-                    <path d="M9.597,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.349,1.316                  c-1.287,0-2.414-0.44-3.382-1.316C0.482,12.811,0,11.758,0,10.535c0-1.226,0.58-2.716,1.739-4.473L5.603,0H9.34L6.956,6.37                  C8.716,7.145,9.597,8.493,9.597,10.412z M20.987,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.35,1.316                  c-1.288,0-2.415-0.44-3.381-1.316c-0.966-0.879-1.45-1.931-1.45-3.154c0-1.226,0.582-2.716,1.74-4.473L16.994,0h3.734l-2.382,6.37                  C20.106,7.145,20.987,8.493,20.987,10.412z"></path>
-                  </svg>
-                </div>
-                <p class="quote-text"> <q>Im extremely satisfied with their work. My new website looks great and runs smoothly. The support is excellent too.</q> </p>
-              </div>
-              <div class="quote-meta">
-                <figure class="quote-image"><img src="images/113x113.png" alt="" width="113" height="113"/> </figure>
-                <cite>Jack McGee</cite>
-                <p class="caption">Founder, The Therapy</p>
-              </div>
-            </blockquote>
-          </div> --%>
-			</div>
-	</div>
-	</section>
-
-
-	<!-- 이 폼을 써 보는건 어떨까 -->
-	<!-- <section class="section-66 section-sm-90 bg-gray-light">
-      <div class="shell">
-        <h4>내가 개설한 공유방 목록</h4>
-        <p style="max-width: 440px;">Can't find the job you want? Send your resume to <a class="__cf_email__" href="" data-cfemail="93fafdf5fcd3f7f6fefcfffafdf8bdfce1f4">philip@gmail.com</a>, and we'll contact you when a new position opens.</p>
-        <div class="range">
-         
-          <div class="cell-sm-6"><a href="#" class="block-vacation">
-            <h5>1</h5>
-            <div class="block-meta">
-              <ul class="list-objects-inline">
-                <li><span class="icon icon-xs-smaller icon-primary material-icons-location_on"></span><span>London</span></li>
-                <li><span class="icon icon-xs-smaller icon-primary material-icons-av_timer"></span><span>Full Time</span></li>
-                <li><span class="icon icon-xs-smaller icon-primary mdi mdi-calendar"></span>
-                  <time datetime="2016-01-01">6 hours ago</time>
-                </li>
-              </ul>
-            </div>
-            </a> </div>
-          <div class="cell-sm-6 offset-top-30 offset-sm-top-0"><a href="#" class="block-vacation">
-            <h5>2</h5>
-            <div class="block-meta">
-              <ul class="list-objects-inline">
-                <li><span class="icon icon-xs-smaller icon-primary material-icons-location_on"></span><span>Athlanta</span></li>
-                <li><span class="icon icon-xs-smaller icon-primary material-icons-av_timer"></span><span>Freelance</span></li>
-                <li><span class="icon icon-xs-smaller icon-primary mdi mdi-calendar"></span>
-                  <time datetime="2016-01-01">3 day ago</time>
-                </li>
-              </ul>
-            </div>
-            </a> </div>
-        </div>
-      </div>
- </section> -->
-	<!-- 추천 폼 끝 -->
-	</main>
-	<%@include file="../modules/footer.jsp"%>
+		</main>
+		<%@include file="../modules/footer.jsp"%>
 	</div>
 	<%@include file="../modules/form-output-global.jsp"%>
 	<script src="js/core.min.js"></script>

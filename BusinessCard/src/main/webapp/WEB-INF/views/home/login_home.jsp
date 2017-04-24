@@ -28,7 +28,7 @@
                     <p data-caption-animate="fadeInUp" data-caption-delay="100" class="text-bigger slider-text">아직 명함을 등록하지 않으셨다구요?<br> 지금 명함을 등록하시면 더 많은 편리한 기능을 사용할 수 있답니다! </p>
                     <div class="group-xl-responsive offset-top-30 offset-sm-top-45">
                     <!-- <a data-caption-animate="fadeInUp" data-caption-delay="250" href="#" data-custom-scroll-to="section-start-journey" class="btn btn-xl btn-white-outline-variant-1">Start a journey</a> -->
-                    <a data-caption-animate="fadeInUp" data-caption-delay="250" href="selectCardType" class="btn btn-xl btn-primary-contrast">내 명함 등록하러 가기</a></div>
+                    <a data-caption-animate="fadeInUp" data-caption-delay="250" href="selectCardType?type=my" class="btn btn-xl btn-primary-contrast">내 명함 등록하러 가기</a></div>
                   </div>
                 </div>
               </div>

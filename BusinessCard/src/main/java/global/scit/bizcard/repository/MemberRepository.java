@@ -90,4 +90,20 @@ public class MemberRepository {
 			return email;
 		}
 
+		public int updateM(Member member)
+		{
+			MemberDAO mdao = sqlSession.getMapper(MemberDAO.class);
+			int result = 0;
+			try {
+				result = mdao.updateM(member);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return result;
+		}
+
+
+	  
+	  
 }

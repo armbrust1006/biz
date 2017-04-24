@@ -1,6 +1,5 @@
 package global.scit.bizcard.util;
 
-import java.io.UnsupportedEncodingException;
 /*import java.net.Authenticator;*/
 import java.util.Date;
 import java.util.Properties;
@@ -21,14 +20,15 @@ public class SendMail { // 클래스 이름이랑 생성자 이름 맞추면 됩
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	private String my_id;//보내는 사람
-	private String my_Password;//패스워드
 
-	
+	private String my_id;// 보내는 사람
+	private String my_Password;// 패스워드
+
 	private String user; // 받을 사람
 	private String title; // 제목
 	private String message;// 내용
-	
+
+	private static int result=0;
 
 	@Override
 	public String toString() {
@@ -79,9 +79,9 @@ public class SendMail { // 클래스 이름이랑 생성자 이름 맞추면 됩
 	public SendMail(String my_id, String my_Password, String user, String title, String message) {
 		this.my_id = my_id;
 		this.my_Password = my_Password;
-		
+
 		this.user = user;
-		this.title = title; 
+		this.title = title;
 		this.message = message; // 안쓰고
 
 		Properties p = System.getProperties();
@@ -125,13 +125,14 @@ public class SendMail { // 클래스 이름이랑 생성자 이름 맞추면 됩
 
 		} catch (AddressException addr_e) {
 			System.out.println("주소가 틀립니다");
+			addr_e.printStackTrace();
+			result = 1;
 		} catch (MessagingException msg_e) {
+			System.out.println("메세지가 이상함");
+			msg_e.printStackTrace();
+			result = 2;
 		}
-
-
 	}
-
-	
 
 	class MyAuthentication extends Authenticator {
 
@@ -139,28 +140,22 @@ public class SendMail { // 클래스 이름이랑 생성자 이름 맞추면 됩
 
 		public MyAuthentication() {
 
-			String id = my_id;//구글 ID
-            String pw = my_Password;//구글 비밀번호 
+			String id = my_id;// 구글 ID
+			String pw = my_Password;// 구글 비밀번호
 
 			// ID와 비밀번호를 입력한다.
-				pa = new PasswordAuthentication(id, pw);
+			pa = new PasswordAuthentication(id, pw);
 		}
 
 		// 시스템에서 사용하는 인증정보
 		public PasswordAuthentication getPasswordAuthentication() {
-		System.out.println(pa.toString());
 			return pa;
 		}
 	}
 
-	public String sendResult(String my_id, String my_Password, String user, String title, String message) {
-		String result = "실패";
-		try {
-			new SendMail(my_id,  my_Password,  user,  title,  message);
-			result= "전송 성공";
-		} catch (Exception e) {
-			result = "전송 실패";
-		}
-		return result;
+	public static int sendResult(String my_id, String my_Password, String user, String title, String message) {
+			SendMail sm = new SendMail(my_id, my_Password, user, title, message);
+			System.out.println("만든 메일객체" + sm);
+			return result;
 	}
 }

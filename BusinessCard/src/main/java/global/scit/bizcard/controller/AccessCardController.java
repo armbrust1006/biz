@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -38,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import global.scit.bizcard.repository.CardImageRepository;
 import global.scit.bizcard.repository.CardRepository;
+import global.scit.bizcard.repository.MemberRepository;
 import global.scit.bizcard.util.FileService;
 import global.scit.bizcard.util.ImageService;
 import global.scit.bizcard.util.Tess4J;

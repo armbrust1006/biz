@@ -13,15 +13,23 @@
 	</insert>
 	
 	<select id="idCheck" resultType="Member" parameterType="string">
-      select * from member where M_id = #{id}
+      select * from member where M_id = #{m_id}
    </select>
 
 	<select id="emailCheck" resultType="Member" parameterType="string">
-      select * from member where M_email = #{email}
+      select * from member where M_email = #{m_email}
    </select>
 	
 	<select id="getEmail" resultType="string" parameterType="string">
       select m_email from member where m_id = #{m_id}
 	</select>
+	   <update id="updateM" parameterType="Member">
+		update member set 
+			m_password=#{m_password},
+			m_email = #{m_email},m_name = #{m_name}
+			where m_id = #{m_id}
+</update>
+	
+	
 </mapper>
 
