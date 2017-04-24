@@ -107,59 +107,17 @@
 		<section class="section-30 section-sm-100 section-lg-100">
 			<div class="shell">
 				<div class="range range-sm-center range-md-left">
-
-					<%--  <c:forEach begin="0" end="4" step="1" var="type">
-          <div class="cell-sm-9 cell-md-6 height-fill offset-top-30">
-            <article class="post-block">
-                      <a href="registerMyCard?type=${type}"><div class="post-image"><img src="images/570x253.jpg" alt="" width="570" height="253"/> </div></a>
-                <h4 class="post-header">Card Type-${type}</h4>
-                    <ul class="list-tags-inline">
-                    </ul>
-            </article>
-          </div>
-          </c:forEach> --%>
-
-					<c:forEach begin="0" end="6" step="1" var="type">
+					<c:forEach begin="0" end="6" step="1" var="layout">
 						<div class="cell-sm-9 cell-md-6 height-fill offset-top-30">
 							<div class="view fifth-effect">
-								<a href="registerMyCard?type=${type}" title="${type}-Image"><img
-									src="images/cardTypeEx/type${type}.png" alt="4" width="562"
+								<a href="selectCardLayout?layout_num=${layout}"
+									title="${layout}-Image"><img
+									src="images/cardTypeEx/layout${layout}.png" alt="4" width="562"
 									height="282" /></a>
 								<div class="mask" id="type1"></div>
 							</div>
 						</div>
 					</c:forEach>
-
-
-
-
-					<!-- <div class="cell-sm-9 cell-md-6 height-fill offset-top-30 offset-md-top-0">
-             <article class="post-block">
-                      <a href="registerMyCard?type=2"><div class="post-image"><img src="images/570x253.jpg" alt="" width="570" height="253"/> </div></a>
-                <h4 class="post-header">Card Type-2</h4>
-                    <ul class="list-tags-inline">
-                    </ul>
-            </article>
-          </div>
-          
-          <div class="cell-sm-9 cell-md-6 height-fill offset-top-30">
-             <article class="post-block">
-                      <a href="registerMyCard?type=3"><div class="post-image"><img src="images/570x253.jpg" alt="" width="570" height="253"/> </div></a>
-                <h4 class="post-header">Card Type-3</h4>
-                    <ul class="list-tags-inline">
-                    </ul>
-            </article>
-          </div>
-          
-          <div class="cell-sm-9 cell-md-6 height-fill offset-top-30">
-            <article class="post-block">
-                      <a href="registerMyCard?type=4"><div class="post-image"><img src="images/570x253.jpg" alt="" width="570" height="253"/> </div></a>
-                <h4 class="post-header">Card Type-4</h4>
-                    <ul class="list-tags-inline">
-                    </ul>
-            </article>
-          </div> -->
-
 				</div>
 			</div>
 		</section>

@@ -62,7 +62,7 @@
                   <li><a href="login_home">Home</a> </li>
                   <li class="active"><a>MYPAGE</a>
                         <ul class="rd-navbar-dropdown" for="mypage">
-                          <li><a href="selectCardType">내 명함 등록</a></li>
+                          <li><a href="selectCardType?type=my">내 명함 등록</a></li>
                           <li><a href="myCard">내 명함 관리</a></li>
                           <li><a href="myPage">내 정보 관리</a></li>
                           <li><a href="mySchedule">내 일정 관리</a></li> <!-- 캘린더API구현 위치 -->
@@ -71,7 +71,7 @@
                   <li><a href="#">보유명함첩</a>
                     <ul class="rd-navbar-dropdown">
                     	<li><a href="searchCard">명함 검색</a> </li> <!-- 명함 검색 -->
-                    	<li><a href="selectOthersCardTypes">타인 명함 등록</a> </li> <!-- 명함 검색 -->
+                    	<li><a href="selectCardType">타인 명함 등록</a> </li> <!-- 명함 검색 -->
                       	<li><a href="myCardList">보유 명함 목록</a> </li> <!-- 갤러리 형식으로 명함을 나열해서 보여만 주는 간단한 sort기능만 구현 -->
                       	<li><a href="#">명함 목록 관리</a> </li> <!-- 실제로 명함 등록, 수정, 삭제하고 리스트에 기본으로 나타낼 sorting기준 등 수정가능. -->
                     </ul>

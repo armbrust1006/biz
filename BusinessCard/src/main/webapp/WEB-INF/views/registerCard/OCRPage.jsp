@@ -77,7 +77,10 @@
 							data-form-type="order" enctype="multipart/form-data">
 							<div class="filebox">
 								<input type="hidden" id="m_id" name="m_id" value="${m_id}">
-								<input type="hidden" id="cardType" name="cardType" value="other">
+								<input type="hidden" id="cardType" name="cardType"
+									value="${cardType}">
+								<input type="hidden" id="layout_num" name="layout_num"
+									value="${layout_num}">
 								<!--항목  -->
 
 								<div class="cell-sm-3 offset-top-20">
@@ -95,9 +98,9 @@
 											<span>Choose a file…</span></label> <br /> <br />
 										<div id="selLan" style="font-size: 20px">
 											<label>Language :</label> <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-											<input type="radio" name="language" value="eng+kor" id="language"
-												checked="checked" style="cursor: pointer"> <label
-												for="kor" style="cursor: pointer">KOR</label>&nbsp;&nbsp;&nbsp;
+											<input type="radio" name="language" value="eng+kor"
+												id="language" checked="checked" style="cursor: pointer">
+											<label for="kor" style="cursor: pointer">KOR</label>&nbsp;&nbsp;&nbsp;
 											<input type="radio" name="language" value="eng" id="language"
 												style="cursor: pointer"> <label for="eng"
 												style="cursor: pointer">ENG</label>&nbsp;&nbsp;&nbsp; <input

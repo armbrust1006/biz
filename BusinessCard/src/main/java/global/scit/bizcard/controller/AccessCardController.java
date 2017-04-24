@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -33,17 +34,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import global.scit.bizcard.repository.CardImageRepository;
 import global.scit.bizcard.repository.CardRepository;
-import global.scit.bizcard.repository.SharingRepository;
 import global.scit.bizcard.util.FileService;
 import global.scit.bizcard.util.ImageService;
 import global.scit.bizcard.util.Tess4J;
 import global.scit.bizcard.vo.Card;
-import global.scit.bizcard.vo.CardBooks;
 import global.scit.bizcard.vo.CardImage;
 
 @Controller
@@ -62,36 +60,48 @@ public class AccessCardController {
 	final String getPathOCR = "C:\\CardImageFile\\OCR\\";
 
 	/**
-	 * 카드 생성 및 데이터 저장
+	 * 카드 생성 타입 결정
 	 * 
-	 * @param card
-	 * @param logo
-	 * @return 보유 카드 목록으로 이동
+	 * @param session
+	 * @param type
+	 * @param model
+	 * @return
 	 */
-
-	@RequestMapping(value = "/saveCardData", method = RequestMethod.POST)
-	public String saveCard(Card card, MultipartFile logo, HttpSession session) {
-		String m_id = String.valueOf(session.getAttribute("m_id"));
-		int cardnum = cardImageRepository.getImageNumber(m_id);
-		card.setCardNum(cardnum);
-
-		if (!logo.isEmpty()) {
-			String savedFile = FileService.saveFile(logo, uploadPathLogo);
-			card.setLogoImg(savedFile);
+	@RequestMapping(value = "/selectCardType", method = RequestMethod.GET)
+	public String myCard(HttpSession session, @RequestParam(value = "type", defaultValue = "others") String type,
+			Model model) {
+		if (type.equalsIgnoreCase("my")) {
+			if (cardImageRepository.myCardExist(String.valueOf(session.getAttribute("m_id"))) != null) {
+				model.addAttribute("error", "이미 명함을 갖고 계십니다.");
+			} else {
+				session.setAttribute("cardType", "my");
+			}
 		} else {
-			card.setLogoImg("");
+			session.setAttribute("cardType", "others");
 		}
-		cardRepository.insertCard(card);
+		return "registerCard/selectCardType";
+	}
 
-		if (card.getCardType().equalsIgnoreCase("my")) {
-			return "login_home";
+	/**
+	 * 카드 레이아웃 선택
+	 * 
+	 * @param type
+	 * @return
+	 */
+	@RequestMapping(value = "/selectCardLayout", method = RequestMethod.GET)
+	public String registerMyCard(HttpSession session, int layout_num, Model model) {
+		if (session.getAttribute("cardType") == null) {
+			return "home/login_home";
+		}
+		model.addAttribute("cardType", session.getAttribute("cardType"));
+		model.addAttribute("layout_num", layout_num);
+		session.removeAttribute("cardType");
+		if (layout_num == 0) {
+			return "registerCard/OCRPage";
+		} else if (layout_num == 1) {
+			return "registerCard/DragAndDrop";
 		} else {
-			CardImage cardImage = new CardImage();
-			cardImage.setM_id(m_id);
-			cardImage.setCardNum(cardnum);
-			logger.info(cardImage.toString());
-			cardImageRepository.setMyCardList(cardImage);
-			return "possCards/myPossCardList";
+			return "registerCard/CardLayout";
 		}
 	}
 
@@ -119,6 +129,42 @@ public class AccessCardController {
 	}
 
 	/**
+	 * 카드 생성 및 데이터 저장
+	 * 
+	 * @param card
+	 * @param logo
+	 * @return 보유 카드 목록으로 이동
+	 */
+	@RequestMapping(value = "/saveCardData", method = RequestMethod.POST)
+	public String saveCard(Card card, MultipartFile logo, HttpSession session) {
+		String m_id = String.valueOf(card.getM_id());
+		int cardnum = cardImageRepository.getImageNumber(m_id);
+		card.setCardNum(cardnum);
+
+		if (!logo.isEmpty()) {
+			card.setImgOriginal(logo.getOriginalFilename());
+			String savedFile = FileService.saveFile(logo, uploadPathLogo);
+			card.setLogoImg(savedFile);
+		} else {
+			card.setLogoImg("");
+			card.setImgOriginal("");
+		}
+		cardRepository.insertCard(card);
+
+		session.removeAttribute("type");
+		String type = card.getCardType();
+		if (type.equalsIgnoreCase("my")) {
+			return "home/login_home";
+		} else {
+			CardImage cardImage = new CardImage();
+			cardImage.setM_id(m_id);
+			cardImage.setCardNum(cardnum);
+			cardImageRepository.setMyCardList(cardImage);
+			return "possCards/myPossCardList";
+		}
+	}
+
+	/**
 	 * OCR 이미지 스캔
 	 * 
 	 * @param language
@@ -127,7 +173,32 @@ public class AccessCardController {
 	 * @return
 	 */
 	@RequestMapping(value = "/imageScan", method = RequestMethod.POST)
-	public String ocrScan(String language, MultipartFile file, Model model) {
+	public String ocrScan(Card card, MultipartFile file, Model model) {
+		if (file != null && card != null) {
+			String fileName = file.getOriginalFilename();
+			String savedFile = FileService.saveFile(file, uploadPathOCR);
+			Tess4J tess4j = new Tess4J();
+			String result = tess4j.getTess4J(getPathOCR + savedFile, card.getLanguage());
+
+			/* maching */
+			card.setLayout_num(card.getLayout_num());
+			card.setImagePath(savedFile);
+			model.addAttribute("card", card);
+			model.addAttribute("result", result);
+		}
+		return "registerCard/OCRResult";
+	}
+
+	/**
+	 * OCR 이미지 스캔
+	 * 
+	 * @param language
+	 * @param file
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/ocrImageSave", method = RequestMethod.POST)
+	public String ocrSave(String language, MultipartFile file, Model model) {
 		if (!file.isEmpty() && !language.isEmpty()) {
 			String savedFile = FileService.saveFile(file, uploadPathOCR);
 			Tess4J tess4j = new Tess4J();
@@ -138,7 +209,7 @@ public class AccessCardController {
 			model.addAttribute("file", savedFile);
 			model.addAttribute("result", result);
 		}
-		return "myPage/OCRResult";
+		return "registerCard/OCRResult";
 	}
 
 	/**
@@ -164,7 +235,6 @@ public class AccessCardController {
 	 */
 	@RequestMapping(value = "/searchCard", method = RequestMethod.GET)
 	public String cardSearchs(String select, String search, Model model) {
-		logger.info("search : " + search + ", select : " + select);
 		Map<String, Object> searchMap = new HashMap<>();
 		ArrayList<Card> list = new ArrayList<>();
 		if (select != null || search != null) {
@@ -172,7 +242,6 @@ public class AccessCardController {
 			searchMap.put("search", search);
 		}
 		list = (ArrayList<Card>) cardRepository.searchCards(searchMap);
-		logger.info(list.toString());
 		model.addAttribute("list", list);
 		return "possCards/cardSearch";
 	}
@@ -188,17 +257,123 @@ public class AccessCardController {
 	public @ResponseBody ArrayList<Card> myCardListSort(HttpSession session,
 			@RequestParam(value = "sort", defaultValue = "date") String sort) {
 		String loginID = (String) session.getAttribute("m_id");
-		System.out.println(sort);
 		ArrayList<Card> list = new ArrayList<>();
 		if (loginID != null) {
 			Map<String, Object> sortMap = new HashMap<>();
 			sortMap.put("m_id", loginID);
 			sortMap.put("sort", sort);
 			list = (ArrayList<Card>) cardRepository.myCardListData(sortMap);
-			System.out.println(sortMap.toString() + "map");
-			System.out.println(list.toString() + "안녕안녕");
 		}
 		return list;
+	}
+
+	/**
+	 * update target data get
+	 * 
+	 * @param session
+	 * @param cardnum
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/myCardUpdate", method = RequestMethod.POST)
+	public String myCardUpdate(HttpSession session, int cardNum, Model model) {
+		Card searchCard = new Card();
+		searchCard.setM_id(String.valueOf(session.getAttribute("m_id")));
+		searchCard.setCardNum(cardNum);
+		Card card = cardRepository.selectOneCard(searchCard);
+		model.addAttribute("card", card);
+		return "registerCard/updateLayout";
+	}
+
+	/**
+	 * 명함 이지미 수정
+	 * 
+	 * @param imageBase64
+	 * @param cardImage
+	 * @return
+	 */
+	@RequestMapping(value = "/updateCanvasImage", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> updateImage(
+			@RequestParam(value = "imageBase64", defaultValue = "") String imageBase64, CardImage cardImage) {
+		// 이미지 정상 저장 확인을 위한 맵
+		Map<String, Object> res = new HashMap<String, Object>();
+		if (!imageBase64.isEmpty()) {
+			String imageName = ImageService.saveImage(imageBase64, cardImage.getM_id(), uploadPathCard);
+			cardImage.setImagePath(imageName);
+			cardImageRepository.updateCardImage(cardImage);
+			res.put("ret", 0);
+		} else {
+			res.put("ret", -1);
+		}
+		return res;
+	}
+
+	/**
+	 * 카드 수정
+	 * 
+	 * @param card
+	 * @param logo
+	 * @return 보유 카드 목록으로 이동
+	 */
+	@RequestMapping(value = "/updateCardData", method = RequestMethod.POST)
+	public String updateCard(Card card, MultipartFile logo) {
+		if (!logo.isEmpty()) {
+			card.setImgOriginal(logo.getOriginalFilename());
+			String savedFile = FileService.saveFile(logo, uploadPathLogo);
+			card.setLogoImg(savedFile);
+		} else {
+			card.setLogoImg("");
+			card.setImgOriginal("");
+		}
+		cardRepository.updateCard(card);
+
+		return "redirect:/myCard";
+	}
+
+	/**
+	 * 로고 이미지 가져오기
+	 * 
+	 * @param response
+	 * @param card
+	 * @return
+	 */
+	@RequestMapping(value = "/downloadlogo", method = RequestMethod.GET)
+	public String downloadlogo(HttpServletResponse response, Card card) {
+		if (card.getLogoImg() == null && card.getImgOriginal() == null) {
+			return null;
+		}
+		try {
+			response.setHeader("Content-Disposition",
+					"attachment;filename=" + URLEncoder.encode(card.getImgOriginal(), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+		String fullpath = uploadPathLogo + "/" + card.getLogoImg();
+
+		ServletOutputStream fileOut = null;
+		FileInputStream fileIn = null;
+
+		try {
+			fileIn = new FileInputStream(fullpath);
+			fileOut = response.getOutputStream();
+
+			FileCopyUtils.copy(fileIn, fileOut);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (fileIn != null)
+					fileIn.close();
+				if (fileOut != null)
+					fileOut.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -258,7 +433,7 @@ public class AccessCardController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
+		logger.info(card);
 		String fullpath = uploadPathOCR + "/" + card;
 
 		ServletOutputStream fileOut = null;
