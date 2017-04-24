@@ -134,7 +134,12 @@
 	$(document).ready(function() {
 		$("#showShareRoom").on('click', shareRoomAjax);
 		$("#addStop").on("click", routeStopBy);
+
+		document.getElementById("cardDelete").onclick = function() {
+			updateTOdelteForm("cardDelete");
+		};
 	});
+
 	/* map start */
 	function initMap() {
 		var map = new google.maps.Map(document.getElementById('map'), {
@@ -555,12 +560,10 @@
 												</div>
 											</div>
 										</div>
+										<div class="btn btn-primary-outline btn-shadow"
+											id="cardDelete">삭제</div>
 									</div>
-
-
 								</div>
-
-
 							</div>
 						</div>
 					</div>
