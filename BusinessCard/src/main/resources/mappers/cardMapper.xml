@@ -29,7 +29,38 @@ and
 
 <choose>
 
-<when test="select.equalsIgnoreCase('name')"> upper(c.name) like upper('%'||#{search}||'%') </when>
+	<select id="selectOneCard" resultType="Card" parameterType="Card">
+		select
+		img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as
+		"cardType", img.shared as
+		"shared", c.name as "name", c.company as
+		"company", c.depart as
+		"depart",
+		c.position as "position", c.address as
+		"address", c.email as
+		"email",
+		c.telephone as "telephone", c.fax as
+		"fax", c.mobile as
+		"mobile",
+		img.inputDate as "inputDate", c.language as
+		"language",
+		c.logoImg as "logoImg", img.imagePath as "imagePath"
+		from
+		cardImage img,
+		card c
+		where
+		img.cardnum = c.cardnum
+		and
+		img.m_id=#{m_id}
+		<choose>
+			<when test="cardNum != 0">
+				and c.cardnum = #{cardNum}
+			</when>
+			<when test="cardNum == 0">
+				and img.cardType = 'my'
+			</when>
+		</choose>
+	</select>
 
 <when test="select.equalsIgnoreCase('company')"> upper(c.company) like upper('%'||#{search}||'%') </when>
 

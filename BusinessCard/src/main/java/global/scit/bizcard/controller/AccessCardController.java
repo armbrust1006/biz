@@ -83,15 +83,16 @@ public class AccessCardController {
 		}
 		cardRepository.insertCard(card);
 
-		if (card.getCardType().equalsIgnoreCase("other")) {
+		if (card.getCardType().equalsIgnoreCase("my")) {
+			return "login_home";
+		} else {
 			CardImage cardImage = new CardImage();
 			cardImage.setM_id(m_id);
 			cardImage.setCardNum(cardnum);
 			logger.info(cardImage.toString());
 			cardImageRepository.setMyCardList(cardImage);
+			return "possCards/myPossCardList";
 		}
-
-		return "possCards/myPossCardList";
 	}
 
    /**
@@ -386,5 +387,5 @@ public class AccessCardController {
       return f.getAbsolutePath();
    }
 
-   
+	
 }
