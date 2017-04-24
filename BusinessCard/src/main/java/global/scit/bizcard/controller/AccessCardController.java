@@ -33,17 +33,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import global.scit.bizcard.repository.CardImageRepository;
 import global.scit.bizcard.repository.CardRepository;
-import global.scit.bizcard.repository.SharingRepository;
+import global.scit.bizcard.repository.MemberRepository;
 import global.scit.bizcard.util.FileService;
 import global.scit.bizcard.util.ImageService;
 import global.scit.bizcard.util.Tess4J;
 import global.scit.bizcard.vo.Card;
-import global.scit.bizcard.vo.CardBooks;
 import global.scit.bizcard.vo.CardImage;
 
 @Controller
@@ -55,6 +53,9 @@ public class AccessCardController {
 	private CardRepository cardRepository;
 	@Autowired
 	private CardImageRepository cardImageRepository;
+	@Autowired
+	private MemberRepository memberRepository;
+	
 
 	final String uploadPathLogo = "/CardImageFile/logo";
 	final String uploadPathCard = "/CardImageFile/card";
@@ -294,8 +295,10 @@ public class AccessCardController {
 	 * @param model
 	 */
 	@RequestMapping(value = "/selectOneCard", method = RequestMethod.GET)
-	public String selectOneCard(int cardnum, HttpSession session, Model model) {
+	public String selectOneCard(String email, int cardnum, HttpSession session, Model model) {
 		String loginID = (String) session.getAttribute("m_id");
+		email = memberRepository.getEmail(loginID);
+		model.addAttribute("m_email", email);
 		Card c = new Card();
 		c.setM_id(loginID);
 		c.setCardNum(cardnum);

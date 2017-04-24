@@ -60,7 +60,7 @@
 	right: 0;
 }
 
-.routebutton, .sharebutton {
+.sharebutton {
 	position: relative;
 	background-color: #4CAF50;
 	border: none;
@@ -76,11 +76,7 @@
 	cursor: pointer;
 }
 
-.routebutton {
-	width: 350px;
-}
-
-.routebutton:after, .sharebutton:after {
+.sharebutton:after {
 	content: "";
 	background: #f1f1f1;
 	display: block;
@@ -93,21 +89,21 @@
 	transition: all 0.8s
 }
 
-.routebutton:active:after, .sharebutton:active:after {
+.sharebutton:active:after {
 	padding: 0;
 	margin: 0;
 	opacity: 1;
 	transition: 0s
 }
 
-.routebutton span, .sharebutton span {
+.sharebutton span {
 	cursor: pointer;
 	display: inline-block;
 	position: relative;
 	transition: 0.5s;
 }
 
-.routebutton span:after, .sharebutton span:after {
+.sharebutton span:after {
 	content: '\00bb';
 	position: absolute;
 	opacity: 0;
@@ -116,25 +112,18 @@
 	transition: 0.5s;
 }
 
-.routebutton:hover span, .sharebutton:hover span {
+.sharebutton:hover span {
 	padding-right: 25px;
 }
 
-.routebutton:hover span:after, .sharebutton:hover span:after {
+.sharebutton:hover span:after {
 	opacity: 1;
 	right: 0;
 }
-
-#routeChoice {
-	display: none;
-}
 </style>
+
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$("#showShareRoom").on('click', shareRoomAjax);
-		$("#addStop").on("click", routeStopBy);
-	});
 	/* map start */
 	function initMap() {
 		var map = new google.maps.Map(document.getElementById('map'), {
@@ -172,7 +161,6 @@
 	})
 	$(document).ready(function() {
 		$("#writeMemo").on("click", writeMemo);
-
 	});
 
 	function writeMemo() {
@@ -192,6 +180,18 @@
 		modal.find('.modal-body input').val(recipient)
 	})
 
+	$(document).ready(function() {
+		$("#showShareRoom").on('click', shareRoomAjax);
+	});
+
+	function clickSendMail(){
+		document.sendForm.action = "sendMail";
+		document.sendForm.submit();
+		
+		alert("클릭실행");
+		return true;
+	}
+	
 	function shareRoomAjax() {
 		$.ajax({
 			type : "get",
@@ -244,23 +244,38 @@
 			}
 		});
 	}
+
+	/* $("#showMessage").empty();
+	var msg = '<table class="table table-primary">';
+	msg += "<thead>";
+	msg += "<tr>";
+	msg += "<th>Target</th>";
+	msg += "<th>Text</th>";
+	msg += "<th>SendDate</th>";
+	msg += "<th>ReadDate</th>";
+	msg += "<th>Type</th>";
+	msg += "</tr>";
+	msg += "</thead>";
+	$.each(resp, function(index, item) {
+		msg += "<tbody>";
+		msg += "<tr>";
+		msg += "<td>" + item.targetId + "</td>";
+		msg += "<td>" + item.message + "</td>";
+		msg += "<td>" + item.senddate + "</td>";
+		if (item.opendate != null) {
+			msg += "<td>" + item.opendate + "</td>";
+		} else {
+			msg += "<td>not yet</td>";
+		}
+		msg += "<td>" + item.type + "</td>";
+		msg += "</tr>";
+		msg += "</tbody>";
+	});
+	msg += '</table>';
+	$("#showMessage").html(msg);
+	 */
+
 	/* share modal end*/
-
-	/*    $(document).ready(function() {
-	 $("#writeMemo").on("click", writeMemo);
-
-	 }); */
-
-	/*    function writeMemo() {
-	 var title = $("#memo-title").val();
-	 var memo = $("#memo-text").val();
-	 $("#exampleModal").modal('hide'); // 모달 숨기기
-	 $("#memo-text").val(''); // 썻던 내용 지우기
-	 $("#memo-title").val(''); // 썼던 내용 지우기
-	 alert(title);
-	 alert(memo);
-	 } */
-	/* route modal end*/
 
 	function textToSpeech() {
 		var textToSpeech = $("#textToSpeech").val();
@@ -273,6 +288,8 @@
 			},
 			success : listen
 		});
+		/* 		var url = "listen?textToSpeech=textToSpeech";
+		 window.location.href = url; */
 	}
 
 	function listen(resp) {
@@ -280,20 +297,10 @@
 		alert(source);
 		var audio = '';
 		audio = "<embed src="+source+" autostart='true' allowscriptaccess='always'"+
-      "enablehtmlaccess='true' allowfullscreen='true' width='422' height='240' type='video/mp4'></embed><br>";
+		"enablehtmlaccess='true' allowfullscreen='true' width='422' height='240' type='video/mp4'></embed><br>";
 		$("#resultAudio").html(audio);
-	}
-
-	function showRouteChoice() {
-
-		var start = '901 Cherry Ave, San Bruno';
-		var end = document.getElementById('address').value;
-		window.open("searchRoute?start=" + start + "&end=" + end);
-
-	}
-
-	function routeStopBy() {
-		window.open("routeStopBy");
+	
+		
 	}
 </script>
 <script async defer
@@ -304,44 +311,44 @@
 <body style="">
 	<!-- modal 시작-->
 	<!-- 메모 modal -->
-	<div class="modal fade" id="exampleModal">
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
+				<br> <br> <br> <br> <br> <br>
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title"></h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Write Note</h4>
 				</div>
-				<form>
-					<div class="modal-body">
+				<div class="modal-body">
+					<form>
 						<div class="form-group">
-							<label for="message-text" class="control-label">NOTE</label>
+							<label for="message-text" class="control-label">TITLE</label> <input
+								type="text" class="form-control" id="memo-title"
+								placeholder="타이틀을 입력하세요."> <label for="message-text"
+								class="control-label">NOTE</label>
 							<textarea class="form-control" id="memo-text"></textarea>
 							<br> 시작 날짜: <input type="date"> 종료 날짜: <input
 								type="date">
 						</div>
-					</div>
-					<div class="modal-footer">
-						<div class="group-lg group-middle group-sm offset-top-30">
-							<button type="button" class="btn btn-primary btn-sm"
-								id="writeMemo">쓰기</button>
-							<button type="button" class="btn btn-default btn-sm"
-								data-dismiss="modal">닫기</button>
-						</div>
-					</div>
-				</form>
+						<input type="button" class="btn btn-primary-outline btn-shadow"
+							data-dismiss="modal" value="취소"> <input type="button"
+							class="btn btn-primary btn-shadow" id="writeMemo" value="쓰기">
+					</form>
+				</div>
 			</div>
-			<!-- modal-content -->
 		</div>
-		<!-- modal-dialog -->
 	</div>
-	<!-- modal -->
-
-
 
 	<!-- 공유 modal -->
-	<div class="modal fade" id="shareModal">
+	<div class="modal fade" id="shareModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
+				<br> <br> <br> <br> <br> <br>
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
@@ -353,20 +360,24 @@
 				<div class="modal-body">
 					<form>
 						<div class="form-group">
-							<div class="form-group" id="shareRoomList">가입된 공유방이 없습니다.</div>
+							<!-- 						<label for="message-text" class="control-label">공유방</label> <input
+								type="text" class="form-control" id="message-title"
+								placeholder="타이틀을 입력하세요."> <label for="message-text"
+								class="control-label">NOTE</label> <label>안녕?</label>
+							<textarea class="form-control" id="message-text"></textarea>
+							<label for="message-text" class="control-label">NOTE</label>
+							<textarea class="form-control" id="message-text"></textarea> -->
+							<div class="form-group" id="shareRoomList">d</div>
 						</div>
+						<input type="button" class="btn btn-primary-outline btn-shadow"
+							data-dismiss="modal" value="닫기"> <input type="button"
+							class="btn btn-primary btn-shadow" id="writeMemo" value="저장">
 					</form>
-				</div>
-				<div class="modal-footer">
-					<div class="group-lg group-middle group-sm offset-top-30">
-						<button type="button" class="btn btn-default btn-sm"
-							data-dismiss="modal" id="routeClose">닫기</button>
-					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
+	<!-- modal 끝 -->
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
@@ -388,32 +399,6 @@
 									<h5></h5>
 									<div id="map"></div>
 									<!-- 지도 끝 -->
-									<h5></h5>
-
-									<button type="button" class="button"
-										style="vertical-align: middle" onclick="showRouteChoice()">
-										<span>길 찾기</span>
-									</button>
-
-									<button type="button" class="button" id="addStop"
-										style="vertical-align: middle">
-										<span>경유 설정</span>
-									</button>
-
-									<!--       <div id="routeChoice">
-
-
-                              <button type="button" class="routebutton"
-                                 style="vertical-align: middle">
-                                 <span>내 회사에서 출발</span>
-                              </button>
-
-                              <button type="button" class="routebutton"
-                                 style="vertical-align: middle">
-                                 <span>출발지 직접 입력</span>
-                              </button>
-
-                           </div> -->
 
 								</div>
 								<div class="product-body">
@@ -484,7 +469,25 @@
 												aria-labelledby="accordionOneHeading2"
 												class="panel-collapse collapse">
 												<div class="panel-body">
-													<p>이메일 보내기 기능 추가 하기</p>
+													
+													<form name="sendForm" method="post">
+													
+													<label>보내는사람 : ${m_email}</label><br>
+													<input type="hidden" name="my_id" value="${m_email}">
+													<input type="text" placeholder="gmail 비밀번호" name="my_Password" width="100%"><br>
+													<input type="hidden" name="user" value="${selectedCard.email}">
+													<input type="text" placeholder="제목" name="title" width="100%"><br>
+													<textarea placeholder="내용" name="message" cols="60"  rows="10"></textarea>
+												
+												
+													<input type="button" value="보내기" onclick="return clickSendMail();">
+													<input type="reset">
+													</form>
+													
+													
+													
+													
+													
 												</div>
 											</div>
 										</div>

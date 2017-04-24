@@ -77,6 +77,17 @@ public class MemberRepository {
 	         
 	         return b;
 	      }
-
+	  public String getEmail(String id){
+			String email="";
+			
+			MemberDAO mdao=sqlSession.getMapper(MemberDAO.class);
+			try {
+				email = mdao.getEmail(id);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return email;
+		}
 
 }
