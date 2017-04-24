@@ -27,6 +27,10 @@
 		and cardNum=#{cardNum}
 	</update>
 	
+	<delete id="deleteCardImage">
+      delete CardImage where m_id=#{m_id} and cardNum = #{cardNum}
+   </delete>
+	
 	<insert id="setMyCardList" parameterType="CardImage">
 		insert into
 		MyCardIndex

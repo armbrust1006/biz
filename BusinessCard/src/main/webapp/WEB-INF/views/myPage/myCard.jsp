@@ -170,6 +170,7 @@
 		document.getElementById("cardDelete").onclick = function() {
 			updateTOdelteForm("cardDelete");
 		};
+		
 	}
 
 	/* 수정 및 삭제 함수 */

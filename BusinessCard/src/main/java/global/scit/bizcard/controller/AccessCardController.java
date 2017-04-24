@@ -332,6 +332,25 @@ public class AccessCardController {
 		return "redirect:/myCard";
 	}
 
+	 /**
+	    * [현택] 타인 명함 삭제
+	    * 
+	    * @param cardNum
+	    * @param session("m_id")
+	    * @return 보유 명함 목록으로 이동
+	    */
+	@RequestMapping(value = "/cardDelete", method = RequestMethod.POST)
+	   public String cardDelete(CardImage cardImage, HttpSession session) {
+	      System.out.println("삭제: " + cardImage.toString());
+	      cardImage.setM_id(String.valueOf(session.getAttribute("m_id")));
+	      cardImageRepository.deleteCardImage(cardImage);
+	      if (cardImage.getCardType() == null) {
+	         return "redirect:login_home";
+	      } else {
+	         return "redirect:myCardList";
+	      }
+	   }
+	
 	/**
 	 * 로고 이미지 가져오기
 	 * 

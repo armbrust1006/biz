@@ -153,6 +153,9 @@
 		});
 	}
 
+	
+	
+	
 	/* memo modal start*/
 	$("#exampleModal").on('show.bs.modal', function(event) {
 		var button = $(event.relatedTarget)
@@ -161,6 +164,7 @@
 	})
 	$(document).ready(function() {
 		$("#writeMemo").on("click", writeMemo);
+		
 	});
 
 	function writeMemo() {
@@ -182,77 +186,81 @@
 
 	$(document).ready(function() {
 		$("#showShareRoom").on('click', shareRoomAjax);
-		$("#sc").on('click',clickSendMail);
+		document.getElementById("cardDelete").onclick = function() {
+	         document.getElementById("cardDeleteForm").submit();
+	      };
+		
+		$("#sc").on('click', clickSendMail);
 		$("#my_id").on('keyup', checkGmail);
 	});
 
-function checkGmail(){
-		
-		
-		var my_id =  $("#my_id").val();
-		var domain = my_id.substring(my_id.indexOf("@")+1, my_id.length);
-		
-		if (domain != "gmail.com"){
-		$("#my_Password").attr('disabled',true);
-		$("#title").attr('disabled',true);
-		$("#message").attr('disabled',true);
-		
-		}else{
-			$("#my_Password").attr('disabled',false);
-			$("#title").attr('disabled',false);
-			$("#message").attr('disabled',false);
+	function checkGmail() {
+
+		var my_id = $("#my_id").val();
+		var domain = my_id.substring(my_id.indexOf("@") + 1, my_id.length);
+
+		if (domain != "gmail.com") {
+			$("#my_Password").attr('disabled', true);
+			$("#title").attr('disabled', true);
+			$("#message").attr('disabled', true);
+
+		} else {
+			$("#my_Password").attr('disabled', false);
+			$("#title").attr('disabled', false);
+			$("#message").attr('disabled', false);
 		}
-		
+
 	}
-	
-	function clickSendMail(){
+
+	function clickSendMail() {
 		/* document.sendForm.action = "sendMail";
 		document.sendForm.submit(); */
-	var my_id =  $("#my_id").val();
-	var my_Password =  $("#my_Password").val();
-	var user =  $("#user").val();
-	var title =  $("#title").val();
-	var message =  $("#message").val();
-	var domain = my_id.substring(my_id.indexOf("@")+1, my_id.length);
-	
-	if (domain != "gmail.com"){
-		alert("gmail.만 가능합니다.");
-	}else{
-		if(my_Password.length==0){
-			alert("password를 입력하세요");
-			return false;
-		}
-		if(title.length==0||message.length==0){
-			alert("제목과 내용을 입력해주세요");
-			return false;
-		}else{
-		$.ajax({
-			type:"post",
-			url : "sendMail",
-			data : {
-					"my_id" : my_id,
-					"my_Password" : my_Password,
-					"user" : user,
-					"title" : title,
-					"message" : message,
-					},
-			
-			success : function(resp){
-				if (resp==0){
-					alert("전송성공했습니다.");
-					$("#title").val('');
-					$("#message").val('');
-				}else if(resp==1){
-					alert("전송실패하였습니다. 상대방의 메일주소를 확인해주세요.");
-				}else if(resp==2){
-					alert("전송실패하였습니다. 본인의 gmail비밀번호 및 상대방의 메일 주소를 확인해주세요.");
-				}
-				}
-		})
+		var my_id = $("#my_id").val();
+		var my_Password = $("#my_Password").val();
+		var user = $("#user").val();
+		var title = $("#title").val();
+		var message = $("#message").val();
+		var domain = my_id.substring(my_id.indexOf("@") + 1, my_id.length);
+
+		if (domain != "gmail.com") {
+			alert("gmail.만 가능합니다.");
+		} else {
+			if (my_Password.length == 0) {
+				alert("password를 입력하세요");
+				return false;
+			}
+			if (title.length == 0 || message.length == 0) {
+				alert("제목과 내용을 입력해주세요");
+				return false;
+			} else {
+				$
+						.ajax({
+							type : "post",
+							url : "sendMail",
+							data : {
+								"my_id" : my_id,
+								"my_Password" : my_Password,
+								"user" : user,
+								"title" : title,
+								"message" : message,
+							},
+
+							success : function(resp) {
+								if (resp == 0) {
+									alert("전송성공했습니다.");
+									$("#title").val('');
+									$("#message").val('');
+								} else if (resp == 1) {
+									alert("전송실패하였습니다. 상대방의 메일주소를 확인해주세요.");
+								} else if (resp == 2) {
+									alert("전송실패하였습니다. 본인의 gmail비밀번호 및 상대방의 메일 주소를 확인해주세요.");
+								}
+							}
+						})
+			}
 		}
 	}
-	}
-	
+
 	function shareRoomAjax() {
 		$.ajax({
 			type : "get",
@@ -360,8 +368,7 @@ function checkGmail(){
 		audio = "<embed src="+source+" autostart='true' allowscriptaccess='always'"+
 		"enablehtmlaccess='true' allowfullscreen='true' width='422' height='240' type='video/mp4'></embed><br>";
 		$("#resultAudio").html(audio);
-	
-		
+
 	}
 </script>
 <script async defer
@@ -531,22 +538,26 @@ function checkGmail(){
 												aria-labelledby="accordionOneHeading2"
 												class="panel-collapse collapse">
 												<div class="panel-body">
-													
+
 													<h5>[gmail일 경우에만 입력창이 활성화됩니다.]</h5>
-														<form name="sendForm" method="post">
-														<input type="text" name="my_id" id="my_id" value="${m_email}"><br>
-														<input type="password" placeholder="gmail 비밀번호" id="my_Password" name="my_Password" width="100%"><br>
-														<input type="hidden" name="user" id="user" value="${selectedCard.email}">
-														<input type="text" placeholder="제목" id="title" name="title" width="100%"><br>
-														<textarea placeholder="내용" name="message" id="message" cols="60"  rows="10"></textarea>
+													<form name="sendForm" method="post">
+														<input type="text" name="my_id" id="my_id"
+															value="${m_email}"><br> <input
+															type="password" placeholder="gmail 비밀번호" id="my_Password"
+															name="my_Password" width="100%"><br> <input
+															type="hidden" name="user" id="user"
+															value="${selectedCard.email}"> <input type="text"
+															placeholder="제목" id="title" name="title" width="100%"><br>
+														<textarea placeholder="내용" name="message" id="message"
+															cols="60" rows="10"></textarea>
 														<input type="button" value="보내기" name="sc" id="sc">
 														<input type="reset">
-														</form>
-													
-													
-													
-													
-													
+													</form>
+
+
+
+
+
 												</div>
 											</div>
 										</div>
@@ -617,7 +628,16 @@ function checkGmail(){
 											</div>
 										</div>
 										<div class="btn btn-primary-outline btn-shadow"
-											id="cardDelete">삭제</div>
+											id="cardDelete">
+											삭제
+											<form id="cardDeleteForm" method="POST" action="cardDelete">
+												<input type="hidden" id="cardNum" name="cardNum"
+													value="${selectedCard.cardNum}">
+												<input type="hidden" id="cardType" name="cardType"
+													value="others">
+											</form>
+
+										</div>
 									</div>
 								</div>
 							</div>
