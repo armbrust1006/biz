@@ -25,10 +25,7 @@ public class MyController {
 	private CardImageRepository cardImageRepository;
 
 	@RequestMapping(value = "/selectCardType", method = RequestMethod.GET)
-	public String myCard(HttpSession session, Model model) {
-		if (cardImageRepository.myCardExist(String.valueOf(session.getAttribute("m_id"))) != null) {
-			model.addAttribute("error", "이미 명함을 갖고 계십니다.");
-		}
+	public String myCard() {
 		return "myPage/selectCardType";
 	}
 
@@ -91,9 +88,9 @@ public class MyController {
 	public String selectMyCard(HttpSession session, Model model) {
 		Card card = new Card();
 		card.setM_id(String.valueOf(session.getAttribute("m_id")));
-		logger.info("card:" + card.toString());
+		logger.info("card:"+card.toString());
 		Card myCard = cardRepository.selectOneCard(card);
-		logger.info("my:" + myCard.toString());
+		logger.info("my:"+myCard.toString());
 		if (myCard != null) {
 			model.addAttribute("myCard", myCard);
 		} else {

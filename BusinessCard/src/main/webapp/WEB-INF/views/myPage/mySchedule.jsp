@@ -174,7 +174,7 @@ $(document).ready(function() {
         	 	<div class="cell-sm-12 cell-md-3 offset-top-50 offset-md-top-20">
         	 	<!-- data-form-output="form-output-global" data-form-type="contact" -->
         	 	<div class="item">
-        	 	<img src="downloadImage?card=${path}" alt="" width="800" height="400" />
+        	 	<%-- <img src="downloadImage?card=${path}" alt="" width="800" height="400" /> --%>
         	 	</div>
         	 	<h5>새 일정 입력</h5>
             <form class="form-modern offset-top-30" > 

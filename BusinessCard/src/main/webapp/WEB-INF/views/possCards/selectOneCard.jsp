@@ -135,6 +135,7 @@
 	   alert("${selectedCard.imagePath}");
       $("#showShareRoom").on('click', shareRoomAjax);
       $("#addStop").on("click", routeStopBy);
+      $('#add').on('click', add);
    });
    /* map start */
    function initMap() {
@@ -296,6 +297,43 @@
    function routeStopBy() {
       window.open("routeStopBy");
    }
+   
+   function add() {
+		alert('작동점검');
+		var sDate = document.getElementById('start').value;
+		var eDate = document.getElementById('end').value;
+		var message = document.getElementById('title').value;
+		var cNum = document.getElementById('cardnum').value;
+		var addData = {
+				"m_id" : "${sessionScope.m_id}",
+				"cardnum" : cNum,
+				"start" : sDate,
+				"end" : eDate,
+				"title": message
+		};	
+		if (sDate.length==0 || eDate.length==0 || message.length==0) {
+			alert('일정과 메세지를 입력하세요');
+		}
+		alert(JSON.stringify(addData));
+		$.ajax({
+			type : "post",
+			url : "addNote",
+			data : addData,
+			success : function(resp) {
+				if (resp == 0) {
+					alert("일정을 등록 했습니다.");
+					$("#start").val("");
+					$("#end").val("");
+					$("#title").val("");
+				} else {
+					alert("일정 등록 실패");
+				}
+			},
+			error : function() {
+				alert("error");
+			}
+		});
+	}
 </script>
 <script async defer
    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwT77mHP1Yu98_PplRBCkXycOfTAGZLTI&callback=initMap">
@@ -312,21 +350,39 @@
                <button type="button" class="close" data-dismiss="modal">&times;</button>
                <h4 class="modal-title"></h4>
             </div>
-            <form>
+      		 <form class="form-modern offset-top-30" > 
                <div class="modal-body">
-                  <div class="form-group">
-                     <label for="message-text" class="control-label">NOTE</label>
-                     <textarea class="form-control" id="memo-text"></textarea>
-                     <br> 시작 날짜: <input type="date"> 종료 날짜: <input
-                        type="date">
-                  </div>
-               </div>
+        	 	<h5>새 일정 입력</h5>
+             	<div class="cell-xs-4 offset-top-30 offset-xs-top-30 offset-sm-top-50">
+               
+					<div class="form-group">
+					<span class="input-group-addon">
+                    <input type="text" name="start" id="start" data-constraints="@Required" data-time-picker="date" class="form-control">
+                    <label for="start" class="form-label">from</label>
+					</span>
+                  	</div>
+                  	
+                  	<div class="form-group">
+                    <span class="input-group-addon">
+                    <input type="text" name="end" id="end" data-constraints="@Required" data-time-picker="date" class="form-control">
+                    <label for="end" class="form-label">to</label>
+                    </span>
+                 	 </div>
+                 	 
+                	 <div class="form-group">
+	                <textarea name="title" id="title" data-constraints="@Required" class="form-control"></textarea>
+    	            <label for="title" class="form-label">Message</label> 
+                	 </div>
+                 
+                </div>
+                </div>
+                <!-- type="submit" -->
+                 
                <div class="modal-footer">
-                  <div class="group-lg group-middle group-sm offset-top-30">
-                     <button type="button" class="btn btn-primary btn-sm"
-                        id="writeMemo">쓰기</button>
-                     <button type="button" class="btn btn-default btn-sm"
-                        data-dismiss="modal">닫기</button>
+                  <div class="form-group">
+                  <input type="hidden" value="${selectedCard.cardNum}" name="cardnum" id="cardnum" />
+                  <button id="add" class="btn btn-sm btn-primary btn-block">Send</button>
+                  <button type="reset" class="btn btn-sm btn-silver-outline btn-block">Reset</button>
                   </div>
                </div>
             </form>

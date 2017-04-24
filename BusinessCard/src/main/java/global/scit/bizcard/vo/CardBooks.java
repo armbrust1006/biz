@@ -1,29 +1,24 @@
 package global.scit.bizcard.vo;
 
-import java.util.Date;
-
 public class CardBooks {
 	private int book_num;
 	private String m_id;
 	private String book_name;
 	private String grade;
-	private Date inputdate;
-	private String book_master;
+	private String room_host;
 	private String memberCount;
 
 	public CardBooks() {
 
 	}
 
-	public CardBooks(int book_num, String m_id, String book_name, String grade, Date inputdate, String book_master,
-			String memberCount) {
+	public CardBooks(int book_num, String m_id, String book_name, String grade, String room_host, String memberCount) {
 		super();
 		this.book_num = book_num;
 		this.m_id = m_id;
 		this.book_name = book_name;
 		this.grade = grade;
-		this.inputdate = inputdate;
-		this.book_master = book_master;
+		this.room_host = room_host;
 		this.memberCount = memberCount;
 	}
 
@@ -59,20 +54,12 @@ public class CardBooks {
 		this.grade = grade;
 	}
 
-	public Date getInputdate() {
-		return inputdate;
+	public String getRoom_host() {
+		return room_host;
 	}
 
-	public void setInputdate(Date inputdate) {
-		this.inputdate = inputdate;
-	}
-
-	public String getBook_master() {
-		return book_master;
-	}
-
-	public void setBook_master(String book_master) {
-		this.book_master = book_master;
+	public void setRoom_host(String room_host) {
+		this.room_host = room_host;
 	}
 
 	public String getMemberCount() {
@@ -86,7 +73,6 @@ public class CardBooks {
 	@Override
 	public String toString() {
 		return "CardBooks [book_num=" + book_num + ", m_id=" + m_id + ", book_name=" + book_name + ", grade=" + grade
-				+ ", inputdate=" + inputdate + ", book_master=" + book_master + ", memberCount=" + memberCount + "]";
+				+ ", room_host=" + room_host + ", memberCount=" + memberCount + "]";
 	}
-
 }

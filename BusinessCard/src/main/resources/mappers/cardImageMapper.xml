@@ -4,64 +4,17 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="global.scit.bizcard.dao.CardImageDAO">
-   <insert id="saveCardImage" parameterType="CardImage">
-      insert into
-      CardImage
-      (
-      m_id, cardnum, cardType, imagePath
-      )
-      values
-      (
-      #{m_id},
-      cardnum_seq.nextval,
-      #{cardType},
-      #{imagePath}
-      )
-   </insert>
 
-   <insert id="setMyCardList" parameterType="CardImage">
-      insert into
-      MyCardIndex
-      (m_id, cardNum)
-      values
-      (
-      #{m_id},
-      #{cardNum}
-      )
-   </insert>
+<insert parameterType="CardImage" id="saveCardImage"> insert into CardImage ( m_id, cardnum, cardType, imagePath ) values ( #{m_id}, cardnum_seq.nextval, #{cardType}, #{imagePath} ) </insert>
 
-   <select id="myCardExist" resultType="CardImage" parameterType="String">
-      select *
-      from cardImage
-      where m_id=#{m_id}
-      and cardType='my'
-   </select>
+<insert parameterType="CardImage" id="setMyCardList"> insert into MyCardIndex (m_id, cardNum) values ( #{m_id}, #{cardNum} ) </insert>
 
-   <select id="getImageNumber" resultType="Integer" parameterType="String">
-      select cardnum
-      from(
-      select cardNum
-      from CardImage
-      where m_id=#{m_id}
-      order by inputdate desc
-      )
-      where rownum = 1
-   </select>
+<select parameterType="String" id="getImageNumber" resultType="Integer"> select cardnum from( select cardNum from CardImage where m_id=#{m_id} order by inputdate desc ) where rownum = 1 </select>
 
-   <select id="loadCardImage" resultType="String" parameterType="String">
-      select imagePath
-      from CardImage
-      where cardNum=#{cardNum}
-   </select>
+<select parameterType="String" id="loadCardImage" resultType="String"> select imagePath from CardImage where cardNum=#{cardNum} </select>
 
-   <select id="checkExistMine" resultType="String" parameterType="String">
-      select m_id from CARDIMAGE where m_id=#{m_id}
-   </select>
+<select parameterType="String" id="checkExistMine" resultType="String"> select CARDTYPE from CARDIMAGE where m_id=#{m_id} and CARDTYPE='my' </select>
 
-   <update id="sharedChange" parameterType="CardImage">
-      update CardImage
-      set
-      shared=#{shared}
-      where cardNum=#{cardNum}
-   </update>
+<update parameterType="CardImage" id="sharedChange"> update CardImage set shared=#{shared} where cardNum=#{cardNum} </update>
+
 </mapper>

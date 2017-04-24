@@ -20,6 +20,7 @@ public class Note {
 	}
 
 	
+	
 	public Note(String m_id, int cardnum, String inputdate, String start, String end, String title, String color) {
 		super();
 		this.m_id = m_id;
@@ -30,6 +31,7 @@ public class Note {
 		this.title = title;
 		this.color = color;
 	}
+
 
 
 	public String getM_id() {

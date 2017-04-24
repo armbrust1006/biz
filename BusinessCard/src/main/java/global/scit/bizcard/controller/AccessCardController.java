@@ -94,7 +94,6 @@ public class AccessCardController {
 		return "possCards/myPossCardList";
 	}
 
-
    /**
     * 이미지 생성 및 서버에 이미지 저장
     * 
