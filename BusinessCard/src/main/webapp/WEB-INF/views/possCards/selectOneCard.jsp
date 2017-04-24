@@ -392,7 +392,8 @@
 							<div class="product-main">
 								<div class="product-slider">
 									<div class="item">
-										<img src="images/sktCard.jpg" alt="" width="800" height="400" />
+										<img src="downloadImage?card=${selectedCard.imagePath}" alt=""
+											width="800" height="400" />
 									</div>
 
 									<!-- 지도 시작 -->

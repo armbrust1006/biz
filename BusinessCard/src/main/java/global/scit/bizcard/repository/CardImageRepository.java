@@ -94,4 +94,15 @@ public class CardImageRepository implements CardImageDAO {
 		return 0;
 	}
 
+	@Override
+	public CardImage myCardExist(String m_id) {
+		CardImageDAO dao = sqlSession.getMapper(CardImageDAO.class);
+		try {
+			return dao.myCardExist(m_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

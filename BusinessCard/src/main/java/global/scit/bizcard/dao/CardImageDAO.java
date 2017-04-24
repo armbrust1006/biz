@@ -1,9 +1,10 @@
 package global.scit.bizcard.dao;
-
 import global.scit.bizcard.vo.Card;
 import global.scit.bizcard.vo.CardImage;
 
 public interface CardImageDAO {
+
+	public CardImage myCardExist(String m_id) throws Exception;
 
 	public int saveCardImage(CardImage cardImage) throws Exception;
 
