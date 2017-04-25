@@ -1,273 +1,490 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html lang="en" class="wide wow-animation">
+<html lang="ko" class="wide wow-animation">
 <head>
-<title>Business</title>
+<title>OBOE</title>
 <meta name="format-detection" content="telephone=no">
-<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="viewport"
+	content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta charset="utf-8">
 <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-<link rel="stylesheet" type="text/css" href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
+<link rel="stylesheet" type="text/css"
+	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
+<style>
+#formation {
+	position: relative;
+	left: 25%;
+}
+#table2 th{
+	width:30px;
+	vertical-align:middle;
+}
+#table2 td{
+	padding-left:20px;
+	vertical-align:middle;
+}
+
+#button1 {float: left; padding: 10px; width: 50%; }
+
+
+
+
+.makebutton {
+	position: relative;
+	background-color: #4982e5;
+	border: none;
+	font-size: 15px;
+	color: #FFFFFF;
+	padding: 5px;
+	width: 200px;
+	text-align: center;
+	-webkit-transition-duration: 0.4s; /* Safari */
+	transition-duration: 0.4s;
+	text-decoration: none;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.makebutton:after {
+	content: "";
+	background: #f1f1f1;
+	display: block;
+	position: absolute;
+	padding-top: 300%;
+	padding-left: 350%;
+	margin-left: -20px !important;
+	margin-top: -120%;
+	opacity: 0;
+	transition: all 0.8s
+}
+
+.makebutton:active:after {
+	padding: 0;
+	margin: 0;
+	opacity: 1;
+	transition: 0s
+}
+
+.makebutton span {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	transition: 0.5s;
+}
+
+.makebutton span:after {
+	content: '\00bb';
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	right: -20px;
+	transition: 0.5s;
+}
+
+.makebutton:hover span {
+	padding-right: 25px;
+}
+
+.makebutton:hover span:after {
+	opacity: 1;
+	right: 0;
+}
+</style>
+
+<script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script>
+	var emailflag = false;
+	var checknumflag = false;
+
+	$(document).ready(function() {
+
+		/* $('#userid').on('keyup', idcheck); */
+		$('#m_email').on('keyup', emailcheck);
+		//처음 접근할때 text박스를 숨긴다.
+		$('#test').hide();
+
+		/* $('#userid').on('change', idcheck2); */
+		$('#m_email').on('change', emailcheck2);
+	});
+
+	function idcheck2() {
+		var id2 = $('#userid').val();
+
+		if (id2.length == 0) {
+			$('#idcheck').text('');
+		}
+
+	}
+	function emailcheck2() {
+		var email2 = $('#m_email').val();
+
+		if (email2.length == 0) {
+			$('#emailcheck2').text('');
+		}
+	}
+
+	function idcheck() {
+		var id = $('#userid').val();
+		$.ajax({
+			url : 'idcheck',
+			type : 'POST',
+			data : {
+				id : id
+			},
+			dataType : 'text',
+			success : idsuccess
+		});
+	}
+
+	function idsuccess(text) {
+		var id = $('#userid').val();
+		if (text == '1') {
+			$('#idcheck').text('중복된 아이디가 존재합니다.');
+		} else if (text == '0') {
+			if (id.length == 0) {
+				$('#idcheck').text('');
+			} else {
+				$('#idcheck').text('이 아이디는 사용할 수 있습니다.');
+			}
+		}
+	}
+	function emailcheck() {
+		var email = $('#m_email').val();
+		$.ajax({
+			url : 'emailchecksss',
+			type : 'POST',
+			data : {
+				email : email
+			},
+			dataType : 'text',
+			success : emailsuccess
+		});
+	}
+
+	function emailsuccess(text) {
+		var email = $('#m_email').val();
+		if (text == '1') {
+			$('#emailcheck2').text('중복된 이메일입니다.');
+		} else if (text == '0') {
+			if (email.length == 0) {
+				$('#emailcheck2').text('');
+			} else {
+				$('#emailcheck2').text('이 이메일은 사용할 수 있습니다.');
+				emailflag = true;
+			}
+		}
+
+	};
+
+	function flag() {
+		$.ajax({
+			type : "post",
+			url : "checknum",
+
+			success : function(data) {
+				if (num == data) {
+					alert("인증에 성공하였습니다.");
+					checknumflag = true;
+
+					return true;
+				}
+
+				else {
+					alert("인증번호가 일치하지 않습니다.");
+					checknumflag = false;
+
+					return false;
+				}
+			},
+
+			error : function(e) {
+				console.log(e);
+			}
+		})
+	}
+
+	$(function() {
+		$("#checknumc").on("click", function() {
+			var email = $("#m_email").val();
+			var checkbutton = $("#checknumc").val();
+			var num = $("#checknum").val();
+
+			if (checkbutton == "메일인증") {
+				$.ajax({
+					type : "post",
+					url : "emailcheck",
+
+					data : {
+						user : email
+					},
+
+					success : function(data) {
+						if (emailflag == true) {
+							console.log("메일로 인증번호가 전송되었습니다.");
+							alert("메일로 인증번호가 발송되었습니다.");
+
+							document.getElementById("checknumc").value = "확인";
+							//text박스가 보여지게된다.
+							$('#test').show();
+						}
+
+						else {
+							alert("이메일 인증이 완료되지 않았습니다. 이메일 인증을 완료하세요");
+							return false;
+						}
+					},
+
+					error : function(e) {
+						console.log(e);
+					}
+				})
+
+			}
+
+			else {
+				//if (checkbutton == "인증번호 체크")
+				$.ajax({
+					type : "post",
+					url : "checknum",
+
+					success : function(data) {
+						if (num == data) {
+							alert("인증에 성공하였습니다.");
+							checknumflag = true;
+
+							return true;
+						}
+
+						else {
+							alert("인증번호가 일치하지 않습니다.");
+							checknumflag = false;
+
+							return false;
+						}
+					},
+
+					error : function(e) {
+						console.log(e);
+					}
+				})
+			}
+		})
+	})
+	function c_alert(output_msg, title_msg) {
+		if (!title_msg)
+			title_msg = 'Alert';
+		if (!output_msg)
+			output_msg = 'No Message to Display.';
+		$("<div></div>").html(output_msg).dialog({
+			title : title_msg,
+			resizable : false,
+			modal : true,
+			buttons : {
+				"Ok" : function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+	}
+	function c_alert(output_msg) {
+		$('#modal-body').html(output_msg);
+		$('#myModal').modal({
+			backdrop : true,
+			keyboard : true,
+			show : true
+		});
+	}
+
+	function modalCheck() {
+		var id = document.getElementById('userid');
+		var password = document.getElementById('m_password');
+		var email = document.getElementById('m_email');
+		var name = document.getElementById('m_name');
+
+		if (id.value.length == 0 || password.value.length == 0
+				|| email.value.length == 0 || name.value.length == 0
+				|| checknumflag == false) {
+
+			$('#myModal').modal({
+				backdrop : true,
+				keyboard : true,
+				show : true
+			});
+			return false;
+		} else {
+			alert('완료');
+			location.href = "myPage";
+
+		}
+
+	}
+</script>
 </head>
-<body style="">
-<div class="page">
-  <%@include file="../modules/header.jsp" %>
-  <main class="page-content">
-    
-    <section class="section-50 section-sm-75 section-lg-bottom-120">
-      <div class="shell">
-        <div class="range range-lg-center">
-          <div class="cell-lg-10">
-            <div class="product product-single">
-              <div class="product-main">
-                <div class="product-slider">
-                
-                  <div data-items="1" data-stage-padding="0" data-loop="true" data-margin="30" data-mouse-drag="true" data-dots="true" data-animation-in="fadeIn" data-animation-out="fadeOut" class="owl-carousel owl-carousel-bottom owl-style-minimal">
-                    <div class="item"><img src="images/blue.jpg" alt="" width="350" height="400"/></div>
-                    <div class="item"><img src="images/orange.jpg" alt="" width="350" height="400"/> </div>
-                    <div class="item"><img src="images/teal.jpg" alt="" width="350" height="400"/> </div>
-                  </div>
-                </div>
-                <div class="product-body">
-                  <p class="product-brand">Tommy Hilfiger</p>
-                  <h4 class="product-header">Engineered Rib Cashmere</h4>
-                  <div class="product-rating">
-                    <ul class="list-rating">
-                      <li><span class="icon icon-xxs material-icons-star"></span></li>
-                      <li><span class="icon icon-xxs material-icons-star"></span></li>
-                      <li><span class="icon icon-xxs material-icons-star"></span></li>
-                      <li><span class="icon icon-xxs material-icons-star_half"></span></li>
-                      <li><span class="icon icon-xxs material-icons-star_border"></span></li>
-                    </ul>
-                    <span class="text-light">4 customer reviews</span> </div>
-                  <div id="accordionOne" role="tablist" aria-multiselectable="true" class="panel-group panel-group-custom panel-group-light product-accordion">
-                    <div class="panel panel-custom panel-light">
-                      <div id="accordionOneHeading1" role="tab" class="panel-heading">
-                        <div class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordionOne" href="#accordionOneCollapse1" aria-controls="accordionOneCollapse1" aria-expanded="true">Description
-                          <div class="panel-arrow"></div>
-                          </a> </div>
-                      </div>
-                      <div id="accordionOneCollapse1" role="tabpanel" aria-labelledby="accordionOneHeading1" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                          <p>Rely on this gorgeous Engineered Rib Cashmere from Tommy Hilfiger to keep you cosy for years to come. An essential wardrobe investment, this timeless design adds a new texture to your winter layers. This is a classic design that will never fade.</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="panel panel-custom panel-light">
-                      <div id="accordionOneHeading2" role="tab" class="panel-heading">
-                        <div class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordionOne" href="#accordionOneCollapse2" aria-controls="accordionOneCollapse2" class="collapsed">Size &amp; Fit
-                          <div class="panel-arrow"></div>
-                          </a> </div>
-                      </div>
-                      <div id="accordionOneCollapse2" role="tabpanel" aria-labelledby="accordionOneHeading2" class="panel-collapse collapse">
-                        <div class="panel-body">17.25" bust <br>
-                          14" shoulder to shoulder <br>
-                          32.25" shoulder to hem <br>
-                          Measurements taken from size small <br>
-                          Model wears size small. Model is 5'9 <br>
-                          This dress fits true to size </div>
-                      </div>
-                    </div>
-                    <div class="panel panel-custom panel-light">
-                      <div id="accordionOneHeading3" role="tab" class="panel-heading">
-                        <div class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordionOne" href="#accordionOneCollapse3" aria-controls="accordionOneCollapse3" class="collapsed">Delivery &amp; Returns
-                          <div class="panel-arrow"></div>
-                          </a> </div>
-                      </div>
-                      <div id="accordionOneCollapse3" role="tabpanel" aria-labelledby="accordionOneHeading3" class="panel-collapse collapse">
-                        <div class="panel-body">
-                          <p>We deliver our goods worldwide. No matter where you live, your order will be shipped in time and delivered right to your door or to any other location you have stated. The packages are handled with utmost care, so the ordered products will be handed to you safe and sound, just like you expect them to be.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <ul class="product-info">
-                    <li>
-                      <dl>
-                        <dt>Colors</dt>
-                        <dd>
-                          <div class="form-group form-group-color form-group-modern">
-                            <label class="radio-inline">
-                              <input name="input-group-radio-color" value="color-1" type="radio" class="radio-custom">
-                              <span style="background-color: #1b3164;" class="radio-control"></span> </label>
-                            <label class="radio-inline">
-                              <input name="input-group-radio-color" value="color-2" type="radio" class="radio-custom">
-                              <span style="background-color: #92909f;" class="radio-control"></span> </label>
-                            <label class="radio-inline">
-                              <input name="input-group-radio-color" value="color-3" type="radio" class="radio-custom">
-                              <span style="background-color: #f3f1f2;" class="radio-control"></span> </label>
-                          </div>
-                        </dd>
-                      </dl>
-                    </li>
-                    <li>
-                      <dl>
-                        <dt>Size</dt>
-                        <dd>
-                          <div class="form-group form-group-size form-group-modern">
-                            <label class="radio-inline">
-                              <input name="input-group-radio-size" value="size-1" type="radio" class="radio-custom radio-product-size">
-                              <span class="radio-control">XXL</span> </label>
-                            <label class="radio-inline">
-                              <input name="input-group-radio-size" value="size-2" type="radio" class="radio-custom radio-product-size">
-                              <span class="radio-control">XL</span> </label>
-                            <label class="radio-inline">
-                              <input name="input-group-radio-size" value="size-3" type="radio" class="radio-custom radio-product-size">
-                              <span class="radio-control">L</span> </label>
-                            <label class="radio-inline">
-                              <input name="input-group-radio-size" value="size-4" type="radio" class="radio-custom radio-product-size">
-                              <span class="radio-control">M</span> </label>
-                            <label class="radio-inline">
-                              <input name="input-group-radio-size" value="size-5" type="radio" class="radio-custom radio-product-size">
-                              <span class="radio-control">S</span> </label>
-                            <label class="radio-inline">
-                              <input name="input-group-radio-size" value="size-6" type="radio" class="radio-custom radio-product-size">
-                              <span class="radio-control">XS</span> </label>
-                          </div>
-                        </dd>
-                      </dl>
-                    </li>
-                    <li>
-                      <dl>
-                        <dt>Quantity</dt>
-                        <dd>
-                          <div class="stepper-lg">
-                            <input type="number" data-zeros="false" value="1" min="1" max="40">
-                          </div>
-                        </dd>
-                      </dl>
-                    </li>
-                  </ul>
-                  <div class="product-panel">
-                    <div class="pricing-wrap">
-                      <div class="pricing-object pricing-object-md"><span class="small small-middle">$</span><span class="price">35</span><span class="small small-bottom">.00</span></div>
-                      <span class="price-irrelevant">49.99</span> </div>
-                    <a href="shop-cart.html" class="btn btn-icon btn-icon-left btn-primary product-control"><span class="icon icon-sm fa-shopping-cart"></span><span>add to cart</span></a> </div>
-                </div>
-              </div>
-              <div class="product-footer">
-                <div id="tabs-1" class="tabs-custom tabs-vertical tabs-corporate">
-                  <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tabs-1-1" data-toggle="tab">Additional Information</a></li>
-                    <li><a href="#tabs-1-2" data-toggle="tab">Video Review</a></li>
-                    <li><a href="#tabs-1-3" data-toggle="tab">Customer Reviews</a></li>
-                    <li><a href="#tabs-1-4" data-toggle="tab">Comments</a></li>
-                  </ul>
-                  <div class="tab-content text-secondary">
-                    <div id="tabs-1-1" class="tab-pane fade in active">
-                      <p>Fashion has always been so temporary and uncertain. You cant keep up with it. This social phenomenon is very whimsical, thus we as the consumers always try to stay in touch with all the latest fashion tendencies.</p>
-                    </div>
-                    <div id="tabs-1-2" class="tab-pane fade">
-                      <div class="embed-responsive embed-responsive-16by9">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/NN6zt1sF73w" allowfullscreen></iframe>
-                      </div>
-                    </div>
-                    <div id="tabs-1-3" class="tab-pane fade">
-                      <h5>4 Customer Reviews</h5>
-                      <blockquote class="quote-review offset-top-30">
-                        <div class="quote-header"> <cite>John Doe</cite>
-                          <ul class="list-rating">
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star_half"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star_border"></span></li>
-                          </ul>
-                        </div>
-                        <div class="quote-body"> <q>Eius munere cum no. Alia ridens corpora ea his. Sed etiam ignota eu. Vidisse legendos pro ad, numquam voluptatibus per ut, his quot prompta ad. Ius malis movet ea. Altera dissentiunt ut pro, mundi ignota ad sed.</q> </div>
-                      </blockquote>
-                      <blockquote class="quote-review">
-                        <div class="quote-header"> <cite>Alex Ross</cite>
-                          <ul class="list-rating">
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                          </ul>
-                        </div>
-                        <div class="quote-body"> <q>Qui an veri illum incorrupte. Cu has assum laboramus gloriatur, mea ea meis ferri definitionem, quod percipit evertitur ad qui. Altera omittam moderatius id vis, at vix quod bonorum dolorum. Ei pro graecis reformidans, nisl percipitur ullamcorper vis eu.</q> </div>
-                      </blockquote>
-                      <blockquote class="quote-review">
-                        <div class="quote-header"> <cite>Diana Roe</cite>
-                          <ul class="list-rating">
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star_border"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star_border"></span></li>
-                          </ul>
-                        </div>
-                        <div class="quote-body"> <q>Eius munere cum no. Alia ridens corpora ea his. Sed etiam ignota eu. Vidisse legendos pro ad, numquam voluptatibus per ut, his quot prompta ad. Ius malis movet ea. Altera dissentiunt ut pro, mundi ignota ad sed.</q> </div>
-                      </blockquote>
-                      <blockquote class="quote-review">
-                        <div class="quote-header"> <cite>Sara Cole</cite>
-                          <ul class="list-rating">
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star_half"></span></li>
-                            <li><span class="icon icon-xxs material-icons-star_border"></span></li>
-                          </ul>
-                        </div>
-                        <div class="quote-body"> <q>No sit case indoctum, ad dicta singulis deterruisset vel. Mea ne nusquam corpora percipit, at ponderum rationibus sea, ubique invenire adolescens pri cu. Est maiorum omittantur ei. Et pro nisl insolens tincidunt, nam equidem maiorum tincidunt eu, magna tibique id vim</q> </div>
-                      </blockquote>
-                    </div>
-                    <div id="tabs-1-4" class="tab-pane fade">
-                      <article class="comment-minimal">
-                        <div class="comment-header">
-                          <p class="author">martha Perkins</p>
-                        </div>
-                        <div class="comment-body">
-                          <p>I wanted to say thank you for the amazing product and for the fast processing and delivery. It was impressive, you weren't kidding. I was surprised with such an excellent quality. I am very happy with my purchase. </p>
-                        </div>
-                      </article>
-                      <article class="comment-minimal">
-                        <div class="comment-header">
-                          <p class="author">Ann Johnson</p>
-                        </div>
-                        <div class="comment-body">
-                          <p>I loved everything about buying from you! My purchase was carefully packaged and quickly shipped. I was also pleased with great service and delivery times. There is no such awesome store on the web that can match you.</p>
-                        </div>
-                      </article>
-                      <h5 class="offset-top-30">Leave a Comment</h5>
-                      <form data-form-output="form-output-global" data-form-type="contact" method="post" action="#" class="rd-mailform form-modern offset-top-30">
-                        <div class="range">
-                          <div class="cell-sm-6">
-                            <div class="form-group">
-                              <label for="contact-email" class="form-label">Email</label>
-                              <input id="contact-email" type="email" name="email" data-constraints="@Email @Required" class="form-control">
-                            </div>
-                          </div>
-                          <div class="cell-xs-12 offset-top-30">
-                            <div class="form-group">
-                              <div class="textarea-lined-wrap">
-                                <label for="contact-message" class="form-label">Message</label>
-                                <textarea id="contact-message" name="message" data-constraints="@Required" style="height: 100px;" class="form-control"></textarea>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="cell-xs-12 offset-top-30 offset-xs-top-30">
-                            <button type="submit" class="min-width-1 btn btn-primary">Submit</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-<%@include file="../modules/footer.jsp" %>
-</div>
-<%@include file="../modules/form-output-global.jsp" %>
-<script src="js/core.min.js"></script> 
-<script src="js/script.js"></script>
+<body>
+	<div class="modal fade" id="myModal">
+
+		<div class="modal-dialog">
+			<div class="modal-content" style="margin-top: 30%">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Modal Header</h4>
+				</div>
+				<div class="modal-body" id="modal-body">메일 인증을 완료해주세요</div>
+				<div class="modal-footer">
+					<div class="group-lg group-middle group-sm offset-top-30">
+						<button type="button" class="btn btn-default btn-sm"
+							data-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+			<!-- modal-content -->
+		</div>
+		<!-- modal-dialog -->
+	</div>
+	<!-- modal 끝 -->
+	<div class="page">
+		<%@include file="../modules/header.jsp"%>
+		<main class="page-content">
+		<section class="section-66 section-sm-90 section-lg-bottom-120">
+			<div class="shell">
+				<h3 class="text-center">회원정보 수정</h3>
+				<div class="range offset-top-20	">
+					<div class="cell-sm-8 offset-top-20 offset-sm-top-0">
+
+							<div class="inset-lg-left-60 inset-lg-right-60" id="formation">
+								<blockquote class="quote-bordered">
+									<div class="quote-body">
+										<div class="quote-open">
+											<svg version="1.1" baseprofile="tiny"
+												xmlns="https://www.w3.org/2000/svg"
+												xmlns:xlink="https://www.w3.org/1999/xlink" width="37px"
+												height="27px" viewbox="0 0 21 15" preserveAspectRatio="none">
+                      <path
+													d="M9.597,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.349,1.316                    c-1.287,0-2.414-0.44-3.382-1.316C0.482,12.811,0,11.758,0,10.535c0-1.226,0.58-2.716,1.739-4.473L5.603,0H9.34L6.956,6.37                    C8.716,7.145,9.597,8.493,9.597,10.412z M20.987,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.35,1.316                    c-1.288,0-2.415-0.44-3.381-1.316c-0.966-0.879-1.45-1.931-1.45-3.154c0-1.226,0.582-2.716,1.74-4.473L16.994,0h3.734l-2.382,6.37                    C20.106,7.145,20.987,8.493,20.987,10.412z"></path>
+                    </svg>
+										</div>
+										<div class="quote-body-inner">
+
+											<form
+												class="rd-mailform form-modern form-darker offset-top-20"
+												action="updateM" method="POST">
+												<table id="table2" class="table table-primary">
+													<thead>
+														<tr>
+															<th>ID</th>
+															<td><div class="form-group">
+																	<input id="userid" type="text" name="m_id"
+																		value="${member.m_id }"
+																		class="form-control form-control-has-validation" readonly="readonly">
+																	<span id="idcheck" style="color: red"></span> <label
+																		for="userid" class="form-validation"></label>
+																</div></td>
+														</tr>
+														<tr>
+															<th>Password</th>
+															<td><div class="form-group offset-top-22">
+																	<input id="m_password" type="password"
+																		name="m_password" value="${member.m_password }"
+																		class="form-control form-control-has-validation">
+																	<label for="m_password" class="form-label"></label> <span
+																		id="pass" style="color: red"></span> <span
+																		class="form-validation"></span>
+																</div></td>
+														</tr>
+														
+														<tr>
+														<th>
+														</th>
+														<td>
+														</td>
+														
+														</tr>
+														<tr>
+															<th>Email</th>
+															<td><div class="form-group offset-top-10">
+																	<input id="m_email" type="email" name="m_email"
+																		value="${member.m_email }" class="form-control">
+																		<input type="button" id="checknumc" name="checknumc"
+																		value="메일인증" class="btn btn-info btn-shadow btn-xs">
+																	<label for="m_email" class="form-label"></label>
+																	
+																	 <span
+																		id="emailcheck2" style="color: red"> </span> <span
+																		class="form-validation">
+																		</span>
+																	<!-- 메일 인증버튼 누르면 화면이 바뀌고, 줄도 변경되어서 조금 깔끔하게 나옴 -->
+																	<!-- style="float: middle; margin-top:15px" -->
+																</div>
+																<div id="test2" class="form-group ofset-top-22">
+																	<div class="form-group" id="test">
+																		<input id="checknum" type="text" name="checknum"
+																			class="form-control" placeholder="메일로 전송된 인증번호 입력">
+																		<span class="form-validation"></span> <label
+																			class="form-label rd-input-label" for="checknum"></label>
+																	
+																	</div>
+																	
+																</div></td>
+														</tr>
+														<tr>
+															<th>Name</th>
+															<td>
+																<div class="form-group offset-top-22">
+																	<input id="m_name" type="text" name="m_name"
+																		value="${member.m_name }" class="form-control">
+																	<span id="namecheck" style="color: red"></span> <span
+																		class="form-validation"></span>
+																</div>
+															</td>
+														</tr>
+														<tr>
+														
+																												
+															<td colspan="2">
+																
+																	
+																	
+
+
+																
+															</td>
+														</tr>
+													</thead>
+												</table>
+																<div class="cell-sm-2 cell-md-6 col-sm-6 height-fill offset-top-30">
+																<input type="hidden" id="_chk_id" name="chk_Id"
+																		value="0">
+																	
+																		<button type="submit" id="button1" class="btn btn-primary btn-block"
+																		onclick="return modalCheck();">Modify</button>
+																		
+																		<a href="login_home">
+																		<button type="button" id="button1" class="btn btn-primary btn-block"
+																		>Cancel</button></a>
+																		</div>
+											</form>
+
+										</div>
+									</div>
+							</blockquote>
+							</div>
+
+
+
+					</div>
+				</div>
+			</div>
+		</section>
+		</main>
+		<%@include file="../modules/footer.jsp"%>
+	</div>
+	<%@include file="../modules/form-output-global.jsp"%>
+	<script src="js/core.min.js"></script>
+	<script src="js/script.js"></script>
 </body>
 </html>

@@ -9,6 +9,8 @@ public interface CardImageDAO {
 
 	public int updateCardImage(CardImage cardImage) throws Exception;
 
+	public int deleteCardImage(CardImage cardImage) throws Exception;
+	
 	public int setMyCardList(CardImage cardImage) throws Exception;
 
 	public int sharedChange(CardImage cardImage) throws Exception;
@@ -22,4 +24,6 @@ public interface CardImageDAO {
 	public Card setMyCardSharing(CardImage cardImage) throws Exception;
 
 	public CardImage myCardExist(String m_id) throws Exception;
+
+	
 }

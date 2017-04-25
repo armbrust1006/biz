@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -38,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import global.scit.bizcard.repository.CardImageRepository;
 import global.scit.bizcard.repository.CardRepository;
+import global.scit.bizcard.repository.MemberRepository;
 import global.scit.bizcard.util.FileService;
 import global.scit.bizcard.util.ImageService;
 import global.scit.bizcard.util.Tess4J;
@@ -53,6 +53,9 @@ public class AccessCardController {
 	private CardRepository cardRepository;
 	@Autowired
 	private CardImageRepository cardImageRepository;
+	@Autowired
+	private MemberRepository memberRepository;
+	
 
 	final String uploadPathLogo = "/CardImageFile/logo";
 	final String uploadPathCard = "/CardImageFile/card";
@@ -329,6 +332,25 @@ public class AccessCardController {
 		return "redirect:/myCard";
 	}
 
+	 /**
+	    * [현택] 타인 명함 삭제
+	    * 
+	    * @param cardNum
+	    * @param session("m_id")
+	    * @return 보유 명함 목록으로 이동
+	    */
+	@RequestMapping(value = "/cardDelete", method = RequestMethod.POST)
+	   public String cardDelete(CardImage cardImage, HttpSession session) {
+	      System.out.println("삭제: " + cardImage.toString());
+	      cardImage.setM_id(String.valueOf(session.getAttribute("m_id")));
+	      cardImageRepository.deleteCardImage(cardImage);
+	      if (cardImage.getCardType() == null) {
+	         return "redirect:login_home";
+	      } else {
+	         return "redirect:myCardList";
+	      }
+	   }
+	
 	/**
 	 * 로고 이미지 가져오기
 	 * 
@@ -469,8 +491,10 @@ public class AccessCardController {
 	 * @param model
 	 */
 	@RequestMapping(value = "/selectOneCard", method = RequestMethod.GET)
-	public String selectOneCard(int cardnum, HttpSession session, Model model) {
+	public String selectOneCard(String email, int cardnum, HttpSession session, Model model) {
 		String loginID = (String) session.getAttribute("m_id");
+		email = memberRepository.getEmail(loginID);
+		model.addAttribute("m_email", email);
 		Card c = new Card();
 		c.setM_id(loginID);
 		c.setCardNum(cardnum);

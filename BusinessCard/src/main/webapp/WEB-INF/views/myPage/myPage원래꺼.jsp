@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@include file="../modules/form-output-global.jsp"%>
+
 <!DOCTYPE html>
 <html class="wide wow-animation">
 <head>
@@ -249,11 +251,9 @@
 </script>
 </head>
 <!-- body 배경화면 이미지크기 1920x900 -->
-
-<body style="background-image: url(images/register_BG.jpg);"
-   class="one-screen-page bg-gray-darker bg-image">
-
+  
    <div class="modal fade" id="myModal">
+
       <div class="modal-dialog">
          <div class="modal-content" style="margin-top: 30%">
             <div class="modal-header">
@@ -261,7 +261,7 @@
                <h4 class="modal-title">Modal Header</h4>
             </div>
             <div class="modal-body" id="modal-body">
-             메일 인증에 실패하였습니다
+             정확하게 입력해주세요.
             </div>
             <div class="modal-footer">
                <div class="group-lg group-middle group-sm offset-top-30">
@@ -278,8 +278,9 @@
 
 
    <div class="page">
+    <%@include file="../modules/header.jsp"%>
       <div class="page-inner">
-         <header class="page-head">
+<!--          <header class="page-head">
             <div class="divider-spectrum"></div>
             <div class="page-head-inner">
                <div class="shell text-center">
@@ -287,14 +288,15 @@
                      src="images/logo-white.png" width="200" height="22" alt="logo" /></a>
                </div>
             </div>
-         </header>
+         </header> -->
          <section class="page-content">
             <div class="shell">
                <div class="range range-sm-center">
+               <section class="section-50 section-sm-top-75 section-lg-top-90">
                   <div class="cell-sm-7 cell-md-5 cell-lg-4">
                      <div class="block-shadow text-center">
                         <div class="block-inner">
-                           <p class="h7">Create your account</p>
+                           <p class="h7">Modify your account</p>
                            <div class="offset-top-20 offset-sm-top-30">
                               <span class="icon icon-xl icon-gray-base material-icons-face"></span>
                            </div>
@@ -304,7 +306,8 @@
                            action="register" method="POST">
                            <div class="block-inner">
                               <div class="form-group">
-                                 <input id="userid" type="text" name="m_id"
+                                 <input id="userid" type="text" name="m_id" value="${member.m_id }"
+                                 readonly="readonly"
                                     data-constraints="@Required"
                                     class="form-control form-control-has-validation"
                                     placeholder="ID"> <span id="idcheck"
@@ -312,7 +315,7 @@
                                     class="form-validation"></label>
                               </div>
                               <div class="form-group offset-top-22">
-                                 <input id="m_password" type="password" name="m_password"
+                                 <input id="m_password" type="password" name="m_password" value="${member.m_password }"
                                     data-constraints="@Required"
                                     class="form-control form-control-has-validation"
                                     placeholder="Password"> <label for="m_password"
@@ -320,7 +323,7 @@
                                     style="color: red"></span> <span class="form-validation"></span>
                               </div>
                               <div class="form-group offset-top-22">
-                                 <input id="m_email" type="email" name="m_email"
+                                 <input id="m_email" type="email" name="m_email" value="${member.m_email }"
                                     class="form-control"
                                     placeholder="Email"> <label for="m_email"
                                     class="form-label"></label> <span id="emailcheck2"
@@ -343,7 +346,7 @@
                               </div>
 
                               <div class="form-group offset-top-22">
-                                 <input id="m_name" type="text" name="m_name"
+                                 <input id="m_name" type="text" name="m_name" value="${member.m_name }"
                                     data-constraints="@Required" class="form-control"
                                     placeholder="Name"> <span id="namecheck"
                                     style="color: red"></span> <span class="form-validation"></span>
@@ -351,7 +354,7 @@
                            </div>
                            <div class="offset-top-30 offset-sm-top-40">
                               <input type="hidden" id="_chk_id" name="chk_Id" value="0">
-                              <button type="submit" class="btn btn-primary btn-block" onclick= "return modalCheck();">Join</button>
+                              <button type="submit" class="btn btn-primary btn-block" onclick= "return modalCheck();">Modify</button>
 
 
                            </div>
@@ -362,59 +365,12 @@
             </div>
          </section>
 
-         <footer class="page-foot">
-            <div class="page-foot-inner">
-               <div class="shell text-center">
-                  <div class="range">
-                     <div class="cell-xs-12"></div>
-                  </div>
-               </div>
-            </div>
-            <div class="divider-spectrum"></div>
-         </footer>
-      </div>
-   </div>
-   <div id="form-output-global" class="snackbars"></div>
-   <div tabindex="-1" role="dialog" aria-hidden="true" class="pswp">
-      <div class="pswp__bg"></div>
-      <div class="pswp__scroll-wrap">
-         <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-         </div>
-         <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-               <div class="pswp__counter"></div>
-               <button title="Close (Esc)"
-                  class="pswp__button pswp__button--close"></button>
-               <button title="Share" class="pswp__button pswp__button--share"></button>
-               <button title="Toggle fullscreen"
-                  class="pswp__button pswp__button--fs"></button>
-               <button title="Zoom in/out" class="pswp__button pswp__button--zoom"></button>
-               <div class="pswp__preloader">
-                  <div class="pswp__preloader__icn">
-                     <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div
-               class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-               <div class="pswp__share-tooltip"></div>
-            </div>
-            <button title="Previous (arrow left)"
-               class="pswp__button pswp__button--arrow--left"></button>
-            <button title="Next (arrow right)"
-               class="pswp__button pswp__button--arrow--right"></button>
-            <div class="pswp__caption">
-               <div class="pswp__caption__cent"></div>
-            </div>
-         </div>
-      </div>
-   </div>
-   <%@include file="../modules/form-output-global.jsp"%>
+       
+   
+ 
+   	
+	
+	<%@include file="../modules/footer.jsp"%>
    <script src="js/core.min.js"></script>
    <script src="js/script.js"></script>
    <!--    </form> -->
