@@ -67,7 +67,7 @@
 	</select>
 
 	<select id="checkExistMine" resultType="String" parameterType="String">
-		select m_id from CARDIMAGE where m_id=#{m_id}
+		select cardtype from CARDIMAGE where m_id=#{m_id} and cardtype='my'
 	</select>
 
 	<update id="sharedChange" parameterType="CardImage">

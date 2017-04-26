@@ -19,19 +19,27 @@
 	position: relative;
 	left: 25%;
 }
-#table2 th{
-	width:30px;
-	vertical-align:middle;
-}
-#table2 td{
-	padding-left:20px;
-	vertical-align:middle;
+
+#table2 th {
+	width: 30px;
+	vertical-align: middle;
 }
 
-#button1 {float: left; padding: 10px; width: 50%; }
+#table2 td {
+	padding-left: 20px;
+	vertical-align: middle;
+}
 
-
-
+#button1 {
+	float: left;
+	padding: 10px;
+	width: 50%;
+}
+#button2 {
+	float: right;
+	padding: 10px;
+	width: 50%;
+}
 
 .makebutton {
 	position: relative;
@@ -321,7 +329,10 @@
 			location.href = "myPage";
 
 		}
-
+	}
+	
+	function goBack(){
+		location.href = "login_home";
 	}
 </script>
 </head>
@@ -356,126 +367,103 @@
 				<div class="range offset-top-20	">
 					<div class="cell-sm-8 offset-top-20 offset-sm-top-0">
 
-							<div class="inset-lg-left-60 inset-lg-right-60" id="formation">
-								<blockquote class="quote-bordered">
-									<div class="quote-body">
-										<div class="quote-open">
-											<svg version="1.1" baseprofile="tiny"
-												xmlns="https://www.w3.org/2000/svg"
-												xmlns:xlink="https://www.w3.org/1999/xlink" width="37px"
-												height="27px" viewbox="0 0 21 15" preserveAspectRatio="none">
-                      <path
-													d="M9.597,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.349,1.316                    c-1.287,0-2.414-0.44-3.382-1.316C0.482,12.811,0,11.758,0,10.535c0-1.226,0.58-2.716,1.739-4.473L5.603,0H9.34L6.956,6.37                    C8.716,7.145,9.597,8.493,9.597,10.412z M20.987,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.35,1.316                    c-1.288,0-2.415-0.44-3.381-1.316c-0.966-0.879-1.45-1.931-1.45-3.154c0-1.226,0.582-2.716,1.74-4.473L16.994,0h3.734l-2.382,6.37                    C20.106,7.145,20.987,8.493,20.987,10.412z"></path>
-                    </svg>
-										</div>
-										<div class="quote-body-inner">
-
-											<form
-												class="rd-mailform form-modern form-darker offset-top-20"
-												action="updateM" method="POST">
-												<table id="table2" class="table table-primary">
-													<thead>
-														<tr>
-															<th>ID</th>
-															<td><div class="form-group">
-																	<input id="userid" type="text" name="m_id"
-																		value="${member.m_id }"
-																		class="form-control form-control-has-validation" readonly="readonly">
-																	<span id="idcheck" style="color: red"></span> <label
-																		for="userid" class="form-validation"></label>
-																</div></td>
-														</tr>
-														<tr>
-															<th>Password</th>
-															<td><div class="form-group offset-top-22">
-																	<input id="m_password" type="password"
-																		name="m_password" value="${member.m_password }"
-																		class="form-control form-control-has-validation">
-																	<label for="m_password" class="form-label"></label> <span
-																		id="pass" style="color: red"></span> <span
-																		class="form-validation"></span>
-																</div></td>
-														</tr>
-														
-														<tr>
-														<th>
-														</th>
-														<td>
-														</td>
-														
-														</tr>
-														<tr>
-															<th>Email</th>
-															<td><div class="form-group offset-top-10">
-																	<input id="m_email" type="email" name="m_email"
-																		value="${member.m_email }" class="form-control">
-																		<input type="button" id="checknumc" name="checknumc"
-																		value="메일인증" class="btn btn-info btn-shadow btn-xs">
-																	<label for="m_email" class="form-label"></label>
-																	
-																	 <span
-																		id="emailcheck2" style="color: red"> </span> <span
-																		class="form-validation">
-																		</span>
-																	<!-- 메일 인증버튼 누르면 화면이 바뀌고, 줄도 변경되어서 조금 깔끔하게 나옴 -->
-																	<!-- style="float: middle; margin-top:15px" -->
-																</div>
-																<div id="test2" class="form-group ofset-top-22">
-																	<div class="form-group" id="test">
-																		<input id="checknum" type="text" name="checknum"
-																			class="form-control" placeholder="메일로 전송된 인증번호 입력">
-																		<span class="form-validation"></span> <label
-																			class="form-label rd-input-label" for="checknum"></label>
-																	
-																	</div>
-																	
-																</div></td>
-														</tr>
-														<tr>
-															<th>Name</th>
-															<td>
-																<div class="form-group offset-top-22">
-																	<input id="m_name" type="text" name="m_name"
-																		value="${member.m_name }" class="form-control">
-																	<span id="namecheck" style="color: red"></span> <span
-																		class="form-validation"></span>
-																</div>
-															</td>
-														</tr>
-														<tr>
-														
-																												
-															<td colspan="2">
-																
-																	
-																	
-
-
-																
-															</td>
-														</tr>
-													</thead>
-												</table>
-																<div class="cell-sm-2 cell-md-6 col-sm-6 height-fill offset-top-30">
-																<input type="hidden" id="_chk_id" name="chk_Id"
-																		value="0">
-																	
-																		<button type="submit" id="button1" class="btn btn-primary btn-block"
-																		onclick="return modalCheck();">Modify</button>
-																		
-																		<a href="login_home">
-																		<button type="button" id="button1" class="btn btn-primary btn-block"
-																		>Cancel</button></a>
-																		</div>
-											</form>
-
-										</div>
+						<div class="inset-lg-left-60 inset-lg-right-60" id="formation">
+							<blockquote class="quote-bordered">
+								<div class="quote-body">
+									<div class="quote-open">
+										<svg version="1.1" baseprofile="tiny"
+											xmlns="https://www.w3.org/2000/svg"
+											xmlns:xlink="https://www.w3.org/1999/xlink" width="37px"
+											height="27px" viewbox="0 0 21 15" preserveAspectRatio="none">
+                    					  <path
+												d="M9.597,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.349,1.316                    c-1.287,0-2.414-0.44-3.382-1.316C0.482,12.811,0,11.758,0,10.535c0-1.226,0.58-2.716,1.739-4.473L5.603,0H9.34L6.956,6.37                    C8.716,7.145,9.597,8.493,9.597,10.412z M20.987,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.35,1.316                    c-1.288,0-2.415-0.44-3.381-1.316c-0.966-0.879-1.45-1.931-1.45-3.154c0-1.226,0.582-2.716,1.74-4.473L16.994,0h3.734l-2.382,6.37                    C20.106,7.145,20.987,8.493,20.987,10.412z"></path>
+                  						  </svg>
 									</div>
+									<div class="quote-body-inner" align="center">
+
+										<form
+											class="rd-mailform form-modern form-darker offset-top-20"
+											action="updateM" method="POST">
+											<table id="table2" class="table table-primary">
+												<thead>
+													<tr>
+														<th>ID</th>
+														<td><div class="form-group">
+																<input id="userid" type="text" name="m_id"
+																	value="${member.m_id }"
+																	class="form-control form-control-has-validation"
+																	readonly="readonly"> <span id="idcheck"
+																	style="color: red"></span> <label for="userid"
+																	class="form-validation"></label>
+															</div></td>
+													</tr>
+													<tr>
+														<th>Password</th>
+														<td><div class="form-group offset-top-22">
+																<input id="m_password" type="password" name="m_password"
+																	value="${member.m_password }"
+																	class="form-control form-control-has-validation">
+																<label for="m_password" class="form-label"></label> <span
+																	id="pass" style="color: red"></span> <span
+																	class="form-validation"></span>
+															</div></td>
+													</tr>
+
+													<tr>
+														<th rowspan="2">Email</th>
+														<td><div class="form-group offset-top-10">
+																<input id="m_email" type="email" name="m_email"
+																	value="${member.m_email }" class="form-control">
+																<input type="button" id="checknumc" name="checknumc"
+																	value="메일인증" class="btn btn-info btn-shadow btn-xs" style="margin-top:10px">
+																<label for="m_email" class="form-label"></label> <span
+																	id="emailcheck2" style="color: red"> </span> <span
+																	class="form-validation"> </span>
+																<!-- 메일 인증버튼 누르면 화면이 바뀌고, 줄도 변경되어서 조금 깔끔하게 나옴 -->
+																<!-- style="float: middle; margin-top:15px" -->
+															</div>
+															<div id="test2" class="form-group ofset-top-22">
+																<div class="form-group" id="test">
+																	<input id="checknum" type="text" name="checknum"
+																		class="form-control" placeholder="메일로 전송된 인증번호 입력">
+																	<span class="form-validation"></span> <label
+																		class="form-label rd-input-label" for="checknum"></label>
+																</div>
+															</div></td>
+													</tr>
+													<tr>
+														<td></td>
+													</tr>
+													<tr>
+														<th>Name</th>
+														<td>
+															<div class="form-group offset-top-22">
+																<input id="m_name" type="text" name="m_name"
+																	value="${member.m_name }" class="form-control">
+																<span id="namecheck" style="color: red"></span> <span
+																	class="form-validation"></span>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2"></td>
+													</tr>
+												</thead>
+											</table>
+											
+											<input type="hidden" id="_chk_id" name="chk_Id" value="0" style="display:none">
+											<div class="group-lg group-middle group-sm offset-top-30">
+							                     <button type="submit" class="btn btn-primary btn-sm" onclick="return modalCheck();">회원수정</button>
+							                     <button type="button" class="btn btn-primary btn-sm" onclick="return goBack();">취소</button>
+                     						</div>
+											
+										</form>
+										
+
+									</div>
+								</div>
 							</blockquote>
-							</div>
-
-
-
+						</div>
 					</div>
 				</div>
 			</div>
