@@ -28,8 +28,6 @@ public class MyController {
 	@Autowired
 	private MemberRepository mRPS;
 
-	
-
 	/**
 	 * MyPage -> 내 명함 페이지
 	 * 
@@ -70,23 +68,21 @@ public class MyController {
 		}
 		return "myPage/myCard";
 	}
-	
-	@RequestMapping(value="/myPage", method=RequestMethod.GET)
-	public String update(HttpSession session, Model model){
-		String id = (String)session.getAttribute("m_id");
+
+	@RequestMapping(value = "/myPage", method = RequestMethod.GET)
+	public String update(HttpSession session, Model model) {
+		String id = (String) session.getAttribute("m_id");
 		Member updateM = mRPS.idCheck(id);
-		
-		logger.debug("고객님 명단 : {} ",updateM);
-		model.addAttribute("member",updateM);
-		
+
+		logger.debug("고객님 명단 : {} ", updateM);
+		model.addAttribute("member", updateM);
+
 		return "myPage/myPage";
 	}
-	
-	
-	//개인정보수정 
-	@RequestMapping(value="/updateM", method = RequestMethod.POST)
-	public String update(Member member, Model model, HttpSession session)
-	{
+
+	// 개인정보수정
+	@RequestMapping(value = "/updateM", method = RequestMethod.POST)
+	public String update(Member member, Model model, HttpSession session) {
 		int result = 0;
 		try {
 			result = mRPS.updateM(member);
@@ -95,18 +91,13 @@ public class MyController {
 		}
 
 		if (result == 0) {
-			
-			return "myPage/myPage";
-		}
-		else if(result == 1){
 
-		return "myPage/myPage";
+			return "myPage/myPage";
+		} else if (result == 1) {
+
+			return "myPage/myPage";
 		}
 		return "myPage/myPage";
 	}
-	
-	
-	
-	
-	
+
 }

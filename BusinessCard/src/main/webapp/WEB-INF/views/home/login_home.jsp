@@ -14,7 +14,7 @@
 </head>
 <body style="">
 <div class="page">
- <%@include file="../modules/header.jsp" %>
+<%@include file="../modules/header.jsp" %>
   <main class="page-content">
     <section>
       <div data-loop="false" data-autoplay="false" data-simulate-touch="true" class="swiper-container swiper-slider swiper-variant-1 bg-gray-base">

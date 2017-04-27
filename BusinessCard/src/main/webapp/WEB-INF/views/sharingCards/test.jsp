@@ -2,9 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html lang="ko" class="wide wow-animation">
+<html lang="en" class="wide wow-animation">
 <head>
-<title>OBOE</title>
+<title>Business</title>
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport"
 	content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -15,24 +15,59 @@
 	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
 <style>
-#formation {
-	position: relative;
-	left: 50%;
+#map {
+	height: 250px;
+	width: 100%;
 }
 
-.formation td {
-	vertical-align: middle;
-	padding-left: 30%;
+.button {
+	display: inline-block;
+	border-radius: 1px;
+	background-color: #0da375;
+	border: none;
+	color: #FFFFFF;
+	text-align: center;
+	font-size: 15px;
+	padding: 5px;
+	width: 100px;
+	transition: all 0.5s;
+	cursor: pointer;
+	margin: 0px;
 }
 
-.makebutton {
+.button span {
+	cursor: pointer;
+	display: inline-block;
 	position: relative;
-	background-color: #4982e5;
+	transition: 0.5s;
+}
+
+.button span:after {
+	content: '\00bb';
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	right: -20px;
+	transition: 0.5s;
+}
+
+.button:hover span {
+	padding-right: 25px;
+}
+
+.button:hover span:after {
+	opacity: 1;
+	right: 0;
+}
+
+.routebutton, .sharebutton {
+	position: relative;
+	background-color: #4CAF50;
 	border: none;
 	font-size: 15px;
 	color: #FFFFFF;
 	padding: 5px;
-	width: 200px;
+	width: 100px;
 	text-align: center;
 	-webkit-transition-duration: 0.4s; /* Safari */
 	transition-duration: 0.4s;
@@ -41,7 +76,11 @@
 	cursor: pointer;
 }
 
-.makebutton:after {
+.routebutton {
+	width: 350px;
+}
+
+.routebutton:after, .sharebutton:after {
 	content: "";
 	background: #f1f1f1;
 	display: block;
@@ -54,21 +93,21 @@
 	transition: all 0.8s
 }
 
-.makebutton:active:after {
+.routebutton:active:after, .sharebutton:active:after {
 	padding: 0;
 	margin: 0;
 	opacity: 1;
 	transition: 0s
 }
 
-.makebutton span {
+.routebutton span, .sharebutton span {
 	cursor: pointer;
 	display: inline-block;
 	position: relative;
 	transition: 0.5s;
 }
 
-.makebutton span:after {
+.routebutton span:after, .sharebutton span:after {
 	content: '\00bb';
 	position: absolute;
 	opacity: 0;
@@ -77,383 +116,471 @@
 	transition: 0.5s;
 }
 
-.makebutton:hover span {
+.routebutton:hover span, .sharebutton:hover span {
 	padding-right: 25px;
 }
 
-.makebutton:hover span:after {
+.routebutton:hover span:after, .sharebutton:hover span:after {
 	opacity: 1;
 	right: 0;
 }
+
+#routeChoice {
+	display: none;
+}
 </style>
-
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-<script>
-	var emailflag = false;
-	var checknumflag = false;
-
+<script type="text/javascript">
 	$(document).ready(function() {
+		$("#showShareRoom").on('click', shareRoomAjax);
+		$("#addStop").on("click", routeStopBy);
 
-		$('#userid').on('keyup', idcheck);
-		$('#m_email').on('keyup', emailcheck);
-		//처음 접근할때 text박스를 숨긴다.
-		$('#test').hide();
+		document.getElementById("cardDelete").onclick = function() {
+			document.getElementById("cardDeleteForm").submit();
 
-		$('#userid').on('change', idcheck2);
-		$('#m_email').on('change', emailcheck2);
+		};
 	});
 
-	function idcheck2() {
-		var id2 = $('#userid').val();
+	/* map start */
+	function initMap() {
+		var map = new google.maps.Map(document.getElementById('map'), {
+			zoom : 15,
+			center : {
+				lat : 35.907,
+				lng : 127.76
+			}
+		});
+		var geocoder = new google.maps.Geocoder();
 
-		if (id2.length == 0) {
-			$('#idcheck').text('');
-		}
-
-	}
-	function emailcheck2() {
-		var email2 = $('#m_email').val();
-
-		if (email2.length == 0) {
-			$('#emailcheck2').text('');
-		}
-	}
-
-	function idcheck() {
-		var id = $('#userid').val();
-		$.ajax({
-			url : 'idcheck',
-			type : 'POST',
-			data : {
-				id : id
-			},
-			dataType : 'text',
-			success : idsuccess
+		var address = document.getElementById('address').value;
+		geocoder.geocode({
+			'address' : address
+		}, function(results, status) {
+			if (status === 'OK') {
+				map.setCenter(results[0].geometry.location);
+				var marker = new google.maps.Marker({
+					map : map,
+					zoom : 18,
+					position : results[0].geometry.location
+				});
+			} else {
+				alert('Geocode was not successful for the following reason: '
+						+ status);
+			}
 		});
 	}
 
-	function idsuccess(text) {
-		var id = $('#userid').val();
-		if (text == '1') {
-			$('#idcheck').text('중복된 아이디가 존재합니다.');
-		} else if (text == '0') {
-			if (id.length == 0) {
-				$('#idcheck').text('');
-			} else {
-				$('#idcheck').text('이 아이디는 사용할 수 있습니다.');
-			}
-		}
+	/* memo modal start*/
+	$("#exampleModal").on('show.bs.modal', function(event) {
+		var button = $(event.relatedTarget)
+		var modal = $(this)
+		modal.find('.modal-body input').val(recipient)
+	})
+	$(document).ready(function() {
+		$("#writeMemo").on("click", writeMemo);
+
+	});
+
+	function writeMemo() {
+		var title = $("#memo-title").val();
+		var memo = $("#memo-text").val();
+		$("#exampleModal").modal('hide'); // 모달 숨기기
+		$("#memo-text").val(''); // 썻던 내용 지우기
+		$("#memo-title").val(''); // 썼던 내용 지우기
+		alert(title);
+		alert(memo);
 	}
-	function emailcheck() {
-		var email = $('#m_email').val();
-		$.ajax({
-			url : 'emailchecksss',
-			type : 'POST',
-			data : {
-				email : email
-			},
-			dataType : 'text',
-			success : emailsuccess
-		});
-	}
+	/* memo modal end*/
+	/* share modal start*/
+	$("#shareModal").on('show.bs.modal', function(event) {
+		var button = $(event.relatedTarget)
+		var modal = $(this)
+		modal.find('.modal-body input').val(recipient)
+	})
 
-	function emailsuccess(text) {
-		var email = $('#m_email').val();
-		if (text == '1') {
-			$('#emailcheck2').text('중복된 이메일입니다.');
-		} else if (text == '0') {
-			if (email.length == 0) {
-				$('#emailcheck2').text('');
-			} else {
-				$('#emailcheck2').text('이 이메일은 사용할 수 있습니다.');
-				emailflag = true;
-			}
-		}
-
-	};
-
-	function flag() {
+	function shareRoomAjax() {
 		$.ajax({
 			type : "post",
-			url : "checknum",
+			url : "showShareRoom",
+			success : showShareRoom
+		});
+	}
 
-			success : function(data) {
-				if (num == data) {
-					alert("인증에 성공하였습니다.");
-					checknumflag = true;
+	function showShareRoom(resp) {
+		var msg = '<table class="table table-primary table-striped">';
+		msg += "<thead>";
+		msg += "<tr>";
+		msg += "<th>" + "공유방 목록" + "</th>";
+		msg += "<th>" + "바로 공유" + "</th>";
+		msg += "</tr>";
+		msg += "</thead>";
+		$
+				.each(
+						resp,
+						function(index, item) {
+							msg += "<tbody>";
+							msg += "<tr>";
+							msg += "<td>" + item.book_name + "</td>";
+							msg += "<td><button type='button' class='sharebutton' style='vertical-align: middle' book_num='"+item.book_num+"'><span>공유하기</span></button>";
+							msg += "</tr>";
+							msg += "<tbody>";
+						});
+		msg += '</table>';
+		$("#shareRoomList").html(msg);
+		$("button:button.sharebutton").on("click", share);
 
-					return true;
-				}
+	}
 
-				else {
-					alert("인증번호가 일치하지 않습니다.");
-					checknumflag = false;
-
-					return false;
-				}
+	function share() {
+		var book_num = $(this).attr("book_num"); //공유할 방
+		var cardnum = $("#cardNum").val();//공유할 명함 번호
+		$.ajax({
+			type : "get",
+			url : "share",
+			data : {
+				"book_num" : book_num,
+				"cardNum" : cardnum
 			},
-
-			error : function(e) {
-				console.log(e);
-			}
-		})
-	}
-
-	$(function() {
-		$("#checknumc").on("click", function() {
-			var email = $("#m_email").val();
-			var checkbutton = $("#checknumc").val();
-			var num = $("#checknum").val();
-
-			if (checkbutton == "메일인증") {
-				$.ajax({
-					type : "post",
-					url : "emailcheck",
-
-					data : {
-						user : email
-					},
-
-					success : function(data) {
-						if (emailflag == true) {
-							console.log("메일로 인증번호가 전송되었습니다.");
-							alert("메일로 인증번호가 발송되었습니다.");
-
-							document.getElementById("checknumc").value = "확인";
-							//text박스가 보여지게된다.
-							$('#test').show();
-						}
-
-						else {
-							alert("이메일 인증이 완료되지 않았습니다. 이메일 인증을 완료하세요");
-							return false;
-						}
-					},
-
-					error : function(e) {
-						console.log(e);
-					}
-				})
-
-			}
-
-			else {
-				//if (checkbutton == "인증번호 체크")
-				$.ajax({
-					type : "post",
-					url : "checknum",
-
-					success : function(data) {
-						if (num == data) {
-							alert("인증에 성공하였습니다.");
-							checknumflag = true;
-
-							return true;
-						}
-
-						else {
-							alert("인증번호가 일치하지 않습니다.");
-							checknumflag = false;
-
-							return false;
-						}
-					},
-
-					error : function(e) {
-						console.log(e);
-					}
-				})
-			}
-		})
-	})
-	function c_alert(output_msg, title_msg) {
-		if (!title_msg)
-			title_msg = 'Alert';
-		if (!output_msg)
-			output_msg = 'No Message to Display.';
-		$("<div></div>").html(output_msg).dialog({
-			title : title_msg,
-			resizable : false,
-			modal : true,
-			buttons : {
-				"Ok" : function() {
-					$(this).dialog("close");
+			success : function(resp) {
+				if (resp == 1) {
+					alert('공유하였습니다.');
+				} else {
+					alert('이미 공유되어 있는 카드입니다.');
 				}
 			}
 		});
 	}
-	function c_alert(output_msg) {
-		$('#modal-body').html(output_msg);
-		$('#myModal').modal({
-			backdrop : true,
-			keyboard : true,
-			show : true
+	/* share modal end*/
+
+	/*    $(document).ready(function() {
+	 $("#writeMemo").on("click", writeMemo);
+
+	 }); */
+
+	/*    function writeMemo() {
+	 var title = $("#memo-title").val();
+	 var memo = $("#memo-text").val();
+	 $("#exampleModal").modal('hide'); // 모달 숨기기
+	 $("#memo-text").val(''); // 썻던 내용 지우기
+	 $("#memo-title").val(''); // 썼던 내용 지우기
+	 alert(title);
+	 alert(memo);
+	 } */
+	/* route modal end*/
+
+	function textToSpeech() {
+		var textToSpeech = $("#textToSpeech").val();
+		alert(textToSpeech);
+		$.ajax({
+			type : "post",
+			url : "listen",
+			data : {
+				"textToSpeech" : textToSpeech
+			},
+			success : listen
 		});
 	}
 
-	function modalCheck() {
-		var id = document.getElementById('userid');
-		var password = document.getElementById('m_password');
-		var email = document.getElementById('m_email');
-		var name = document.getElementById('m_name');
+	function listen(resp) {
+		var source = resp.toDataURL();
+		alert(source);
+		var audio = '';
+		audio = "<embed src="+source+" autostart='true' allowscriptaccess='always'"+
+      "enablehtmlaccess='true' allowfullscreen='true' width='422' height='240' type='video/mp4'></embed><br>";
+		$("#resultAudio").html(audio);
+	}
 
-		if (id.value.length == 0 || password.value.length == 0
-				|| email.value.length == 0 || name.value.length == 0
-				|| checknumflag == false) {
+	function showRouteChoice() {
 
-			$('#myModal').modal({
-				backdrop : true,
-				keyboard : true,
-				show : true
-			});
-			return false;
-		} else {
-			alert('완료');
-			location.href = "login";
+		var start = '901 Cherry Ave, San Bruno';
+		var end = document.getElementById('address').value;
+		window.open("searchRoute?start=" + start + "&end=" + end);
 
-		}
+	}
 
+	function routeStopBy() {
+		window.open("routeStopBy");
 	}
 </script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwT77mHP1Yu98_PplRBCkXycOfTAGZLTI&callback=initMap">
+	/* 이 스크립트 소스는 구글 map보다 아래에 위치해야함. */
+</script>
 </head>
-<body>
-	<div class="modal fade" id="myModal">
-
+<body style="">
+	<!-- modal 시작-->
+	<!-- 메모 modal -->
+	<div class="modal fade" id="exampleModal">
 		<div class="modal-dialog">
-			<div class="modal-content" style="margin-top: 30%">
+			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Modal Header</h4>
+					<h4 class="modal-title"></h4>
 				</div>
-				<div class="modal-body" id="modal-body">정확하게 입력해주세요.</div>
-				<div class="modal-footer">
-					<div class="group-lg group-middle group-sm offset-top-30">
-						<button type="button" class="btn btn-default btn-sm"
-							data-dismiss="modal">닫기</button>
+				<form>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="message-text" class="control-label">NOTE</label>
+							<textarea class="form-control" id="memo-text"></textarea>
+							<br> 시작 날짜: <input type="date"> 종료 날짜: <input
+								type="date">
+						</div>
 					</div>
-				</div>
+					<div class="modal-footer">
+						<div class="group-lg group-middle group-sm offset-top-30">
+							<button type="button" class="btn btn-primary btn-sm"
+								id="writeMemo">쓰기</button>
+							<button type="button" class="btn btn-default btn-sm"
+								data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</form>
 			</div>
 			<!-- modal-content -->
 		</div>
 		<!-- modal-dialog -->
 	</div>
-	<!-- modal 끝 -->
+	<!-- modal -->
+
+
+
+	<!-- 공유 modal -->
+	<div class="modal fade" id="shareModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">공유하기</h4>
+					<h6 class="modal-title">공유할 명함방을 선택하세요.</h6>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<div class="form-group" id="shareRoomList">가입된 공유방이 없습니다.</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<div class="group-lg group-middle group-sm offset-top-30">
+						<button type="button" class="btn btn-default btn-sm"
+							data-dismiss="modal" id="routeClose">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
-		<section class="section-66 section-sm-90 section-lg-bottom-120">
+		<section class="section-50 section-sm-75 section-lg-bottom-20">
 			<div class="shell">
-				<h3 class="text-center">회원정보 수정</h3>
-				<div class="range offset-top-20	">
-					<div class="cell-sm-6 offset-top-20 offset-sm-top-0">
 
-						<div class=center>
-							<div class="inset-lg-left-60 inset-lg-right-60" id="formation">
-								<blockquote class="quote-bordered">
-									<div class="quote-body">
-										<div class="quote-open">
-											<svg version="1.1" baseprofile="tiny"
-												xmlns="https://www.w3.org/2000/svg"
-												xmlns:xlink="https://www.w3.org/1999/xlink" width="37px"
-												height="27px" viewbox="0 0 21 15" preserveAspectRatio="none">
-                      <path
-													d="M9.597,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.349,1.316                    c-1.287,0-2.414-0.44-3.382-1.316C0.482,12.811,0,11.758,0,10.535c0-1.226,0.58-2.716,1.739-4.473L5.603,0H9.34L6.956,6.37                    C8.716,7.145,9.597,8.493,9.597,10.412z M20.987,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.35,1.316                    c-1.288,0-2.415-0.44-3.381-1.316c-0.966-0.879-1.45-1.931-1.45-3.154c0-1.226,0.582-2.716,1.74-4.473L16.994,0h3.734l-2.382,6.37                    C20.106,7.145,20.987,8.493,20.987,10.412z"></path>
-                    </svg>
+
+
+				<div class="range range-lg-center">
+					<div class="cell-lg-10">
+						<div class="product product-single">
+							<div class="product-main">
+								<div class="product-slider">
+									<div class="item">
+										<img src="downloadImage?card=${selectedCard.imagePath}" alt=""
+											width="800" height="400" />
+									</div>
+
+									<!-- 지도 시작 -->
+									<h5></h5>
+									<div id="map"></div>
+									<!-- 지도 끝 -->
+									<h5></h5>
+
+									<button type="button" class="button"
+										style="vertical-align: middle" onclick="showRouteChoice()">
+										<span>길 찾기</span>
+									</button>
+
+									<button type="button" class="button" id="addStop"
+										style="vertical-align: middle">
+										<span>경유 설정</span>
+									</button>
+
+									<!--       <div id="routeChoice">
+
+
+                              <button type="button" class="routebutton"
+                                 style="vertical-align: middle">
+                                 <span>내 회사에서 출발</span>
+                              </button>
+
+                              <button type="button" class="routebutton"
+                                 style="vertical-align: middle">
+                                 <span>출발지 직접 입력</span>
+                              </button>
+
+                           </div> -->
+
+								</div>
+								<div class="product-body">
+									<input type="hidden" id="cardNum"
+										value="${selectedCard.cardNum}">
+									<h5 class="product-brand">${selectedCard.company}&nbsp;${selectedCard.depart}</h5>
+									<h4 class="product-header">
+										${selectedCard.name}&nbsp;${selectedCard.position} <a
+											href="javascript:;" onclick="textToSpeech();"> <span
+											class="icon icon-md icon-primary fa-bullhorn"></span></a> <input
+											type="hidden" value="주현택" id="textToSpeech">
+										<button type="button" class="button"
+											style="vertical-align: middle" data-toggle="modal"
+											data-target="#exampleModal" data-whatever="@mdo">
+											<span>메모하기</span>
+										</button>
+										<button type="button" class="button"
+											style="vertical-align: middle" data-toggle="modal"
+											data-target="#shareModal" data-whatever="@mdo"
+											id="showShareRoom">
+											<span>공유하기</span>
+										</button>
+									</h4>
+
+
+									<div id="accordionOne" role="tablist"
+										aria-multiselectable="true"
+										class="panel-group panel-group-custom panel-group-light product-accordion">
+
+										<div class="panel panel-custom panel-light">
+											<div id="accordionOneHeading1" role="tab"
+												class="panel-heading">
+												<div class="panel-title">
+													<a role="button" data-toggle="collapse"
+														data-parent="#accordionOne" href="#accordionOneCollapse1"
+														aria-controls="accordionOneCollapse1" class="collapsed">
+														<span class="icon icon-md icon-primary fa-tablet"></span>
+														&nbsp;&nbsp;휴대전화
+														<p>${selectedCard.mobile}</p>
+														<div class="panel-arrow"></div>
+													</a>
+												</div>
+											</div>
+											<div id="accordionOneCollapse1" role="tabpanel"
+												aria-labelledby="accordionOneHeading1"
+												class="panel-collapse collapse">
+												<div class="panel-body">
+													<p>개짜증</p>
+												</div>
+											</div>
 										</div>
-										<div class="quote-body-inner">
 
-											<form
-												class="rd-mailform form-modern form-darker offset-top-20"
-												action="register" method="POST">
-												<table class="table table-primary">
-													<thead>
-														<tr>
-															<th>ID</th>
-															<td><div class="form-group">
-																	<input id="userid" type="text" name="m_id"
-																		value="${member.m_id }"
-																		class="form-control form-control-has-validation" "readonly">
-																	<span id="idcheck" style="color: red"></span> <label
-																		for="userid" class="form-validation"></label>
-																</div></td>
-														</tr>
-														<tr>
-															<th>Password</th>
-															<td><div class="form-group offset-top-22">
-																	<input id="m_password" type="password"
-																		name="m_password" value="${member.m_password }"
-																		class="form-control form-control-has-validation">
-																	<label for="m_password" class="form-label"></label> <span
-																		id="pass" style="color: red"></span> <span
-																		class="form-validation"></span>
-																</div></td>
-														</tr>
-														<tr>
-															<th>Email</th>
-															<td><div class="form-group offset-top-10">
-																	<input id="m_email" type="email" name="m_email"
-																		value="${member.m_email }" class="form-control">
-																	<label for="m_email" class="form-label"></label> <span
-																		id="emailcheck2" style="color: red"> </span> <span
-																		class="form-validation"></span>
-																	<!-- 메일 인증버튼 누르면 화면이 바뀌고, 줄도 변경되어서 조금 깔끔하게 나옴 -->
-																	<!-- style="float: middle; margin-top:15px" -->
-																</div>
-																<div id="test2" class="form-group ofset-top-22">
-																	<div class="form-group" id="test">
-																		<input id="checknum" type="text" name="checknum"
-																			class="form-control" placeholder="메일로 전송된 인증번호 입력">
-																		<span class="form-validation"></span> <label
-																			class="form-label rd-input-label" for="checknum"></label>
-																	</div>
-																	<input type="button" id="checknumc" name="checknumc"
-																		value="메일인증" class="btn btn-info btn-shadow btn-xs">
-																</div></td>
-														</tr>
-														<tr>
-															<th>Name</th>
-															<td>
-																<div class="form-group offset-top-22">
-																	<input id="m_name" type="text" name="m_name"
-																		value="${member.m_name }" class="form-control">
-																	<span id="namecheck" style="color: red"></span> <span
-																		class="form-validation"></span>
-																</div>
-															</td>
-														</tr>
-														<tr>
-															<td colspan="2">
-																<div class="offset-top-30 offset-sm-top-40">
-																	<input type="hidden" id="_chk_id" name="chk_Id"
-																		value="0">
-																	<button type="submit" class="btn btn-primary btn-block"
-																		onclick="return modalCheck();">Modify</button>
-
-
-																</div>
-															</td>
-														</tr>
-													</thead>
-												</table>
-
+										<div class="panel panel-custom panel-light">
+											<div id="accordionOneHeading2" role="tab"
+												class="panel-heading">
+												<div class="panel-title">
+													<a role="button" data-toggle="collapse"
+														data-parent="#accordionOne" href="#accordionOneCollapse2"
+														aria-controls="accordionOneCollapse2" class="collapsed">
+														<span class="icon icon-md icon-primary fa-envelope-o"></span>
+														&nbsp;&nbsp;이메일
+														<p>${selectedCard.email}</p>
+														<div class="panel-arrow"></div>
+													</a>
+												</div>
+											</div>
+											<div id="accordionOneCollapse2" role="tabpanel"
+												aria-labelledby="accordionOneHeading2"
+												class="panel-collapse collapse">
+												<div class="panel-body">
+													<p>이메일 보내기 기능 추가 하기</p>
+												</div>
+											</div>
+										</div>
+										<div class="panel panel-custom panel-light">
+											<div id="accordionOneHeading3" role="tab"
+												class="panel-heading">
+												<div class="panel-title">
+													<a role="button" data-toggle="collapse"
+														data-parent="#accordionOne" href="#accordionOneCollapse3"
+														aria-controls="accordionOneCollapse3" class="collapsed">
+														<span class="icon icon-md icon-primary fa-phone"></span>
+														&nbsp;&nbsp;회사 전화
+														<p>${selectedCard.telephone}</p>
+														<div class="panel-arrow"></div>
+													</a>
+												</div>
+											</div>
+											<div id="accordionOneCollapse3" role="tabpanel"
+												aria-labelledby="accordionOneHeading3"
+												class="panel-collapse collapse">
+												<div class="panel-body">
+													<p>회사로 전화하기</p>
+												</div>
+											</div>
+										</div>
+										<div class="panel panel-custom panel-light">
+											<div id="accordionOneHeading4" role="tab"
+												class="panel-heading">
+												<div class="panel-title">
+													<a role="button" data-toggle="collapse"
+														data-parent="#accordionOne" href="#accordionOneCollapse4"
+														aria-controls="accordionOneCollapse4" class="collapsed">
+														<span class="icon icon-md icon-primary fa-fax"></span>&nbsp;&nbsp;&nbsp;팩스
+														<p>${selectedCard.fax}</p>
+														<div class="panel-arrow"></div>
+													</a>
+												</div>
+											</div>
+											<div id="accordionOneCollapse4" role="tabpanel"
+												aria-labelledby="accordionOneHeading4"
+												class="panel-collapse collapse">
+												<div class="panel-body">
+													<p>팩스 보내기</p>
+												</div>
+											</div>
+										</div>
+										<div class="panel panel-custom panel-light">
+											<div id="accordionOneHeading5" role="tab"
+												class="panel-heading">
+												<div class="panel-title">
+													<a role="button" data-toggle="collapse"
+														data-parent="#accordionOne" href="#accordionOneCollapse5"
+														aria-controls="accordionOneCollapse5" class="collapsed">
+														<span class="icon icon-md icon-primary fa-map-marker"></span>&nbsp;&nbsp;&nbsp;회사
+														주소
+														<p>${selectedCard.address}</p> <input type="hidden"
+														id="address" value="${selectedCard.address}">
+														<div class="panel-arrow"></div>
+													</a>
+												</div>
+											</div>
+											<div id="accordionOneCollapse5" role="tabpanel"
+												aria-labelledby="accordionOneHeading5"
+												class="panel-collapse collapse">
+												<div class="panel-body">
+													<p>주소입력</p>
+												</div>
+											</div>
+										</div>
+										<div class="btn btn-primary-outline btn-shadow"
+											id="cardDelete">
+											삭제
+											<form id="cardDeleteForm" method="POST" action="cardDelete">
+												<input type="hidden" id="cardNum" name="cardNum"
+													value="${selectedCard.cardNum}">
 											</form>
 
 										</div>
 									</div>
-							</blockquote>
+								</div>
 							</div>
 						</div>
-
-
-
 					</div>
 				</div>
 			</div>
 		</section>
 		</main>
-		<%@include file="../modules/footer.jsp"%>
 	</div>
+	<%@include file="../modules/footer.jsp"%>
 	<%@include file="../modules/form-output-global.jsp"%>
 	<script src="js/core.min.js"></script>
 	<script src="js/script.js"></script>

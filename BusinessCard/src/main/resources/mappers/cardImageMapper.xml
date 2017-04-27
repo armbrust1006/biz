@@ -22,15 +22,17 @@
 
 	<update id="updateCardImage" parameterType="CardImage">
 		update cardimage
-		set imagePath=#{imagePath}
+		set
+		imagePath=#{imagePath}
 		where m_id=#{m_id}
 		and cardNum=#{cardNum}
 	</update>
-	
+
 	<delete id="deleteCardImage">
-      delete CardImage where m_id=#{m_id} and cardNum = #{cardNum}
-   </delete>
-	
+		delete CardImage where m_id=#{m_id} and cardNum =
+		#{cardNum}
+	</delete>
+
 	<insert id="setMyCardList" parameterType="CardImage">
 		insert into
 		MyCardIndex
@@ -76,4 +78,9 @@
 		shared=#{shared}
 		where cardNum=#{cardNum}
 	</update>
-	</mapper>
+
+	<select id="countMyCardIndex" parameterType="String" resultType="int">
+		select count(cardnum) from mycardindex where
+		m_id=#{m_id}
+	</select>
+</mapper>
