@@ -1,10 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en" class="wide wow-animation">
 <head>
-<title>Business</title>
+<title>OBOE</title>
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport"
 	content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -82,11 +81,9 @@
 		<section class="section-66 section-sm-bottom-90 section-lg-bottom-120">
 			<div class="shell offset-top-60 offset-sm-top-75">
 				<h3 class="text-center">보유 명함 목록</h3>
-				<input type="button" class="btn btn-sm btn-primary" id="date"
-					value="등록날짜순"> <input type="button"
-					class="btn btn-sm btn-primary" id="name" value="이름순"> <input
-					type="button" class="btn btn-sm btn-primary" id="company"
-					value="회사이름순">
+				<input type="button" class="btn btn-sm btn-primary" id="date" value="등록날짜순">
+				<input type="button" class="btn btn-sm btn-primary" id="name" value="이름순">
+				<input type="button" class="btn btn-sm btn-primary" id="company" value="회사이름순">
 				<div class="range offset-top-40" id="list">
 					<!-- 여기서부터 for문 돌리기 -->
 					<%-- <c:forEach items="${list}" var="getCard">

@@ -41,14 +41,14 @@ public class MyController {
 	public String selectMyCard(HttpSession session, Model model) {
 		Card card = new Card();
 		card.setM_id(String.valueOf(session.getAttribute("m_id")));
-		logger.info("card:" + card.toString());
 		Card myCard = cardRepository.selectOneCard(card);
-		if (myCard == null) {
-			model.addAttribute("error", "명함이 생성되어 있지 않아 명함 생성 페이지로 이동합니다!");
-		} else {
+		if (myCard != null) {
 			model.addAttribute("myCard", myCard);
+			return "home/home_myHome";
+		} else {
+			model.addAttribute("error", "내 명함 없음");
+			return "myPage/myCard";
 		}
-		return "myPage/myCard";
 	}
 
 	/**

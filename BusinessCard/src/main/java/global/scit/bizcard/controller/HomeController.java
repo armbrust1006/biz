@@ -1,5 +1,7 @@
 package global.scit.bizcard.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -12,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import global.scit.bizcard.repository.CardImageRepository;
+import global.scit.bizcard.repository.CardRepository;
 import global.scit.bizcard.repository.MemberRepository;
+import global.scit.bizcard.repository.SharingRepository;
+import global.scit.bizcard.vo.Card;
+import global.scit.bizcard.vo.CardBooks;
 import global.scit.bizcard.vo.Member;
 
 @Controller
@@ -22,7 +28,12 @@ public class HomeController {
 	MemberRepository MemberRepository;
 	@Autowired
 	CardImageRepository CardImageRepository;
-
+	@Autowired
+	CardRepository cardRepository;
+	@Autowired
+	SharingRepository SharingRepository;
+	
+	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	@RequestMapping(value = "/about-us", method = RequestMethod.GET)
@@ -48,11 +59,10 @@ public class HomeController {
 			session.setAttribute("m_id", selectM.getM_id());
 			checkExistMine = CardImageRepository.checkExistMine(selectM.getM_id());
 			logger.info("checkExistMine"+checkExistMine);
-			if (checkExistMine!=null) {
-				logger.info("여기");
-				return "home/login_myHome";
-			} else {
+			if (checkExistMine==null) {
 				return "home/login_home";
+			} else {
+				return "redirect:login_home";
 			}
 		} else {
 			model.addAttribute("errorMSG", "登録された会員情報がございません。<br> 入力したID・パスワードを確認してください。");
@@ -60,11 +70,40 @@ public class HomeController {
 		}
 	}
 	
+	
 	@RequestMapping (value="login_home", method = RequestMethod.GET)
-	public String index_home(HttpSession session) {
+	public String index_home(HttpSession session, Model model) {
 		String id = (String)session.getAttribute("m_id");
 		String checkExistMine = CardImageRepository.checkExistMine(id);
 		if (checkExistMine!=null) {
+			Card card = new Card();
+			card.setM_id(String.valueOf(session.getAttribute("m_id")));
+			logger.info("card:" + card.toString());
+			Card myCard = cardRepository.selectOneCard(card);
+			logger.info("my:" + myCard.toString());
+			if (myCard != null) {
+				model.addAttribute("myCard", myCard);
+			} 
+			
+			// 현택1. 보유 명함 수
+			 int countMyCardIndex = CardImageRepository.countMyCardIndex(id);
+	         if (countMyCardIndex == 0) {
+	            model.addAttribute("countMyCardIndex", "등록된 다른 사람 명함이 없다 이놈아");
+	         } else {
+	            model.addAttribute("countMyCardIndex", countMyCardIndex);
+	         }
+
+	        /* // 현택2. 가입한 공유 명함방 수
+	         ArrayList<CardBooks> cList = new ArrayList<>();
+	         cList = SharingRepository.listCardBooks(id);
+	         if (cList.size() == 0) {
+	            model.addAttribute("countMyCardBooks", "가입하신 공유명함첩이 없습니다.");
+	         } else {
+	            model.addAttribute("countMyCardBooks", cList.size());
+	         }*/
+	         
+	         
+			
 			return "home/login_myHome";
 		} else {
 			return "home/login_home";

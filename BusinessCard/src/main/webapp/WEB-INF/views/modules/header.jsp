@@ -82,7 +82,6 @@
                       <li><a href="test">공유 명함첩 관리</a> </li>
                     </ul>
                   </li>
-                  <li><a href="faq">FAQ</a></li>
                 </ul>
               </div>
             </div>

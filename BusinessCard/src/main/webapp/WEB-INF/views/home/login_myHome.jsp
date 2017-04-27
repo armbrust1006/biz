@@ -13,128 +13,115 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body style="">
-<div class="page">
-  <%@include file="../modules/header.jsp" %>
-	 <main class="page-content">
+	<div class="page">
+		<%@include file="../modules/header.jsp"%>
+		<main class="page-content bg-wrap" style="background:url(images/temp_bg2.jpg);"> 
 
-	<section class="section-35 section-sm-bottom-60 section-lg-bottom-100">
-      <div class="shell">
-        <div class="range range-sm-center">
-          
-          
-          <div class="cell-sm-10 cell-md-3">
-            <h5>최근 등록된 회원목록</h5>
-            <div class="offset-top-40">
-              <div class="product-order-item">
-                <div class="product-image"><img src="" alt="" width="130" height="75"/> </div>
-                <div class="product-body">
-                  <h6 class="product-header"><a href="shop-product.html">Engineered Rib Cashmere</a></h6>
-                  <p class="product-count">2</p>
-                  <div class="pricing-object pricing-object-sm"><span class="small small-middle">$</span><span class="price">41</span><span class="small small-bottom">.06</span></div>
+		<section class="section-60 section-sm-75 section-lg-100 ">
+			<div class="shell">
+				<div class="range range-sm-center">
+
+					<!-- 내 명함 부분 : 가장 왼쪽 시작 -->
+					<div class="cell-md-4 cell-lg-5">
+						<div class="group-lg group-middle group-sm" style="padding-left:30px">
+								<h5 class="text-muted"><a href="#">${sessionScope.m_id}님 반갑습니다!</a></h5>
+								<a href="myPage" class="btn btn-xs btn-white-outline-variant-1">회원정보</a>
+								<a href="logout" class="btn btn-xs btn-white-outline">로그아웃</a>
+						</div>
+						<div class="range">
+							<div class="cell-xs-6 cell-sm-4">
+								<div class="box-counter box-counter-inverse">
+									<span class="icon icon-md icon-primary fa-connectdevelop"></span>
+									<div class="text-large counter">${countMyCardIndex}</div>
+									<h5 class="box-header">보유카드수</h5>
+								</div>
+							</div>
+							<div class="cell-xs-6 cell-sm-4 offset-top-40 offset-xs-top-0">
+								<div class="box-counter box-counter-inverse">
+									<span class="icon icon-md icon-primary fa-slideshare"></span>
+									<div class="text-large counter">${countMyCardBooks}</div>
+									<h5 class="box-header">개설공유함</h5>
+								</div>
+							</div>
+							<div class="cell-xs-6 cell-sm-4 offset-top-40 offset-sm-top-0">
+								<div class="box-counter box-counter-inverse">
+									<span
+										class="icon icon-md icon-primary fa-envelope"></span>
+									<div class="text-large counter">500</div>
+									<h5 class="box-header">새 메시지</h5>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					
+					<div class="cell-md-5 cell-lg-7" style="padding-bottom:30px">
+						<!-- test시작 -->
+						<div class="cell-xs-12 cell-sm-12 offset-bottom-50">
+							<div class="product-order-item" style="background: rgba(255,255,255,0.2); padding:0 0 20px 20px">
+							<div class="product-body">
+								<ul class="list-marked-bordered offset-top-15" style="width:580px;">
+                      				<li><a href="#"><span>새 타인 명함 등록</span><span class="text-dusty-gray">(4)</span></a></li>
+                    				<li><a href="#"><span>명함 공유 요청</span><span class="text-dusty-gray">(4)</span></a></li>
+                   					<li><a href="#"><span>읽지 않은 메시지</span><span class="text-dusty-gray">(4)</span></a></li>
+                   				</ul>
+							</div>
+							</div>
+						</div>
+					</div>
+	
+<!-- 아이콘박스 시작 -->
+<!-- <div class="shell">
+        <div class="range offset-top-40 offset-lg-top-50">
+          <div class="cell-sm-6 cell-md-4 height-fill">
+            <article class="icon-box" style="background: rgba(255,255,255,0.5);">
+              <div class="box-top">
+                <div class="box-icon"><span class="icon icon-primary icon-lg-variant-2 material-icons-device_hub"></span></div>
+                <div class="box-header">
+                  <h5><a href="#">보유카드목록</a></h5>
                 </div>
               </div>
-              <div class="product-order-item">
-                <div class="product-image"><img src="images/170x122.png" alt="" width="170" height="122"/> </div>
-                <div class="product-body">
-                  <h6 class="product-header"><a href="shop-product.html">Collar Leather Jacket</a></h6>
-                  <p class="product-count">1</p>
-                  <div class="pricing-object pricing-object-sm"><span class="small small-middle">$</span><span class="price">145</span><span class="small small-bottom">.00</span></div>
+              <div class="divider"></div>
+              <div class="box-body">
+                <p>Starbis has full set of social icons and styling options which allow you to share any content.</p>
+              </div>
+            </article>
+          </div>
+          <div class="cell-sm-6 cell-md-4 height-fill offset-top-40 offset-sm-top-0">
+            <article class="icon-box" style="background: rgba(255,255,255,0.5);">
+              <div class="box-top">
+                <div class="box-icon"><span class="icon icon-primary icon-md material-icons-filter"></span></div>
+                <div class="box-header">
+                  <h5><a href="#">공유명함방</a></h5>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="cell-sm-10 cell-md-6 offset-top-50 offset-md-top-0">
-            <h3>Cart Totals</h3>
-            <ul class="list-wide-bordered offset-top-40">
-              <li>
-                <dl>
-                  <dt>Cart Subtotal</dt>
-                  <dd>$ 186.06</dd>
-                </dl>
-              </li>
-              <li>
-                <dl>
-                  <dt>Shipping</dt>
-                  <dd>Free Delivery</dd>
-                </dl>
-              </li>
-              <li>
-                <dl>
-                  <dt>Total</dt>
-                  <dd>$ 186.06</dd>
-                </dl>
-              </li>
-            </ul>
-            <ul class="list-wide-bordered">
-              <li>
-                <label class="radio-inline">
-                  <input id="option1" type="radio" name="options" checked="" class="radio-custom">
-                  Direct Bank Transfer </label>
-              </li>
-              <li>
-                <label class="radio-inline">
-                  <input id="option2" type="radio" name="options" class="radio-custom">
-                  Cheque Payment </label>
-              </li>
-              <li>
-                <label class="radio-inline">
-                  <input id="option3" type="radio" name="options" class="radio-custom">
-                  PayPal </label>
-              </li>
-            </ul>
-          </div>
-          
-          
-           <div class="cell-sm-10 cell-md-3">
-           <!--  <div class="offset-top-40"> -->
-            <h5>내 메시지 알림 영역</h5>
-              <div class="product-order-item">
-                <div class="product-image"><img src="" alt="" width="130" height="75"/> </div>
-                <div class="product-body">
-                  <h6 class="product-header"><a href="shop-product.html">Engineered Rib Cashmere</a></h6>
-                  <p class="product-count">2</p>
-                  <div class="pricing-object pricing-object-sm"><span class="small small-middle">$</span><span class="price">41</span><span class="small small-bottom">.06</span></div>
-                <!-- </div> -->
+              <div class="divider"></div>
+              <div class="box-body">
+                <p>Everyone loves parallax scrolling effects, they are simply beautiful. Starbis has advanced parallax options </p>
               </div>
-              
-              <div class="offset-top-40">
-              <h5>다가올 일정 알림</h5>
-              <div class="product-order-item">
-                <div class="product-image"><img src="images/170x122.png" alt="" width="170" height="122"/> </div>
-                <div class="product-body">
-                  <h6 class="product-header"><a href="shop-product.html">Collar Leather Jacket</a></h6>
-                  <p class="product-count">1</p>
-                  <div class="pricing-object pricing-object-sm"><span class="small small-middle">$</span><span class="price">145</span><span class="small small-bottom">.00</span></div>
+            </article>
+          </div>
+          <div class="cell-sm-6 cell-md-4 height-fill offset-top-40 offset-md-top-0">
+            <article class="icon-box" style="background: rgba(255,2555,255,0.5);">
+              <div class="box-top">
+                <div class="box-icon"><span class="icon icon-primary icon-lg material-icons-build"></span></div>
+                <div class="box-header">
+                  <h5><a href="#">메시지 함</a></h5>
                 </div>
               </div>
+              <div class="divider"></div>
+              <div class="box-body">
+                <p>Starbis provides a poweful and flexible exntended toolkit in addition to basic Bootsrap. </p>
               </div>
-            </div>
-          </div>
-          
-        </div>
-       
-        <div class="cell-xs-12 offset-top-40 text-center"><a href="#" class="btn btn-xl btn-red-orange">Place order</a></div>
-      </div>
-    </section>
-    <section id="section-start-journey" class="section-50 section-sm-90 section-lg-top-120 section-lg-bottom-145">
-      <div class="shell">
-        <div class="range range-md-bottom range-sm-center">
-          <div data-wow-duration="2s" data-wow-offset="200" class="cell-sm-10 cell-md-5 wow fadeInLeft">
-            <h2 class="text-red-orange">Most Flexible</h2>
-            <p class="h3 offset-top-0">Bootstrap theme</p>
-            <p class="offset-top-40 text-secondary">Created by the industry leaders, Starbis Bootstrap theme includes a comprehensive set of tools which are super easy to pick up and run. This template gives you a huge leg up to create your own beautiful site using powerful options & tools, unlimited designs, and responsive framework.</p>
-            <a href="#" class="btn btn-xl btn-primary">get starbis now</a> </div>
-          <div class="cell-sm-11 cell-md-7 offset-top-40 offset-sm-top-60 offset-md-top-0">
-            <div class="image-group">
-              <figure data-wow-duration=".6s" data-wow-delay=".0s" data-wow-offset="80" class="wow fadeInRightSmall"><img src="images/243x199.png" alt="" width="243" height="199"/> </figure>
-              <figure data-wow-duration=".9s" data-wow-delay=".4s" data-wow-offset="200" class="wow fadeInRightMedium"><img src="images/508x341.png" alt="" width="508" height="341"/> </figure>
-              <figure data-wow-duration=".9s" data-wow-delay=".8s" data-wow-offset="300" class="wow fadeInRightSmall"><img src="images/689x469.png" alt="" width="689" height="469"/> </figure>
-            </div>
+            </article>
           </div>
         </div>
-      </div>
-    </section>
-    
+      </div> -->
+<!-- 아이콘 박스 끝 -->
+
+					</div>
+				</div>
+		</section>
    </main>    
     
 <%@include file="../modules/footer.jsp" %>

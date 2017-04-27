@@ -42,8 +42,8 @@ public class NoteRepository {
 		return result;
 	}
 	
-	public String getCard(Note note) {
-		String Cimg = null;
+	public int getCard(Note note) {
+		int Cimg = 0;
 		NoteDAO dao = sqlSession.getMapper(NoteDAO.class);
 		try {
 			Cimg = dao.getCard(note);

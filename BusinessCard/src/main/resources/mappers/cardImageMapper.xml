@@ -76,4 +76,9 @@
 		shared=#{shared}
 		where cardNum=#{cardNum}
 	</update>
+	
+	 <select id="countMyCardIndex" parameterType="String" resultType="int">
+      select count(cardnum) from mycardindex where
+      m_id=#{m_id}
+   </select>
 </mapper>

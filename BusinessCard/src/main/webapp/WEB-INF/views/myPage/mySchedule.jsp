@@ -13,8 +13,6 @@
 	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/fullcalendar.css">
-<link rel="stylesheet" href="css/jquery-ui-1.9.2.custom.min.css">
-<link rel="stylesheet" href="css/jquery.qtip.min.css" >
 <style>
 #calendarBody {
 	margin: 40px 10px;
@@ -66,11 +64,9 @@ $(document).ready(function() {
 		        $.ajax({
 		        	type : "POST",
 		        	url : "getCard",
-		        	data : {'start' : strDate, 'title' : title },
+		        	data : {'start' : strDate, 'title' : title},
 		        	success : function(resp){
-		        		var t = "<img src='downloadImage?card="+resp+" alt='' width='800' height='400' />";
-		        		$('#test').html(t);
-		        		openModal();		        		
+		        		openModel();
 		        	}
 		        });
 		        // change the border color just for fun
@@ -143,12 +139,11 @@ $(document).ready(function() {
 					<h5 class="modal-title">상세 정보 확인</h5>
 				</div>
 				<div class="modal-body">
- 					<div id="test"></div>
+ 					<img src="downloadImage?card=${myCard.imagePath}" alt="" width="800" height="400" />
 				</div>
 				<div class="modal-footer">
 					<div class="group-lg group-middle group-sm offset-top-30">
-						<button type="button" class="btn btn-default btn-sm"
-							data-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">닫기</button>
 					</div>
 				</div>
 			</div>
@@ -174,7 +169,6 @@ $(document).ready(function() {
         	 	<div class="cell-sm-12 cell-md-3 offset-top-50 offset-md-top-20">
         	 	<!-- data-form-output="form-output-global" data-form-type="contact" -->
         	 	<div class="item">
-        	 	<%-- <img src="downloadImage?card=${path}" alt="" width="800" height="400" /> --%>
         	 	</div>
         	 	<h5>새 일정 입력</h5>
             <form class="form-modern offset-top-30" > 
@@ -223,6 +217,5 @@ $(document).ready(function() {
 	<script src="js/core.min.js"></script>
 	<script src="js/script.js"></script>
 	<script src="js/fullcalendar.min.js"></script>
-	<script src="js/jquery.qtip.min.js"></script>
 </body>
 </html>

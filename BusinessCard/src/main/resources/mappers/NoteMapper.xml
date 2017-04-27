@@ -13,10 +13,8 @@
 	)
 </insert>
 
-<select parameterType="Note" resultType="String" id="getCard">
-	select imagepath 
-	from cardimage 
-	where cardnum = ( select cardnum from cardnote_test where startdate = #{start} and note = #{title}) 
+<select parameterType="Note" resultType="int" id="getCard">
+	select cardnum from cardnote_test where startdate = #{start} and note = #{title}
 </select>
 
 

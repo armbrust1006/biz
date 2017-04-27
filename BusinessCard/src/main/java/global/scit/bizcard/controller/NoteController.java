@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import global.scit.bizcard.repository.CardRepository;
 import global.scit.bizcard.repository.NoteRepository;
+import global.scit.bizcard.vo.Card;
 import global.scit.bizcard.vo.Note;
 
 @Controller
 public class NoteController {
 	@Autowired
 	NoteRepository noteRPS;
+	@Autowired
+	CardRepository cardRepository;
+	
+	
 	private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
 	
 	
@@ -100,11 +108,19 @@ public class NoteController {
 		return toFormat.format(date);
 	}
 	 */
+	
 	@ResponseBody
 	@RequestMapping (value="getCard", method=RequestMethod.POST)
-	public String popupDetail(Note note, Model model) {
-		String result = (String)noteRPS.getCard(note);
-		model.addAttribute("path", result);
-		return result;
+	public String popupDetail(HttpSession session, Note note, Model model) {
+		int cardnum = noteRPS.getCard(note);
+		Card card = new Card();
+		card.setCardNum(cardnum);
+		card.setM_id(String.valueOf(session.getAttribute("m_id")));
+		logger.info("card:" + card.toString());
+		Card myCard = cardRepository.selectOneCard(card);
+		logger.info("my:" + myCard.toString());
+		model.addAttribute("myCard", myCard);
+		return "1";
 	}
+		
 }
