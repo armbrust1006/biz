@@ -253,7 +253,7 @@ public class AccessCardController {
     * @param session
     * @param sort
     * @return
-    */
+    *//*
    @RequestMapping(value = "/listSort", method = RequestMethod.POST)
    public @ResponseBody ArrayList<Card> myCardListSort(HttpSession session,
          @RequestParam(value = "sort", defaultValue = "date") String sort) {
@@ -268,7 +268,7 @@ public class AccessCardController {
       }
       return list;
    }
-
+*/
 	/**
 	 * 내 보유 명함 리스트 검색 함수
 	 * 

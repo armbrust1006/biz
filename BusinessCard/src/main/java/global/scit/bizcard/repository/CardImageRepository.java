@@ -105,7 +105,6 @@ public class CardImageRepository implements CardImageDAO {
 		}
 		return null;
 	}
-	
 	   @Override
 	   public int countMyCardIndex(String m_id) {
 	      int result = 0;

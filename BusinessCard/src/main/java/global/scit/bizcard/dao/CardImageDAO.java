@@ -4,7 +4,7 @@ import global.scit.bizcard.vo.Card;
 import global.scit.bizcard.vo.CardImage;
 
 public interface CardImageDAO {
-
+	public int countMyCardIndex(String id) throws Exception;
 	public int saveCardImage(CardImage cardImage) throws Exception;
 
 	public int updateCardImage(CardImage cardImage) throws Exception;
