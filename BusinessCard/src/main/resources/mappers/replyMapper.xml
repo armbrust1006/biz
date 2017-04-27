@@ -14,7 +14,8 @@
 		reply
 		from reply
 		where
-		shared_cardnum = {param1}
+		shared_cardnum = #{param1}
+		order by inputdate
 	</select>
 
 	<insert id="replyInsert" parameterType="Reply">

@@ -59,7 +59,7 @@ public class ReplyController {
 	 * @return ArrayList
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/replyList", method = RequestMethod.GET)
+	@RequestMapping(value = "/replyList", method = RequestMethod.POST)
 	public ArrayList<Reply> replyList(int shared_cardnum, Reply reply) {
 		System.out.println(shared_cardnum+"의");
 		System.out.println("sharedCardNum"+reply.toString());
@@ -67,6 +67,14 @@ public class ReplyController {
 		replyList = replyRepository.replyList(shared_cardnum);
 		System.out.println("댓글전체가져오기"+replyList.toString());
 		return replyList;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/replyDelete", method=RequestMethod.POST)
+	public int replyDelete(int shared_cardnum){
+		System.out.println("공유카드삭제"+shared_cardnum);
+		int result = 0;
+		return result;
 	}
 
 }

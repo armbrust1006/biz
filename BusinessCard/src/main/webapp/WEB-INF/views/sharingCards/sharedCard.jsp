@@ -30,7 +30,7 @@ $(document).ready(function() {
 function init(){
 	var shared_cardnum = $("#shared_cardnum").val();
 	$.ajax({
-		type: "get"
+		type: "post"
 		, url: "replyList"
 		, data : {"shared_cardnum" : shared_cardnum}
 		, dataType: "Json"
@@ -43,7 +43,6 @@ function output(resp){
 	var msg = '<table>';
 	var list;
 	$.each(resp, function(index, item){
-		list += "<div class='comment-list inset-sm-right-60 inset-md-right-30 inset-lg-right-100 offset-top-30'>"
 		list += "<div class='comment-group'>"
 		list +=	"<article class='comment'>"
 		list +=	"<div class='unit unit-spacing-md unit-xs-horizontal'>"
@@ -57,7 +56,7 @@ function output(resp){
 		list += "<span class='icon icon-xxs-smaller icon-dusty-gray mdi mdi-clock'></span>"						
 		list +=	"<time>"+item.inputdate+"</time>"						
 		list += "</div></div></div><div class='comment-body-text'>"						
-		list +=	"<p>"+item.reply+"</p></div></div></div></div><article></div></div>"					
+		list +=	"<span>"+item.reply+"  <input type='button' class='del' value='삭제' shared_cardnum='"+item.shared_cardnum+"'></span></div></div></div></div><article></div></div>"					
 		
 		msg += "<tr>";
 		msg += "<td class='tdNum'>" + item.m_id + "</td>";
@@ -71,8 +70,8 @@ function output(resp){
 	});
 	msg += '</table>';
 	$("#result").html(list);
-/* 	$("input:button.del").on('click', replyDel);
-	$("input:button.modi").on('click', replyModi); */
+ 	$("input:button.del").on('click', replyDel);
+ 	/*	$("input:button.modi").on('click', replyModi); */
 	$("tr").on({
 		mouseenter : function(){$(this).addClass('over')}
 		, mouseleave : function(){$(this).removeClass('over')}
@@ -81,8 +80,6 @@ function output(resp){
 }
 
 function replyInsert(){
-	
-	
 	var shared_cardnum = $("#shared_cardnum").val();
 	var cardnum = $("#cardnum").val();
 	var reply = $("#reply").val();
@@ -103,6 +100,23 @@ function replyInsert(){
 			else alert("댓글 등록 실패");
 		}
 	});
+}
+
+function replyDel(){
+	
+	var shared_cardnum = $(this).attr("shared_cardnum");
+	var a = comfirm('정말로 삭제하시겠습니까?');
+	
+		$.ajax({
+			type: "post"
+			, url: "replyDelete"
+			, data: {"shared_cardnum":shared_cardnum}
+			, success: function(){
+				init();
+			}
+		}); 
+	
+
 }
 </script>
 </head>
@@ -214,8 +228,12 @@ function replyInsert(){
 						<div class="divider-fullwidth bg-gray-lighter offset-top-40"></div>
 						<div class="offset-top-40">
 							<h4>개수달기 Comments</h4>
-							<div id="result"></div>
 							<div
+								class="comment-list inset-sm-right-60 inset-md-right-30 inset-lg-right-100 offset-top-30">
+								<div id="result"></div>
+								</div>
+							
+<!-- 							<div
 								class="comment-list inset-sm-right-60 inset-md-right-30 inset-lg-right-100 offset-top-30">
 								<div class="comment-group">
 									<article class="comment">
@@ -248,7 +266,7 @@ function replyInsert(){
 										</div>
 									</article>
 								</div>
-							</div>
+							</div> -->
 						</div>
 						<div class="offset-top-40 offset-sm-top-60">
 							<h4>Leave a comment</h4>

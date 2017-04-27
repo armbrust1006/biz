@@ -11,7 +11,8 @@
 		(select book_num from bookmembers where m_id=#{m_id})
 		and
 		cm.book_num in
-		(select book_num from bookmembers where m_id=#{m_id})
+		(select book_num from bookmembers where m_id=#{m_id}) and
+		cb.book_num = cm.book_num
 	</select>
 
 	<insert id="makeRoom" parameterType="CardBooks">

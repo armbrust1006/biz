@@ -48,7 +48,6 @@ public class SharingController {
 	@RequestMapping(value = "/sharingRoom", method = RequestMethod.GET)
 	public String sharedCardsList(Model model, HttpSession session) {
 		String m_id = (String) session.getAttribute("m_id");
-		System.out.println("공유방 목록보기" + m_id);
 		ArrayList<HashMap<String, Object>> bookList = new ArrayList<HashMap<String, Object>>();
 		bookList = SharingRepository.listCardBooks(m_id);
 		model.addAttribute("bookList", bookList);

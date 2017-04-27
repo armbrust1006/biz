@@ -110,29 +110,33 @@
 </script>
 </head>
 <body>
-	<!-- 공유 modal -->
-	<div class="modal fade" id="makeRoomForm" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!-- 명함첩 만들기 modal -->
+	<div class="modal fade" id="makeRoomForm">
 		<div class="modal-dialog">
-			<div class="modal-content">
+			<div class="modal-content" style="margin-top: 30%">
 				<div class="modal-header">
-					<form method="post" action="makeRoom">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h4 class="modal-title" id="exampleModalLabel">명함첩 만들기</h4>
-						<h6 class="modal-title">공유할 명함방 이름을 작성하세요.</h6>
-						<input type="text" class="form-control" id="memo-title"
-							name="book_name" placeholder="이름을 입력하세요."> <input
-							type="button" class="btn btn-primary-outline btn-shadow"
-							data-dismiss="modal" value="취소"> <input type="submit"
-							class="btn btn-primary btn-shadow" id="writeMemo" value="만들기">
-					</form>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">명함첩 만들기</h4>
 				</div>
+				<form method="post" action="makeRoom">
+					<div class="modal-body">
+						<input type="text" class="form-control" name="book_name"
+							placeholder="공유명함방 이름을 입력하세요.">
+					</div>
+					<div class="modal-footer">
+						<div class="group-lg group-middle group-sm offset-top-30">
+							<button type="submit" class="btn btn-primary btn-sm">확인</button>
+							<button type="button" class="btn btn-default btn-sm"
+								data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</form>
 			</div>
+			<!-- modal-content -->
 		</div>
+		<!-- modal-dialog -->
 	</div>
+	<!-- modal -->
 	<!-- modal 끝 -->
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
