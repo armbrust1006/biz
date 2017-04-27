@@ -118,7 +118,32 @@
         </div>
       </div> -->
 <!-- 아이콘 박스 끝 -->
-
+        <div class="cell-sm-6 cell-md-4 height-fill offset-top-40 offset-md-top-0">
+ 
+            <article class="icon-box" style="background: rgba(255,2555,255,0.5);">
+ 
+              <div class="box-top">
+ 
+                <div class="box-icon"><span class="icon icon-primary icon-lg material-icons-build"></span></div>
+ 
+                <div class="box-header">
+ 
+                  <h5><a href="#">메시지 함</a></h5>
+ 
+                </div>
+ 
+              </div>
+ 
+              <div class="divider"></div>
+ 
+              <div class="box-body">
+ 
+                <p>Starbis provides a poweful and flexible exntended toolkit in addition to basic Bootsrap. </p>
+ 
+              </div>
+ 
+            </article>
+ 
 					</div>
 				</div>
 		</section>
