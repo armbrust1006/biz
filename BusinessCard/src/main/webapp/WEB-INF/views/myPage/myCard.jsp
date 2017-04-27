@@ -135,12 +135,12 @@
 	opacity: 1;
 	right: 0;
 }
-.item{
+
+.item {
 	border: 5px outset #217ED3;
-	height: auto; 
+	height: auto;
 	padding: 10px;
 }
-
 </style>
 
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
@@ -154,6 +154,7 @@
 
 	/* Open Select */
 	window.onload = function() {
+
 		var openValue = document.getElementById("shared").value;
 		if (openValue == "y" || openValue == "Y") {
 			$("#sharedChange").css("background-color", "#ff2b32");
@@ -176,7 +177,7 @@
 		document.getElementById("cardDelete").onclick = function() {
 			updateTOdelteForm("cardDelete");
 		};
-		
+
 	}
 
 	/* 수정 및 삭제 함수 */
@@ -235,7 +236,7 @@
 	})
 	$(document).ready(function() {
 		$("#writeMemo").on("click", writeMemo);
-
+		var audioContext = new window.AudioContext();//한번만 mp3
 	});
 
 	function writeMemo() {
@@ -346,25 +347,23 @@
 
 	function textToSpeech() {
 		var textToSpeech = $("#textToSpeech").val();
-		alert(textToSpeech);
+		var language = $("#language").val();
 		$.ajax({
 			type : "post",
 			url : "listen",
 			data : {
-				"textToSpeech" : textToSpeech
+				"textToSpeech" : textToSpeech,
+				"language" : language
 			},
 			success : listen
 		});
-		/* 		var url = "listen?textToSpeech=textToSpeech";
-		 window.location.href = url; */
 	}
 
 	function listen(resp) {
-		var source = resp.toDataURL();
-		alert(source);
+	
 		var audio = '';
-		audio = "<embed src="+source+" autostart='true' allowscriptaccess='always'"+
-		"enablehtmlaccess='true' allowfullscreen='true' width='422' height='240' type='video/mp4'></embed><br>";
+		audio = "<embed src="+resp+" autostart='true' allowscriptaccess='always'"+
+			"enablehtmlaccess='true' allowfullscreen='true' width='0' height='0' type='video/mp4'></embed><br>";
 		$("#resultAudio").html(audio);
 	}
 </script>
@@ -499,6 +498,7 @@
 									<!-- 지도 끝 -->
 									<h1></h1>
 									<div>
+									<div id="resultAudio"></div>
 										<form action="myCard" method="post" id="sharedChangeForm"
 											name="sharedChangeForm">
 											<input type="hidden" value="${myCard.cardNum}" id="cardNum"
@@ -523,12 +523,14 @@
 
 
 								<div class="product-body">
-									<h5 class="product-brand">${myCard.company}&nbsp;${myCard.depart}</h5>
-									<h4 class="product-header">
-										${myCard.name}&nbsp;${myCard.position} <a href="javascript:;"
-											onclick="textToSpeech();"> <span
-											class="icon icon-md icon-primary fa-bullhorn"></span></a> <input
-											type="hidden" value="주현택" id="textToSpeech">
+									<h5 class="product-brand" style="color: gray">${myCard.company}&nbsp;|&nbsp;${myCard.depart}</h5>
+									<h4 class="product-header">${myCard.name}&nbsp;${myCard.position}
+
+										<a href="javascript:;" onclick="textToSpeech();"> <span
+											class="icon icon-md icon-primary fa-bullhorn"></span></a> 
+										<input type="hidden" value="${myCard.name }" id="textToSpeech">
+										<input type="hidden" value=${myCard.language } id="language">
+										<br>
 										<button type="button" class="button"
 											style="vertical-align: middle" data-toggle="modal"
 											data-target="#exampleModal" data-whatever="@mdo">
@@ -556,35 +558,33 @@
 														aria-controls="accordionOneCollapse1" class="collapsed">
 														<span class="icon icon-md icon-primary fa-tablet"></span>
 														&nbsp;&nbsp;휴대전화
-														<p>${myCard.mobile}</p>
-														<div class="panel-arrow"></div>
+														<p>${myCard.mobile}</p> <!-- <div class="panel-arrow"></div> -->
 													</a>
 												</div>
 											</div>
-											<div id="accordionOneCollapse1" role="tabpanel"
+											<!-- <div id="accordionOneCollapse1" role="tabpanel"
 												aria-labelledby="accordionOneHeading1"
 												class="panel-collapse collapse">
 												<div class="panel-body">
 													<p>개짜증</p>
 												</div>
 											</div>
-										</div>
+										</div> -->
 
-										<div class="panel panel-custom panel-light">
-											<div id="accordionOneHeading2" role="tab"
-												class="panel-heading">
-												<div class="panel-title">
-													<a role="button" data-toggle="collapse"
-														data-parent="#accordionOne" href="#accordionOneCollapse2"
-														aria-controls="accordionOneCollapse2" class="collapsed">
-														<span class="icon icon-md icon-primary fa-envelope-o"></span>
-														&nbsp;&nbsp;이메일
-														<p>${myCard.email}</p>
-														<div class="panel-arrow"></div>
-													</a>
+											<div class="panel panel-custom panel-light">
+												<div id="accordionOneHeading2" role="tab"
+													class="panel-heading">
+													<div class="panel-title">
+														<a role="button" data-toggle="collapse"
+															data-parent="#accordionOne" href="#accordionOneCollapse2"
+															aria-controls="accordionOneCollapse2" class="collapsed">
+															<span class="icon icon-md icon-primary fa-envelope-o"></span>
+															&nbsp;&nbsp;이메일
+															<p>${myCard.email}</p> <!-- <div class="panel-arrow"></div> -->
+														</a>
+													</div>
 												</div>
-											</div>
-											<div id="accordionOneCollapse2" role="tabpanel"
+												<%-- <div id="accordionOneCollapse2" role="tabpanel"
 												aria-labelledby="accordionOneHeading2"
 												class="panel-collapse collapse">
 												<div class="panel-body">
@@ -599,96 +599,89 @@
 															type="text" placeholder="제목" name="title" width="100%"><br>
 														<textarea placeholder="내용" name="message" cols="60"
 															rows="10"></textarea>
-
 														<input type="submit" value="보내기">
 													</form>
-
-
-
-
-
 												</div>
+											</div> --%>
 											</div>
-										</div>
-										<div class="panel panel-custom panel-light">
-											<div id="accordionOneHeading3" role="tab"
-												class="panel-heading">
-												<div class="panel-title">
-													<a role="button" data-toggle="collapse"
-														data-parent="#accordionOne" href="#accordionOneCollapse3"
-														aria-controls="accordionOneCollapse3" class="collapsed">
-														<span class="icon icon-md icon-primary fa-phone"></span>
-														&nbsp;&nbsp;회사 전화
-														<p>${myCard.telephone}</p>
-														<div class="panel-arrow"></div>
-													</a>
+											<div class="panel panel-custom panel-light">
+												<div id="accordionOneHeading3" role="tab"
+													class="panel-heading">
+													<div class="panel-title">
+														<a role="button" data-toggle="collapse"
+															data-parent="#accordionOne" href="#accordionOneCollapse3"
+															aria-controls="accordionOneCollapse3" class="collapsed">
+															<span class="icon icon-md icon-primary fa-phone"></span>
+															&nbsp;&nbsp;회사 전화
+															<p>${myCard.telephone}</p> <!-- <div class="panel-arrow"></div> -->
+														</a>
+													</div>
 												</div>
-											</div>
-											<div id="accordionOneCollapse3" role="tabpanel"
+												<!-- <div id="accordionOneCollapse3" role="tabpanel"
 												aria-labelledby="accordionOneHeading3"
 												class="panel-collapse collapse">
 												<div class="panel-body">
 													<p>회사로 전화하기</p>
 												</div>
 											</div>
-										</div>
-										<div class="panel panel-custom panel-light">
-											<div id="accordionOneHeading4" role="tab"
-												class="panel-heading">
-												<div class="panel-title">
-													<a role="button" data-toggle="collapse"
-														data-parent="#accordionOne" href="#accordionOneCollapse4"
-														aria-controls="accordionOneCollapse4" class="collapsed">
-														<span class="icon icon-md icon-primary fa-fax"></span>&nbsp;&nbsp;&nbsp;팩스
-														<p>${myCard.fax}</p>
-														<div class="panel-arrow"></div>
-													</a>
-												</div>
-											</div>
-											<div id="accordionOneCollapse4" role="tabpanel"
+										</div> -->
+												<div class="panel panel-custom panel-light">
+													<div id="accordionOneHeading4" role="tab"
+														class="panel-heading">
+														<div class="panel-title">
+															<a role="button" data-toggle="collapse"
+																data-parent="#accordionOne"
+																href="#accordionOneCollapse4"
+																aria-controls="accordionOneCollapse4" class="collapsed">
+																<span class="icon icon-md icon-primary fa-fax"></span>&nbsp;&nbsp;&nbsp;팩스
+																<p>${myCard.fax}</p> <!-- <div class="panel-arrow"></div> -->
+															</a>
+														</div>
+													</div>
+													<!-- <div id="accordionOneCollapse4" role="tabpanel"
 												aria-labelledby="accordionOneHeading4"
 												class="panel-collapse collapse">
 												<div class="panel-body">
 													<p>팩스 보내기</p>
 												</div>
-											</div>
-										</div>
-										<div class="panel panel-custom panel-light">
-											<div id="accordionOneHeading5" role="tab"
-												class="panel-heading">
-												<div class="panel-title">
-													<a role="button" data-toggle="collapse"
-														data-parent="#accordionOne" href="#accordionOneCollapse5"
-														aria-controls="accordionOneCollapse5" class="collapsed">
-														<span class="icon icon-md icon-primary fa-map-marker"></span>&nbsp;&nbsp;&nbsp;회사
-														주소
-														<p>${myCard.address}</p> <input type="hidden" id="address"
-														value="${myCard.address}">
-														<div class="panel-arrow"></div>
-													</a>
+											</div> -->
 												</div>
-											</div>
-											<div id="accordionOneCollapse5" role="tabpanel"
+												<div class="panel panel-custom panel-light">
+													<div id="accordionOneHeading5" role="tab"
+														class="panel-heading">
+														<div class="panel-title">
+															<a role="label" data-toggle="collapse"
+																data-parent="#accordionOne"
+																href="#accordionOneCollapse5"
+																aria-controls="accordionOneCollapse5" class="collapsed">
+																<span class="icon icon-md icon-primary fa-map-marker"></span>&nbsp;&nbsp;&nbsp;회사
+																주소
+																<p>${myCard.address}</p> <input type="hidden"
+																id="address" value="${myCard.address}"> <!-- <div class="panel-arrow"></div> -->
+															</a>
+														</div>
+													</div>
+													<!-- <div id="accordionOneCollapse5" role="tabpanel"
 												aria-labelledby="accordionOneHeading5"
 												class="panel-collapse collapse">
 												<div class="panel-body">
 													<p>주소입력</p>
 												</div>
+											</div> -->
+												</div>
+												<div class="btn btn-primary-outline btn-shadow"
+													id="cardUpdate">수정</div>
+												<div class="btn btn-primary-outline btn-shadow"
+													id="cardDelete">삭제</div>
 											</div>
 										</div>
-										<div class="btn btn-primary-outline btn-shadow"
-											id="cardUpdate">수정</div>
-										<div class="btn btn-primary-outline btn-shadow"
-											id="cardDelete">삭제</div>
+
+
 									</div>
 								</div>
-
-
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
 		</section>
 		</main>
 	</div>

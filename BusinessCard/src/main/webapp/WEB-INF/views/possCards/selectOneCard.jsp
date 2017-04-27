@@ -353,29 +353,24 @@
 
    function textToSpeech() {
       var textToSpeech = $("#textToSpeech").val();
-      alert(textToSpeech);
+      var language = $("#language").val();
       $.ajax({
          type : "post",
          url : "listen",
          data : {
-            "textToSpeech" : textToSpeech
+            "textToSpeech" : textToSpeech,
+            "language" : language
          },
          success : listen
       });
-      /*       var url = "listen?textToSpeech=textToSpeech";
-       window.location.href = url; */
    }
 
    function listen(resp) {
-      var source = resp.toDataURL();
-      alert(source);
-      var audio = '';
-      audio = "<embed src="+source+" autostart='true' allowscriptaccess='always'"+
-      "enablehtmlaccess='true' allowfullscreen='true' width='422' height='240' type='video/mp4'></embed><br>";
-      $("#resultAudio").html(audio);
-
+	   var audio = '';
+		audio = "<embed src="+resp+" autostart='true' allowscriptaccess='always'"+
+			"enablehtmlaccess='true' allowfullscreen='true' width='0' height='0' type='video/mp4'></embed><br>";
+		$("#resultAudio").html(audio);
    }
-
    function showRouteChoice() {
 
       var start = '901 Cherry Ave, San Bruno';
@@ -495,17 +490,20 @@
                               <span>경유 설정</span>
                            </button>
                            <!-- 지도 끝 -->
-
+						<div id="resultAudio" ></div>
                         </div>
                         <div class="product-body">
                            <input type="hidden" id="cardNum"
                               value="${selectedCard.cardNum}">
                            <h5 class="product-brand">${selectedCard.company}&nbsp;${selectedCard.depart}</h5>
                            <h4 class="product-header">
-                              ${selectedCard.name}&nbsp;${selectedCard.position} <a
-                                 href="javascript:;" onclick="textToSpeech();"> <span
-                                 class="icon icon-md icon-primary fa-bullhorn"></span></a> <input
-                                 type="hidden" value="주현택" id="textToSpeech">
+                              ${selectedCard.name}&nbsp;${selectedCard.position} 
+                              <a href="javascript:;" onclick="textToSpeech();"> 
+                              <span class="icon icon-md icon-primary fa-bullhorn"></span></a> 
+                              
+                              <input type="hidden" value="${selectedCard.name }" id="textToSpeech">
+							  <input type="hidden" value=${selectedCard.language } id="language">
+                              
                               <button type="button" class="button"
                                  style="vertical-align: middle" data-toggle="modal"
                                  data-target="#exampleModal" data-whatever="@mdo">

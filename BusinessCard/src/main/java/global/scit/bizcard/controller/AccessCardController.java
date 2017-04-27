@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -56,7 +57,10 @@ public class AccessCardController {
 	@Autowired
 	private MemberRepository memberRepository;
 	
-
+	 @Autowired
+	 private ServletContext servletContext;
+	
+	
 	final String uploadPathLogo = "/CardImageFile/logo";
 	final String uploadPathCard = "/CardImageFile/card";
 	final String uploadPathOCR = "/CardImageFile/OCR";
@@ -532,11 +536,18 @@ public class AccessCardController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/listen", method = RequestMethod.POST)
-	public String listen(String textToSpeech) {
+	public String listen(String textToSpeech, String language) {
 		File f = null; // 음성을 담을 파일 객체
 		String clientId = "ONX92pr4J0ykWfLxefAd";// 애플리케이션 클라이언트 아이디값";
 		String clientSecret = "oszwvD6MCx";// 애플리케이션 클라이언트 시크릿값";
 		try {
+			if(language.equals("kor")){
+				language="mijin";
+			}else if (language.equals("eng")){
+				language="clara";
+			}else{
+				language="yuri";
+			}
 			String text = URLEncoder.encode(textToSpeech, "UTF-8");
 			String apiURL = "https://openapi.naver.com/v1/voice/tts.bin";
 			URL url = new URL(apiURL);
@@ -544,22 +555,22 @@ public class AccessCardController {
 			con.setRequestMethod("POST");
 			con.setRequestProperty("X-Naver-Client-Id", clientId);
 			con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-			String postParams = "speaker=mijin&speed=0&text=" + text;
+			String postParams = "speaker="+language+"&speed=0&text=" + text;
 			con.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(postParams);
 			wr.flush();
 			wr.close();
+			
 			int responseCode = con.getResponseCode();
 			BufferedReader br;
+					
 			if (responseCode == 200) { // 정상 호출
 				InputStream is = con.getInputStream();
 				int read = 0;
 				byte[] bytes = new byte[1024];
-				// 랜덤한 이름으로 mp3 파일 생성
-				String tempname = Long.valueOf(new Date().getTime()).toString();
-				System.out.println(tempname + "파일이름");
-				f = new File(tempname + ".mp4");
+				/*String tempname = Long.valueOf(new Date().getTime()).toString();*/
+				f = new File(servletContext.getRealPath("/resources/voice/")+"voice.mp4");
 				f.createNewFile();
 				System.out.println(f.getAbsolutePath() + "파일경로");
 
@@ -568,6 +579,7 @@ public class AccessCardController {
 					outputStream.write(bytes, 0, read);
 				}
 				is.close();
+				outputStream.close();
 			} else { // 에러 발생
 				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 				String inputLine;
@@ -576,13 +588,21 @@ public class AccessCardController {
 					response.append(inputLine);
 				}
 				br.close();
-				System.out.println(response.toString());
+				
 			}
 		} catch (Exception e) {
-			System.out.println(e);
 
 		}
-		return f.getAbsolutePath();
+		try {
+			System.out.println(f.getCanonicalPath()+"canonicalpath");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(f.getAbsolutePath()+"앱솔루트패스");
+		/*return "/resources/voice/"+f.getName();*/
+		
+		
+		return "./resources/voice/voice.mp4";
 	}
 
 	
