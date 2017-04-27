@@ -43,7 +43,7 @@ DROP TABLE OCRMachining
    CASCADE CONSTRAINTS;
 
 /* 명함첩 회원 */
-DROP TABLE CardBookMembers 
+DROP TABLE BookMembers 
    CASCADE CONSTRAINTS;
    
 DROP SEQUENCE cardnum_seq;
@@ -89,7 +89,8 @@ CREATE TABLE Card (
    fax VARCHAR2(30), /* 팩스 */
    mobile VARCHAR2(30) NOT NULL, /* 휴대폰 */
    language VARCHAR2(20) NOT NULL, /* 해당언어 */
-   logoimg VARCHAR2(200) /* 로고 */
+   logoimg VARCHAR2(1000), /* 로고 */
+   imgOriginal VARCHAR2(2000) /* 로고 원본 이름 */
 );
 
 ALTER TABLE Card
@@ -114,7 +115,7 @@ CREATE TABLE CardImage (
    imagePath VARCHAR2(200) DEFAULT sysdate NOT NULL, /* 명함경로 */
    inputdate DATE DEFAULT sysdate NOT NULL, /* 등록날짜 */
    shared VARCHAR2(5) DEFAULT 'n' NOT NULL, /* 공개 여부 */
-   layout_num NUMBER(1) NOT NULL /* 레이아웃번호 */
+   layout_num NUMBER(2) NOT NULL /* 레이아웃번호 */
 );
 
 ALTER TABLE CardImage
@@ -141,7 +142,7 @@ ALTER TABLE CardBooks
 
 /* 공유 명함 목록 */
 CREATE TABLE SharedCard (
-   shared_cardnum <지정 되지 않음> NOT NULL, /* 공유 명함 카드 */
+   shared_cardnum NUMBER NOT NULL, /* 공유 명함 카드 */
    book_num NUMBER NOT NULL, /* 명함첩번호 */
    cardnum NUMBER NOT NULL, /* 일련번호 */
    m_id VARCHAR2(20) NOT NULL, /* 아이디 */
@@ -158,7 +159,7 @@ ALTER TABLE SharedCard
 /* 공유 명함 상세 */
 CREATE TABLE Reply (
    reply_num NUMBER NOT NULL, /* 댓글번호 */
-   shared_cardnum <지정 되지 않음> NOT NULL, /* 공유 명함 카드 */
+   shared_cardnum NUMBER NOT NULL, /* 공유 명함 카드 */
    cardnum NUMBER NOT NULL, /* 일련번호 */
    m_id VARCHAR2(20) NOT NULL, /* 아이디 */
    inputdate DATE DEFAULT sysdate NOT NULL, /* 등록날짜 */
@@ -180,7 +181,8 @@ CREATE TABLE CardNote (
  NOT NULL, /* 등록날짜 */
    startdate DATE, /* 이벤트시작 */
    enddate DATE, /* 이벤트종료 */
-   note VARCHAR2(2000) NOT NULL /* 메모 */
+   title VARCHAR2(1000) NOT NULL, /* 내용 */
+   color VARCHAR2(2000) NOT NULL /* 구분 */
 );
 
 /* 메시지 */
@@ -227,18 +229,12 @@ CREATE TABLE OCRMachining (
 );
 
 /* 명함첩 회원 */
-CREATE TABLE CardBookMembers (
-   m_id VARCHAR2(20) NOT NULL, /* 아이디 */
+CREATE TABLE BookMembers (
    book_num NUMBER NOT NULL, /* 명함첩번호 */
+   m_id VARCHAR2(20) NOT NULL, /* 아이디 */
    inputdate DATE DEFAULT sysdate NOT NULL, /* 가입날짜 */
    grade VARCHAR2(20) NOT NULL /* 회원등급 */
 );
-
-ALTER TABLE CardBookMembers
-   ADD
-      CONSTRAINT PK_CardBookMembers
-      PRIMARY KEY (
-      );
 
 ALTER TABLE Card
    ADD
@@ -361,27 +357,25 @@ ALTER TABLE Board
       )
       ON DELETE CASCADE;
 
-ALTER TABLE CardBookMembers
+ALTER TABLE BookMembers
    ADD
-      CONSTRAINT FK_CardBooks_TO_CardBookMembers
+      CONSTRAINT FK_CardBooks_TO_BookMembers
       FOREIGN KEY (
          book_num
       )
       REFERENCES CardBooks (
          book_num
-      )
-      ON DELETE CASCADE;
+      );
 
-ALTER TABLE CardBookMembers
+ALTER TABLE BookMembers
    ADD
-      CONSTRAINT FK_Member_TO_CardBookMembers
+      CONSTRAINT FK_Member_TO_BookMembers
       FOREIGN KEY (
          m_id
       )
       REFERENCES Member (
          m_id
-      )
-      ON DELETE CASCADE;
+      );
       
 /* 시퀸스 */
 CREATE SEQUENCE cardnum_seq;

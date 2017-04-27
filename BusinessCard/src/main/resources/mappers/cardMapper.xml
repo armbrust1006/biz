@@ -17,23 +17,115 @@
 		column="language" /> <result property="logoImg" column="logoImg" /> <collection 
 		property="Card" resultMap="Card"></collection> </resultMap> -->
 
-	
-	
-	<insert parameterType="Card" id="insertCard"> insert into card values( #{cardNum}, #{name}, #{company}, #{depart}, #{position}, #{address}, #{email}, #{telephone}, #{fax}, #{mobile}, #{language}, #{logoImg}) </insert>
+	<insert id="insertCard" parameterType="Card">
+		insert into card
+		values(
+		#{cardNum},
+		#{name},
+		#{company},
+		#{depart},
+		#{position},
+		#{address},
+		#{email},
+		#{telephone},
+		#{fax},
+		#{mobile},
+		#{language},
+		#{logoImg},
+		#{imgOriginal})
+	</insert>
 
+	<update id="updateCard" parameterType="Card">
+		update card
+		set
+		name=#{name},
+		company=#{company},
+		depart=#{depart},
+		position=#{position},
+		address=#{address},
+		email=#{email},
+		telephone=#{telephone},
+		fax=#{fax},
+		mobile=#{mobile},
+		language=#{language},
+		logoImg=#{logoImg},
+		imgOriginal=#{imgOriginal}
+		where cardNum=#{cardNum}
+	</update>
 
-<select parameterType="Map" id="searchCards" resultType="Card">
-select img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as "cardType", c.name as "name", c.company as "company", c.depart as "depart", c.position as "position", c.address as "address", c.email as "email", c.telephone as "telephone", c.fax as "fax", c.mobile as "mobile", img.inputDate as "inputDate", c.language as "language", c.logoImg as "logoImg", img.imagePath as "imagePath" from (select * from cardImage where shared = 'y') img, card c where img.cardnum = c.cardnum 
-<if test="select != null and search != null">
-and 
+	<select id="searchCards" resultType="Card" parameterType="Map">
+		select
+		img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as
+		"cardType", c.name as "name", c.company as "company", c.depart as
+		"depart",
+		c.position as "position", c.address as "address", c.email as
+		"email",
+		c.telephone as "telephone", c.fax as "fax", c.mobile as
+		"mobile",
+		img.inputDate as "inputDate", c.language as "language",
+		c.logoImg as "logoImg", img.imagePath as "imagePath"
+		from
+		(select *
+		from
+		cardImage
+		where shared = 'y') img, card c
+		where
+		img.cardnum = c.cardnum
+		<if test="select != null and search != null">
+			and
+			<choose>
+				<when test="select.equalsIgnoreCase('name')">
+					upper(c.name) like upper('%'||#{search}||'%')
+				</when>
+				<when test="select.equalsIgnoreCase('company')">
+					upper(c.company) like upper('%'||#{search}||'%')
+				</when>
+			</choose>
+		</if>
+	</select>
 
-<choose>
+	<select id="myCardListData" resultType="Card" parameterType="Map">
+		select
+		img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as
+		"cardType", c.name as "name", c.company as "company", c.depart as
+		"depart",
+		c.position as "position", c.address as "address", c.email as
+		"email",
+		c.telephone as "telephone", c.fax as "fax", c.mobile as
+		"mobile",
+		img.inputDate as "inputDate", c.language as "language",
+		c.logoImg as "logoImg", img.imagePath as "imagePath"
+		from
+		cardImage img,
+		card c
+		where
+		img.cardnum = c.cardnum
+		and
+		img.cardnum in (select cardnum
+		from
+		mycardindex where m_id=#{m_id})
+		<if test="sort != null">
+			order by
+			<choose>
+				<when test="sort.equalsIgnoreCase('date')">
+					img.inputDate desc
+				</when>
+				<when test="sort.equalsIgnoreCase('name')">
+					by c.name desc
+				</when>
+				<when test="sort.equalsIgnoreCase('company')">
+					by c.company desc
+				</when>
+			</choose>
+		</if>
+	</select>
+
 
 	<select id="selectOneCard" resultType="Card" parameterType="Card">
 		select
 		img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as
 		"cardType", img.shared as
-		"shared", c.name as "name", c.company as
+		"shared", img.layout_num as "layout_num", c.name as "name", c.company as
 		"company", c.depart as
 		"depart",
 		c.position as "position", c.address as
@@ -62,61 +154,20 @@ and
 		</choose>
 	</select>
 
-<when test="select.equalsIgnoreCase('company')"> upper(c.company) like upper('%'||#{search}||'%') </when>
+	<select id="shareCheck" resultType="_int">
+		select book_num
+		from
+		sharedcard
+		where cardnum = #{param1} and
+		book_num=#{param2}
+	</select>
 
-</choose>
+	<insert id="share">
+		insert into sharedcard (m_id, book_num, cardnum,
+		inputdate) values(#{param1}, #{param2}, #{param3}, sysdate)
+	</insert>
 
-</if>
+	<select id="getOCRMachining" resultType="Card" parameterType="String">
 
-</select>
-
-
-<select parameterType="Map" id="myCardListData" resultType="Card">
-select img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as "cardType", c.name as "name", c.company as "company", c.depart as "depart", c.position as "position", c.address as "address", c.email as "email", c.telephone as "telephone", c.fax as "fax", c.mobile as "mobile", img.inputDate as "inputDate", c.language as "language", c.logoImg as "logoImg", img.imagePath as "imagePath" from cardImage img, card c where img.cardnum = c.cardnum and img.cardnum in (select cardnum from mycardindex where m_id=#{m_id}) 
-
-<if test="sort != null">
-order by 
-
-<choose>
-
-<when test="sort.equalsIgnoreCase('date')"> img.inputDate desc </when>
-
-<when test="sort.equalsIgnoreCase('name')"> by c.name desc </when>
-
-<when test="sort.equalsIgnoreCase('company')"> by c.company desc </when>
-
-</choose>
-
-</if>
-
-</select>
-
-
-<select parameterType="Card" id="selectOneCard" resultType="Card">
-select img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as "cardType", img.shared as "shared", c.name as "name", c.company as "company", c.depart as "depart", c.position as "position", c.address as "address", c.email as "email", c.telephone as "telephone", c.fax as "fax", c.mobile as "mobile", img.inputDate as "inputDate", c.language as "language", c.logoImg as "logoImg", img.imagePath as "imagePath" from cardImage img, card c where img.cardnum = c.cardnum 
-
-<choose>
-
-<when test="cardNum != 0"> and c.cardnum = #{cardNum} </when>
-
-<when test="cardNum == 0"> and img.cardType = 'my' </when>
-
-</choose>
-
-
-<choose>
-
-<when test="cardNum != 0"> and img.m_id in (select m_id from mycardindex where m_id=#{m_id}) </when>
-
-<when test="cardNum == 0"> and img.m_id=#{m_id} </when>
-
-</choose>
-
-</select>
-
-<select id="shareCheck" resultType="_int"> select book_num from sharedcard where cardnum = #{param1} and book_num=#{param2} </select>
-
-<insert id="share"> insert into sharedcard (m_id, book_num, cardnum, inputdate) values(#{param1}, #{param2}, #{param3}, sysdate) </insert>
-
-<select parameterType="String" id="getOCRMachining" resultType="Card"> </select>
+	</select>
 </mapper>

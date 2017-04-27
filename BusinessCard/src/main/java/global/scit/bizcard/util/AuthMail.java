@@ -44,7 +44,7 @@ public class AuthMail {   // 클래스 이름이랑 생성자 이름 맞추면 �
             System.out.println(user);
             InternetAddress from = new InternetAddress();
 
-            from = new InternetAddress("Ro-do<jintest1012@gmailcom>");
+            from = new InternetAddress("komorebi<sckomorebi@gmailcom>");
 
             // 이메일 발신자
             msg.setFrom(from);
@@ -77,8 +77,8 @@ public class AuthMail {   // 클래스 이름이랑 생성자 이름 맞추면 �
 
          public MyAuthentication() {
 
-            String id = "denshanuri";//구글 ID
-            String pw = "z1a1q1@@";//구글 비밀번호 
+            String id = "sckomorebi";//구글 ID
+            String pw = "kokokokoko";//구글 비밀번호 
             
 
             //ID와 비밀번호를 입력한다.

@@ -3,31 +3,8 @@ package global.scit.bizcard.vo;
 import java.util.Date;
 
 public class Card extends CardImage {
-	private String name, company, depart, position, address, email, telephone, fax, mobile, language, logoImg;
-
-	public Card() {
-	}
-
-	public Card(String m_id, int cardNum, String cardType, Date inputDate) {
-		super(m_id, cardNum, cardType, inputDate);
-	}
-
-	public Card(int cardNum, String m_id, String cardType, String name, String company, String depart, String position,
-			String address, String email, String telephone, String fax, String mobile, String language, String logoImg,
-			Date inputDate) {
-		super(m_id, cardNum, cardType, inputDate);
-		this.name = name;
-		this.company = company;
-		this.depart = depart;
-		this.position = position;
-		this.address = address;
-		this.email = email;
-		this.telephone = telephone;
-		this.fax = fax;
-		this.mobile = mobile;
-		this.language = language;
-		this.logoImg = logoImg;
-	}
+	private String name, company, depart, position, address, email, telephone, fax, mobile, language, logoImg,
+			imgOriginal;
 
 	public String getName() {
 		return name;
@@ -117,6 +94,14 @@ public class Card extends CardImage {
 		this.logoImg = logoImg;
 	}
 
+	public String getImgOriginal() {
+		return imgOriginal;
+	}
+
+	public void setImgOriginal(String imgOriginal) {
+		this.imgOriginal = imgOriginal;
+	}
+
 	@Override
 	public int getCardNum() {
 		// TODO Auto-generated method stub
@@ -124,9 +109,21 @@ public class Card extends CardImage {
 	}
 
 	@Override
-	public void setCardNum(int cardnum) {
+	public void setCardNum(int cardNum) {
 		// TODO Auto-generated method stub
-		super.setCardNum(cardnum);
+		super.setCardNum(cardNum);
+	}
+
+	@Override
+	public int getLayout_num() {
+		// TODO Auto-generated method stub
+		return super.getLayout_num();
+	}
+
+	@Override
+	public void setLayout_num(int layout_num) {
+		// TODO Auto-generated method stub
+		super.setLayout_num(layout_num);
 	}
 
 	@Override
@@ -166,18 +163,6 @@ public class Card extends CardImage {
 	}
 
 	@Override
-	public Date getInputdate() {
-		// TODO Auto-generated method stub
-		return super.getInputdate();
-	}
-
-	@Override
-	public void setInputdate(Date inputDate) {
-		// TODO Auto-generated method stub
-		super.setInputdate(inputDate);
-	}
-
-	@Override
 	public String getShared() {
 		// TODO Auto-generated method stub
 		return super.getShared();
@@ -205,8 +190,8 @@ public class Card extends CardImage {
 	public String toString() {
 		return "Card [name=" + name + ", company=" + company + ", depart=" + depart + ", position=" + position
 				+ ", address=" + address + ", email=" + email + ", telephone=" + telephone + ", fax=" + fax
-				+ ", mobile=" + mobile + ", language=" + language + ", logoImg=" + logoImg + ", toString()="
-				+ super.toString() + "]";
+				+ ", mobile=" + mobile + ", language=" + language + ", logoImg=" + logoImg + ", imgOriginal="
+				+ imgOriginal + ", toString()=" + super.toString() + "]";
 	}
 
 }

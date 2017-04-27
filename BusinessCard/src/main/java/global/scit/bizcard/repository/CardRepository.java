@@ -95,4 +95,15 @@ public class CardRepository implements CardDAO {
 		return null;
 	}
 
+	@Override
+	public int updateCard(Card card) {
+		CardDAO dao = sqlsession.getMapper(CardDAO.class);
+		try {
+			return dao.updateCard(card);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

@@ -8,4 +8,6 @@ public interface MemberDAO {
 	public int insertM(Member member) throws Exception;
 	public Member emailCheck(String m_email) throws Exception;
 	public Member idCheck(String id) throws Exception;
+	public String getEmail(String id) throws Exception;
+	public int updateM(Member member) throws Exception;
 }

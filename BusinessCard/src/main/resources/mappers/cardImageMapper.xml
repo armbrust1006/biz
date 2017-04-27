@@ -8,17 +8,29 @@
 		insert into
 		CardImage
 		(
-		m_id, cardnum, cardType, imagePath
+		m_id, cardnum, cardType, imagePath, layout_num
 		)
 		values
 		(
 		#{m_id},
 		cardnum_seq.nextval,
 		#{cardType},
-		#{imagePath}
+		#{imagePath},
+		#{layout_num}
 		)
 	</insert>
 
+	<update id="updateCardImage" parameterType="CardImage">
+		update cardimage
+		set imagePath=#{imagePath}
+		where m_id=#{m_id}
+		and cardNum=#{cardNum}
+	</update>
+	
+	<delete id="deleteCardImage">
+      delete CardImage where m_id=#{m_id} and cardNum = #{cardNum}
+   </delete>
+	
 	<insert id="setMyCardList" parameterType="CardImage">
 		insert into
 		MyCardIndex
@@ -55,7 +67,7 @@
 	</select>
 
 	<select id="checkExistMine" resultType="String" parameterType="String">
-		select m_id from CARDIMAGE where m_id=#{m_id}
+		select cardtype from CARDIMAGE where m_id=#{m_id} and cardtype='my'
 	</select>
 
 	<update id="sharedChange" parameterType="CardImage">

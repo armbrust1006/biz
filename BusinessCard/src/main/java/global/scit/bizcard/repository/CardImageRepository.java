@@ -106,4 +106,28 @@ public class CardImageRepository implements CardImageDAO {
 		return null;
 	}
 
+	@Override
+	public int updateCardImage(CardImage cardImage) {
+		CardImageDAO dao = sqlSession.getMapper(CardImageDAO.class);
+		try {
+			return dao.updateCardImage(cardImage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	   public int deleteCardImage(CardImage cardImage) {
+	      CardImageDAO dao = sqlSession.getMapper(CardImageDAO.class);
+	      try {
+	         return dao.deleteCardImage(cardImage);
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      }
+	      return 0;
+	   }
+	
+	
+	
 }
