@@ -22,7 +22,7 @@
         <div class="range range-sm-center">
           
           
-          <div class="cell-sm-10 cell-md-3">
+<!--           <div class="cell-sm-10 cell-md-3">
             <h5>최근 등록된 회원목록</h5>
             <div class="offset-top-40">
               <div class="product-order-item">
@@ -42,20 +42,20 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="cell-sm-10 cell-md-6 offset-top-50 offset-md-top-0">
-            <h3>Cart Totals</h3>
+          </div> -->
+          <div class="cell-sm-10 cell-md-8 offset-top-50 offset-md-top-0">
+            <h3>${m_id}님 반갑습니다.</h3>
             <ul class="list-wide-bordered offset-top-40">
               <li>
                 <dl>
-                  <dt>Cart Subtotal</dt>
-                  <dd>$ 186.06</dd>
+                  <dt>보유명함</dt>
+                  <dd>${countMyCardIndex} 개</dd>
                 </dl>
               </li>
               <li>
                 <dl>
-                  <dt>Shipping</dt>
-                  <dd>Free Delivery</dd>
+                  <dt>공유명함첩</dt>
+                  <dd>${countMyCardBooks }</dd>
                 </dl>
               </li>
               <li>
@@ -65,27 +65,10 @@
                 </dl>
               </li>
             </ul>
-            <ul class="list-wide-bordered">
-              <li>
-                <label class="radio-inline">
-                  <input id="option1" type="radio" name="options" checked="" class="radio-custom">
-                  Direct Bank Transfer </label>
-              </li>
-              <li>
-                <label class="radio-inline">
-                  <input id="option2" type="radio" name="options" class="radio-custom">
-                  Cheque Payment </label>
-              </li>
-              <li>
-                <label class="radio-inline">
-                  <input id="option3" type="radio" name="options" class="radio-custom">
-                  PayPal </label>
-              </li>
-            </ul>
           </div>
           
           
-           <div class="cell-sm-10 cell-md-3">
+           <div class="cell-sm-10 cell-md-4">
            <!--  <div class="offset-top-40"> -->
             <h5>내 메시지 알림 영역</h5>
               <div class="product-order-item">
@@ -113,7 +96,9 @@
           
         </div>
        
-        <div class="cell-xs-12 offset-top-40 text-center"><a href="#" class="btn btn-xl btn-red-orange">Place order</a></div>
+        <div class="cell-xs-12 offset-top-40 text-center"><a href="#" class="btn btn-xl btn-red-orange">내 정보 수정</a></div>
+        <div class="cell-xs-12 offset-top-40 text-center"><a href="#" class="btn btn-xl btn-red-orange">보유 명함 목록</a></div>
+        <div class="cell-xs-12 offset-top-40 text-center"><a href="#" class="btn btn-xl btn-red-orange">공유 명함첩</a></div>
       </div>
     </section>
     <section id="section-start-journey" class="section-50 section-sm-90 section-lg-top-120 section-lg-bottom-145">

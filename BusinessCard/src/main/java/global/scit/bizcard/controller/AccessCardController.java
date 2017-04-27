@@ -55,7 +55,6 @@ public class AccessCardController {
 	private CardImageRepository cardImageRepository;
 	@Autowired
 	private MemberRepository memberRepository;
-	
 
 	final String uploadPathLogo = "/CardImageFile/logo";
 	final String uploadPathCard = "/CardImageFile/card";
@@ -157,7 +156,7 @@ public class AccessCardController {
 		session.removeAttribute("type");
 		String type = card.getCardType();
 		if (type.equalsIgnoreCase("my")) {
-			return "home/login_home";
+			return "redirect:login_home"; // 자신의 명함 등록하고나서 홈 화면이 달라지기 위해서
 		} else {
 			CardImage cardImage = new CardImage();
 			cardImage.setM_id(m_id);
@@ -332,25 +331,25 @@ public class AccessCardController {
 		return "redirect:/myCard";
 	}
 
-	 /**
-	    * [현택] 타인 명함 삭제
-	    * 
-	    * @param cardNum
-	    * @param session("m_id")
-	    * @return 보유 명함 목록으로 이동
-	    */
+	/**
+	 * [현택] 타인 명함 삭제
+	 * 
+	 * @param cardNum
+	 * @param session("m_id")
+	 * @return 보유 명함 목록으로 이동
+	 */
 	@RequestMapping(value = "/cardDelete", method = RequestMethod.POST)
-	   public String cardDelete(CardImage cardImage, HttpSession session) {
-	      System.out.println("삭제: " + cardImage.toString());
-	      cardImage.setM_id(String.valueOf(session.getAttribute("m_id")));
-	      cardImageRepository.deleteCardImage(cardImage);
-	      if (cardImage.getCardType() == null) {
-	         return "redirect:login_home";
-	      } else {
-	         return "redirect:myCardList";
-	      }
-	   }
-	
+	public String cardDelete(CardImage cardImage, HttpSession session) {
+		System.out.println("삭제: " + cardImage.toString());
+		cardImage.setM_id(String.valueOf(session.getAttribute("m_id")));
+		cardImageRepository.deleteCardImage(cardImage);
+		if (cardImage.getCardType() == null) {
+			return "redirect:login_home";
+		} else {
+			return "redirect:myCardList";
+		}
+	}
+
 	/**
 	 * 로고 이미지 가져오기
 	 * 
@@ -501,6 +500,10 @@ public class AccessCardController {
 		Card selectedCard = cardRepository.selectOneCard(c);
 		System.out.println(selectedCard.toString() + "보자보자");
 		model.addAttribute("selectedCard", selectedCard);
+
+		// 내 주소를 가져오기
+		String myAddress = cardRepository.myAddress(loginID);
+		model.addAttribute("myAddress", myAddress);
 		return "possCards/selectOneCard";
 	}
 
@@ -512,14 +515,14 @@ public class AccessCardController {
 	 * @param book_num
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/share", method = RequestMethod.GET)
+	@RequestMapping(value = "/share", method = RequestMethod.POST)
 	public int share(HttpSession session, int cardnum, int book_num) {
 		System.out.println("공유하 카드번호: " + cardnum);
 		System.out.println("공유하 방번호: " + book_num);
 		String m_id = (String) session.getAttribute("m_id");
 		int check = cardRepository.shareCheck(cardnum, book_num);
 		if (check == 0) {
-			return cardRepository.share(m_id, book_num, cardnum);
+			return cardRepository.share(book_num, cardnum, m_id);
 		}
 		return 0;
 	}
@@ -585,5 +588,4 @@ public class AccessCardController {
 		return f.getAbsolutePath();
 	}
 
-	
 }

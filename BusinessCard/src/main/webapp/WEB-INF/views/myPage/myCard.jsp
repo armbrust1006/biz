@@ -275,8 +275,8 @@
 						function(index, item) {
 							msg += "<tbody>";
 							msg += "<tr>";
-							msg += "<td>" + item.book_name + "</td>";
-							msg += "<td><button type='button' class='sharebutton' style='vertical-align: middle' book_num='"+item.book_num+"'><span>공유하기</span></button>";
+							msg += "<td>" + item.BOOK_NAME + "</td>";
+							msg += "<td><button type='button' class='sharebutton' style='vertical-align: middle' book_num='"+item.BOOK_NUM+"'><span>공유하기</span></button>";
 							msg += "</tr>";
 							msg += "<tbody>";
 						});
@@ -290,11 +290,11 @@
 		var book_num = $(this).attr("book_num"); //공유할 방
 		var cardnum = $("#cardNum").val();//공유할 명함 번호
 		$.ajax({
-			type : "get",
+			type : "post",
 			url : "share",
 			data : {
 				"book_num" : book_num,
-				"cardNum" : cardnum
+				"cardnum" : cardnum
 			},
 			success : function(resp) {
 				if (resp == 1) {
@@ -374,7 +374,6 @@
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<br> <br> <br> <br> <br> <br>
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
@@ -407,7 +406,6 @@
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<br> <br> <br> <br> <br> <br>
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">

@@ -24,6 +24,10 @@ public interface CardImageDAO {
 	public Card setMyCardSharing(CardImage cardImage) throws Exception;
 
 	public CardImage myCardExist(String m_id) throws Exception;
+	
+	//아래부터는 myHome 화면 보여주기
+	//1. 보유 명함 개수
+	public int countMyCardIndex(String m_id) throws Exception;
 
 	
 }

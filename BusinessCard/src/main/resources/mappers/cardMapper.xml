@@ -125,7 +125,8 @@
 		select
 		img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as
 		"cardType", img.shared as
-		"shared", img.layout_num as "layout_num", c.name as "name", c.company as
+		"shared", img.layout_num as "layout_num",
+		c.name as "name", c.company as
 		"company", c.depart as
 		"depart",
 		c.position as "position", c.address as
@@ -136,7 +137,8 @@
 		"mobile",
 		img.inputDate as "inputDate", c.language as
 		"language",
-		c.logoImg as "logoImg", img.imagePath as "imagePath"
+		c.logoImg as
+		"logoImg", img.imagePath as "imagePath"
 		from
 		cardImage img,
 		card c
@@ -163,11 +165,27 @@
 	</select>
 
 	<insert id="share">
-		insert into sharedcard (m_id, book_num, cardnum,
-		inputdate) values(#{param1}, #{param2}, #{param3}, sysdate)
+		insert into sharedcard (
+		shared_cardnum,
+		book_num,
+		cardnum, m_id, inputdate
+		) values (
+		shared_cardnum_seq.nextval,
+		#{param1}, #{param2},
+		#{param3}, sysdate)
 	</insert>
 
 	<select id="getOCRMachining" resultType="Card" parameterType="String">
 
+	</select>
+
+	<select id="myAddress" resultType="String" parameterType="String">
+		select
+		address from card
+		where cardnum =
+		(select cardnum from cardimage
+		where
+		m_id=#{m_id} and
+		cardType='my')
 	</select>
 </mapper>

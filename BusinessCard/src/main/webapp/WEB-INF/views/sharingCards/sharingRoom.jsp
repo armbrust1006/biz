@@ -165,13 +165,13 @@
 			class="section-60 section-sm-90 section-md-bottom-120 bg-gray-dark">
 			<div class="shell">
 				<div class="w3-container">
-					<c:forEach var="card" items="${CardBooks}">
+					<c:forEach var="book" items="${bookList}">
 						<div
 							class="cell-sm-2 cell-md-6 col-sm-6 height-fill offset-top-30">
 							<div class="w3-card-4 " style="width: 100%;">
 								<header class="w3-container" id="mainCard">
 									<i class="fa fa-address-book" style="font-size: 24px">
-										${card.book_name}</i>
+										${book.BOOK_NAME}</i>
 
 								</header>
 								<div class="w3-container w3-blue"></div>
@@ -179,18 +179,18 @@
 									<ul>
 
 										<li id="li"><i class="fa fa-calendar"
-											style="font-size: 24px"></i> 개설날짜 | ${card.inputdate}</li>
+											style="font-size: 24px"></i> 개설날짜 | ${book.INPUTDATE}</li>
 
 										<li id="li"><i class="fa fa-child"
-											style="font-size: 24px"></i> 개설자 | ${card.book_master}</li>
+											style="font-size: 24px"></i> 개설자 | ${book.BOOK_MASTER}님</li>
 
 										<li id="li"><i class="fa fa-codepen"
-											style="font-size: 24px"></i> 구성원| 매퍼 listCardBooks 쿼리다시짜야함</li>
+											style="font-size: 24px"></i> 구성원| ${book.MEMBER_COUNT}명</li>
 
-										<li id="li"><i class="fa fa-list-alt"
-											style="font-size: 24px"></i> 공유카드 | (몇 장)쿼리새로만들어야함</li>
+										<%-- <li id="li"><i class="fa fa-list-alt"
+											style="font-size: 24px"></i> 공유카드 | ${book.SHARED_COUNT}장</li> --%>
 
-										<a href="selectOneRoom?book_num=${card.book_num}">
+										<a href="selectOneRoom?book_num=${book.BOOK_NUM}">
 											<li id="li"><button type="button" id="enter"
 													class="btn btn-primary btn-sm">입장하기</button></li>
 										</a>
@@ -203,46 +203,6 @@
 					</c:forEach>
 				</div>
 			</div>
-
-
-			<%-- 			<div class="shell text-center">
-				<h3>What Clients Say?</h3>
-				<div class="range range-xs-center range-sm-left offset-top-40">
-					<div class="cell-md-10 cell-lg-12">
-						<div class="range range-sm-bottom">
-
-							<c:forEach var="card" items="${CardBooks}">
-								<div class="cell-sm-6 cell-lg-3" style="margin-bottom: 40px">
-									<div class="pricing-table">
-										<div class="pricing-table-label">
-											<p>${card.grade}</p>
-										</div>
-										<div class="pricing-table-body">
-											<h5 class="pricing-table-header">
-												<span>${card.book_name}</span>
-											</h5>
-											<div class="pricing-object pricing-object-lg">
-												<span class="small small-top">명함</span><span class="price">0</span><span
-													class="small small-bottom">개</span>
-											</div>
-											<div class="divider-circle"></div>
-											<ul class="pricing-list">
-												<li>개설날짜| <span class="text-ubold">칼럼추가필요</span></li>
-												<li>개설자| <span class="text-ubold">${card.room_host}&nbsp님</span></li>
-												<li>구성원| <span class="text-ubold">${card.memberCount}&nbsp명</span></li>
-											</ul>
-										</div>
-										<div class="pricing-table-footer">
-											<a href="selectOneRoom?book_num=${card.book_num}"
-												class="btn btn-round-bottom btn-default btn-block">입장하기</a>
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div> --%>
 		</section>
 
 

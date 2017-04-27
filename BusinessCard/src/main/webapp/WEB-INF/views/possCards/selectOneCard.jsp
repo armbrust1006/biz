@@ -153,9 +153,6 @@
 		});
 	}
 
-	
-	
-	
 	/* memo modal start*/
 	$("#exampleModal").on('show.bs.modal', function(event) {
 		var button = $(event.relatedTarget)
@@ -164,7 +161,7 @@
 	})
 	$(document).ready(function() {
 		$("#writeMemo").on("click", writeMemo);
-		
+
 	});
 
 	function writeMemo() {
@@ -185,11 +182,12 @@
 	})
 
 	$(document).ready(function() {
+		$("#addStop").on("click", routeStopBy);
 		$("#showShareRoom").on('click', shareRoomAjax);
 		document.getElementById("cardDelete").onclick = function() {
-	         document.getElementById("cardDeleteForm").submit();
-	      };
-		
+			document.getElementById("cardDeleteForm").submit();
+		};
+
 		$("#sc").on('click', clickSendMail);
 		$("#my_id").on('keyup', checkGmail);
 	});
@@ -283,8 +281,8 @@
 						function(index, item) {
 							msg += "<tbody>";
 							msg += "<tr>";
-							msg += "<td>" + item.book_name + "</td>";
-							msg += "<td><button type='button' class='sharebutton' style='vertical-align: middle' book_num='"+item.book_num+"'><span>공유하기</span></button>";
+							msg += "<td>" + item.BOOK_NAME + "</td>";
+							msg += "<td><button type='button' class='sharebutton' style='vertical-align: middle' book_num='"+item.BOOK_NUM+"'><span>공유하기</span></button>";
 							msg += "</tr>";
 							msg += "<tbody>";
 						});
@@ -298,7 +296,7 @@
 		var book_num = $(this).attr("book_num"); //공유할 방
 		var cardnum = $("#cardNum").val();//공유할 명함 번호
 		$.ajax({
-			type : "get",
+			type : "post",
 			url : "share",
 			data : {
 				"book_num" : book_num,
@@ -370,6 +368,18 @@
 		$("#resultAudio").html(audio);
 
 	}
+
+	function showRouteChoice() {
+
+		var start = '${myAddress}';
+		var end = document.getElementById('address').value;
+		window.open("searchRoute?start=" + start + "&end=" + end);
+
+	}
+
+	function routeStopBy() {
+		window.open("routeStopBy");
+	}
 </script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwT77mHP1Yu98_PplRBCkXycOfTAGZLTI&callback=initMap">
@@ -416,7 +426,6 @@
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<br> <br> <br> <br> <br> <br>
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
@@ -465,8 +474,18 @@
 									</div>
 
 									<!-- 지도 시작 -->
-									<h5></h5>
+
 									<div id="map"></div>
+									<h5></h5>
+									<button type="button" class="button"
+										style="vertical-align: middle" onclick="showRouteChoice()">
+										<span>길 찾기</span>
+									</button>
+
+									<button type="button" class="button" id="addStop"
+										style="vertical-align: middle">
+										<span>경유 설정</span>
+									</button>
 									<!-- 지도 끝 -->
 
 								</div>
@@ -632,9 +651,8 @@
 											삭제
 											<form id="cardDeleteForm" method="POST" action="cardDelete">
 												<input type="hidden" id="cardNum" name="cardNum"
-													value="${selectedCard.cardNum}">
-												<input type="hidden" id="cardType" name="cardType"
-													value="others">
+													value="${selectedCard.cardNum}"> <input
+													type="hidden" id="cardType" name="cardType" value="others">
 											</form>
 
 										</div>

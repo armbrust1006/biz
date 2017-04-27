@@ -1,5 +1,8 @@
 package global.scit.bizcard.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import global.scit.bizcard.repository.CardImageRepository;
 import global.scit.bizcard.repository.MemberRepository;
+import global.scit.bizcard.repository.SharingRepository;
+import global.scit.bizcard.vo.CardBooks;
 import global.scit.bizcard.vo.Member;
 
 @Controller
@@ -22,6 +27,8 @@ public class HomeController {
 	MemberRepository MemberRepository;
 	@Autowired
 	CardImageRepository CardImageRepository;
+	@Autowired
+	SharingRepository SharingRepository;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
@@ -39,38 +46,56 @@ public class HomeController {
 		return "home/login";
 	}
 
-
-	@RequestMapping (value="/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(Member member, HttpSession session, Model model) {
 		Member selectM = MemberRepository.selectM(member);
-		String checkExistMine = null; 
-		if(selectM!=null) {
+		String checkExistMine = null;
+		if (selectM != null) {
 			session.setAttribute("m_id", selectM.getM_id());
 			checkExistMine = CardImageRepository.checkExistMine(selectM.getM_id());
-			logger.info("checkExistMine"+checkExistMine);
-			if (checkExistMine!=null) {
+			logger.info("checkExistMine" + checkExistMine);
+			if (checkExistMine == null) {
 				logger.info("여기");
-				return "home/login_myHome";
-			} else {
 				return "home/login_home";
+			} else {
+				return "redirect:login_home";
 			}
 		} else {
 			model.addAttribute("errorMSG", "登録された会員情報がございません。<br> 入力したID・パスワードを確認してください。");
 			return "home/login";
 		}
 	}
-	
-	@RequestMapping (value="login_home", method = RequestMethod.GET)
-	public String index_home(HttpSession session) {
-		String id = (String)session.getAttribute("m_id");
+
+	@RequestMapping(value = "login_home", method = RequestMethod.GET)
+	public String index_home(HttpSession session, Model model) {
+		String id = (String) session.getAttribute("m_id");
 		String checkExistMine = CardImageRepository.checkExistMine(id);
-		if (checkExistMine!=null) {
+		if (checkExistMine != null) {
+			session.setAttribute("checkExistMine", 1); // 자신의 명함이 있으면 세션에 1을 담음
+
+			// 현택1. 보유 명함 수
+			int countMyCardIndex = 0;
+			countMyCardIndex = CardImageRepository.countMyCardIndex(id);
+			if (countMyCardIndex == 0) {
+				model.addAttribute("countMyCardIndex", "등록된 다른 사람 명함이 없다 이놈아");
+			} else {
+				model.addAttribute("countMyCardIndex", countMyCardIndex);
+			}
+
+			// 현택2. 가입한 공유 명함방 수
+			ArrayList<HashMap<String, Object>> bookList = new ArrayList<HashMap<String, Object>>();
+			bookList = SharingRepository.listCardBooks(id);
+			if (bookList.size() == 0) {
+				model.addAttribute("countMyCardBooks", "가입하신 공유명함첩이 없습니다.");
+			} else {
+				model.addAttribute("countMyCardBooks", bookList.size());
+			}
+
 			return "home/login_myHome";
 		} else {
 			return "home/login_home";
 		}
 	}
-	
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register() {
