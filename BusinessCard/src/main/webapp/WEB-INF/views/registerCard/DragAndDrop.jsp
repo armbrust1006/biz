@@ -17,7 +17,7 @@
 <style type="text/css">
 .list-wide-bordered li {
 	min-height: 35px;
-	padding: 6px 50px;
+	padding: 6px 0px;
 }
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>

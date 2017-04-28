@@ -30,6 +30,7 @@
 	}
 
 	function listSort(data) {
+		console.log(data);
 		$.ajax({
 			type : "post",
 			url : "listSort",
@@ -47,22 +48,23 @@
 		});
 	}
 
-	function innerList(list) {
+	function innerList(res) {
+		console.log(res);
 		var listDiv = document.getElementById("list");
 		var tempHtml = "";
-		for (var i = 0; i < list.length; i++) {
+		for (var i = 0; i < res.length; i++) {
 			tempHtml += "<div class='cell-xs-6 cell-sm-4 cell-md-4'> <div class='thumbnail-variant-2-wrap'> <a href='selectOneCard?cardnum="
-					+ list[i].cardNum
+					+ res[i].cardNum
 					+ "'> <div class='thumbnail thumbnail-variant-2'> <!-- <figure class='thumbnail-image'> --> <img src='downloadImage?card="
-					+ list[i].imagePath
+					+ res[i].imagePath
 					+ "' alt='' style='width: 300px; height: 150px; border: 5px outset #217ED3;' /> <div class='thumbnail-caption'> <p class='text-header'>"
-					+ list[i].company
+					+ res[i].company
 					+ '&nbsp;'
-					+ list[i].depart
+					+ res[i].depart
 					+ "</p> <div class='divider divider-md'></div> <p class='text-caption'>"
-					+ list[i].position
+					+ res[i].position
 					+ '&nbsp;'
-					+ list[i].name
+					+ res[i].name
 					+ "</p></div></div></a></div></div>";
 		}
 		listDiv.innerHTML = tempHtml;

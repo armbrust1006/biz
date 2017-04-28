@@ -111,10 +111,10 @@
 					img.inputDate desc
 				</when>
 				<when test="sort.equalsIgnoreCase('name')">
-					by c.name desc
+					c.name desc
 				</when>
 				<when test="sort.equalsIgnoreCase('company')">
-					by c.company desc
+					c.company desc
 				</when>
 			</choose>
 		</if>
