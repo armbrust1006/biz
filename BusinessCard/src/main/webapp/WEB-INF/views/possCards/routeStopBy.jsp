@@ -61,7 +61,7 @@ html, body {
    <div id="map"></div>
    <div id="right-panel">
       <div>
-         <h6>우리는 오보에</h6>
+         <h6>[경유지 길찾기]</h6>
          <br> <b>출발지 :</b> <select id="start">
             <c:forEach var="stop" items="${stopBy}">
                <option value="${stop.address}">${stop.address}</option>

@@ -135,6 +135,12 @@
 	opacity: 1;
 	right: 0;
 }
+.item{
+	border: 5px outset #217ED3;
+	height: auto; 
+	padding: 10px;
+}
+
 </style>
 
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
@@ -174,6 +180,7 @@
 		document.getElementById("cardDelete").onclick = function() {
 			updateTOdelteForm("cardDelete");
 		};
+		
 	}
 
 	/* 수정 및 삭제 함수 */
@@ -481,8 +488,6 @@
 		<section class="section-50 section-sm-75 section-lg-bottom-20">
 			<div class="shell">
 
-
-
 				<div class="range range-lg-center">
 					<div class="cell-lg-10">
 						<div class="product product-single">
@@ -493,10 +498,10 @@
 											width="800" height="400" />
 									</div>
 									<!-- 지도 시작 -->
-									<br>
+									<h1></h1>
 									<div id="map"></div>
 									<!-- 지도 끝 -->
-									<br>
+									<h1></h1>
 									<div>
 										<form action="myCard" method="post" id="sharedChangeForm"
 											name="sharedChangeForm">

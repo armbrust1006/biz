@@ -109,6 +109,7 @@
 				<div class="range range-sm-center range-md-left">
 					<c:forEach begin="0" end="6" step="1" var="layout">
 						<div class="cell-sm-9 cell-md-6 height-fill offset-top-30">
+						
 							<div class="view fifth-effect">
 								<a href="selectCardLayout?layout_num=${layout}"
 									title="${layout}-Image"><img

@@ -55,7 +55,7 @@
 					+ list[i].cardNum
 					+ "'> <div class='thumbnail thumbnail-variant-2'> <!-- <figure class='thumbnail-image'> --> <img src='downloadImage?card="
 					+ list[i].imagePath
-					+ "' alt='' style='width: 300px; height: 150px' /> <div class='thumbnail-caption'> <p class='text-header'>"
+					+ "' alt='' style='width: 300px; height: 150px; border: 5px outset #217ED3;' /> <div class='thumbnail-caption'> <p class='text-header'>"
 					+ list[i].company
 					+ '&nbsp;'
 					+ list[i].depart
@@ -68,6 +68,12 @@
 		listDiv.innerHTML = tempHtml;
 	}
 </script>
+<style>
+
+
+</style>
+
+
 </head>
 <body style="">
 	<div class="page">

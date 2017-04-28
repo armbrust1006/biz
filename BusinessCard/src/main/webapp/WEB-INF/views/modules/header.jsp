@@ -79,7 +79,7 @@
                   <li><a href="#">공유명함첩</a>
                     <ul class="rd-navbar-dropdown">
                       <li><a href="sharingRoom">내 공유 명함첩</a> </li>
-                      <li><a href="#">공유 명함첩 관리</a> </li>
+                      <li><a href="test">공유 명함첩 관리</a> </li>
                     </ul>
                   </li>
                   <li><a href="faq">FAQ</a></li>

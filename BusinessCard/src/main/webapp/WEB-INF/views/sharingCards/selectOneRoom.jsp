@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
@@ -8,163 +8,176 @@
 <title>Sharing Room</title>
 <style>
 .withdrawalbutton {
-	position: relative;
-	background-color: #4982e5;
-	border: none;
-	font-size: 15px;
-	color: #FFFFFF;
-	padding: 5px;
-	width: 200px;
-	text-align: center;
-	-webkit-transition-duration: 0.4s; /* Safari */
-	transition-duration: 0.4s;
-	text-decoration: none;
-	overflow: hidden;
-	cursor: pointer;
+   position: relative;
+   background-color: #4982e5;
+   border: none;
+   font-size: 15px;
+   color: #FFFFFF;
+   padding: 5px;
+   width: 200px;
+   text-align: center;
+   -webkit-transition-duration: 0.4s; /* Safari */
+   transition-duration: 0.4s;
+   text-decoration: none;
+   overflow: hidden;
+   cursor: pointer;
 }
 
 .withdrawalbutton:after {
-	content: "";
-	background: #f1f1f1;
-	display: block;
-	position: absolute;
-	padding-top: 300%;
-	padding-left: 350%;
-	margin-left: -20px !important;
-	margin-top: -120%;
-	opacity: 0;
-	transition: all 0.8s
+   content: "";
+   background: #f1f1f1;
+   display: block;
+   position: absolute;
+   padding-top: 300%;
+   padding-left: 350%;
+   margin-left: -20px !important;
+   margin-top: -120%;
+   opacity: 0;
+   transition: all 0.8s
 }
 
 .withdrawalbutton:active:after {
-	padding: 0;
-	margin: 0;
-	opacity: 1;
-	transition: 0s
+   padding: 0;
+   margin: 0;
+   opacity: 1;
+   transition: 0s
 }
 
 .withdrawalbutton span {
-	cursor: pointer;
-	display: inline-block;
-	position: relative;
-	transition: 0.5s;
+   cursor: pointer;
+   display: inline-block;
+   position: relative;
+   transition: 0.5s;
 }
 
 .withdrawalbutton span:after {
-	content: '\00bb';
-	position: absolute;
-	opacity: 0;
-	top: 0;
-	right: -20px;
-	transition: 0.5s;
+   content: '\00bb';
+   position: absolute;
+   opacity: 0;
+   top: 0;
+   right: -20px;
+   transition: 0.5s;
 }
 
 .withdrawalbutton:hover span {
-	padding-right: 25px;
+   padding-right: 25px;
 }
 
 .withdrawalbutton:hover span:after {
-	opacity: 1;
-	right: 0;
+   opacity: 1;
+   right: 0;
 }
 </style>
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport"
-	content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+   content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta charset="utf-8">
 <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css"
-	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
+   href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
 <script>
-	window.onload = function() {
-		getSharedCard();
-		document.getElementById("searchInvite").onclick = inviteList;// 초대검색
-		document.getElementById("tab4").onclick = allMember;// 구성원 클릭
+   window.onload = function() {
+      getSharedCard();
+      document.getElementById("searchInvite").onclick = inviteList;// 초대검색
+      document.getElementById("tab4").onclick = allMember;// 구성원 클릭
 
-		document.getElementById("tab2").onclick = loadList;
-		document.getElementById("tab1").onclick = getSharedCard;
-		//document.getElementById("writeClick").onclick = asdf;
+      document.getElementById("tab2").onclick = loadList;
+      document.getElementById("writeClick").onclick = asdf;
+      /* document.getElementById("tab1").onclick = getSharedCard; */
+   }
+
+   //초대 검색
+   function inviteList() {
+      var searchTitle = $("#searchTitle").val();
+      var searchText = $("#searchText").val();
+      $.ajax({
+         type : "get",
+         url : "inviteList",
+         data : {
+            "searchTitle" : searchTitle,
+            "searchText" : searchText
+         },
+         success : outInviteList
+      });
+   }
+
+   // 초대할 목록 보여주기
+   function outInviteList(resp) {
+      $("#inviteListResult").empty();
+      var msg = '<table class="table table-primary">';
+      msg += "<tr>";
+      msg += "<td>" + "I  D" + "</td>";
+      msg += "<td>" + "이 름" + "</td>";
+      msg += "</tr>";
+      $
+            .each(
+                  resp,
+                  function(index, item) {
+                     msg += "<tr>";
+                     msg += "<td>" + item.m_id + "</td>";
+                     msg += "<td>" + item.m_name + "</td>";
+                     msg += "<td><input type='button' class='invite' target-id='" + item.m_id + "' value='초대'/></td>";
+                     msg += "</tr>";
+                  });
+      msg += '</table>';
+      $("#inviteListResult").html(msg);
+      $("input:button.invite").on('click', invite);
+   }
+
+   // 초대 목록에서 한 사람 선택
+   function invite() {
+      var targetId = $(this).attr("target-id"); // 초대할 사람 선택 시 m_id 받아옴
+      var book_num = $("#book_num").val();
+      var url = 'invitationCard?targetId=' + targetId+'&book_num='+book_num;
+      window.open(url, "invitationCard",
+            "top=200, left=400, width=300, height=500, resizable=no");
+   }
+
+   // 공유방의 구성원 목록보기
+   function allMember() {
+      var book_num = $("#book_num").val();
+      alert(book_num);
+      $.ajax({
+         type : "get",
+         url : "allMember",
+         data : {
+            "book_num" : book_num
+         },
+         success : outMemberList
+      });
+   }
+
+   // 공유방의 구성원 목록 보여주기
+   function outMemberList(resp) {
+      var msg = '<table class="table table-primary">';
+      msg += "<tr>";
+      msg += "<td>" + "I  D" + "</td>";
+      msg += "<td>" + "이 름" + "</td>";
+      msg += "<td>" + "가입날짜" + "</td>";
+      msg += "</tr>";
+      $.each(resp, function(index, item) {
+         msg += "<tr>";
+         msg += "<td>" + item.M_ID + "</td>";
+         msg += "<td>" + item.GRADE + "</td>";
+         msg += "<td>" + item.INPUTDATE + "</td>";
+         msg += "</tr>";
+      });
+      msg += '</table>';
+      $("#memberList").html(msg);
+   }
+
+   function refresh(){
+		$('#writeForm').show();
+		$('#listView').hide();
 	}
-
-	//초대 검색
-	function inviteList() {
-		var searchTitle = $("#searchTitle").val();
-		var searchText = $("#searchText").val();
-		$.ajax({
-			type : "get",
-			url : "inviteList",
-			data : {
-				"searchTitle" : searchTitle,
-				"searchText" : searchText
-			},
-			success : outInviteList
-		});
-	}
-
-	// 초대할 목록 보여주기
-	function outInviteList(resp) {
-		$("#inviteListResult").empty();
-		var msg = '<table class="table table-primary">';
-		msg += "<tr>";
-		msg += "<td>" + "I  D" + "</td>";
-		msg += "<td>" + "이 름" + "</td>";
-		msg += "</tr>";
-		$
-				.each(
-						resp,
-						function(index, item) {
-							msg += "<tr>";
-							msg += "<td>" + item.m_id + "</td>";
-							msg += "<td>" + item.m_name + "</td>";
-							msg += "<td><input type='button' class='invite' target-id='" + item.m_id + "' value='초대'/></td>";
-							msg += "</tr>";
-						});
-		msg += '</table>';
-		$("#inviteListResult").html(msg);
-		$("input:button.invite").on('click', invite);
-	}
-
-	// 초대 목록에서 한 사람 선택
-	function invite() {
-		var targetId = $(this).attr("target-id"); // 초대할 사람 선택 시 m_id 받아옴
-		var url = 'invitationCard?targetId=' + targetId;
-		window.open(url, "invitationCard",
-				"top=200, left=400, width=300, height=500, resizable=no");
-	}
-
-	// 공유방의 구성원 목록보기
-	function allMember() {
-		console.log("tab4");
-		$.ajax({
-			type : "get",
-			url : "allMember",
-			success : outMemberList
-		});
-	}
-
-	// 공유방의 구성원 목록 보여주기
-	function outMemberList(resp) {
-		var msg = '<table class="table table-primary">';
-		msg += "<tr>";
-		msg += "<td>" + "I  D" + "</td>";
-		msg += "<td>" + "이 름" + "</td>";
-		msg += "</tr>";
-		$.each(resp, function(index, item) {
-			msg += "<tr>";
-			msg += "<td>" + item.M_ID + "</td>";
-			msg += "<td>" + item.GRADE + "</td>";
-			msg += "</tr>";
-		});
-		msg += '</table>';
-		$("#memberList").html(msg);
-	}
-
+	
 	//글쓰기 폼에서 글쓰기버튼을 눌렀을경우 ajax를 통해서 DB에 저장이 됨.
 	function asdf() {
-		alert('??');
+		
+		
 		var board_title = $("#board_title").val();
 		//var m_id = $("#m_id").val();
 		var board_content = $("#board_content").val();
@@ -184,7 +197,9 @@
 				alert('성공했습니다.');
 				$('#listView').show();
 				$('#writeForm').hide();
+
 				loadList();
+			
 			},
 			error : function() {
 				alert('실패');
@@ -238,6 +253,8 @@
 
 	//리스트에서 글쓰기 폼을 눌렀을경우 글쓰리 페이지가 나옴.
 	function check(resp) {
+		
+		refresh();
 		var test = '';
 		var booknum = window.location.search;
 		var book_num = booknum.slice(10, 11);
@@ -314,6 +331,7 @@
 			error : function() {
 				alert('실패');
 			}
+
 		});
 	}
 
@@ -321,6 +339,7 @@
 	function relist() {
 		$('#listView').show();
 		$('#readData').hide();
+		$('#writeForm').hide();
 
 		loadList();
 	}
@@ -328,6 +347,7 @@
 	//리스트에서 게시글을 클릭하여 정보가 나오는 페이지 설정
 	function readB(boardnum) {
 
+		$('#readData').show();
 		var read = '';
 		var num = boardnum;
 		alert('.....' + num);
@@ -420,6 +440,7 @@
 		var booknum = window.location.search;
 		var book_num = booknum.slice(10, 11);
 		var upda = '';
+		//$('#updateForm').show();
 		$
 				.ajax({
 					url : 'readB',
@@ -469,9 +490,14 @@
 						upda += ' </div>';
 						upda += ' </form>';
 
-						$('#writeForm').html(upda);
-						$('#listView').show();
-						$('#writeForm').hide();
+						$('#updateForm').html(upda);
+						//$('#listView').hide();
+						
+						
+						
+
+						//$('#dataCol').hide();
+						loadList();
 
 						/* alert('성공했습니다.');
 						$('#listView').show();
@@ -483,6 +509,7 @@
 					}
 
 				});
+
 	}
 
 	function updateCom(boardnum) {
@@ -502,6 +529,7 @@
 			success : function() {
 				alert('성공했습니다.');
 				$('#listView').show();
+				$('#updateForm').hide();
 				loadList();
 			},
 			error : function() {
@@ -511,113 +539,116 @@
 		});
 	}
 
-	function getSharedCard() {
-		console.log("image");
-		var booknums = document.getElementById("book_num").value;
-		$.ajax({
-			method : "post",
-			url : "getRoomCard",
-			data : {
-				"book_num" : booknums
-			},
-			success : function(res) {
-				console.log("SUCCESS");
-				sharedCard(res);
-			},
-			error : function() {
-				console.log("ERROR");
-			}
-		});
-	}
+   function getSharedCard() {
+      console.log("image");
+      var booknums = document.getElementById("book_num").value;
+      $.ajax({
+         method : "post",
+         url : "getRoomCard",
+         data : {
+            "book_num" : booknums
+         },
+         success : function(res) {
+            console.log("SUCCESS");
+            sharedCard(res);
+         },
+         error : function() {
+            console.log("ERROR");
+         }
+      });
+   }
 
-	function sharedCard(res) {
-		var div = document.getElementById("tabs-1-1");
-		var htmlText = "";
-		for (var i = 0; i < res.length; i++) {
-			htmlText += "<a href='#?cardnum=" + res[i].cardNum
-					+ "'><img src=downloadImage?card=" + res[i].imagePath
-					+ " alt='' width='400' height='200' /></a>";
-		}
-		div.innerHTML = htmlText;
-	}
+   function sharedCard(res) {
+      var div = document.getElementById("tabs-1-1");
+      var htmlText = "";
+      for (var i = 0; i < res.length; i++) {
+         htmlText += "<a href='#?cardnum=" + res[i].cardNum
+               + "'><img src=downloadImage?card=" + res[i].imagePath
+               + " alt='' width='400' height='200' /></a>";
+      }
+      div.innerHTML = htmlText;
+   }
 
-	//탈퇴
-	$("#withdrawalForm").on('show.bs.modal', function(event) {
-		var button = $(event.relatedTarget)
-		var modal = $(this)
-		modal.find('.modal-body input').val(recipient)
-	})
+   //탈퇴
+   $("#withdrawalForm").on('show.bs.modal', function(event) {
+      var button = $(event.relatedTarget)
+      var modal = $(this)
+      modal.find('.modal-body input').val(recipient)
+   })
 </script>
 
 
 </head>
 <body style="">
-	<!-- 탈퇴 modal -->
-	<div class="modal fade" id="withdrawalForm" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<br> <br> <br> <br> <br> <br>
-				<div class="modal-header">
-					<form method="post" action="">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h6 class="modal-title">탈퇴하시겠습니까?</h6>
-						<input type="text" class="form-control" id="memo-title"
-							name="book_name" placeholder="이름을 입력하세요."> <input
-							type="button" class="btn btn-primary-outline btn-shadow"
-							data-dismiss="modal" value="취소"> <input type="submit"
-							class="btn btn-primary btn-shadow" id="writeMemo" value="확인">
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- modal 끝 -->
-	<div class="page">
-		<%@include file="../modules/header.jsp"%>
-		<main class="page-content">
-		<section style="background-image: url(images/1920x900.jpg);"
-			class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
-			<div class="shell">
-				<div class="page-title">
-					<h2>Tabs</h2>
-				</div>
-			</div>
-		</section>
-		<section
-			class="section-bottom-30 section-top-60 section-sm-bottom-40 section-sm-top-90">
-			<div class="shell">
-				<div class="range range-sm-center">
-					<div class="cell-xs-12 text-center">
-						<h3>뭔가 제목 입력 안하면 지우기</h3>
-						<input type="hidden" value="${book_num}" id="book_num"
-							name="book_num">
-					</div>
-					<div class="cell-lg-10 offset-top-40">
-						<div id="tabs-1"
-							class="tabs-custom tabs-horizontal tabs-corporate">
-							<ul class="nav nav-tabs">
-								<li class="active"><a id="tab1" href="#tabs-1-1"
-									data-toggle="tab">명함첩</a></li>
-								<li><a id="tab2" href="#tabs-1-2" data-toggle="tab">게시판</a></li>
-								<li><a id="tab3" href="#tabs-1-3" data-toggle="tab">초대하기</a></li>
-								<li><a id="tab4" href="#tabs-1-4" data-toggle="tab">구성원</a></li>
-								<li><a href="#tabs-1-5" data-toggle="tab">Tab 5</a></li>
-							</ul>
-							<div class="tab-content text-secondary">
-								<div id="tabs-1-1" class="tab-pane fade in active">
-									<!-- <img src="" alt="" width="400" height="200" /> -->
-								</div>
-								<div id="tabs-1-2" class="tab-pane fade">
 
-									<div id="listView">
+   <!-- 탈퇴 modal 시작 -->
+   <div class="modal fade" id="withdrawalForm" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <form method="post" action="leaveRoom">
+                  <button type="button" class="close" data-dismiss="modal"
+                     aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h6 class="modal-title">탈퇴하시겠습니까?</h6>
+                  <input type="hidden" value="${book_num}" id="book_num"
+                     name="book_num"> <input type="button"
+                     class="btn btn-primary-outline btn-shadow" data-dismiss="modal"
+                     value="취소"> <input type="submit"
+                     class="btn btn-primary btn-shadow" id="writeMemo" value="확인">
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- 탈퇴 modal 끝 -->
+
+
+   <div class="page">
+      <%@include file="../modules/header.jsp"%>
+      <main class="page-content">
+      <section style="background-image: url(images/1920x900.jpg);"
+         class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
+         <div class="shell">
+            <div class="page-title">
+               <h2>Tabs</h2>
+            </div>
+         </div>
+      </section>
+      <section
+         class="section-bottom-30 section-top-60 section-sm-bottom-40 section-sm-top-90">
+         <div class="shell">
+            <div class="range range-sm-center">
+               <div class="cell-xs-12 text-center">
+                  <h3>뭔가 제목 입력 안하면 지우기</h3>
+                  <input type="hidden" value="${book_num}" id="book_num"
+                     name="book_num">
+               </div>
+               <div class="cell-lg-10 offset-top-40">
+                  <div id="tabs-1"
+                     class="tabs-custom tabs-horizontal tabs-corporate">
+                     <ul class="nav nav-tabs">
+                        <li class="active"><a id="tab1" href="#tabs-1-1"
+                           data-toggle="tab">명함첩</a></li>
+                        <li><a id="tab2" href="#tabs-1-2" data-toggle="tab">게시판</a></li>
+                        <li><a id="tab3" href="#tabs-1-3" data-toggle="tab">초대하기</a></li>
+                        <li><a id="tab4" href="#tabs-1-4" data-toggle="tab">구성원</a></li>
+                        <li><a href="#tabs-1-5" data-toggle="tab">탈퇴</a></li>
+                     </ul>
+                     <div class="tab-content text-secondary">
+                        <div id="tabs-1-1" class="tab-pane fade in active">
+                           <!-- <img src="" alt="" width="400" height="200" /> -->
+                        </div>
+                        <div id="tabs-1-2" class="tab-pane fade">
+
+                         <div id="listView">
 
 										<table width="100%" cellpadding="0" cellspacing="0" border="0">
 											<tr height="5">
 												<td width="5"></td>
+												
 											</tr>
 											<tr
 												style="background: url('images/table_mid.gif') repeat-x; text-align: center;">
@@ -632,7 +663,7 @@
 													width="5" height="30" /></td>
 											</tr>
 											<table width="100%" cellpadding="0" cellspacing="0"
-												border="0">
+											border="0">
 												<tr height="5">
 													<td width="5"></td>
 												</tr>
@@ -671,41 +702,41 @@
 									<div id="readData"></div>
 									<div id="updateForm"></div>
 									<!-- ↑여기까지 -->
-								</div>
-								<div id="tabs-1-3" class="tab-pane fade">
-									<form id="inviteForm" action="inviteList" method="get">
-										<select name="searchTitle" id="searchTitle">
-											<option value="m_id">아이디로 검색하기</option>
-											<option value="m_name">이름으로 검색하기</option>
-										</select> <input type="text" id="searchText" value="${searchText}">
-										<input type="button" value="검색" id="searchInvite">
-									</form>
-									<div id="inviteListResult"></div>
+                        </div>
+                        <div id="tabs-1-3" class="tab-pane fade">
+                           <form id="inviteForm" action="inviteList" method="get">
+                              <select name="searchTitle" id="searchTitle">
+                                 <option value="m_id">아이디로 검색하기</option>
+                                 <option value="m_name">이름으로 검색하기</option>
+                              </select> <input type="text" id="searchText" value="${searchText}">
+                              <input type="button" value="검색" id="searchInvite">
+                           </form>
+                           <div id="inviteListResult"></div>
 
-								</div>
-								<div id="tabs-1-4" class="tab-pane fade">
-									<div id="memberList"></div>
-								</div>
-								<div id="tabs-1-5" class="tab-pane fade">
-									<button type="button" class="withdrawalbutton"
-										style="vertical-align: middle" data-toggle="modal"
-										data-target="#withdrawalForm" data-whatever="@mdo"
-										id="showShareRoom">
-										<span>탈퇴하기</span>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                        </div>
+                        <div id="tabs-1-4" class="tab-pane fade">
+                           <div id="memberList"></div>
+                        </div>
+                        <div id="tabs-1-5" class="tab-pane fade">
+                           <button type="button" class="withdrawalbutton"
+                              style="vertical-align: middle" data-toggle="modal"
+                              data-target="#withdrawalForm" data-whatever="@mdo"
+                              id="showShareRoom">
+                              <span>탈퇴하기</span>
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
 
-		</section>
+      </section>
 
-		</main>
+      </main>
 
-		<%@include file="../modules/footer.jsp"%>
-		<script src="js/core.min.js"></script>
-		<script src="js/script.js"></script>
+      <%@include file="../modules/footer.jsp"%>
+      <script src="js/core.min.js"></script>
+      <script src="js/script.js"></script>
 </body>
 </html>

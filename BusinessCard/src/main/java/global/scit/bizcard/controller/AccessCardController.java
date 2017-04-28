@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import global.scit.bizcard.repository.CardImageRepository;
 import global.scit.bizcard.repository.CardRepository;
+import global.scit.bizcard.repository.MemberRepository;
 import global.scit.bizcard.util.FileService;
 import global.scit.bizcard.util.ImageService;
 import global.scit.bizcard.util.Tess4J;
@@ -54,6 +55,9 @@ public class AccessCardController {
 	private CardRepository cardRepository;
 	@Autowired
 	private CardImageRepository cardImageRepository;
+	@Autowired
+	private MemberRepository memberRepository;
+	
 
 	final String uploadPathLogo = "/CardImageFile/logo";
 	final String uploadPathCard = "/CardImageFile/card";
@@ -351,6 +355,25 @@ public class AccessCardController {
 		return "redirect:/myCard";
 	}
 
+	 /**
+	    * [현택] 타인 명함 삭제
+	    * 
+	    * @param cardNum
+	    * @param session("m_id")
+	    * @return 보유 명함 목록으로 이동
+	    */
+	@RequestMapping(value = "/cardDelete", method = RequestMethod.POST)
+	   public String cardDelete(CardImage cardImage, HttpSession session) {
+	      System.out.println("삭제: " + cardImage.toString());
+	      cardImage.setM_id(String.valueOf(session.getAttribute("m_id")));
+	      cardImageRepository.deleteCardImage(cardImage);
+	      if (cardImage.getCardType() == null) {
+	         return "redirect:login_home";
+	      } else {
+	         return "redirect:myCardList";
+	      }
+	   }
+	
 	/**
 	 * 로고 이미지 가져오기
 	 * 
@@ -491,8 +514,10 @@ public class AccessCardController {
 	 * @param model
 	 */
 	@RequestMapping(value = "/selectOneCard", method = RequestMethod.GET)
-	public String selectOneCard(int cardnum, HttpSession session, Model model) {
+	public String selectOneCard(String email, int cardnum, HttpSession session, Model model) {
 		String loginID = (String) session.getAttribute("m_id");
+		email = memberRepository.getEmail(loginID);
+		model.addAttribute("m_email", email);
 		Card c = new Card();
 		c.setM_id(loginID);
 		c.setCardNum(cardnum);
@@ -583,63 +608,5 @@ public class AccessCardController {
 		return f.getAbsolutePath();
 	}
 
-	/**
-	 * [현택] 길찾기
-	 */
-	@RequestMapping(value = "/searchRoute", method = RequestMethod.GET)
-	public String route(String start, String end, Model model) {
-		System.out.println(start);
-		System.out.println(end);
-		model.addAttribute("start", start);
-		model.addAttribute("end", end);
-		return "possCards/route";
-	}
-
-	/**
-	 * 길찾기에서 경유지 목록 보여주기
-	 * 
-	 * @param session
-	 * @param sort
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/addStop", method = RequestMethod.GET)
-	public ArrayList<Card> addStop(HttpSession session, String sort) {
-		ArrayList<Card> list = new ArrayList<>();
-		System.out.println("경유지 호출");
-		sort = "date";
-		String m_id = (String) session.getAttribute("m_id");
-		if (m_id != null) {
-			Map<String, Object> sortMap = new HashMap<>();
-			sortMap.put("m_id", m_id);
-			sortMap.put("sort", sort);
-			list = (ArrayList<Card>) cardRepository.myCardListData(sortMap);
-		}
-		return list;
-	}
-
-	/**
-	 * 지도 다중 경로
-	 * 
-	 * @param session
-	 * @param sort
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/routeStopBy", method = RequestMethod.GET)
-	public String routeStopBy(HttpSession session, String sort, Model model) {
-		ArrayList<Card> list = new ArrayList<>();
-		sort = "date";
-		String m_id = (String) session.getAttribute("m_id");
-		if (m_id != null) {
-			Map<String, Object> sortMap = new HashMap<>();
-			sortMap.put("m_id", m_id);
-			sortMap.put("sort", sort);
-			list = (ArrayList<Card>) cardRepository.myCardListData(sortMap);
-			model.addAttribute("stopBy", list);
-			System.out.println(list.toString() + "경유지싹다");
-		}
-		return "possCards/routeStopBy";
-	}
-
+	
 }
