@@ -15,6 +15,12 @@
 	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/component.css">
+<style type="text/css">
+.list-wide-bordered li {
+	min-height: 35px;
+	padding: 6px 50px;
+}
+</style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 	(function(e, t, n) {
@@ -370,8 +376,8 @@
 							<div class="range range-7">
 								<input type="hidden" id="m_id" name="m_id" value="${m_id}">
 								<input type="hidden" id="cardType" name="cardType"
-									value="${cardType}"> <input type="hidden" id="layout_num"
-									name="layout_num" value="${layout_num}">
+									value="${cardType}"> <input type="hidden"
+									id="layout_num" name="layout_num" value="${layout_num}">
 								<!--항목  -->
 
 								<div class="cell-sm-3">
@@ -447,19 +453,23 @@
 											for="mobile" class="form-label rd-input-label">Mobile</label>
 									</div>
 								</div>
-								<br> <br>
 								<div class="cell-sm-3">
-									<div class="form-group" class="form-control" align="left">
-										<label>Language&nbsp;&nbsp;:</label> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										</span> <input type="radio" name="language" value="kor" id="language"
-											checked="checked" style="cursor: pointer"> <label
-											for="kor" style="cursor: pointer">KOR</label>&nbsp;&nbsp;&nbsp;
-										<input type="radio" name="language" value="eng" id="language"
-											style="cursor: pointer"> <label for="eng"
-											style="cursor: pointer">ENG</label>&nbsp;&nbsp;&nbsp; <input
-											type="radio" name="language" value="jpn" id="language"
-											style="cursor: pointer"> <label for="jpn"
-											style="cursor: pointer">JPN</label>
+									<div id="selLan" style="font-size: 20px">
+										<ul class="list-wide-bordered">
+											<li><label class="radio-inline"> <input
+													id="language" type="radio" name="language"
+													value="eng" class="radio-custom"><span
+													class="radio-custom-dummy"></span> English
+											</label><label class="radio-inline"> <input id="language"
+													type="radio" name="language"
+													value="kor" class="radio-custom"><span
+													class="radio-custom-dummy"></span> Korean
+											</label><label class="radio-inline"> <input id="language"
+													type="radio" name="language"
+													value="jpn" class="radio-custom"><span
+													class="radio-custom-dummy"></span> Japanese
+											</label></li>
+										</ul>
 									</div>
 								</div>
 

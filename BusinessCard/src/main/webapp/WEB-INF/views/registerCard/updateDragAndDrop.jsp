@@ -14,6 +14,12 @@
 	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/component.css">
+<style type="text/css">
+.list-wide-bordered li {
+	min-height: 35px;
+	padding: 6px 50px;
+}
+</style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 	var canvas;
@@ -300,51 +306,57 @@
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="company" type="text" name="company" value="${card.company}"
-											data-constraints="@Required" class="form-control"> <label
-											for="company" class="form-label rd-input-label">Company</label>
+										<input id="company" type="text" name="company"
+											value="${card.company}" data-constraints="@Required"
+											class="form-control"> <label for="company"
+											class="form-label rd-input-label">Company</label>
 									</div>
 								</div>
 
 								<div class="cell-sm-3">
 									<div class="form-group">
 										<div>
-											<input id="depart" type="text" name="depart" value="${card.depart}"
-												data-constraints="@Required" class="form-control"> <label
-												for="depart" class="form-label rd-input-label">Department</label>
+											<input id="depart" type="text" name="depart"
+												value="${card.depart}" data-constraints="@Required"
+												class="form-control"> <label for="depart"
+												class="form-label rd-input-label">Department</label>
 										</div>
 									</div>
 								</div>
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="position" type="text" name="position" value="${card.position}"
-											data-constraints="@Required" class="form-control"> <label
-											for="position" class="form-label rd-input-label">Position</label>
+										<input id="position" type="text" name="position"
+											value="${card.position}" data-constraints="@Required"
+											class="form-control"> <label for="position"
+											class="form-label rd-input-label">Position</label>
 									</div>
 								</div>
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="address" type="text" name="address" value="${card.address}"
-											data-constraints="@Required" class="form-control"> <label
-											for="address" class="form-label rd-input-label">Address</label>
+										<input id="address" type="text" name="address"
+											value="${card.address}" data-constraints="@Required"
+											class="form-control"> <label for="address"
+											class="form-label rd-input-label">Address</label>
 									</div>
 								</div>
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="email" type="email" name="email" value="${card.email}"
-											data-constraints="@Email @Required" class="form-control">
-										<label for="email" class="form-label rd-input-label">E-mail</label>
+										<input id="email" type="email" name="email"
+											value="${card.email}" data-constraints="@Email @Required"
+											class="form-control"> <label for="email"
+											class="form-label rd-input-label">E-mail</label>
 									</div>
 								</div>
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="telephone" type="text" name="telephone" value="${card.telephone}"
-											data-constraints="@Required" class="form-control"> <label
-											for="telephone" class="form-label rd-input-label">Telephone</label>
+										<input id="telephone" type="text" name="telephone"
+											value="${card.telephone}" data-constraints="@Required"
+											class="form-control"> <label for="telephone"
+											class="form-label rd-input-label">Telephone</label>
 									</div>
 								</div>
 
@@ -358,19 +370,33 @@
 
 								<div class="cell-sm-3">
 									<div class="form-group">
-										<input id="mobile" type="text" name="mobile" value="${card.mobile}"
-											data-constraints="@Required" class="form-control"> <label
-											for="mobile" class="form-label rd-input-label">Mobile</label>
+										<input id="mobile" type="text" name="mobile"
+											value="${card.mobile}" data-constraints="@Required"
+											class="form-control"> <label for="mobile"
+											class="form-label rd-input-label">Mobile</label>
 									</div>
 								</div>
 
-								<div class="cell-sm-3 offset-top-20">
-									<div class="form-group" align="left">
-										KOR <input type="radio" name="language" value="kor"
-											id="language" <c:if test="${card.language eq 'kor'}">checked</c:if>> JPN <input
-											type="radio" name="language" value="jpn" id="language" <c:if test="${card.language eq 'jpn'}">checked</c:if>>
-										ENG <input type="radio" name="language" value="eng"
-											id="language" <c:if test="${card.language eq 'eng'}">checked</c:if>>
+								<div class="cell-sm-3">
+									<div id="selLan" style="font-size: 20px">
+										<ul class="list-wide-bordered">
+											<li><label class="radio-inline"> <input
+													id="language" type="radio" name="language"
+													<c:if test="${card.language eq 'eng'}">checked</c:if>
+													value="eng" class="radio-custom"><span
+													class="radio-custom-dummy"></span> English
+											</label><label class="radio-inline"> <input id="language"
+													type="radio" name="language"
+													<c:if test="${card.language eq 'kor'}">checked</c:if>
+													value="kor" class="radio-custom"><span
+													class="radio-custom-dummy"></span> Korean
+											</label><label class="radio-inline"> <input id="language"
+													type="radio" name="language"
+													<c:if test="${card.language eq 'jpn'}">checked</c:if>
+													value="jpn" class="radio-custom"><span
+													class="radio-custom-dummy"></span> Japanese
+											</label></li>
+										</ul>
 									</div>
 								</div>
 

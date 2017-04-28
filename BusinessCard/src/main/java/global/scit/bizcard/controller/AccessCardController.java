@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -43,6 +42,8 @@ import global.scit.bizcard.util.ImageService;
 import global.scit.bizcard.util.Tess4J;
 import global.scit.bizcard.vo.Card;
 import global.scit.bizcard.vo.CardImage;
+import global.scit.bizcard.vo.OCRData;
+import global.scit.bizcard.vo.OCRResultData;
 
 @Controller
 public class AccessCardController {
@@ -151,7 +152,6 @@ public class AccessCardController {
 		}
 		cardRepository.insertCard(card);
 
-		session.removeAttribute("type");
 		String type = card.getCardType();
 		if (type.equalsIgnoreCase("my")) {
 			return "home/login_home";
@@ -173,18 +173,24 @@ public class AccessCardController {
 	 * @return
 	 */
 	@RequestMapping(value = "/imageScan", method = RequestMethod.POST)
-	public String ocrScan(Card card, MultipartFile file, Model model) {
-		if (file != null && card != null) {
-			String savedFile = FileService.saveFile(file, uploadPathOCR);
-			Tess4J tess4j = new Tess4J();
-			String result = tess4j.getTess4J(getPathOCR + savedFile, card.getLanguage());
+	public String ocrScan(OCRData ocrData, MultipartFile file, Model model) {
+		String savedFile = FileService.saveFile(file, uploadPathOCR);
+		String savedPath = FileService.saveFile(file, uploadPathCard);
+		ocrData.setImagePath(savedFile);
+		Tess4J tess4j = new Tess4J();
+		OCRResultData result = tess4j.getTess4J(ocrData);
 
-			/* maching */
-			card.setLayout_num(card.getLayout_num());
-			card.setImagePath(savedFile);
-			model.addAttribute("card", card);
-			model.addAttribute("result", result);
-		}
+		Card card = new Card();
+		card.setImagePath(ocrData.getImagePath());
+		card.setCardType(ocrData.getCardType());
+		card.setLayout_num(ocrData.getLayout_num());
+		card.setLanguage(ocrData.getLanguage());
+		card.setImgOriginal(savedPath);
+
+		model.addAttribute("OCRResultData", result);
+		model.addAttribute("card", card);
+		System.out.println(card.toString());
+
 		return "registerCard/OCRResult";
 	}
 
@@ -196,19 +202,35 @@ public class AccessCardController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/ocrImageSave", method = RequestMethod.POST)
-	public String ocrSave(String language, MultipartFile file, Model model) {
-		if (!file.isEmpty() && !language.isEmpty()) {
-			String savedFile = FileService.saveFile(file, uploadPathOCR);
-			Tess4J tess4j = new Tess4J();
-			String result = tess4j.getTess4J(getPathOCR + savedFile, language);
+	@RequestMapping(value = "/ocrImageDataSave", method = RequestMethod.POST)
+	public String ocrSave(Card card) {
+		System.out.println("card:" + card.getImagePath());
+		new File(getPathOCR + card.getImagePath() + ".png").delete();
 
-			/* maching */
+		cardImageRepository.saveCardImage(card);
 
-			model.addAttribute("file", savedFile);
-			model.addAttribute("result", result);
+		int cardnum = cardImageRepository.getImageNumber(card.getM_id());
+		card.setCardNum(cardnum);
+		card.setLogoImg("");
+		card.setImgOriginal("");
+		String language = card.getLanguage();
+		if (language.equals("eng+kor")) {
+			card.setLanguage("kor");
+		} else if (language.equals("eng+jpn")) {
+			card.setLanguage("jpn");
 		}
-		return "registerCard/OCRResult";
+		cardRepository.insertCard(card);
+
+		String type = card.getCardType();
+		if (type.equalsIgnoreCase("my")) {
+			return "home/login_home";
+		} else {
+			CardImage cardImage = new CardImage();
+			cardImage.setM_id(card.getM_id());
+			cardImage.setCardNum(cardnum);
+			cardImageRepository.setMyCardList(cardImage);
+			return "possCards/myPossCardList";
+		}
 	}
 
 	/**

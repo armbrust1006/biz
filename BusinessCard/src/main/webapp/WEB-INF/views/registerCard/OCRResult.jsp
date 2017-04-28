@@ -16,13 +16,9 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/component.css">
 <style type="text/css">
-#leftText {
-	width: 30%;
-	float: left;
-}
-
-#rightImage {
-	float: right;
+.list-wide-bordered li {
+	min-height: 35px;
+	padding: 6px 50px;
 }
 
 #fileImage {
@@ -32,12 +28,59 @@
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		console.log($("#language").val());
-	});
+	window.onload = function() {
+		document.getElementById("saveOCRData").onclick = dataCheck;
+	}
+
+	function dataCheck() {
+		var name = document.getElementById("name").value;
+		var company = document.getElementById("company").value;
+		var mobile = document.getElementById("mobile").value;
+
+		if (name == null || name == "") {
+			$('#myInput').html("Please select a name area!");
+			$("#myModal").modal();
+			console.log("woops");
+			return;
+		}
+		if (company == null || company == "") {
+			$('#myInput').html("Please select a company area!");
+			$("#myModal").modal();
+			console.log("woops");
+			return;
+		}
+		if (mobile == null || mobile == "") {
+			$('#myInput').html("Please select a mobile area!");
+			$("#myModal").modal();
+			console.log("woops");
+			return;
+		}
+		document.getElementById("cardForm").submit();
+	}
 </script>
 </head>
 <body style="">
+	<!-- Error Modal -->
+	<div class="modal-open">
+		<div id="myModal" class="modal">
+			<!-- Modal content -->
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3>
+							Warning
+							<button id="modal-close" data-dismiss="modal" class="close">
+								&times;</button>
+						</h3>
+					</div>
+					<div class="modal-body">
+						<h6 id="myInput"></h6>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
@@ -54,25 +97,16 @@
 				<div class="range">
 					<!-- 왼쪽 -->
 					<div class="cell-md-12 cell-lg-12">
-						<div class="cell-md-4 cell-lg-4" id="leftText">
-							<h3>Scan Result</h3>
-							<div class="form-group">
-								<!-- <textarea id="imageScan" name="imageScan"
-								class="form-control form-control-has-validation" readonly> -->
-								<output>${result}</output>
-								<!-- </textarea>
-							<label for="imageScan" class="form-label rd-input-label">ScanData</label> -->
-							</div>
-						</div>
 						<div class="cell-md-4 cell-lg-4" id="rightImage">
+							<h3>Scan Image</h3>
 							<img src="downloadOCRImage?card=${card.imagePath}" alt=""
-								id="fileImage" style="" />
+								id="fileImage" />
 						</div>
 					</div>
 					<!-- 오른쪽 부분 -->
 					<div class="cell-xs-12 offset-top-30">
 						<h3>Insert Informations</h3>
-						<form action="saveCardData"
+						<form action="ocrImageDataSave"
 							class="rd-mailform form-modern offset-top-30" method="post"
 							id="cardForm" name="cardForm"
 							data-form-output="form-output-global" data-form-type="order"
@@ -80,14 +114,15 @@
 							<div class="range range-7">
 								<input type="hidden" id="m_id" name="m_id" value="${m_id}">
 								<input type="hidden" id="cardType" name="cardType"
-									value="${type}"> <input type="hidden" id="imagePath"
-									name="imagePath" value="${card.imagePath}"> <input
+									value="${card.cardType}"> <input type="hidden"
+									id="imagePath" name="imagePath" value="${card.imgOriginal}"><input
 									type="hidden" id="layout_num" name="layout_num"
 									value="${card.layout_num}">
 								<!--항목  -->
 								<div class="cell-sm-3">
 									<div class="form-group">
 										<input type="text" id="name" name="name"
+											<c:if test="${OCRResultData.name!=null}">value="${OCRResultData.name}"</c:if>
 											data-constraints="@Required" class="form-control"> <label
 											for="name" class="form-label rd-input-label">Name</label>
 									</div>
@@ -96,6 +131,7 @@
 								<div class="cell-sm-3">
 									<div class="form-group">
 										<input type="text" id="company" name="company"
+											<c:if test="${OCRResultData.company!=null}">value="${OCRResultData.company}"</c:if>
 											data-constraints="@Required" class="form-control"> <label
 											for="company" class="form-label rd-input-label">Company</label>
 									</div>
@@ -105,6 +141,7 @@
 									<div class="form-group">
 										<div>
 											<input type="text" id="depart" name="depart"
+												<c:if test="${OCRResultData.depart!=null}">value="${OCRResultData.depart}"</c:if>
 												data-constraints="@Required" class="form-control"> <label
 												for="depart" class="form-label rd-input-label">Department</label>
 										</div>
@@ -114,6 +151,7 @@
 								<div class="cell-sm-3">
 									<div class="form-group">
 										<input type="text" id="position" name="position"
+											<c:if test="${OCRResultData.position!=null}">value="${OCRResultData.position}"</c:if>
 											data-constraints="@Required" class="form-control"> <label
 											for="position" class="form-label rd-input-label">Position</label>
 									</div>
@@ -122,6 +160,7 @@
 								<div class="cell-sm-3">
 									<div class="form-group">
 										<input type="text" id="address" name="address"
+											<c:if test="${OCRResultData.address!=null}">value="${OCRResultData.address}"</c:if>
 											data-constraints="@Required" class="form-control"> <label
 											for="address" class="form-label rd-input-label">Address</label>
 									</div>
@@ -130,6 +169,7 @@
 								<div class="cell-sm-3">
 									<div class="form-group">
 										<input type="email" id="email" name="email"
+											<c:if test="${OCRResultData.email!=null}">value="${OCRResultData.email}"</c:if>
 											data-constraints="@Email @Required" class="form-control">
 										<label for="email" class="form-label rd-input-label">E-mail</label>
 									</div>
@@ -138,6 +178,7 @@
 								<div class="cell-sm-3">
 									<div class="form-group">
 										<input type="text" id="telephone" name="telephone"
+											<c:if test="${OCRResultData.telephone!=null}">value="${OCRResultData.telephone}"</c:if>
 											data-constraints="@Required" class="form-control"> <label
 											for="telephone" class="form-label rd-input-label">Telephone</label>
 									</div>
@@ -146,6 +187,7 @@
 								<div class="cell-sm-3">
 									<div class="form-group">
 										<input type="text" id="fax" name="fax"
+											<c:if test="${OCRResultData.fax!=null}">value="${OCRResultData.fax}"</c:if>
 											data-constraints="@Required" class="form-control"> <label
 											for="fax" class="form-label rd-input-label">Fax</label>
 									</div>
@@ -154,33 +196,38 @@
 								<div class="cell-sm-3">
 									<div class="form-group">
 										<input type="text" id="mobile" name="mobile"
+											<c:if test="${OCRResultData.mobile!=null}">value="${OCRResultData.mobile}"</c:if>
 											data-constraints="@Required" class="form-control"> <label
 											for="mobile" class="form-label rd-input-label">Mobile</label>
 									</div>
 								</div>
-								<br> <br>
 								<div class="cell-sm-3">
-									<div class="form-group" class="form-control" align="left">
-										<label>Language&nbsp;&nbsp;:</label> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										</span> <input type="radio" name="language" value="kor" id="language"
-											<c:if test="${card.language eq 'kor'}">checked</c:if>
-											style="cursor: pointer"> <label for="kor"
-											style="cursor: pointer">KOR</label>&nbsp;&nbsp;&nbsp; <input
-											type="radio" name="language" value="eng" id="language"
-											<c:if test="${card.language eq 'eng'}">checked</c:if>
-											style="cursor: pointer"> <label for="eng"
-											style="cursor: pointer">ENG</label>&nbsp;&nbsp;&nbsp; <input
-											type="radio" name="language" value="jpn" id="language"
-											<c:if test="${card.language eq 'jap'}">checked</c:if>
-											style="cursor: pointer"> <label for="jpn"
-											style="cursor: pointer">JPN</label>
+									<div id="selLan" style="font-size: 20px">
+										<ul class="list-wide-bordered">
+											<li><label class="radio-inline"> <input
+													id="language" type="radio" name="language"
+													<c:if test="${card.language eq 'eng'}">checked</c:if>
+													value="eng" class="radio-custom"><span
+													class="radio-custom-dummy"></span> English
+											</label><label class="radio-inline"> <input id="language"
+													type="radio" name="language"
+													<c:if test="${card.language eq 'eng+kor'}">checked</c:if>
+													value="eng+kor" class="radio-custom"><span
+													class="radio-custom-dummy"></span> Korean
+											</label><label class="radio-inline"> <input id="language"
+													type="radio" name="language"
+													<c:if test="${card.language eq 'eng+jpn'}">checked</c:if>
+													value="eng+jpn" class="radio-custom"><span
+													class="radio-custom-dummy"></span> Japanese
+											</label></li>
+										</ul>
 									</div>
 								</div>
 
 								<div></div>
 								<div
 									class="cell-xs-2 offset-top-30 offset-xs-top-30 offset-sm-top-50">
-									<button type="button" id="creatCard"
+									<button type="button" id="saveOCRData" name="saveOCRData"
 										class="btn btn-primary btn-block">Register</button>
 								</div>
 

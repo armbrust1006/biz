@@ -165,6 +165,10 @@
 		};
 
 		document.getElementById("cardUpdate").onclick = function() {
+			if ($("#layout_num").val() == 0) {
+				alert("OCR 스캔 이미지는 수정이 불가합니다. 삭제 후 재생성 해주세요!");
+				return;
+			}
 			updateTOdelteForm("myCardUpdate");
 		};
 		document.getElementById("cardDelete").onclick = function() {
@@ -496,7 +500,9 @@
 									<div>
 										<form action="myCard" method="post" id="sharedChangeForm"
 											name="sharedChangeForm">
-											<input type="hidden" value="${myCard.cardNum}" id="cardNum"
+											<input type="hidden" value="${myCard.layout_num}"
+												id="layout_num" name="layout_num"> <input
+												type="hidden" value="${myCard.cardNum}" id="cardNum"
 												name="cardNum"> <input type="hidden"
 												value="${myCard.shared}" id="shared" name="shared">
 											<button type="button" class="button"
