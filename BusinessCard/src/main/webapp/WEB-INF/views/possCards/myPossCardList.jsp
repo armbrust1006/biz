@@ -50,11 +50,12 @@
 		var listDiv = document.getElementById("list");
 		var tempHtml = "";
 		for (var i = 0; i < list.length; i++) {
-			tempHtml += "<div class='cell-xs-6 cell-sm-4 cell-md-4'> <div class='thumbnail-variant-2-wrap'> <a href='selectOneCard?cardnum="
+			tempHtml += "<div class='cell-xs-6 cell-sm-4 cell-md-4' style='margin-top:20px;'> <div class='thumbnail-variant-2-wrap'> <a href='selectOneCard?cardnum="
 					+ list[i].cardNum
 					+ "'> <div class='thumbnail thumbnail-variant-2'> <!-- <figure class='thumbnail-image'> --> <img src='downloadImage?card="
 					+ list[i].imagePath
-					+ "' alt='' style='width: 300px; height: 150px; border: 5px outset #217ED3;' /> <div class='thumbnail-caption'> <p class='text-header'>"
+					+ "' alt='' style='width: 300px; height: 150px; border: 1px outset black; border-radius: 5px;' />" 
+					+ "<div class='thumbnail-caption' style='margin-top:10px;opacity:0.85;border-radius: 30px;'> <p class='text-header'>"
 					+ list[i].company
 					+ '&nbsp;'
 					+ list[i].depart
@@ -70,21 +71,21 @@
 <style>
 
 
+
 </style>
-
-
 </head>
 <body style="">
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
-		<section class="section-66 section-sm-bottom-90 section-lg-bottom-120">
-			<div class="shell offset-top-60 offset-sm-top-75">
-				<h3 class="text-center">보유 명함 목록</h3>
+		<section class="section-lg-top-10 section-66 section-sm-bottom-90 section-lg-bottom-80" style="background-color: aliceblue;">
+			<div class="shell offset-top-60 offset-sm-top-20">
+				<div class="text-center" style="font-size:36px;font-weight:500">보유 명함 목록</div>
 				<input type="button" class="btn btn-sm btn-primary" id="date" value="등록날짜순">
 				<input type="button" class="btn btn-sm btn-primary" id="name" value="이름순">
 				<input type="button" class="btn btn-sm btn-primary" id="company" value="회사이름순">
-				<div class="range offset-top-40" id="list">
+				
+				<div class="range offset-top-40" id="list" style="margin-top:-20px;margin-bottom: 50px;">
 					<!-- 여기서부터 for문 돌리기 -->
 					<%-- <c:forEach items="${list}" var="getCard">
 						<div class="cell-xs-6 cell-sm-4 cell-md-4">

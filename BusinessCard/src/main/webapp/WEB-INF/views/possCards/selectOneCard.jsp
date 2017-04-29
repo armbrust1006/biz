@@ -536,7 +536,7 @@ textArea:focus {
 										${selectedCard.name}&nbsp;${selectedCard.position} <a
 											href="javascript:;" onclick="textToSpeech();"> <span
 											class="icon icon-md icon-primary fa-bullhorn"></span></a> <input
-											type="hidden" value="${selectedCard.name }" id="textToSpeech">
+											type="hidden" value="${selectedCard.company }${selectedCard.depart}${selectedCard.position}${selectedCard.name }" id="textToSpeech">
 										<input type="hidden" value=${selectedCard.language }
 											id="language">
 
