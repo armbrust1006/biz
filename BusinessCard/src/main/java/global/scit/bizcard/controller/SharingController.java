@@ -134,6 +134,8 @@ public class SharingController {
 	// 초대 수락하기
 	@RequestMapping(value = "/joinRoom", method = RequestMethod.POST)
 	public String joinRoom(int book_num, HttpSession session) {
+		System.out.println("초대수락하기");
+		System.out.println("수락: "+book_num);
 		String m_id = (String) session.getAttribute("m_id");
 		CardBooks card = new CardBooks();
 		card.setBook_num(book_num);

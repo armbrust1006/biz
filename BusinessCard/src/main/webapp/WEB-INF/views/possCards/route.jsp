@@ -76,7 +76,7 @@ html, body {
 
 @media print {
    #map {
-      height: 300px;
+      height: 100%;
       margin: 0;
    }
    #right-panel {
@@ -98,7 +98,7 @@ html, body {
             type="text" id="end" value="${end}" readonly="readonly">
       </div>
       <div id="right-panel"></div>
-      <div id="mapout" style="position: relative;width=50%;height:50%;"><div id="map"></div></div>
+      <div id="mapout" style="position: relative;width=50%;height:100%;"><div id="map"></div></div>
    <script>
       function initMap() {
          var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -115,7 +115,7 @@ html, body {
 
          var control = document.getElementById('floating-panel');
          control.style.display = 'block';
-         map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+         map.controls[google.maps.ControlPosition.TOP_LEFT].push(control);
 
          calculateAndDisplayRoute(directionsService, directionsDisplay);
       }

@@ -8,6 +8,8 @@
 <meta charset="utf-8">
 <title>Waypoints in directions</title>
 <style>
+
+
 #right-panel {
 	font-family: 'Roboto', 'sans-serif';
 	line-height: 30px;
@@ -53,6 +55,8 @@ html, body {
 	margin-top: 10px;
 	background-color: #FFEE77;
 	padding: 10px;
+	width: 500px;
+	text-align: left;
 }
 
 #start {
@@ -110,26 +114,23 @@ html, body {
 	<div id="right-panel">
 		<div align="center">
 			<h4>[경유지 길찾기]</h4>
-			<br> <b><h6>출발지</h6> </b> <select id="start" style="width: 500px;">
+			<br> <b><h6>출발지</h6> </b> <select id="start"
+				style="width: 500px;">
 				<c:forEach var="stop" items="${stopList}">
-					<option value="${stop.address}">
-					${stop.company} ${stop.position}
-					${stop.name} ${stop.address}
-					</option>
+					<option value="${stop.address}">${stop.company}
+						${stop.position} ${stop.name} ${stop.address}</option>
 				</c:forEach>
 			</select>
 
 			<div id="margin"></div>
 
 
-			<br> <b><h6>경유지</h6></b> (Ctrl+Click 로 경유지를 추가, 삭제) <br>
-			<select	multiple id="waypoints" select multiple size="3" 
-			style="width: 500px;">
+			<br> <b><h6>경유지</h6></b> (Ctrl+Click 로 경유지를 추가, 삭제) <br> <select
+				multiple id="waypoints" select multiple size="3"
+				style="width: 500px;">
 				<c:forEach var="stop" items="${stopList}">
-					<option value="${stop.address}">
-					${stop.company} ${stop.position}
-					${stop.name} ${stop.address}
-					</option>
+					<option value="${stop.address}">${stop.company}
+						${stop.position} ${stop.name} ${stop.address}</option>
 				</c:forEach>
 			</select>
 
@@ -137,10 +138,8 @@ html, body {
 
 			<br> <b><h6>도착지</h6></b> <select id="end" style="width: 500px;">
 				<c:forEach var="stop" items="${stopList}">
-					<option value="${stop.address}">
-					${stop.company} ${stop.position}
-					${stop.name} ${stop.address}
-					</option>
+					<option value="${stop.address}">${stop.company}
+						${stop.position} ${stop.name} ${stop.address}</option>
 				</c:forEach>
 			</select> <br> <input type="button" id="submit" name="submit" value="검색"
 				class="btn btn-info btn-shadow btn-xs" style="margin-top: 10px">

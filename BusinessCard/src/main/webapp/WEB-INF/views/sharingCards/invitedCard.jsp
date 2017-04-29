@@ -53,6 +53,7 @@
 								<div
 									class="cell-xs-5 offset-top-30 offset-xs-top-30 offset-sm-top-50">
 									<c:if test="${m_book_num ne 0 }">
+										<input type="hidden" value="${m_book_num}" name="book_num">
 										<button type="submit" class="btn btn-primary btn-block" onclick="window.close()">수락하기</button>
 									</c:if>
 								</div>
