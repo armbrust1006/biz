@@ -325,8 +325,8 @@ textArea:focus {
 						function(index, item) {
 							msg += "<tbody>";
 							msg += "<tr>";
-							msg += "<td>" + item.book_name + "</td>";
-							msg += "<td><button type='button' class='sharebutton' style='vertical-align: middle' book_num='"+item.book_num+"'><span>공유하기</span></button>";
+							msg += "<td>" + item.BOOK_NAME + "</td>";
+							msg += "<td><button type='button' class='sharebutton' style='vertical-align: middle' book_num='"+item.BOOK_NUM+"'><span>공유하기</span></button>";
 							msg += "</tr>";
 							msg += "<tbody>";
 						});
@@ -431,7 +431,6 @@ textArea:focus {
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<br> <br> <br> <br> <br> <br>
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
@@ -464,7 +463,6 @@ textArea:focus {
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<br> <br> <br> <br> <br> <br>
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
@@ -536,7 +534,7 @@ textArea:focus {
 										${selectedCard.name}&nbsp;${selectedCard.position} <a
 											href="javascript:;" onclick="textToSpeech();"> <span
 											class="icon icon-md icon-primary fa-bullhorn"></span></a> <input
-											type="hidden" value="${selectedCard.name }" id="textToSpeech">
+											type="hidden" value="${selectedCard.company }${selectedCard.depart}${selectedCard.position}${selectedCard.name }" id="textToSpeech">
 										<input type="hidden" value=${selectedCard.language }
 											id="language">
 

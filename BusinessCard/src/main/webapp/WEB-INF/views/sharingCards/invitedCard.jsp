@@ -31,8 +31,8 @@
 										<div class="textarea-lined-wrap">
 											<table>
 												<tr>
-													<th>보낸사람</th>
-													<td>${m_sender}</td>
+													<th>보낸사람:</th>
+													<td>&nbsp;${m_sender}</td>
 												</tr>
 												<c:if test="${m_book_num ne 0 }">
 													<tr>

@@ -80,6 +80,7 @@ function initMap() {
 }
 /* map end */
 var reply_num_update;
+var reply_id;
 
 $(document).ready(function() {
 	init(); ///CRUD 작업 및 페이지 로딩시 댓글 갱신
@@ -122,19 +123,27 @@ function output(resp){
 		list += "<span class='icon icon-xxs-smaller icon-dusty-gray mdi mdi-clock'></span>"						
 		list +=	"<time>"+item.inputdate+"</time>"						
 		list += "</div></div></div><div class='comment-body-text'>"						
-		list +=	"<span>"+item.reply+"  <input type='button' id='del' class='w3-button w3-red' reply_num='"+item.reply_num+"' value='삭제'>"
-		list += "<input type='button' class='w3-button w3-amber' id='update' value='수정' data-toggle='modal' onclick='setDataNum("+item.reply_num+")' data-target='#updateForm' data-whatever='@mdo'>"
-		list += "<input type='hidden' id='writer' value='"+item.m_id+"'>"
-		list += "<input type='hidden' id='reply_num' value='"+item.reply_num+"'>"
+		list +=	"<span>"+item.reply+"  <input type='button' id='del"+index+"' class='w3-button w3-red' reply_num='"+item.reply_num+"' writer='"+item.m_id+"' value='삭제'>"
+		list += "<input type='button' class='w3-button w3-amber' id='update"+index+"' reply_num='"+item.reply_num+"' writer='"+item.m_id+"' value='수정' data-toggle='modal' data-target='#updateForm' data-whatever='@mdo'>"
 		list += "</span></div></div></div></div><article></div></div>"
 	});
 	$("#result").html(list);
- 	$("input:button#del").on('click', replyDel);
+ 	
+ 	
+	for(var i = 0; i<resp.length; i++) {
+		$("#del"+i).on('click', replyDel);
+		$("#update"+i).on('click', setDataNumForUpdate);
+	}
+ 	
 }
 
+var id;
+var replyNum;
 
-function setDataNum(num) {
-	reply_num_update = num;
+function setDataNumForUpdate() {
+	id = $(this).attr("writer");
+	replyNum = $(this).attr("reply_num");
+	alert(id+replyNum);
 }
 
 	
@@ -163,7 +172,7 @@ function replyInsert(){
 }
 
 function replyDel(){
-	var writer = $("#writer").val();
+	var writer = $(this).attr("writer");
 	var reply_num = $(this).attr("reply_num");
 	if(confirm('정말로 삭제하시겠습니까?')){
 		$.ajax({
@@ -189,12 +198,11 @@ $("#updateForm").on('show.bs.modal', function(event) {
  })
 
 function replyUpdate(){
-	var writer = $("#writer").val();
 	var updateReply = $("#updateReply").val();
 	$.ajax({
 		type: "post"
 		, url: "replyUpdate"
-		, data: {"reply_num_update":reply_num_update, "writer" : writer, "updateReply":updateReply}
+		, data: {"reply_num_update":replyNum, "writer" : id, "updateReply":updateReply}
 		, success: function(resp){
 			if(resp==1){
 				alert('댓글을 수정했습니다.');
@@ -238,8 +246,6 @@ function showRouteChoice() {
 							<button type="button" class="btn btn-primary btn-sm" onclick="replyUpdate()" data-dismiss="modal">확인</button>
 							<button type="button" class="btn btn-default btn-sm"
 								data-dismiss="modal">닫기</button>
-							<input type="hidden" name="updateWriter" id="updateWriter">
-							<input type="hidden" name="updateNum" id="updateNum">
 						</div>
 					</div>
 			</div>

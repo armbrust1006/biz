@@ -42,6 +42,6 @@ public interface SharingDAO {
 
 	public HashMap<String, Object> getOneSharedCard(int cardnum, int book_num) throws Exception;
 
-	/*public String getBookName(int book_num) throws Exception;*/
+	public int delMessage(Message message) throws Exception;
 
 }

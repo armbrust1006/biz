@@ -112,6 +112,7 @@ public class ReplyController {
 	@ResponseBody
 	@RequestMapping(value = "/replyUpdate", method = RequestMethod.POST)
 	public int replyUpdate(int reply_num_update, String writer, String updateReply, HttpSession session) {
+		System.out.println("수정: "+reply_num_update+" "+writer+" "+updateReply);
 		int result = 0;
 		String loginId = (String) session.getAttribute("m_id");
 		if (loginId.equals(writer)) {

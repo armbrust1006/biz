@@ -135,7 +135,7 @@ public class SharingController {
 	@RequestMapping(value = "/joinRoom", method = RequestMethod.POST)
 	public String joinRoom(int book_num, HttpSession session) {
 		System.out.println("초대수락하기");
-		System.out.println("수락: "+book_num);
+		System.out.println("수락: " + book_num);
 		String m_id = (String) session.getAttribute("m_id");
 		CardBooks card = new CardBooks();
 		card.setBook_num(book_num);
@@ -231,12 +231,13 @@ public class SharingController {
 	public String invitedCard(@RequestParam(value = "book_num", defaultValue = "0") int book_num,
 			@RequestParam(value = "sender") String sender, @RequestParam(value = "message") String message,
 			@RequestParam(value = "date") String date, Model model) {
-		
-		/*if(book_num!=0){
-			String book_name = SharingRepository.getBookName(book_num);
-			model.addAttribute("book_name", book_name);
-		}*/
-		
+
+		/*
+		 * if(book_num!=0){ String book_name =
+		 * SharingRepository.getBookName(book_num);
+		 * model.addAttribute("book_name", book_name); }
+		 */
+
 		model.addAttribute("m_book_num", book_num);
 		model.addAttribute("m_sender", sender);
 		model.addAttribute("m_message", message);
@@ -248,6 +249,17 @@ public class SharingController {
 		m.setMessage(message);
 		SharingRepository.readMessage(m);
 		return "sharingCards/invitedCard";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/delMessage", method = RequestMethod.POST)
+	public int delMessage(String delSender, String delMessage, HttpSession session) {
+		String loginId = (String) session.getAttribute("m_id");
+		Message message = new Message();
+		message.setSender(delSender);
+		message.setMessage(delMessage);
+		message.setTargetId(loginId);
+		return SharingRepository.delMessage(message);
 	}
 
 	// 테스트 페이지 입니다.

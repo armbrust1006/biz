@@ -15,7 +15,7 @@
 		where
 		shared_cardnum = #{shared_cardnum}
 		order by
-		inputdate
+		reply_num desc
 	</select>
 
 	<insert id="replyInsert" parameterType="Reply">

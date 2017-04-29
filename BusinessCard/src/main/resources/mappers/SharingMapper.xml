@@ -12,7 +12,8 @@
 		and
 		cm.book_num in
 		(select book_num from bookmembers where m_id=#{m_id}) and
-		cb.book_num = cm.book_num
+		cb.book_num =
+		cm.book_num
 	</select>
 
 	<insert id="makeRoom" parameterType="CardBooks">
@@ -221,10 +222,13 @@
 		sh.cardnum=#{param1} and
 		sh.book_num=#{param2}
 	</select>
-	
-<!-- 	<select id="getBookName" resultType="String" parameterType="int" >
-		select book_name from cardbooks where book_num=#{book_num}
-	</select> -->
+
+	<delete id="delMessage" parameterType="Message">
+		delete message where
+		targetid = #{targetId} and
+		sender = #{sender} and
+		message = #{message}
+	</delete>
 
 
 
