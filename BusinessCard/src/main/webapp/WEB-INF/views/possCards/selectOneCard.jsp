@@ -120,6 +120,12 @@
 	opacity: 1;
 	right: 0;
 }
+
+.item {
+	border: 5px outset #217ED3;
+	height: auto;
+	padding: 10px;
+}
 </style>
 
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
@@ -152,6 +158,7 @@
 			}
 		});
 	}
+	/* map end */
 
 	/* memo modal start*/
 	$("#exampleModal").on('show.bs.modal', function(event) {
@@ -185,7 +192,9 @@
 		$("#addStop").on("click", routeStopBy);
 		$("#showShareRoom").on('click', shareRoomAjax);
 		document.getElementById("cardDelete").onclick = function() {
-			document.getElementById("cardDeleteForm").submit();
+			if (confirm('정말로 삭제하시겠습니까?')) {
+				document.getElementById("cardDeleteForm").submit();
+			}
 		};
 
 		$("#sc").on('click', clickSendMail);
@@ -296,7 +305,7 @@
 		var book_num = $(this).attr("book_num"); //공유할 방
 		var cardnum = $("#cardNum").val();//공유할 명함 번호
 		$.ajax({
-			type : "post",
+			type : "get",
 			url : "share",
 			data : {
 				"book_num" : book_num,
@@ -311,64 +320,28 @@
 			}
 		});
 	}
-
-	/* $("#showMessage").empty();
-	var msg = '<table class="table table-primary">';
-	msg += "<thead>";
-	msg += "<tr>";
-	msg += "<th>Target</th>";
-	msg += "<th>Text</th>";
-	msg += "<th>SendDate</th>";
-	msg += "<th>ReadDate</th>";
-	msg += "<th>Type</th>";
-	msg += "</tr>";
-	msg += "</thead>";
-	$.each(resp, function(index, item) {
-		msg += "<tbody>";
-		msg += "<tr>";
-		msg += "<td>" + item.targetId + "</td>";
-		msg += "<td>" + item.message + "</td>";
-		msg += "<td>" + item.senddate + "</td>";
-		if (item.opendate != null) {
-			msg += "<td>" + item.opendate + "</td>";
-		} else {
-			msg += "<td>not yet</td>";
-		}
-		msg += "<td>" + item.type + "</td>";
-		msg += "</tr>";
-		msg += "</tbody>";
-	});
-	msg += '</table>';
-	$("#showMessage").html(msg);
-	 */
-
 	/* share modal end*/
 
 	function textToSpeech() {
 		var textToSpeech = $("#textToSpeech").val();
-		alert(textToSpeech);
+		var language = $("#language").val();
 		$.ajax({
 			type : "post",
 			url : "listen",
 			data : {
-				"textToSpeech" : textToSpeech
+				"textToSpeech" : textToSpeech,
+				"language" : language
 			},
 			success : listen
 		});
-		/* 		var url = "listen?textToSpeech=textToSpeech";
-		 window.location.href = url; */
 	}
 
 	function listen(resp) {
-		var source = resp.toDataURL();
-		alert(source);
 		var audio = '';
-		audio = "<embed src="+source+" autostart='true' allowscriptaccess='always'"+
-		"enablehtmlaccess='true' allowfullscreen='true' width='422' height='240' type='video/mp4'></embed><br>";
+		audio = "<embed src="+resp+" autostart='true' allowscriptaccess='always'"+
+         "enablehtmlaccess='true' allowfullscreen='true' width='0' height='0' type='video/mp4'></embed><br>";
 		$("#resultAudio").html(audio);
-
 	}
-
 	function showRouteChoice() {
 
 		var start = '${myAddress}';
@@ -378,7 +351,7 @@
 	}
 
 	function routeStopBy() {
-		window.open("routeStopBy");
+		location.href = "addStop";
 	}
 </script>
 <script async defer
@@ -393,7 +366,6 @@
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<br> <br> <br> <br> <br> <br>
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
@@ -437,14 +409,7 @@
 				<div class="modal-body">
 					<form>
 						<div class="form-group">
-							<!-- 						<label for="message-text" class="control-label">공유방</label> <input
-								type="text" class="form-control" id="message-title"
-								placeholder="타이틀을 입력하세요."> <label for="message-text"
-								class="control-label">NOTE</label> <label>안녕?</label>
-							<textarea class="form-control" id="message-text"></textarea>
-							<label for="message-text" class="control-label">NOTE</label>
-							<textarea class="form-control" id="message-text"></textarea> -->
-							<div class="form-group" id="shareRoomList">d</div>
+							<div class="form-group" id="shareRoomList">공유방이 없습니다.</div>
 						</div>
 						<input type="button" class="btn btn-primary-outline btn-shadow"
 							data-dismiss="modal" value="닫기"> <input type="button"
@@ -474,7 +439,7 @@
 									</div>
 
 									<!-- 지도 시작 -->
-
+									<h5></h5>
 									<div id="map"></div>
 									<h5></h5>
 									<button type="button" class="button"
@@ -487,7 +452,7 @@
 										<span>경유 설정</span>
 									</button>
 									<!-- 지도 끝 -->
-
+									<div id="resultAudio"></div>
 								</div>
 								<div class="product-body">
 									<input type="hidden" id="cardNum"
@@ -497,7 +462,10 @@
 										${selectedCard.name}&nbsp;${selectedCard.position} <a
 											href="javascript:;" onclick="textToSpeech();"> <span
 											class="icon icon-md icon-primary fa-bullhorn"></span></a> <input
-											type="hidden" value="주현택" id="textToSpeech">
+											type="hidden" value="${selectedCard.name }" id="textToSpeech">
+										<input type="hidden" value=${selectedCard.language }
+											id="language">
+
 										<button type="button" class="button"
 											style="vertical-align: middle" data-toggle="modal"
 											data-target="#exampleModal" data-whatever="@mdo">

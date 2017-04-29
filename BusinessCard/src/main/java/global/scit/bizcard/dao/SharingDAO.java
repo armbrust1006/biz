@@ -41,5 +41,7 @@ public interface SharingDAO {
 	public List<CardImage> getRoomCards(int card) throws Exception;
 
 	public HashMap<String, Object> getOneSharedCard(int cardnum, int book_num) throws Exception;
-	
+
+	/*public String getBookName(int book_num) throws Exception;*/
+
 }

@@ -79,4 +79,7 @@ public class Reply {
 				+ ", m_id=" + m_id + ", inputdate=" + inputdate + ", reply=" + reply + "]";
 	}
 
+	
+
+	
 }

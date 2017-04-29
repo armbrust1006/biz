@@ -188,4 +188,14 @@
 		m_id=#{m_id} and
 		cardType='my')
 	</select>
+
+	<select id="addStop" resultType="Card" parameterType="String">
+		select
+		card.name, card.company, card.depart, card.position, card.address
+		from
+		card card
+		where cardnum in
+		(select cardnum from cardImage where
+		m_id=#{m_id})
+	</select>
 </mapper>

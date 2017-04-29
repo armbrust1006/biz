@@ -29,6 +29,5 @@ public interface CardImageDAO {
 	//1. 보유 명함 개수
 	public int countMyCardIndex(String m_id) throws Exception;
 
-	public int countMyCardIndex(String m_id)  throws Exception;
 	
 }

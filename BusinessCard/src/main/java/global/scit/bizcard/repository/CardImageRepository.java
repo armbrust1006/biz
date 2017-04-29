@@ -116,6 +116,7 @@ public class CardImageRepository implements CardImageDAO {
 	      }
 	      return result;
 	   }
+	   
 
 	@Override
 	public int updateCardImage(CardImage cardImage) {
@@ -139,18 +140,6 @@ public class CardImageRepository implements CardImageDAO {
 	      return 0;
 	   }
 
-	@Override
-	public int countMyCardIndex(String m_id) {
-		int result = 0;
-		CardImageDAO dao = sqlSession.getMapper(CardImageDAO.class);
-		try {
-			result = dao.countMyCardIndex(m_id);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
 	
 	
 }

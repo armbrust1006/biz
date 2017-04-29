@@ -53,17 +53,23 @@
 							msg += "<td>" + item.message + "</td>";
 							msg += "<td>" + item.senddate + "</td>";
 							if (item.type == 'message') {
-								msg += "<td><button class='btn btn-info btn-xs' id='flip1' book_num=0 ><span>메시지</span></button></td></td>";
+								msg += "<td><button class='btn btn-info btn-xs' id='flip1"+index+"' book_num=0 ><span>메시지</span></button></td></td>";
 							} else if(item.type == 'invitation'){
-								msg += "<td><button class='btn btn-info btn-xs' id='flip2' book_num='" + item.book_num + "'><span>초대장</span></button></td>";
+								msg += "<td><button class='btn btn-info btn-xs' id='flip2"+index+"' book_num='" + item.book_num + "'><span>초대장</span></button></td>";
 							}
 							msg += "</tr>";
 							msg += "</tbody>";
+							
 						});
 		msg += '</table>';
 		$("#showMessage").html(msg);
-		$("#flip1").on("click", flip);
-		$("#flip2").on("click", flip);
+		
+		for(var i = 0; i<resp.length; i++) {
+			$("#flip1"+i).on("click", flip);
+			$("#flip2"+i).on("click", flip);
+		}
+		
+		
 	}
 
 	function flip() {

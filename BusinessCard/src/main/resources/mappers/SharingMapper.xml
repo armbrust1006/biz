@@ -221,6 +221,10 @@
 		sh.cardnum=#{param1} and
 		sh.book_num=#{param2}
 	</select>
+	
+<!-- 	<select id="getBookName" resultType="String" parameterType="int" >
+		select book_name from cardbooks where book_num=#{book_num}
+	</select> -->
 
 
 

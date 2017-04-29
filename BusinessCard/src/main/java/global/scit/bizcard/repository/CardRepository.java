@@ -117,4 +117,15 @@ public class CardRepository implements CardDAO {
 		return null;
 	}
 
+	@Override
+	public List<Card> addStop(String m_id) {
+		CardDAO dao = sqlsession.getMapper(CardDAO.class);
+		try {
+			return dao.addStop(m_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

@@ -41,6 +41,7 @@ public class SharingController {
 		ArrayList<HashMap<String, Object>> bookList = new ArrayList<HashMap<String, Object>>();
 		// 공유방 전체 목록 호출
 		bookList = SharingRepository.listCardBooks(m_id);
+		System.out.println("코카콜라" + bookList.toString());
 		return bookList;
 	}
 
@@ -69,10 +70,11 @@ public class SharingController {
 	}
 
 	// 3. 공유방 하나 클릭
-	@RequestMapping(value = "/selectOneRoom", method = RequestMethod.GET)
-	public String selectOneRoom(int book_num, Model model) {
+	@RequestMapping(value = "/selectOneRoom", method = RequestMethod.POST)
+	public String selectOneRoom(int book_num, String book_name, Model model) {
 		List<HashMap<String, Object>> roomList = SharingRepository.selectOneRoom(book_num);
 		model.addAttribute("book_num", book_num);
+		model.addAttribute("book_name", book_name);
 		model.addAttribute("roomList", roomList);
 		return "sharingCards/selectOneRoom";
 	}
@@ -114,6 +116,7 @@ public class SharingController {
 		message.setBook_num(message.getBook_num()); // 방 번호 set 하기
 		System.out.println("초대장보내기" + message.toString());
 		SharingRepository.invite(message);
+
 		return null;
 	}
 
@@ -156,6 +159,7 @@ public class SharingController {
 	@RequestMapping(value = "/getRoomCard", method = RequestMethod.POST)
 	public ArrayList<CardImage> roomCard(int book_num, HttpSession session) {
 		ArrayList<CardImage> cardList = (ArrayList<CardImage>) SharingRepository.getRoomCards(book_num);
+		System.out.println("공유방의카드: " + cardList.toString());
 		if (cardList != null) {
 			return cardList;
 		}
@@ -166,7 +170,7 @@ public class SharingController {
 	 * 아래 부터는 쪽지 기능 * * * * * * * * * * * * * *
 	 */
 	@RequestMapping(value = "/messageList", method = RequestMethod.GET)
-	public String selectOneRoom(HttpSession session, Model model) {
+	public String messageList(HttpSession session, Model model) {
 		ArrayList<Message> inbox = new ArrayList<>();
 		String m_id = (String) session.getAttribute("m_id");
 		ArrayList<Message> messageList = SharingRepository.messageList(m_id);
@@ -225,6 +229,12 @@ public class SharingController {
 	public String invitedCard(@RequestParam(value = "book_num", defaultValue = "0") int book_num,
 			@RequestParam(value = "sender") String sender, @RequestParam(value = "message") String message,
 			@RequestParam(value = "date") String date, Model model) {
+		
+		/*if(book_num!=0){
+			String book_name = SharingRepository.getBookName(book_num);
+			model.addAttribute("book_name", book_name);
+		}*/
+		
 		model.addAttribute("m_book_num", book_num);
 		model.addAttribute("m_sender", sender);
 		model.addAttribute("m_message", message);

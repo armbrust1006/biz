@@ -1,12 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!DOCTYPE html>
-<html lang="en" class="wide wow-animation">
+<html lang="ko" class="wide wow-animation">
 <head>
-<title>Sharing Room</title>
+<title>OBOE</title>
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport"
+	content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css"
+	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
+<link rel="stylesheet" href="css/style.css">
 <style>
+#tabs-1-1 {
+	margin-left: -30px;
+	margin-top: 10px;
+}
+
 .withdrawalbutton {
 	position: relative;
 	background-color: #4982e5;
@@ -67,18 +80,13 @@
 	opacity: 1;
 	right: 0;
 }
+
+#searchInvite {
+	margin-top: initial;
+}
 </style>
-<meta name="format-detection" content="telephone=no">
-<meta name="viewport"
-	content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta charset="utf-8">
-<link rel="icon" href="images/favicon.ico" type="image/x-icon">
-<link rel="stylesheet" type="text/css"
-	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
-<link rel="stylesheet" href="css/style.css">
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
-<script>
+<script type="text/javascript">
 	window.onload = function() {
 		getSharedCard();
 		document.getElementById("searchInvite").onclick = inviteList;// 초대검색
@@ -87,6 +95,7 @@
 		document.getElementById("tab2").onclick = loadList;
 		document.getElementById("writeClick").onclick = asdf;
 		document.getElementById("tab1").onclick = getSharedCard;
+
 	}
 
 	//초대 검색
@@ -103,7 +112,6 @@
 			success : outInviteList
 		});
 	}
-
 	// 초대할 목록 보여주기
 	function outInviteList(resp) {
 		$("#inviteListResult").empty();
@@ -111,6 +119,7 @@
 		msg += "<tr>";
 		msg += "<td>" + "I  D" + "</td>";
 		msg += "<td>" + "이 름" + "</td>";
+		msg += "<td></td>"
 		msg += "</tr>";
 		$
 				.each(
@@ -119,12 +128,15 @@
 							msg += "<tr>";
 							msg += "<td>" + item.m_id + "</td>";
 							msg += "<td>" + item.m_name + "</td>";
-							msg += "<td><input type='button' class='invite' target-id='" + item.m_id + "' value='초대'/></td>";
+							msg += "<td><input type='button' class='btn btn-info btn-xs' id='invite1"+index+"' target-id='" + item.m_id + "' value='초대'></td>";
 							msg += "</tr>";
 						});
 		msg += '</table>';
 		$("#inviteListResult").html(msg);
-		$("input:button.invite").on('click', invite);
+
+		for (var i = 0; i < resp.length; i++) {
+			$("#invite1" + i).on("click", invite);
+		}
 	}
 
 	// 초대 목록에서 한 사람 선택
@@ -133,6 +145,7 @@
 		var book_num = $("#book_num").val();
 		var url = 'invitationCard?targetId=' + targetId + '&book_num='
 				+ book_num;
+		//초대폼 윈도우 새창 띄우기
 		window.open(url, "invitationCard",
 				"top=200, left=400, width=300, height=500, resizable=no");
 	}
@@ -140,7 +153,6 @@
 	// 공유방의 구성원 목록보기
 	function allMember() {
 		var book_num = $("#book_num").val();
-		alert(book_num);
 		$.ajax({
 			type : "get",
 			url : "allMember",
@@ -177,14 +189,10 @@
 
 	//글쓰기 폼에서 글쓰기버튼을 눌렀을경우 ajax를 통해서 DB에 저장이 됨.
 	function asdf() {
-
 		var board_title = $("#board_title").val();
 		//var m_id = $("#m_id").val();
 		var board_content = $("#board_content").val();
-
-		var booknum = window.location.search;
-		var book_num = booknum.slice(10, 11);
-
+		var book_num = document.getElementById("book_num").value;
 		$.ajax({
 			url : 'board_write',
 			type : 'POST',
@@ -211,11 +219,8 @@
 
 	//현재 게시판에 있는 리스트전체를 불러옴(book_num에 따라서 값이 다름.)
 	function loadList(listB) {
-		var booknum = window.location.search;
-		var book_num = booknum.slice(10, 11);
-
+		var book_num = document.getElementById("book_num").value;
 		var list = '';
-
 		$.ajax({
 			url : 'listB',
 			type : 'POST',
@@ -244,7 +249,7 @@
 
 			},
 			error : function(listB) {
-				alert(JSON.stringify(listB));
+				alert('에러: ' + JSON.stringify(listB));
 			}
 
 		});
@@ -255,9 +260,8 @@
 	function check(resp) {
 
 		refresh();
+		var book_num = document.getElementById("book_num").value;
 		var test = '';
-		var booknum = window.location.search;
-		var book_num = booknum.slice(10, 11);
 
 		test += ' <form id = "writeForm" align="center">';
 		test += ' <input type="hidden" name="book_num" value="'+book_num+'">';
@@ -271,14 +275,6 @@
 		test += ' </dd>';
 		test += ' </dl>';
 		test += ' </div>';
-		/*	test += ' <div class="bbsCreated_bottomLine">';
-		test += ' <dl>';
-		test += ' <dt>작성자</dt>';
-		test += ' <dd>';
-		test += ' <input type="text" id="m_id" name="name" size="35" maxlength="20" class="boxTF"   style="border: 2px solid #5C84DC;"/>';
-		test += ' </dd>';
-		test += ' </dl>';
-		test += ' </div>'; */
 		test += ' <div id="bbsCreated_content">';
 		test += ' <dl>';
 		test += ' <dt>내&nbsp;&nbsp;&nbsp;&nbsp;용 </dt>';
@@ -293,9 +289,6 @@
 		test += ' <dd>';
 		test += ' <div id="button">';
 		test += ' <input type="button" class="btn-sm btn-primary" id="writeClick" style="margin-top:5px; margin-right:10px""  onclick="return asdf();" value="등록">';
-		/* test += '<button id="writeClick" onclick="return asdf();">글쓰기</button>' */
-		//test += ' <button class="btn btn-primary-outline btn-shadow" style="WIDTH: 30pt; HEIGHT: 10pt" id="writeClick" align = "center" >글쓰기</button>';
-		//test += ' <button class="btn-sm btn-primary style="WIDTH: 30pt; HEIGHT: 10pt"id="cancle" align = "center"  onclick="check();">작성취소</button>';
 		test += ' <input type="button" class="btn-sm btn-primary" id="cancle" onclick="return relist();" value="작성취소">';
 		test += ' </div>';
 		test += ' </dd>';
@@ -312,9 +305,7 @@
 	// 데이터 읽어온 곳에서 삭제를 눌렀을 경우 ajax처리로 삭제됨.
 	function deletedB(boardnum) {
 		var num = boardnum;
-		var booknum = window.location.search;
-		var book_num = booknum.slice(10, 11);
-
+		var book_num = document.getElementById("book_num").value;
 		$.ajax({
 			url : 'deleteB',
 			type : 'POST',
@@ -329,7 +320,7 @@
 				loadList();
 			},
 			error : function() {
-				alert('실패');
+				alert('실패했습니다.');
 			}
 
 		});
@@ -350,8 +341,6 @@
 		$('#readData').show();
 		var read = '';
 		var num = boardnum;
-		alert('.....' + num);
-
 		$
 				.ajax({
 					url : 'readB',
@@ -363,7 +352,6 @@
 
 					//success : readData,
 					success : function(e) {
-						alert(JSON.stringify(e));
 						read += '<table align="center">';
 						read += '  <tr>';
 						read += ' <td>';
@@ -427,7 +415,7 @@
 
 					},
 					error : function(listB) {
-						alert(JSON.stringify(listB));
+						alert('에러: ' + JSON.stringify(listB));
 					}
 
 				});
@@ -437,8 +425,7 @@
 
 	function updateB(boardnum) {
 		var num = boardnum;
-		var booknum = window.location.search;
-		var book_num = booknum.slice(10, 11);
+		var book_num = document.getElementById("book_num").value;
 		var upda = '';
 		//$('#updateForm').show();
 		$
@@ -449,10 +436,7 @@
 						boardnum : num,
 					},
 					success : function(e) {
-
-						alert('히히..나오지?' + JSON.stringify(e))
 						$('#readData').hide();
-
 						upda += ' <form id = "updateForm" align="center">';
 						upda += ' <input type="hidden" name="book_num" value="'+book_num+'">';
 						upda += ' <div id="bbsCreated">';
@@ -491,14 +475,7 @@
 						upda += ' </form>';
 
 						$('#updateForm').html(upda);
-						//$('#listView').hide();
-
-						//$('#dataCol').hide();
 						loadList();
-
-						/* alert('성공했습니다.');
-						$('#listView').show();
-						loadList(); */
 					},
 
 					error : function() {
@@ -510,11 +487,8 @@
 	}
 
 	function updateCom(boardnum) {
-		alert('보드넘?' + boardnum)
 		var content = $('#update_board_content').val();
-		var booknum = window.location.search;
-		var book_num = booknum.slice(10, 11);
-
+		var book_num = document.getElementById("book_num").value;
 		$.ajax({
 			url : 'updateB',
 			type : 'POST',
@@ -561,8 +535,10 @@
 		var htmlText = "";
 		for (var i = 0; i < res.length; i++) {
 			htmlText += "<a href='sharedCard?cardnum=" + res[i].cardNum
-					+ "&book_num="+book_num+"'><img src=downloadImage?card=" + res[i].imagePath
+					+ "&book_num=" + book_num
+					+ "'><img src=downloadImage?card=" + res[i].imagePath
 					+ " alt='' width='400' height='200' /></a>";
+			//+"<input type='button' class='btn btn-primary btn-sm' value='이름넣기'>";
 		}
 		div.innerHTML = htmlText;
 	}
@@ -574,11 +550,8 @@
 		modal.find('.modal-body input').val(recipient)
 	})
 </script>
-
-
 </head>
 <body style="">
-
 	<!-- 탈퇴 modal 시작 -->
 	<div class="modal fade" id="withdrawalForm" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -607,24 +580,16 @@
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
-		<section style="background-image: url(images/1920x900.jpg);"
-			class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
-			<div class="shell">
-				<div class="page-title">
-					<h2>Tabs</h2>
-				</div>
-			</div>
-		</section>
 		<section
 			class="section-bottom-30 section-top-60 section-sm-bottom-40 section-sm-top-90">
 			<div class="shell">
 				<div class="range range-sm-center">
 					<div class="cell-xs-12 text-center">
-						<h3>공유명함방 이름 넣기</h3>
+						<h3>${book_name}공유명함첩에오신것을 환영합니다.</h3>
 						<input type="hidden" value="${book_num}" id="book_num"
 							name="book_num">
 					</div>
-					<div class="cell-lg-10 offset-top-40">
+					<div class="cell-lg-25 offset-top-50">
 						<div id="tabs-1"
 							class="tabs-custom tabs-horizontal tabs-corporate">
 							<ul class="nav nav-tabs">
@@ -667,8 +632,7 @@
 												</tr>
 												<tr style="text-align: center;">
 													<td><div id="dataCol"></div></td>
-
-													<tr height="5">
+												<tr height="5">
 													<td width="5"></td>
 												</tr>
 
@@ -689,11 +653,12 @@
 											</tr>
 											<tr align="center">
 												<!--   <td><button class="btn btn-primary-outline btn-shadow" id="write"
-														onclick="check();">글쓰기</button></td> --><td><input type="button" class="btn-sm btn-primary"
-														id="write" onclick="check();" value="글쓰기"></td>
-												</tr>
-												
-										
+														onclick="check();">글쓰기</button></td> -->
+												<td><input type="button" class="btn-sm btn-primary"
+													id="write" onclick="check();" value="글쓰기"></td>
+											</tr>
+
+
 										</table>
 									</div>
 
@@ -709,7 +674,8 @@
 											<option value="m_id">아이디로 검색하기</option>
 											<option value="m_name">이름으로 검색하기</option>
 										</select> <input type="text" id="searchText" value="${searchText}">
-										<input type="button" value="검색" id="searchInvite">
+										<input type="button" class="btn btn-info btn-xs" value="검색"
+											id="searchInvite">
 									</form>
 									<div id="inviteListResult"></div>
 
@@ -738,6 +704,5 @@
 		<%@include file="../modules/footer.jsp"%>
 		<script src="js/core.min.js"></script>
 		<script src="js/script.js"></script>
-
 </body>
 </html>

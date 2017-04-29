@@ -184,4 +184,14 @@ public class SharingRepository {
 		return sharedCard;
 	}
 
+	/*public String getBookName(int book_num) {
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.getBookName(book_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}*/
+
 }

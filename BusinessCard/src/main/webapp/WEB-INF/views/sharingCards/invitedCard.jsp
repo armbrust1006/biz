@@ -36,13 +36,6 @@
 												</tr>
 												<c:if test="${m_book_num ne 0 }">
 													<tr>
-														<th>공유방번호</th>
-														<td>&nbsp <input type="text"
-															style="border: none; border-right: 0px; border-top: 0px; boder-left: 0px; boder-bottom: 0px"
-															value="${m_book_num}" name="book_num"></td>
-													</tr>
-
-													<tr>
 														<th>공유방이름</th>
 														<td>&nbsp <input type="text"
 															style="border: none; border-right: 0px; border-top: 0px; boder-left: 0px; boder-bottom: 0px"
