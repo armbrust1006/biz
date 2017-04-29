@@ -360,14 +360,15 @@
 	<!-- modal 끝 -->
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
-		<main class="page-content">
-		<section class="section-66 section-sm-90 section-lg-bottom-120">
+		<main class="page-content" style="background-image:url(images/bg/businessMeeting.jpg)">
+		 <!-- <section class="section-66 section-sm-90 section-lg-bottom-120"> --> 
 			<div class="shell">
-				<h3 class="text-center">회원정보 수정</h3>
-				<div class="range offset-top-20	">
-					<div class="cell-sm-8 offset-top-20 offset-sm-top-0">
+				
+				<div class="range offset-top-30	">
+					<div class="cell-sm-8 offset-top-0 offset-sm-top-0">
 
-						<div class="inset-lg-left-60 inset-lg-right-60" id="formation">
+						<div class="inset-lg-left-60 inset-lg-right-60 offset-top-30" id="formation">
+				<h3 class="text-center">회원정보 수정</h3>
 							<blockquote class="quote-bordered">
 								<div class="quote-body">
 									<div class="quote-open">
@@ -379,8 +380,7 @@
 												d="M9.597,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.349,1.316                    c-1.287,0-2.414-0.44-3.382-1.316C0.482,12.811,0,11.758,0,10.535c0-1.226,0.58-2.716,1.739-4.473L5.603,0H9.34L6.956,6.37                    C8.716,7.145,9.597,8.493,9.597,10.412z M20.987,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.35,1.316                    c-1.288,0-2.415-0.44-3.381-1.316c-0.966-0.879-1.45-1.931-1.45-3.154c0-1.226,0.582-2.716,1.74-4.473L16.994,0h3.734l-2.382,6.37                    C20.106,7.145,20.987,8.493,20.987,10.412z"></path>
                   						  </svg>
 									</div>
-									<div class="quote-body-inner" align="center">
-
+									<div class="quote-body-inner" align="center" style="opacity:0.9; background-color: aliceblue;border-radius:14px;">
 										<form
 											class="rd-mailform form-modern form-darker offset-top-20"
 											action="updateM" method="POST">
@@ -467,7 +467,7 @@
 					</div>
 				</div>
 			</div>
-		</section>
+		 <!-- </section> --> 
 		</main>
 		<%@include file="../modules/footer.jsp"%>
 	</div>
