@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="css/component.css">
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
+	
 	(function(e, t, n) {
 		var r = e.querySelectorAll("html")[0];
 		r.className = r.className.replace(/(^|\s)no-js(\s|$)/, "$1js$2")
@@ -27,14 +28,17 @@
 	var file;
 	var reader;
 	var layout_num;
-
+	var canWidth=0;
+	var canHeight=0;
+	
 	$(document).ready(function() {
 		layout_num = document.getElementById("layout_num").value;
-
 		$("input").on("keyup", cardView);
 		$('input:file').on("change", cardView);
 		document.getElementById("reset").onclick = canvasClear;
 		document.getElementById("creatCard").onclick = imageSave;
+		
+		
 	});
 
 	/* 명함 clear */
@@ -133,7 +137,11 @@
 				reader.addEventListener("load", function() {
 					var img = new Image();
 					img.onload = function() {
-						context.drawImage(img, 50, 35, 100, 100);
+						canWidth = img.width;
+						canHeight = img.height;
+						
+						context.drawImage(img, 50, 35, canWidth, canHeight);
+						
 					}
 					img.src = reader.result;
 				}, false);
@@ -305,6 +313,8 @@
 			if (file != null) {
 				reader.addEventListener("load", function() {
 					var img = new Image();
+					
+					
 					img.onload = function() {
 						context.drawImage(img, 400, 50, img.width, img.height);
 					}
@@ -451,14 +461,14 @@
 								<div class="cell-sm-3">
 									<div class="form-group" class="form-control" align="left">
 										<label>Language&nbsp;&nbsp;:</label> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										</span> <input type="radio" name="language" value="kor" id="language"
+										</span> <input type="radio" name="language" value="kor" id="kor"
 											checked="checked" style="cursor: pointer"> <label
 											for="kor" style="cursor: pointer">KOR</label>&nbsp;&nbsp;&nbsp;
-										<input type="radio" name="language" value="eng" id="language"
+										<input type="radio" name="language" value="eng" id="eng"
 											style="cursor: pointer"> <label for="eng"
 											style="cursor: pointer">ENG</label>&nbsp;&nbsp;&nbsp; <input
 											type="radio" name="language" value="jpn" id="language"
-											style="cursor: pointer"> <label for="jpn"
+											style="cursor: pointer"> <label for="language"
 											style="cursor: pointer">JPN</label>
 									</div>
 								</div>

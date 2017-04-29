@@ -20,6 +20,41 @@
    width: 100%;
 }
 
+#dd {
+	width:10%;
+	border:none;
+padding:5px;
+font-size:15px;
+color:#aaa;
+}
+
+
+
+#sendForm input{
+	width:100%;
+	border-style:ridge;
+	 -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+#sendForm input:focus {
+    border: 2px solid #555;
+}
+textArea{
+border-style:ridge;
+	 -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+textArea:focus{
+border: 2px solid #555;
+}
+
+#sendForm input[type=button], #sendForm input[type=reset]{
+	width:20%;
+}
+
 .button {
    display: inline-block;
    border-radius: 1px;
@@ -121,7 +156,8 @@
    right: 0;
 }
 .item{
-	border: 5px outset #217ED3;
+	border: 1px solid;
+	
 	height: auto; 
 	padding: 10px;
 }
@@ -160,6 +196,7 @@
       });
    }
 
+   
    /* memo modal start*/
    $("#exampleModal").on('show.bs.modal', function(event) {
       var button = $(event.relatedTarget)
@@ -194,9 +231,11 @@
       document.getElementById("cardDelete").onclick = function() {
          document.getElementById("cardDeleteForm").submit();
       };
-
+	
       $("#sc").on('click', clickSendMail);
+      
       $("#my_id").on('keyup', checkGmail);
+      checkGmail();
    });
 
    function checkGmail() {
@@ -213,6 +252,7 @@
          $("#my_Password").attr('disabled', false);
          $("#title").attr('disabled', false);
          $("#message").attr('disabled', false);
+         $("#sc").attr('disabled',false);
       }
 
    }
@@ -516,8 +556,6 @@
                                  <span>공유하기</span>
                               </button>
                            </h4>
-
-
                            <div id="accordionOne" role="tablist"
                               aria-multiselectable="true"
                               class="panel-group panel-group-custom panel-group-light product-accordion">
@@ -532,18 +570,18 @@
                                           <span class="icon icon-md icon-primary fa-tablet"></span>
                                           &nbsp;&nbsp;휴대전화
                                           <p>${selectedCard.mobile}</p>
-                                          <div class="panel-arrow"></div>
+                                        <!--   <div class="panel-arrow"></div> -->
                                        </a>
                                     </div>
                                  </div>
-                                 <div id="accordionOneCollapse1" role="tabpanel"
+                                 <!-- <div id="accordionOneCollapse1" role="tabpanel"
                                     aria-labelledby="accordionOneHeading1"
                                     class="panel-collapse collapse">
                                     <div class="panel-body">
                                        <p>개짜증</p>
                                     </div>
                                  </div>
-                              </div>
+                              </div> -->
 
                               <div class="panel panel-custom panel-light">
                                  <div id="accordionOneHeading2" role="tab"
@@ -559,29 +597,42 @@
                                        </a>
                                     </div>
                                  </div>
-                                 <div id="accordionOneCollapse2" role="tabpanel"
-                                    aria-labelledby="accordionOneHeading2"
+                                 <div id="accordionOneCollapse2" role="tabpanel" aria-labelledby="accordionOneHeading2"
                                     class="panel-collapse collapse">
                                     <div class="panel-body">
-
-                                       <h5>[gmail일 경우에만 입력창이 활성화됩니다.]</h5>
-                                       <form name="sendForm" method="post">
-                                          <input type="text" name="my_id" id="my_id"
-                                             value="${m_email}"><br> <input
-                                             type="password" placeholder="gmail 비밀번호" id="my_Password"
-                                             name="my_Password" width="100%"><br> <input
-                                             type="hidden" name="user" id="user"
-                                             value="${selectedCard.email}"> <input type="text"
-                                             placeholder="제목" id="title" name="title" width="100%"><br>
-                                          <textarea placeholder="내용" name="message" id="message"
-                                             cols="60" rows="10"></textarea>
-                                          <input type="button" value="보내기" name="sc" id="sc">
-                                          <input type="reset">
-                                       </form>
-
-
-
-
+									  <label><h5>${selectedCard.email}으로 메일을 보냅니다.</h5></label>
+                                      <label style="color:red">(gmail일 경우에만 입력창이 활성화됩니다.)</label>
+                                      <form name="sendForm" method="post" id="sendForm">
+                                      <table id="mailTable">
+                                      <tr>
+                                      <th id="dd">보내는사람 </th>
+                                      <td><input type="text" name="my_id" id="my_id" value="${m_email }"></td>
+                                      </tr>
+                                      <tr>
+                                      <th id="dd">비밀번호</th>
+                                      <td><input type="password" placeholder="gmail 비밀번호" id="my_Password" name="my_Password"></td>
+                                      </tr>
+                                      <tr>
+                                      <th id="dd">제목 </th>
+                                      <td><input type="text" placeholder="제목" id="title" name="title"></td>
+                                      </tr>
+                                      <tr>
+                                      <th colspan="2"><textarea placeholder="내용" name="message" id="message" cols="53" rows="10" style="resize:none;border-style:double;"></textarea></th>
+                                      </tr>
+                                      <tr>
+                                      <th colspan="2" style="text-align:center;">
+                                    
+                                    
+                                    <input type="hidden" name="user" id="user" value="${selectedCard.email}"> 
+                                    <input type="button" id="sc" name="sc"
+																	value="보내기" class="btn btn-info btn-shadow btn-xs" style="margin-top:10px">
+																<label for="sc" class="form-label"></label> 
+                                    <input type="reset" value="reset" class="btn btn-info btn-shadow btn-xs" style="margin-top:10px">
+																<label for="sc" class="form-label"></label> 
+                                      </th>
+                                      </tr>
+                                      </table>
+                                      </form>
 
                                     </div>
                                  </div>
@@ -596,17 +647,17 @@
                                           <span class="icon icon-md icon-primary fa-phone"></span>
                                           &nbsp;&nbsp;회사 전화
                                           <p>${selectedCard.telephone}</p>
-                                          <div class="panel-arrow"></div>
+                                      <!--     <div class="panel-arrow"></div> -->
                                        </a>
                                     </div>
                                  </div>
-                                 <div id="accordionOneCollapse3" role="tabpanel"
+                              <!--    <div id="accordionOneCollapse3" role="tabpanel"
                                     aria-labelledby="accordionOneHeading3"
                                     class="panel-collapse collapse">
                                     <div class="panel-body">
                                        <p>회사로 전화하기</p>
                                     </div>
-                                 </div>
+                                 </div> -->
                               </div>
                               <div class="panel panel-custom panel-light">
                                  <div id="accordionOneHeading4" role="tab"
@@ -617,17 +668,17 @@
                                           aria-controls="accordionOneCollapse4" class="collapsed">
                                           <span class="icon icon-md icon-primary fa-fax"></span>&nbsp;&nbsp;&nbsp;팩스
                                           <p>${selectedCard.fax}</p>
-                                          <div class="panel-arrow"></div>
+                                          <!-- <div class="panel-arrow"></div> -->
                                        </a>
                                     </div>
                                  </div>
-                                 <div id="accordionOneCollapse4" role="tabpanel"
+                               <!--   <div id="accordionOneCollapse4" role="tabpanel"
                                     aria-labelledby="accordionOneHeading4"
                                     class="panel-collapse collapse">
                                     <div class="panel-body">
                                        <p>팩스 보내기</p>
                                     </div>
-                                 </div>
+                                 </div> -->
                               </div>
                               <div class="panel panel-custom panel-light">
                                  <div id="accordionOneHeading5" role="tab"
@@ -637,30 +688,29 @@
                                           data-parent="#accordionOne" href="#accordionOneCollapse5"
                                           aria-controls="accordionOneCollapse5" class="collapsed">
                                           <span class="icon icon-md icon-primary fa-map-marker"></span>&nbsp;&nbsp;&nbsp;회사
-                                          주소
+                                         	 주소
                                           <p>${selectedCard.address}</p> <input type="hidden"
                                           id="address" value="${selectedCard.address}">
-                                          <div class="panel-arrow"></div>
+                                          <!-- <div class="panel-arrow"></div> -->
                                        </a>
                                     </div>
                                  </div>
-                                 <div id="accordionOneCollapse5" role="tabpanel"
+                                <!--  <div id="accordionOneCollapse5" role="tabpanel"
                                     aria-labelledby="accordionOneHeading5"
                                     class="panel-collapse collapse">
                                     <div class="panel-body">
                                        <p>주소입력</p>
                                     </div>
-                                 </div>
+                                 </div> -->
                               </div>
                               <div class="btn btn-primary-outline btn-shadow"
                                  id="cardDelete">
-                                 삭제
+                              		   삭제
                                  <form id="cardDeleteForm" method="POST" action="cardDelete">
                                     <input type="hidden" id="cardNum" name="cardNum"
                                        value="${selectedCard.cardNum}"> <input
                                        type="hidden" id="cardType" name="cardType" value="others">
                                  </form>
-
                               </div>
                            </div>
                         </div>
@@ -668,6 +718,7 @@
                   </div>
                </div>
             </div>
+         </div>
          </div>
       </section>
       </main>

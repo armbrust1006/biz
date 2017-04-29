@@ -14,6 +14,9 @@
 <link rel="stylesheet" type="text/css"
 	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="resources/dragCss/imgareaselect-animated.css">
+<link rel="stylesheet" href="resources/dragCss/imgareaselect-default.css">
+<link rel="stylesheet" href="resources/dragCss/imgareaselect-deprecated.css">
 <style>
 #formation {
 	position: relative;
@@ -87,14 +90,22 @@
 }
 </style>
 
-<script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="resources/dragJs/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="resources/dragJs/jquery.imgareaselect.pack.js"></script> -->
+<script type="text/javascript" src="resources/dragJs/jquery.imgareaselect.js"></script>
+
+
 <script>
 	var emailflag = false;
 	var checknumflag = false;
 
-	$(document).ready(function() {
-
+	
+	/* $(window).on('load', function(){ 
+		
+		
+	}); */
+	
+	$(document).ready(function($) {
 		$('#userid').on('keyup', idcheck);
 		$('#m_email').on('keyup', emailcheck);
 		//처음 접근할때 text박스를 숨긴다.
@@ -102,7 +113,8 @@
 
 		$('#userid').on('change', idcheck2);
 		$('#m_email').on('change', emailcheck2);
-	});
+		var imgs=$("#layout5").imgAreaSelect({handles:true});
+	}); 
 
 	function idcheck2() {
 		var id2 = $('#userid').val();
@@ -361,7 +373,10 @@
 													d="M9.597,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.349,1.316                    c-1.287,0-2.414-0.44-3.382-1.316C0.482,12.811,0,11.758,0,10.535c0-1.226,0.58-2.716,1.739-4.473L5.603,0H9.34L6.956,6.37                    C8.716,7.145,9.597,8.493,9.597,10.412z M20.987,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.35,1.316                    c-1.288,0-2.415-0.44-3.381-1.316c-0.966-0.879-1.45-1.931-1.45-3.154c0-1.226,0.582-2.716,1.74-4.473L16.994,0h3.734l-2.382,6.37                    C20.106,7.145,20.987,8.493,20.987,10.412z"></path>
                     </svg>
 										</div>
+				<img src="images/cardTypeEx/layout5.png" id="layout5">
 										<div class="quote-body-inner">
+
+
 
 											<form
 												class="rd-mailform form-modern form-darker offset-top-20"

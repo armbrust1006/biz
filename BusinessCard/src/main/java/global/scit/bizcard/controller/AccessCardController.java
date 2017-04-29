@@ -545,7 +545,7 @@ public class AccessCardController {
 				language="mijin";
 			}else if (language.equals("eng")){
 				language="clara";
-			}else{
+			}else if(language.equals("jpn")){
 				language="yuri";
 			}
 			String text = URLEncoder.encode(textToSpeech, "UTF-8");

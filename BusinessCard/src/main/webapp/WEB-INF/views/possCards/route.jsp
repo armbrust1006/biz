@@ -98,7 +98,7 @@ html, body {
             type="text" id="end" value="${end}" readonly="readonly">
       </div>
       <div id="right-panel"></div>
-      <div id="map"></div>
+      <div id="mapout" style="position: relative;width=50%;height:50%;"><div id="map"></div></div>
    <script>
       function initMap() {
          var directionsDisplay = new google.maps.DirectionsRenderer;
