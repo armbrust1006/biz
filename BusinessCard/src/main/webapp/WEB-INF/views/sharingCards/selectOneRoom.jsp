@@ -513,6 +513,7 @@
 	function getSharedCard() {
 		console.log("image");
 		var booknums = document.getElementById("book_num").value;
+		
 		$.ajax({
 			method : "post",
 			url : "getRoomCard",
@@ -531,11 +532,13 @@
 
 	function sharedCard(res) {
 		var book_num = document.getElementById("book_num").value;
+		var book_name = document.getElementById("book_name").value;
 		var div = document.getElementById("tabs-1-1");
 		var htmlText = "";
 		for (var i = 0; i < res.length; i++) {
 			htmlText += "<a href='sharedCard?cardnum=" + res[i].cardNum
 					+ "&book_num=" + book_num
+					+ "&book_name="+ book_name
 					+ "'><img src=downloadImage?card=" + res[i].imagePath
 					+ " alt='' width='400' height='200' /></a>";
 			//+"<input type='button' class='btn btn-primary btn-sm' value='이름넣기'>";
@@ -585,9 +588,10 @@
 			<div class="shell">
 				<div class="range range-sm-center">
 					<div class="cell-xs-12 text-center">
-						<h3>${book_name}공유명함첩에오신것을 환영합니다.</h3>
+						<h3>${book_name} 공유명함첩</h3>
 						<input type="hidden" value="${book_num}" id="book_num"
 							name="book_num">
+						<input type="hidden" value="${book_name}" id="book_name" name="book_name">	
 					</div>
 					<div class="cell-lg-25 offset-top-50">
 						<div id="tabs-1"

@@ -194,4 +194,14 @@ public class SharingRepository {
 		return 0;
 	}
 
+	public int sharedCardDelete(int shared_cardnum) {
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.sharedCardDelete(shared_cardnum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

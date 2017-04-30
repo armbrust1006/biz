@@ -230,6 +230,11 @@
 		message = #{message}
 	</delete>
 
+	<delete id="sharedCardDelete" parameterType="int">
+		delete sharedcard
+		where shared_cardnum = #{shared_cardnum}
+	</delete>
+
 
 
 </mapper>
