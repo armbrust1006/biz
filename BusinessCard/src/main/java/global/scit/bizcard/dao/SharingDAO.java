@@ -44,4 +44,6 @@ public interface SharingDAO {
 
 	public int delMessage(Message message) throws Exception;
 
+	public int newMessage(String id);
+
 }

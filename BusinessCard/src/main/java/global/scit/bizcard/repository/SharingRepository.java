@@ -194,4 +194,18 @@ public class SharingRepository {
 		return 0;
 	}
 
+	public int newMessage(String id) {
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		
+		try {
+			return dao.newMessage(id);
+		} catch(Exception e){
+			
+		}
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
+
 }

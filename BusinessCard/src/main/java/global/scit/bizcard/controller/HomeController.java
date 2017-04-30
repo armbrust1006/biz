@@ -90,7 +90,14 @@ public class HomeController {
 			} else {
 				model.addAttribute("countMyCardBooks", bookList.size());
 			}
-
+				
+			// 새로운 메세지
+			int newMessage = 0;
+			newMessage = SharingRepository.newMessage(id);
+			model.addAttribute("newMessage",newMessage);
+			
+			
+			
 			return "home/login_myHome";
 		} else {
 			return "home/login_home";

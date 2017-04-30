@@ -143,7 +143,7 @@
 						canWidth = img.width;
 						canHeight = img.height;
 						
-						context.drawImage(img, 50, 55, canWidth/1.5, canHeight/1.5);
+						context.drawImage(img, 50, 55, canWidth, canHeight);
 						
 					}
 					img.src = reader.result;
