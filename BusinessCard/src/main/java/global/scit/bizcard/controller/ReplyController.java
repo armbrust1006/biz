@@ -31,11 +31,12 @@ public class ReplyController {
 
 	// 공유된 명함 이미지 클릭시
 	@RequestMapping(value = "/sharedCard", method = RequestMethod.GET)
-	public String sharedCard(int cardnum, int book_num, HttpSession session, Model model) {
+	public String sharedCard(int cardnum, int book_num, String book_name, HttpSession session, Model model) {
 		HashMap<String, Object> sharedCard = new HashMap<String, Object>();
 		sharedCard = sharingRepository.getOneSharedCard(cardnum, book_num);
 		model.addAttribute("sharedCard", sharedCard);
-		System.out.println("공유카드1장: " + sharedCard);
+		model.addAttribute("book_name", book_name);
+		
 
 		// 내 주소 저장
 		String loginID = (String) session.getAttribute("m_id");
@@ -112,7 +113,7 @@ public class ReplyController {
 	@ResponseBody
 	@RequestMapping(value = "/replyUpdate", method = RequestMethod.POST)
 	public int replyUpdate(int reply_num_update, String writer, String updateReply, HttpSession session) {
-		System.out.println("수정: "+reply_num_update+" "+writer+" "+updateReply);
+		System.out.println("수정: " + reply_num_update + " " + writer + " " + updateReply);
 		int result = 0;
 		String loginId = (String) session.getAttribute("m_id");
 		if (loginId.equals(writer)) {
@@ -124,4 +125,5 @@ public class ReplyController {
 		}
 		return result;
 	}
+
 }

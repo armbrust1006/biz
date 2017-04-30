@@ -1,5 +1,7 @@
 package global.scit.bizcard.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import global.scit.bizcard.repository.SharingRepository;
 import global.scit.bizcard.vo.CardBooks;
@@ -70,8 +75,9 @@ public class SharingController {
 	}
 
 	// 3. 공유방 하나 클릭
-	@RequestMapping(value = "/selectOneRoom", method = RequestMethod.POST)
+	@RequestMapping(value = "/selectOneRoom", method = RequestMethod.GET)
 	public String selectOneRoom(int book_num, String book_name, Model model) {
+		System.out.println("삭제후: " + book_name);
 		List<HashMap<String, Object>> roomList = SharingRepository.selectOneRoom(book_num);
 		model.addAttribute("book_num", book_num);
 		model.addAttribute("book_name", book_name);
@@ -168,6 +174,33 @@ public class SharingController {
 		return null;
 	}
 
+	// 댓글방에서 공유된 명함 삭제
+	@RequestMapping(value = "/sharedCardDelete", method = RequestMethod.POST)
+	public String sharedCardDelete(String sharedId, int shared_cardnum, int book_num, String book_name,
+			HttpSession session, RedirectAttributes attributes) {
+
+		String loginId = (String) session.getAttribute("m_id");
+		if (loginId.equals(sharedId)) {
+			SharingRepository.sharedCardDelete(shared_cardnum);
+			/*
+			 * attributes.addFlashAttribute("book_num", book_num);
+			 * attributes.addFlashAttribute("book_name", book_name);
+			 * ModelAndView mav = new ModelAndView(); RedirectView redirectView
+			 * = new RedirectView(); redirectView.setUrl("selectOneRoom");
+			 * redirectView.setExposeModelAttributes(false);
+			 * mav.addObject("book_num", book_num); mav.addObject("book_name",
+			 * book_name);
+			 */
+			try {
+				book_name = URLEncoder.encode(book_name, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			return "redirect:selectOneRoom?book_num=" + book_num + "&book_name=" + book_name;
+		}
+		return null;
+	}
+
 	/*
 	 * 아래 부터는 쪽지 기능 * * * * * * * * * * * * * *
 	 */
@@ -251,6 +284,7 @@ public class SharingController {
 		return "sharingCards/invitedCard";
 	}
 
+	// 메시지 삭제
 	@ResponseBody
 	@RequestMapping(value = "/delMessage", method = RequestMethod.POST)
 	public int delMessage(String delSender, String delMessage, HttpSession session) {
