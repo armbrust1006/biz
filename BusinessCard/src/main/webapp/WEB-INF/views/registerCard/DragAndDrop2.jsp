@@ -24,10 +24,9 @@
 <script type="text/javascript">
    var canvas = null;
    var ctx = null;
-   var topSize = 0;
    var startX = 0;
    var startY = 0;
-   var img = new Image();
+    var img = new Image();
    var items = [];
    var selectItem = -1;
    var layout_num = -1;
@@ -36,18 +35,22 @@
       layout_num = document.getElementById("myCanvas").value;
       canvas = document.getElementById("myCanvas");
       ctx = canvas.getContext("2d");
-      topSize = document.getElementById("topSize").offsetTop;
       
       document.getElementById("reset").onclick = canvasClear;
       document.getElementById("cardView").onclick = cardView;
       document.getElementById("creatCard").onclick = imageSave;
-      
+
       canvas.addEventListener("mousedown", function (e) {
           e.preventDefault();
-          console.log(e.pageX - this.offsetLeft);
-          console.log(e.pageY - (this.offsetTop + topSize));
-          startX = e.pageX - this.offsetLeft;
-          startY = e.pageY - (this.offsetTop + topSize);
+          console.log(this);
+          //startX = e.layerX - this.offsetLeft;
+          //startY = e.layerY - (this.offsetTop+10);
+          console.log(this.offsetLeft);
+          console.log(e.layerX);
+          console.log(e.layerX + this.offsetLeft);
+          console.log(e.layerY + this.offsetTop);
+          startX = canvas.offsetTop;
+          startY = canvas.offsetTop;
           for (var i = 0; i < items.length; i++) {
               if (hitItem(startX, startY, i)) {
                  selectItem = i;
@@ -56,13 +59,13 @@
           }
        }, true);
     
-      canvas.addEventListener("mousemove", function (e) {
+      document.addEventListener("mousemove", function (e) {
            if (selectItem < 0) {
                return;
            }
            e.preventDefault();
-           mouseX = e.pageX - this.offsetLeft;
-           mouseY = e.pageY - (this.offsetTop + topSize);
+           mouseX = e.clientX -canvas.offsetLeft;
+           mouseY = e.clientY - (canvas.offsetTop+10);
            console.log(mouseX);
            console.log(mouseY);
 
@@ -77,12 +80,12 @@
            draw();
        }, true);
        
-      canvas.addEventListener("mouseup", function (e) {
+      document.addEventListener("mouseup", function (e) {
           e.preventDefault();
           selectItem = -1;
        }, true);
        
-      canvas.addEventListener("mouseout", function (e) {
+      document.addEventListener("mouseout", function (e) {
            e.preventDefault();
            selectedText = -1;
        });
@@ -289,7 +292,7 @@
 				</div>
 			</div>
 		</section>
-		<section class="section-60 section-sm-top-90 section-sm-bottom-100" id="topSize">
+		<section class="section-60 section-sm-top-90 section-sm-bottom-100">
 			<div class="shell">
 				<div class="range">
 					<div class="cell-md-9 cell-lg-7">

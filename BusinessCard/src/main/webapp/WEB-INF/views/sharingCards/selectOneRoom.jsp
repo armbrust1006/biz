@@ -536,12 +536,30 @@
 		var div = document.getElementById("tabs-1-1");
 		var htmlText = "";
 		for (var i = 0; i < res.length; i++) {
+			
+			
 			htmlText += "<a href='sharedCard?cardnum=" + res[i].cardNum
 					+ "&book_num=" + book_num
 					+ "&book_name="+ book_name
 					+ "'><img src=downloadImage?card=" + res[i].imagePath
-					+ " alt='' width='400' height='200' /></a>";
+					+ " alt='' width='400' height='200' style='margin:30px; width: 300px; height: 150px; border: 1px outset black; border-radius: 5px;' /></a>"; 
 			//+"<input type='button' class='btn btn-primary btn-sm' value='이름넣기'>";
+		
+			/* htmlText += "<div class='cell-xs-6 cell-sm-4 cell-md-4' style='margin-top:20px;'><div class='thumbnail-variant-2-wrap'><div class='thumbnail-variant-2-wrap'> <a href='sharedCard?cardnum="
+				+ res[i].cardNum+"&book_num=" + book_num+"&book_name="+ book_name
+				+ "'> <div class='thumbnail thumbnail-variant-2'> <!-- <figure class='thumbnail-image'> --> <img src='downloadImage?card="
+				+ res[i].imagePath
+				+ "' alt='' style='width: 300px; height: 150px; border: 1px outset black; border-radius: 5px;' />" 
+				+ "<div class='thumbnail-caption' style='margin-top:10px;opacity:0.85;border-radius: 30px;'> <p class='text-header'>"
+				+ res[i].company
+				+ '&nbsp;'
+				+ res[i].depart
+				+ "</p> <div class='divider divider-md'></div><p class='text-caption'>"
+				+ res[i].position
+				+ '&nbsp;'
+				+ res[i].name
+				+ "</p></div></div></a></div></div></div>"; */
+		
 		}
 		div.innerHTML = htmlText;
 	}
@@ -605,11 +623,22 @@
 								<li><a href="#tabs-1-5" data-toggle="tab">탈퇴</a></li>
 							</ul>
 							<div class="tab-content text-secondary">
-								<div id="tabs-1-1" class="tab-pane fade in active">
-									<img src="" alt="" width="400" height="200" />
+								
+								
+								<div id="tabs-1-1" class="tab-pane fade in active" style="text-align: center;">
+									<!-- <img src="" alt="" width="400" height="200" /> -->
 								</div>
-								<div id="tabs-1-2" class="tab-pane fade">
+								
 
+
+								<div id="tabs-1-2" class="tab-pane fade">
+						
+						<!-- 리스트 출력 -->
+						<div class="range offset-top-40" id="slist" style="margin-top:-20px;margin-bottom: 50px;">
+						
+						</div>
+						<!-- 리스트 출력 끝 -->
+						
 									<div id="listView">
 
 										<table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -629,8 +658,7 @@
 												<td width="7"><img src="images/table_right.gif"
 													width="5" height="30" /></td>
 											</tr>
-											<table width="100%" cellpadding="0" cellspacing="0"
-												border="0">
+											<table width="100%" cellpadding="0" cellspacing="0"	border="0">
 												<tr height="5">
 													<td width="5"></td>
 												</tr>
@@ -704,6 +732,7 @@
 		</section>
 
 		</main>
+		</div>
 
 		<%@include file="../modules/footer.jsp"%>
 		<script src="js/core.min.js"></script>

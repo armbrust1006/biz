@@ -35,10 +35,7 @@
 
 		<%@include file="../modules/header.jsp"%>
 
-		<main class="page-content bg-wrap"
-			style="background:url(images/temp_bg2.jpg);">
-
-
+		<main class="page-content bg-wrap" style="background:url(images/temp_bg2.jpg);">
 
 		<section class="section-60 section-sm-75 section-lg-100 ">
 
@@ -149,44 +146,37 @@
 							style="background: rgba(255, 2555, 255, 0.5);">
 							<div class="box-top">
 								<div class="box-icon">
-									<span class="icon icon-primary icon-lg material-icons-build"></span>
+									<span class="icon icon-md icon-primary fa-connectdevelop"></span>
 								</div>
 								<div class="box-header">
 									<h5>
-										<a href="#">보유명함 보기</a>
+										<a href="myCardList">보유명함 보기</a>
 									</h5>
 								</div>
 							</div>
 							<div class="divider"></div>
 							<div class="box-body">
-								<p>Starbis provides a poweful and flexible exntended toolkit
-									in addition to basic Bootsrap.</p>
+								<p>등록한 명함 리스트를 볼 수 있습니다.</p>
 							</div>
 						</article>
 					</div>
-					
-					
-					
-					
-					
 					
 					<div class="cell-sm-6 cell-md-4 height-fill offset-top-40 offset-md-top-0">
 						<article class="icon-box"
 							style="background: rgba(255, 2555, 255, 0.5);">
 							<div class="box-top">
 								<div class="box-icon">
-									<span class="icon icon-primary icon-lg material-icons-build"></span>
+									<span class="icon icon-md icon-primary fa-list-alt"></span>
 								</div>
 								<div class="box-header">
 									<h5>
-										<a href="#">새로운 명함 등록</a>
+										<a href="selectCardType">새로운 명함 등록</a>
 									</h5>
 								</div>
 							</div>
 							<div class="divider"></div>
 							<div class="box-body">
-								<p>Starbis provides a poweful and flexible exntended toolkit
-									in addition to basic Bootsrap.</p>
+								<p>새로운 명함을 등록 해 보세요.</p>
 							</div>
 						</article>
 					</div>
@@ -197,18 +187,17 @@
 							style="background: rgba(255, 2555, 255, 0.5);">
 							<div class="box-top">
 								<div class="box-icon">
-									<span class="icon icon-primary icon-lg material-icons-build"></span>
+									<span class="icon icon-md icon-primary fa-slideshare"></span>
 								</div>
 								<div class="box-header">
 									<h5>
-										<a href="#">공유명함첩 들어가기</a>
+										<a href="sharingRoom">공유명함첩 들어가기</a>
 									</h5>
 								</div>
 							</div>
 							<div class="divider"></div>
 							<div class="box-body">
-								<p>Starbis provides a poweful and flexible exntended toolkit
-									in addition to basic Bootsrap.</p>
+								<p>다른 동료들과 보유한 명함을 공유할 수 있습니다.</p>
 							</div>
 						</article>
 					</div>
@@ -218,6 +207,8 @@
 					
 
 				</div>
+				</div>
+				
 		</section>
 
 		</main>

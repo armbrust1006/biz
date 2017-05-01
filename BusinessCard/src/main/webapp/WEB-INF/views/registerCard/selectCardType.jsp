@@ -107,7 +107,7 @@
 		<section class="section-30 section-sm-100 section-lg-100">
 			<div class="shell">
 				<div class="range range-sm-center range-md-left">
-					<c:forEach begin="0" end="6" step="1" var="layout">
+					<c:forEach begin="0" end="5" step="1" var="layout">
 						<div class="cell-sm-9 cell-md-6 height-fill offset-top-30">
 						
 							<div class="view fifth-effect">
