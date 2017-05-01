@@ -3,19 +3,19 @@
 <mapper namespace="global.scit.bizcard.dao.NoteDAO" >
 
 <select parameterType="String" resultType="Note" id="noteList"> 
-	select to_char(startdate, 'yyyy-MM-dd') as "start", to_char(enddate, 'yyyy-MM-dd') as "end", note as "title", color
+	select
+	notenum, m_id, cardnum, to_char(startdate, 'yyyy-MM-dd') as "startDate", to_char(enddate, 'yyyy-MM-dd') as "endDate", inputdate, title, content, chk
 	from cardnote_test where m_id=#{m_id}
 </select>
 
 <insert parameterType="Note" id="addNote">
 	insert into CARDNOTE_TEST values(
-	#{m_id}, #{cardnum}, #{start}, #{end}, sysdate, #{title}, #{color} 
+	notenum_seq.nextval, #{m_id}, #{cardnum}, #{startDate}, #{endDate}, sysdate, #{title}, #{content}, #{chk} 
 	)
 </insert>
 
-<select parameterType="Note" resultType="int" id="getCard">
-	select cardnum from cardnote_test where startdate = #{start} and note = #{title}
-</select>
-
+<delete id="deleteNote" parameterType="Note" >
+	delete cardnote_test where notenum=#{notenum}
+</delete>
 
 </mapper>

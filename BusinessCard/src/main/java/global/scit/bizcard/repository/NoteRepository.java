@@ -42,15 +42,15 @@ public class NoteRepository {
 		return result;
 	}
 	
-	public int getCard(Note note) {
-		int Cimg = 0;
+	public int deleteNote(Note note) {
 		NoteDAO dao = sqlSession.getMapper(NoteDAO.class);
+		int result = 0;
 		try {
-			Cimg = dao.getCard(note);
+			result = dao.deleteNote(note);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return Cimg;
+		return result;
 	}
 }

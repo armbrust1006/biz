@@ -121,7 +121,7 @@
 	</select>
 
 
-	<select id="selectOneCard" resultType="Card" parameterType="Card">
+<!-- 	<select id="selectOneCard" resultType="Card" parameterType="Card">
 		select
 		img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as
 		"cardType", img.shared as
@@ -152,7 +152,29 @@
 				and img.cardType = 'my'
 			</when>
 		</choose>
-	</select>
+	</select> -->
+	
+	<select id="selectOneCard" parameterType="Card" resultType="Card">
+		select img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as "cardType", img.shared as "shared", c.name as "name", c.company as "company", c.depart as "depart", c.position as "position", c.address as "address", c.email as "email", c.telephone as "telephone", c.fax as "fax", c.mobile as "mobile", img.inputDate as "inputDate", c.language as "language", c.logoImg as "logoImg", img.imagePath as "imagePath" from cardImage img, card c where img.cardnum = c.cardnum 
+
+<choose>
+
+<when test="cardNum != 0"> and c.cardnum = #{cardNum} </when>
+
+<when test="cardNum == 0"> and img.cardType = 'my' </when>
+
+</choose>
+
+
+<choose>
+
+<when test="cardNum != 0"> and img.m_id in (select m_id from mycardindex where m_id=#{m_id}) </when>
+
+<when test="cardNum == 0"> and img.m_id=#{m_id} </when>
+
+</choose>
+
+</select>
 
 	<select id="shareCheck" resultType="_int">
 		select book_num

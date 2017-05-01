@@ -123,6 +123,7 @@ public class AccessCardController {
 	public @ResponseBody Map<String, Object> imageSave(
 			@RequestParam(value = "imageBase64", defaultValue = "") String imageBase64, CardImage cardImage) {
 		// 이미지 정상 저장 확인을 위한 맵
+		System.out.println(cardImage.toString());
 		Map<String, Object> res = new HashMap<String, Object>();
 		if (!imageBase64.isEmpty()) {
 			String imageName = ImageService.saveImage(imageBase64, cardImage.getM_id(), uploadPathCard);

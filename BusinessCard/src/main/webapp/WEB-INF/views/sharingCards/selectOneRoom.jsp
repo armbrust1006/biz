@@ -86,7 +86,7 @@
 
       document.getElementById("tab2").onclick = loadList;
       document.getElementById("writeClick").onclick = asdf;
-      /* document.getElementById("tab1").onclick = getSharedCard; */
+      document.getElementById("tab1").onclick = getSharedCard;
    }
 
    //초대 검색
@@ -131,7 +131,8 @@
    function invite() {
       var targetId = $(this).attr("target-id"); // 초대할 사람 선택 시 m_id 받아옴
       var book_num = $("#book_num").val();
-      var url = 'invitationCard?targetId=' + targetId+'&book_num='+book_num;
+      var url = 'invitationCard?targetId=' + targetId + '&book_num='
+            + book_num;
       window.open(url, "invitationCard",
             "top=200, left=400, width=300, height=500, resizable=no");
    }
@@ -169,375 +170,371 @@
       $("#memberList").html(msg);
    }
 
-   function refresh(){
-		$('#writeForm').show();
-		$('#listView').hide();
-	}
-	
-	//글쓰기 폼에서 글쓰기버튼을 눌렀을경우 ajax를 통해서 DB에 저장이 됨.
-	function asdf() {
-		
-		
-		var board_title = $("#board_title").val();
-		//var m_id = $("#m_id").val();
-		var board_content = $("#board_content").val();
+   function refresh() {
+      $('#writeForm').show();
+      $('#listView').hide();
+   }
 
-		var booknum = window.location.search;
-		var book_num = booknum.slice(10, 11);
+   //글쓰기 폼에서 글쓰기버튼을 눌렀을경우 ajax를 통해서 DB에 저장이 됨.
+   function asdf() {
 
-		$.ajax({
-			url : 'board_write',
-			type : 'POST',
-			data : {
-				book_num : book_num,
-				board_title : board_title,
-				board_content : board_content
-			},
-			success : function() {
-				alert('성공했습니다.');
-				$('#listView').show();
-				$('#writeForm').hide();
+      var board_title = $("#board_title").val();
+      //var m_id = $("#m_id").val();
+      var board_content = $("#board_content").val();
 
-				loadList();
-			
-			},
-			error : function() {
-				alert('실패');
-			}
+      var booknum = window.location.search;
+      var book_num = booknum.slice(10, 11);
 
-		});
+      $.ajax({
+         url : 'board_write',
+         type : 'POST',
+         data : {
+            book_num : book_num,
+            board_title : board_title,
+            board_content : board_content
+         },
+         success : function() {
+            alert('성공했습니다.');
+            $('#listView').show();
+            $('#writeForm').hide();
 
-	}
+            loadList();
 
-	//현재 게시판에 있는 리스트전체를 불러옴(book_num에 따라서 값이 다름.)
-	function loadList(listB) {
-		var booknum = window.location.search;
-		var book_num = booknum.slice(10, 11);
+         },
+         error : function() {
+            alert('실패');
+         }
 
-		var list = '';
+      });
 
-		$.ajax({
-			url : 'listB',
-			type : 'POST',
-			data : {
-				book_num : book_num
-			},
-			dataType : 'JSON',
+   }
 
-			success : function(e) {
+   //현재 게시판에 있는 리스트전체를 불러옴(book_num에 따라서 값이 다름.)
+   function loadList(listB) {
+      var booknum = window.location.search;
+      var book_num = booknum.slice(10, 11);
 
-				for (var i = 0; i < e.length; i++) {
-					list += ' <table width="100%">';
-					list += ' <tr style=text-align:center>';
-					list += ' <td width="73">' + e[i].boardnum + '</td>';
-					list += ' <td width="379"><a href="javascript:readB('
-							+ e[i].boardnum + ')">' + e[i].board_title
-							+ '</a></td>';
-					//	list += ' <td width="379"><a href="/readB?boardnum=' + e[i].boardnum + '">'+ e[i].board_title + '</a></td>';
-					list += ' <td width="73">' + e[i].m_id + '</td>';
-					list += ' <td width="164">' + e[i].inputdate + '</td>';
-					list += ' <td width="58">' + e[i].board_hits + '</td>';
-					list += ' </tr>';
-					list += ' </table>';
-				}
-				$('#dataCol').html(list);
+      var list = '';
 
-			},
-			error : function(listB) {
-				alert(JSON.stringify(listB));
-			}
+      $.ajax({
+         url : 'listB',
+         type : 'POST',
+         data : {
+            book_num : book_num
+         },
+         dataType : 'JSON',
 
-		});
+         success : function(e) {
 
-	}
+            for (var i = 0; i < e.length; i++) {
+               list += ' <table width="100%">';
+               list += ' <tr style=text-align:center>';
+               list += ' <td width="73">' + e[i].boardnum + '</td>';
+               list += ' <td width="379"><a href="javascript:readB('
+                     + e[i].boardnum + ')">' + e[i].board_title
+                     + '</a></td>';
+               //   list += ' <td width="379"><a href="/readB?boardnum=' + e[i].boardnum + '">'+ e[i].board_title + '</a></td>';
+               list += ' <td width="73">' + e[i].m_id + '</td>';
+               list += ' <td width="164">' + e[i].inputdate + '</td>';
+               list += ' <td width="58">' + e[i].board_hits + '</td>';
+               list += ' </tr>';
+               list += ' </table>';
+            }
+            $('#dataCol').html(list);
 
-	//리스트에서 글쓰기 폼을 눌렀을경우 글쓰리 페이지가 나옴.
-	function check(resp) {
-		
-		refresh();
-		var test = '';
-		var booknum = window.location.search;
-		var book_num = booknum.slice(10, 11);
+         },
+         error : function(listB) {
+            alert(JSON.stringify(listB));
+         }
 
-		test += ' <form id = "writeForm" align="center">';
-		test += ' <input type="hidden" name="book_num" value="'+book_num+'">';
-		test += ' <div id="bbsCreated">';
-		test += ' <div class="bbsCreated_bottomLine">';
-		test += ' <dl>';
-		test += ' <dt>제&nbsp;&nbsp;&nbsp;&nbsp;목</dt>';
-		test += ' <dd>';
-		test += ' <input type="text" id="board_title" size="64" maxlength="100"  class="boxTF" style="border: 2px solid #5C84DC;"/>';
+      });
 
-		test += ' </dd>';
-		test += ' </dl>';
-		test += ' </div>';
-		/*	test += ' <div class="bbsCreated_bottomLine">';
-		test += ' <dl>';
-		test += ' <dt>작성자</dt>';
-		test += ' <dd>';
-		test += ' <input type="text" id="m_id" name="name" size="35" maxlength="20" class="boxTF"   style="border: 2px solid #5C84DC;"/>';
-		test += ' </dd>';
-		test += ' </dl>';
-		test += ' </div>'; */
-		test += ' <div id="bbsCreated_content">';
-		test += ' <dl>';
-		test += ' <dt>내&nbsp;&nbsp;&nbsp;&nbsp;용 </dt>';
-		test += ' <dd>';
-		test += ' <textarea id="board_content" cols="63" rows="10" class="boxTA"style="border: 2px solid #5C84DC;"></textarea>';
-		test += ' </dd>';
-		test += ' </dl>';
-		test += ' </div>';
-		test += ' <div id="bbsCreated_footer">';
-		test += ' <dl>';
-		test += ' <td>';
-		test += ' <dd>';
-		test += ' <div id="button">';
-		test += ' <input type="button" class="btn-sm btn-primary" id="writeClick" style="margin-top:5px; margin-right:10px""  onclick="return asdf();" value="등록">';
-		/* test += '<button id="writeClick" onclick="return asdf();">글쓰기</button>' */
-		//test += ' <button class="btn btn-primary-outline btn-shadow" style="WIDTH: 30pt; HEIGHT: 10pt" id="writeClick" align = "center" >글쓰기</button>';
-		//test += ' <button class="btn-sm btn-primary style="WIDTH: 30pt; HEIGHT: 10pt"id="cancle" align = "center"  onclick="check();">작성취소</button>';
-		test += ' <input type="button" class="btn-sm btn-primary" id="cancle" onclick="return relist();" value="작성취소">';
-		test += ' </div>';
-		test += ' </dd>';
-		test += ' </dl>';
-		test += ' </table>';
-		test += ' </div>';
-		test += ' </form>';
+   }
 
-		$('#writeForm').html(test);
-		$('#listView').hide();
+   //리스트에서 글쓰기 폼을 눌렀을경우 글쓰리 페이지가 나옴.
+   function check(resp) {
 
-	}
+      refresh();
+      var test = '';
+      var booknum = window.location.search;
+      var book_num = booknum.slice(10, 11);
 
-	// 데이터 읽어온 곳에서 삭제를 눌렀을 경우 ajax처리로 삭제됨.
-	function deletedB(boardnum) {
-		var num = boardnum;
-		var booknum = window.location.search;
-		var book_num = booknum.slice(10, 11);
+      test += ' <form id = "writeForm" align="center">';
+      test += ' <input type="hidden" name="book_num" value="'+book_num+'">';
+      test += ' <div id="bbsCreated">';
+      test += ' <div class="bbsCreated_bottomLine">';
+      test += ' <dl>';
+      test += ' <dt>제&nbsp;&nbsp;&nbsp;&nbsp;목</dt>';
+      test += ' <dd>';
+      test += ' <input type="text" id="board_title" size="64" maxlength="100"  class="boxTF" style="border: 2px solid #5C84DC;"/>';
 
-		$.ajax({
-			url : 'deleteB',
-			type : 'POST',
-			data : {
-				boardnum : num,
-				book_num : book_num,
-			},
-			success : function() {
-				alert('성공했습니다.');
-				$('#listView').show();
-				$('#readData').hide();
-				loadList();
-			},
-			error : function() {
-				alert('실패');
-			}
+      test += ' </dd>';
+      test += ' </dl>';
+      test += ' </div>';
+      /*   test += ' <div class="bbsCreated_bottomLine">';
+      test += ' <dl>';
+      test += ' <dt>작성자</dt>';
+      test += ' <dd>';
+      test += ' <input type="text" id="m_id" name="name" size="35" maxlength="20" class="boxTF"   style="border: 2px solid #5C84DC;"/>';
+      test += ' </dd>';
+      test += ' </dl>';
+      test += ' </div>'; */
+      test += ' <div id="bbsCreated_content">';
+      test += ' <dl>';
+      test += ' <dt>내&nbsp;&nbsp;&nbsp;&nbsp;용 </dt>';
+      test += ' <dd>';
+      test += ' <textarea id="board_content" cols="63" rows="10" class="boxTA"style="border: 2px solid #5C84DC;"></textarea>';
+      test += ' </dd>';
+      test += ' </dl>';
+      test += ' </div>';
+      test += ' <div id="bbsCreated_footer">';
+      test += ' <dl>';
+      test += ' <td>';
+      test += ' <dd>';
+      test += ' <div id="button">';
+      test += ' <input type="button" class="btn-sm btn-primary" id="writeClick" style="margin-top:5px; margin-right:10px""  onclick="return asdf();" value="등록">';
+      /* test += '<button id="writeClick" onclick="return asdf();">글쓰기</button>' */
+      //test += ' <button class="btn btn-primary-outline btn-shadow" style="WIDTH: 30pt; HEIGHT: 10pt" id="writeClick" align = "center" >글쓰기</button>';
+      //test += ' <button class="btn-sm btn-primary style="WIDTH: 30pt; HEIGHT: 10pt"id="cancle" align = "center"  onclick="check();">작성취소</button>';
+      test += ' <input type="button" class="btn-sm btn-primary" id="cancle" onclick="return relist();" value="작성취소">';
+      test += ' </div>';
+      test += ' </dd>';
+      test += ' </dl>';
+      test += ' </table>';
+      test += ' </div>';
+      test += ' </form>';
 
-		});
-	}
+      $('#writeForm').html(test);
+      $('#listView').hide();
 
-	//글읽기 목록에서 을 눌렀을 경우 리스트로 돌아감
-	function relist() {
-		$('#listView').show();
-		$('#readData').hide();
-		$('#writeForm').hide();
+   }
 
-		loadList();
-	}
+   // 데이터 읽어온 곳에서 삭제를 눌렀을 경우 ajax처리로 삭제됨.
+   function deletedB(boardnum) {
+      var num = boardnum;
+      var booknum = window.location.search;
+      var book_num = booknum.slice(10, 11);
 
-	//리스트에서 게시글을 클릭하여 정보가 나오는 페이지 설정
-	function readB(boardnum) {
+      $.ajax({
+         url : 'deleteB',
+         type : 'POST',
+         data : {
+            boardnum : num,
+            book_num : book_num,
+         },
+         success : function() {
+            alert('성공했습니다.');
+            $('#listView').show();
+            $('#readData').hide();
+            loadList();
+         },
+         error : function() {
+            alert('실패');
+         }
 
-		$('#readData').show();
-		var read = '';
-		var num = boardnum;
-		alert('.....' + num);
+      });
+   }
 
-		$
-				.ajax({
-					url : 'readB',
-					type : 'POST',
-					dataType : 'JSON',
-					data : {
-						boardnum : num
-					},
+   //글읽기 목록에서 을 눌렀을 경우 리스트로 돌아감
+   function relist() {
+      $('#listView').show();
+      $('#readData').hide();
+      $('#writeForm').hide();
 
-					//success : readData,
-					success : function(e) {
-						alert(JSON.stringify(e));
-						read += '<table align="center">';
-						read += '  <tr>';
-						read += ' <td>';
-						read += '  <table width="100%" cellpadding="0" cellspacing="0" border="0" >';
+      loadList();
+   }
 
-						read += '    <tr style="background:url(images/table_mid.gif) repeat-x; text-align:"center";>';
-						read += '     <td width="5"><img src="images/table_left.gif" width="5" height="30" /></td>';
-						read += '   <td style="text-align:center"; "font-weight:bold">'
-								+ e.board_title + '</td>';
-						read += '     <td width="5"><img src="images/table_right.gif" width="5" height="30" /></td>';
-						read += '    </tr>';
-						read += '   </table>';
-						read += '  <table width="413">';
-						read += '   <tr>';
-						read += '    <td width="0">&nbsp;</td>';
-						read += '     <td align="center" width="76">글번호</td>';
-						read += '      <td width="319">' + e.boardnum + '</td>';
-						read += '      <td width="0">&nbsp;</td>';
-						read += '    </tr>';
+   //리스트에서 게시글을 클릭하여 정보가 나오는 페이지 설정
+   function readB(boardnum) {
 
-						read += ' <tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>';
-						read += '  <tr>';
-						read += '    <td width="0">&nbsp;</td>';
-						read += '    <td align="center" width="76">이름</td>';
-						read += '   <td width="319">' + e.m_id + '</td>';
+      $('#readData').show();
+      var read = '';
+      var num = boardnum;
+      alert('.....' + num);
 
-						read += '  <td width="0">&nbsp;</td>';
-						read += '  </tr>';
-						read += '   <tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>';
-						read += '  <tr>';
-						read += '    <td width="0">&nbsp;</td>';
-						read += '   <td align="center" width="76">작성일</td>';
-						read += '   <td width="319">' + e.inputdate + '</td>';
-						read += '    <td width="0">&nbsp;</td>';
-						read += '   </tr>';
+      $
+            .ajax({
+               url : 'readB',
+               type : 'POST',
+               dataType : 'JSON',
+               data : {
+                  boardnum : num
+               },
 
-						read += '  <tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>';
-						read += '             <tr>';
-						read += '   <td width="0">&nbsp;</td>';
-						read += '               <td width="399" colspan="2" height="200">'
-								+ e.board_content + '</td>';
-						read += '              </tr>';
-						read += '   <tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>';
-						read += '  <tr height="1" bgcolor="#82B5DF"><td colspan="4" width="407"></td></tr>';
-						read += '  <tr align="center">';
-						read += '    <td width="0">&nbsp;</td>';
-						read += '   <td colspan="2" width="399">';
-						read += '<input type=button class="btn-sm btn-primary" style="margin-top:5px; margin-right:10px"value="목록"  id="write"  onclick="return relist();">';
-						read += '<input type=button class="btn-sm btn-primary" style="margin-top:5px; margin-right:10px"  value="수정" onclick="return updateB('
-								+ e.boardnum + ')">';
-						read += '<input type=button class="btn-sm btn-primary" style="margin-top:5px" value="삭제" onclick=" return deletedB('
-								+ e.boardnum + ')">';
-						read += '     <td width="0">&nbsp;</td>';
-						read += '   </tr>';
-						read += '  </table>';
-						read += ' </td>';
-						read += ' </tr>';
-						read += '</table>';
+               //success : readData,
+               success : function(e) {
+                  alert(JSON.stringify(e));
+                  read += '<table align="center">';
+                  read += '  <tr>';
+                  read += ' <td>';
+                  read += '  <table width="100%" cellpadding="0" cellspacing="0" border="0" >';
 
-						$('#readData').html(read);
+                  read += '    <tr style="background:url(images/table_mid.gif) repeat-x; text-align:"center";>';
+                  read += '     <td width="5"><img src="images/table_left.gif" width="5" height="30" /></td>';
+                  read += '   <td style="text-align:center"; "font-weight:bold">'
+                        + e.board_title + '</td>';
+                  read += '     <td width="5"><img src="images/table_right.gif" width="5" height="30" /></td>';
+                  read += '    </tr>';
+                  read += '   </table>';
+                  read += '  <table width="413">';
+                  read += '   <tr>';
+                  read += '    <td width="0">&nbsp;</td>';
+                  read += '     <td align="center" width="76">글번호</td>';
+                  read += '      <td width="319">' + e.boardnum + '</td>';
+                  read += '      <td width="0">&nbsp;</td>';
+                  read += '    </tr>';
 
-					},
-					error : function(listB) {
-						alert(JSON.stringify(listB));
-					}
+                  read += ' <tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>';
+                  read += '  <tr>';
+                  read += '    <td width="0">&nbsp;</td>';
+                  read += '    <td align="center" width="76">이름</td>';
+                  read += '   <td width="319">' + e.m_id + '</td>';
 
-				});
-		//$('#dataCol').hide();
-		$('#listView').hide();
-	}
+                  read += '  <td width="0">&nbsp;</td>';
+                  read += '  </tr>';
+                  read += '   <tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>';
+                  read += '  <tr>';
+                  read += '    <td width="0">&nbsp;</td>';
+                  read += '   <td align="center" width="76">작성일</td>';
+                  read += '   <td width="319">' + e.inputdate + '</td>';
+                  read += '    <td width="0">&nbsp;</td>';
+                  read += '   </tr>';
 
-	function updateB(boardnum) {
-		var num = boardnum;
-		var booknum = window.location.search;
-		var book_num = booknum.slice(10, 11);
-		var upda = '';
-		//$('#updateForm').show();
-		$
-				.ajax({
-					url : 'readB',
-					type : 'POST',
-					data : {
-						boardnum : num,
-					},
-					success : function(e) {
+                  read += '  <tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>';
+                  read += '             <tr>';
+                  read += '   <td width="0">&nbsp;</td>';
+                  read += '               <td width="399" colspan="2" height="200">'
+                        + e.board_content + '</td>';
+                  read += '              </tr>';
+                  read += '   <tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>';
+                  read += '  <tr height="1" bgcolor="#82B5DF"><td colspan="4" width="407"></td></tr>';
+                  read += '  <tr align="center">';
+                  read += '    <td width="0">&nbsp;</td>';
+                  read += '   <td colspan="2" width="399">';
+                  read += '<input type=button class="btn-sm btn-primary" style="margin-top:5px; margin-right:10px"value="목록"  id="write"  onclick="return relist();">';
+                  read += '<input type=button class="btn-sm btn-primary" style="margin-top:5px; margin-right:10px"  value="수정" onclick="return updateB('
+                        + e.boardnum + ')">';
+                  read += '<input type=button class="btn-sm btn-primary" style="margin-top:5px" value="삭제" onclick=" return deletedB('
+                        + e.boardnum + ')">';
+                  read += '     <td width="0">&nbsp;</td>';
+                  read += '   </tr>';
+                  read += '  </table>';
+                  read += ' </td>';
+                  read += ' </tr>';
+                  read += '</table>';
 
-						alert('히히..나오지?' + JSON.stringify(e))
-						$('#readData').hide();
+                  $('#readData').html(read);
 
-						upda += ' <form id = "updateForm" align="center">';
-						upda += ' <input type="hidden" name="book_num" value="'+book_num+'">';
-						upda += ' <div id="bbsCreated">';
-						upda += ' <div class="bbsCreated_bottomLine">';
-						upda += ' <dl>';
-						upda += ' <dt>제&nbsp;&nbsp;&nbsp;&nbsp;목</dt>';
-						upda += ' <dd>';
-						upda += ' <input type="text" value="'+e.board_title+'" readonly="readonly" id="board_title"  size="64" maxlength="100"  class="boxTF" style="border: 2px solid #5C84DC;"/>';
+               },
+               error : function(listB) {
+                  alert(JSON.stringify(listB));
+               }
 
-						upda += ' </dd>';
-						upda += ' </dl>';
-						upda += ' </div>';
+            });
+      //$('#dataCol').hide();
+      $('#listView').hide();
+   }
 
-						upda += ' <div id="bbsCreated_content">';
-						upda += ' <dl>';
-						upda += ' <dt>내&nbsp;&nbsp;&nbsp;&nbsp;용 </dt>';
-						upda += ' <dd>';
-						upda += ' <textarea id="update_board_content" cols="63" rows="10" class="boxTA"style="border: 2px solid #5C84DC;">'
-								+ e.board_content + '</textarea>';
-						upda += ' </dd>';
-						upda += ' </dl>';
-						upda += ' </div>';
-						upda += ' <div id="bbsCreated_footer">';
-						upda += ' <dl>';
-						upda += ' <td>';
-						upda += ' <dd>';
-						upda += ' <div id="button">';
-						upda += ' <input type="button" class="btn-sm btn-primary" style="margin-top:5px; margin-right:10px"  id="writeClick" onclick="return updateCom('
-								+ e.boardnum + ');" value="수정">';
-						upda += ' <input type="button" class="btn-sm btn-primary" style="margin-top:5px; id="cancle" onclick="return relist();" value="작성취소">';
-						upda += ' </div>';
-						upda += ' </dd>';
-						upda += ' </dl>';
-						upda += ' </table>';
-						upda += ' </div>';
-						upda += ' </form>';
+   function updateB(boardnum) {
+      var num = boardnum;
+      var booknum = window.location.search;
+      var book_num = booknum.slice(10, 11);
+      var upda = '';
+      //$('#updateForm').show();
+      $
+            .ajax({
+               url : 'readB',
+               type : 'POST',
+               data : {
+                  boardnum : num,
+               },
+               success : function(e) {
 
-						$('#updateForm').html(upda);
-						//$('#listView').hide();
-						
-						
-						
+                  alert('히히..나오지?' + JSON.stringify(e))
+                  $('#readData').hide();
 
-						//$('#dataCol').hide();
-						loadList();
+                  upda += ' <form id = "updateForm" align="center">';
+                  upda += ' <input type="hidden" name="book_num" value="'+book_num+'">';
+                  upda += ' <div id="bbsCreated">';
+                  upda += ' <div class="bbsCreated_bottomLine">';
+                  upda += ' <dl>';
+                  upda += ' <dt>제&nbsp;&nbsp;&nbsp;&nbsp;목</dt>';
+                  upda += ' <dd>';
+                  upda += ' <input type="text" value="'+e.board_title+'" readonly="readonly" id="board_title"  size="64" maxlength="100"  class="boxTF" style="border: 2px solid #5C84DC;"/>';
 
-						/* alert('성공했습니다.');
-						$('#listView').show();
-						loadList(); */
-					},
+                  upda += ' </dd>';
+                  upda += ' </dl>';
+                  upda += ' </div>';
 
-					error : function() {
-						alert('실패');
-					}
+                  upda += ' <div id="bbsCreated_content">';
+                  upda += ' <dl>';
+                  upda += ' <dt>내&nbsp;&nbsp;&nbsp;&nbsp;용 </dt>';
+                  upda += ' <dd>';
+                  upda += ' <textarea id="update_board_content" cols="63" rows="10" class="boxTA"style="border: 2px solid #5C84DC;">'
+                        + e.board_content + '</textarea>';
+                  upda += ' </dd>';
+                  upda += ' </dl>';
+                  upda += ' </div>';
+                  upda += ' <div id="bbsCreated_footer">';
+                  upda += ' <dl>';
+                  upda += ' <td>';
+                  upda += ' <dd>';
+                  upda += ' <div id="button">';
+                  upda += ' <input type="button" class="btn-sm btn-primary" style="margin-top:5px; margin-right:10px"  id="writeClick" onclick="return updateCom('
+                        + e.boardnum + ');" value="수정">';
+                  upda += ' <input type="button" class="btn-sm btn-primary" style="margin-top:5px; id="cancle" onclick="return relist();" value="작성취소">';
+                  upda += ' </div>';
+                  upda += ' </dd>';
+                  upda += ' </dl>';
+                  upda += ' </table>';
+                  upda += ' </div>';
+                  upda += ' </form>';
 
-				});
+                  $('#updateForm').html(upda);
+                  //$('#listView').hide();
 
-	}
+                  //$('#dataCol').hide();
+                  loadList();
 
-	function updateCom(boardnum) {
-		alert('보드넘?' + boardnum)
-		var content = $('#update_board_content').val();
-		var booknum = window.location.search;
-		var book_num = booknum.slice(10, 11);
+                  /* alert('성공했습니다.');
+                  $('#listView').show();
+                  loadList(); */
+               },
 
-		$.ajax({
-			url : 'updateB',
-			type : 'POST',
-			data : {
-				book_num : book_num,
-				boardnum : boardnum,
-				content : content
-			},
-			success : function() {
-				alert('성공했습니다.');
-				$('#listView').show();
-				$('#updateForm').hide();
-				loadList();
-			},
-			error : function() {
-				alert('실패');
-			}
+               error : function() {
+                  alert('실패');
+               }
 
-		});
-	}
+            });
+
+   }
+
+   function updateCom(boardnum) {
+      alert('보드넘?' + boardnum)
+      var content = $('#update_board_content').val();
+      var booknum = window.location.search;
+      var book_num = booknum.slice(10, 11);
+
+      $.ajax({
+         url : 'updateB',
+         type : 'POST',
+         data : {
+            book_num : book_num,
+            boardnum : boardnum,
+            content : content
+         },
+         success : function() {
+            alert('성공했습니다.');
+            $('#listView').show();
+            $('#updateForm').hide();
+            loadList();
+         },
+         error : function() {
+            alert('실패');
+         }
+
+      });
+   }
 
    function getSharedCard() {
       console.log("image");
@@ -559,11 +556,12 @@
    }
 
    function sharedCard(res) {
+      var book_num = document.getElementById("book_num").value;
       var div = document.getElementById("tabs-1-1");
       var htmlText = "";
       for (var i = 0; i < res.length; i++) {
-         htmlText += "<a href='#?cardnum=" + res[i].cardNum
-               + "'><img src=downloadImage?card=" + res[i].imagePath
+         htmlText += "<a href='sharedCard?cardnum=" + res[i].cardNum
+               + "&book_num="+book_num+"'><img src=downloadImage?card=" + res[i].imagePath
                + " alt='' width='400' height='200' /></a>";
       }
       div.innerHTML = htmlText;
@@ -622,7 +620,7 @@
          <div class="shell">
             <div class="range range-sm-center">
                <div class="cell-xs-12 text-center">
-                  <h3>뭔가 제목 입력 안하면 지우기</h3>
+                  <h3>공유명함방 이름 넣기</h3>
                   <input type="hidden" value="${book_num}" id="book_num"
                      name="book_num">
                </div>
@@ -639,69 +637,71 @@
                      </ul>
                      <div class="tab-content text-secondary">
                         <div id="tabs-1-1" class="tab-pane fade in active">
-                           <!-- <img src="" alt="" width="400" height="200" /> -->
+                           <img src="" alt="" width="400" height="200" />
                         </div>
                         <div id="tabs-1-2" class="tab-pane fade">
 
-                         <div id="listView">
+                           <div id="listView">
 
-										<table width="100%" cellpadding="0" cellspacing="0" border="0">
-											<tr height="5">
-												<td width="5"></td>
-												
-											</tr>
-											<tr
-												style="background: url('images/table_mid.gif') repeat-x; text-align: center;">
-												<td width="7"><img src="images/table_left.gif"
-													width="5" height="30" /></td>
-												<td width="73">번호</td>
-												<td width="379">제목</td>
-												<td width="73">작성자</td>
-												<td width="164">작성일</td>
-												<td width="58">조회수</td>
-												<td width="7"><img src="images/table_right.gif"
-													width="5" height="30" /></td>
-											</tr>
-											<table width="100%" cellpadding="0" cellspacing="0"
-											border="0">
-												<tr height="5">
-													<td width="5"></td>
-												</tr>
-												<tr style="text-align: center;">
-													<td><div id="dataCol"></div></td>
-												<tr height="5">
-													<td width="5"></td>
-												</tr>
+                              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                 <tr height="5">
+                                    <td width="5"></td>
 
-											</table>
+                                 </tr>
+                                 <tr
+                                    style="background: url('images/table_mid.gif') repeat-x; text-align: center;">
+                                    <td width="7"><img src="images/table_left.gif"
+                                       width="5" height="30" /></td>
+                                    <td width="73">번호</td>
+                                    <td width="379">제목</td>
+                                    <td width="73">작성자</td>
+                                    <td width="164">작성일</td>
+                                    <td width="58">조회수</td>
+                                    <td width="7"><img src="images/table_right.gif"
+                                       width="5" height="30" /></td>
+                                 </tr>
+                                 <table width="100%" cellpadding="0" cellspacing="0"
+                                    border="0">
+                                    <tr height="5">
+                                       <td width="5"></td>
+                                    </tr>
+                                    <tr style="text-align: center;">
+                                       <td><div id="dataCol"></div></td>
 
-											<table width="100%" cellpadding="0" cellspacing="0"
-												border="0">
-												<tr height="1" bgcolor="#5C84DC">
-													<td colspan="6" width="752"></td>
-												</tr>
-											</table>
+                                       <tr height="5">
+                                       <td width="5"></td>
+                                    </tr>
 
-										</table>
+                                 </table>
 
-										<table width="100%" cellpadding="0" cellspacing="0" border="0">
-											<tr>
-												<td colspan="10" height="5"></td>
-											</tr>
-											<tr align="center">
-												<!--   <td><button class="btn btn-primary-outline btn-shadow" id="write"
-														onclick="check();">글쓰기</button></td> -->
-												<td><input type="button" class="btn-sm btn-primary"
-													id="write" onclick="check();" value="글쓰기"></td>
-											</tr>
-										</table>
-									</div>
+                                 <table width="100%" cellpadding="0" cellspacing="0"
+                                    border="0">
+                                    <tr height="1" bgcolor="#5C84DC">
+                                       <td colspan="6" width="752"></td>
+                                    </tr>
+                                 </table>
 
-									<!-- 음...글정보 보는 리스트랑 글쓰기 페이지 보여질떄 쓰이는 div영역 -->
-									<div id="writeForm"></div>
-									<div id="readData"></div>
-									<div id="updateForm"></div>
-									<!-- ↑여기까지 -->
+                              </table>
+
+                              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                 <tr>
+                                    <td colspan="10" height="5"></td>
+                                 </tr>
+                                 <tr align="center">
+                                    <!--   <td><button class="btn btn-primary-outline btn-shadow" id="write"
+                                          onclick="check();">글쓰기</button></td> --><td><input type="button" class="btn-sm btn-primary"
+                                          id="write" onclick="check();" value="글쓰기"></td>
+                                    </tr>
+                                    
+                              
+                              </table>
+                           </div>
+
+                           <!-- 음...글정보 보는 리스트랑 글쓰기 페이지 보여질떄 쓰이는 div영역 -->
+                           <div id="writeForm"></div>
+                           <div id="readData"></div>
+                           <div id="updateForm"></div>
+                           <!-- ↑여기까지 -->
                         </div>
                         <div id="tabs-1-3" class="tab-pane fade">
                            <form id="inviteForm" action="inviteList" method="get">
@@ -738,5 +738,6 @@
       <%@include file="../modules/footer.jsp"%>
       <script src="js/core.min.js"></script>
       <script src="js/script.js"></script>
+
 </body>
 </html>

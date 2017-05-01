@@ -1,8 +1,5 @@
 package global.scit.bizcard.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -41,7 +38,6 @@ public class NoteController {
 	@ResponseBody
 	@RequestMapping (value="noteList", method=RequestMethod.GET)
 	public List<Note> noteList(String m_id) {
-		logger.info(m_id+"");
 		List<Note> noteList = noteRPS.noteList(m_id);
 		return noteList;
 	}
@@ -57,38 +53,17 @@ public class NoteController {
 	@ResponseBody
 	@RequestMapping (value="addNote", method=RequestMethod.POST)
 	public int formattedDate (Note note, Model model) {
-		System.out.println("controller"+note.toString());
-		SimpleDateFormat fromFormat = new SimpleDateFormat("EEEE dd MMMMM yyyy");
-		SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date fromDate = null;
-		Date toDate = null;
-		String sDate = "";
-		String eDate = "";
 		Note newNote = new Note();
 		int result = 0;
-		try
-		{
-			fromDate = fromFormat.parse(note.getStart());
-			toDate = fromFormat.parse(note.getEnd());
-			sDate = toFormat.format(fromDate);
-			eDate = toFormat.format(toDate);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
 		
 			newNote.setM_id(note.getM_id());
-			newNote.setStart(sDate);
-			newNote.setEnd(eDate);
+			newNote.setCardnum(note.getCardnum());
+			newNote.setStartDate(note.getStartDate());
+			newNote.setEndDate(note.getEndDate());
 			newNote.setTitle(note.getTitle());
-			if (note.getCardnum()!=0) {
-				newNote.setCardnum(note.getCardnum());
-				newNote.setColor("#ffc34d");
-			}else{
-				newNote.setCardnum(1);
-				newNote.setColor("#0052cc");
-			}			
+			newNote.setContent(note.getContent());
+			newNote.setChk(note.getChk());
+					
 			System.out.println("보내기전 확인" + newNote.toString());
 			result = noteRPS.addNote(newNote);
 		return result;
@@ -108,19 +83,24 @@ public class NoteController {
 		return toFormat.format(date);
 	}
 	 */
-	
 	@ResponseBody
 	@RequestMapping (value="getCard", method=RequestMethod.POST)
-	public String popupDetail(HttpSession session, Note note, Model model) {
-		int cardnum = noteRPS.getCard(note);
+	public Card popupDetail(HttpSession session, Note note, Model model) {
 		Card card = new Card();
-		card.setCardNum(cardnum);
+		card.setCardNum(note.getCardnum());
 		card.setM_id(String.valueOf(session.getAttribute("m_id")));
 		logger.info("card:" + card.toString());
-		Card myCard = cardRepository.selectOneCard(card);
-		logger.info("my:" + myCard.toString());
-		model.addAttribute("myCard", myCard);
-		return "1";
+		Card yourCard = cardRepository.selectOneCard(card);
+		logger.info("my:" + yourCard.toString());
+/*		model.addAttribute("yourCard", yourCard);*/
+		return yourCard;
 	}
-		
+	
+	@ResponseBody
+	@RequestMapping (value="delCardNote", method=RequestMethod.POST)
+	public int delCardNote(Note note) {
+		int result=0;
+		result = noteRPS.deleteNote(note);
+		return result;
+	}
 }

@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="global.scit.bizcard.dao.SharingDAO">
-     <select id="listCardBooks" resultType="CardBooks">
-      select
-      book_num, book_name, inputdate, book_master
-      from cardbooks
-      where book_num in (select book_num from bookmembers
-      where m_id=#{m_id})
+   <select id="listCardBooks" resultType="HashMap" parameterType="String">
+      select cb.book_num, cb.book_name, cb.inputdate, cb.book_master,
+      cm.member_count
+      from cardbooks cb, (select book_num, count(m_id)
+      member_count from
+      bookmembers group by book_num)cm
+      where cb.book_num in
+      (select book_num from bookmembers where m_id=#{m_id})
+      and
+      cm.book_num in
+      (select book_num from bookmembers where m_id=#{m_id})
    </select>
 
    <insert id="makeRoom" parameterType="CardBooks">
@@ -22,28 +27,31 @@
       #{m_id}
       )
    </insert>
-   
+
    <select id="getBookNum" parameterType="CardBooks" resultType="Integer">
-      select book_num from 
-      (select book_num from cardbooks where book_master=#{m_id} order by inputdate desc)
+      select book_num from
+      (select book_num from cardbooks where
+      book_master=#{m_id} order by inputdate
+      desc)
       where rownum = 1
-         
+
    </select>
-   
+
    <insert id="insertManager" parameterType="CardBooks">
-      insert into bookmembers (
-         m_id,
-         book_num,
-         inputdate,
-         grade
+      insert into bookmembers
+      (
+      m_id,
+      book_num,
+      inputdate,
+      grade
       ) values (
-         #{m_id},
-         #{book_num},
-         sysdate,
-         #{grade}
+      #{m_id},
+      #{book_num},
+      sysdate,
+      #{grade}
       )
    </insert>
-   
+
 
    <select id="selectOneRoom" parameterType="int" resultType="HashMap">
       SELECT
@@ -52,21 +60,23 @@
       inputdate,
       book_master
       FROM CARDBOOKS
-      WHERE BOOK_NUM =
+      WHERE
+      BOOK_NUM =
       #{book_num}
    </select>
-   
+
    <select id="allMember" parameterType="int" resultType="HashMap">
       SELECT
       m_id,
       book_num,
       to_char(inputdate, 'yyyy-mm-dd') inputdate,
       grade
-      FROM bookmembers
+      FROM
+      bookmembers
       WHERE BOOK_NUM =
       #{book_num}
    </select>
-   
+
 
    <select id="inviteList" resultType="Member" parameterType="HashMap">
       SELECT
@@ -150,7 +160,7 @@
       #{book_num}
    </insert>
 
-    <insert id="joinRoom" parameterType="CardBooks">
+   <insert id="joinRoom" parameterType="CardBooks">
       INSERT INTO bookmembers (
       M_ID,
       BOOK_NUM,
@@ -163,22 +173,54 @@
       #{grade}
       )
    </insert>
-   
+
    <delete id="leaveRoom" parameterType="CardBooks">
       delete bookmembers
       where
       m_id = #{m_id} and
       book_num = #{book_num}
    </delete>
-   
 
-<!--    <select id="getRoomCards" resultType="CardImage" parameterType="Integer">
+
+   <select id="getRoomCards" resultType="CardImage" parameterType="Integer">
       select c.cardnum, c.m_id, c.imagePath
       from sharedCard s, cardImage c
-      where s.cardNum=c.cardNum
-      and book_num=#{book_num}
-   </select> -->
-   
+      where
+      s.cardNum=c.cardNum and book_num=#{book_num}
+   </select>
+
+   <select id="getOneSharedCard" resultType="HashMap">
+      select
+      sh.inputdate,
+      sh.shared_cardnum,
+      sh.book_num,
+      sh.cardnum,
+      sh.m_id,
+      im.imagePath,
+      ca.name,
+      ca.company,
+      ca.depart,
+      ca.position,
+      ca.address,
+      ca.email,
+      ca.telephone,
+      ca.fax,
+      ca.mobile,
+      ca.language
+      from sharedcard sh,
+      (select
+      imagePath from cardImage where cardnum=#{param1}) im,
+      (select
+      name,
+      company, depart, position, address, email, telephone,
+      fax,
+      mobile,
+      language from card where cardnum=#{param1}) ca
+      where
+      sh.cardnum=#{param1} and
+      sh.book_num=#{param2}
+   </select>
+
 
 
 </mapper>

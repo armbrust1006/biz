@@ -50,7 +50,7 @@ body .fc { /* extra precedence to overcome jqui */
 }
 
 .fc-unthemed td.fc-today {
-	background: #c4e1fd;
+	background: #fcf8e3;
 }
 
 .fc-highlight { /* when user is selecting cells */
@@ -535,7 +535,7 @@ temporary rendered events).
 
 .fc-event,
 .fc-event-dot {
-	background-color: #c0c0c0; /* default BACKGROUND color */
+	background-color: #3a87ad; /* default BACKGROUND color */
 }
 
 /* overpower some of bootstrap's and jqui's styles on <a> tags */

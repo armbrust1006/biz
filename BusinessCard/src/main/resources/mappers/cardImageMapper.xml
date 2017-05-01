@@ -76,4 +76,5 @@
 		shared=#{shared}
 		where cardNum=#{cardNum}
 	</update>
-	</mapper>
+
+</mapper>

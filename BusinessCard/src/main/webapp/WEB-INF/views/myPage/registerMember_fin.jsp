@@ -261,7 +261,7 @@
                <h4 class="modal-title">Modal Header</h4>
             </div>
             <div class="modal-body" id="modal-body">
-             메일 인증에 실패하였습니다
+            	<p>메일 인증에 실패하였습니다</p>
             </div>
             <div class="modal-footer">
                <div class="group-lg group-middle group-sm offset-top-30">
