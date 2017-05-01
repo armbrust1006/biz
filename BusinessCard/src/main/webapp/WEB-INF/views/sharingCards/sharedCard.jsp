@@ -109,6 +109,27 @@ i {
 		});
 	}
 
+	function textToSpeech() {
+		var textToSpeech = $("#textToSpeech").val();
+		var language = $("#language").val();
+		$.ajax({
+			type : "post",
+			url : "listen",
+			data : {
+				"textToSpeech" : textToSpeech,
+				"language" : language
+			},
+			success : listen
+		});
+	}
+
+	function listen(resp) {
+		var audio = '';
+		audio = "<embed src="+resp+" autostart='true' allowscriptaccess='always'"+
+            "enablehtmlaccess='true' allowfullscreen='true' width='0' height='0' type='video/mp4'></embed><br>";
+		$("#resultAudio").html(audio);
+	}
+
 	function output(resp) {
 		$("#result").empty();
 		var list = '';
@@ -243,11 +264,11 @@ i {
 	}
 
 	function cardDelete() {
- 		var sharedId = document.getElementById('sharedId').value;
+		var sharedId = document.getElementById('sharedId').value;
 		var loginId = '${m_id}';
 		if (sharedId == loginId) {
 			document.getElementById("sharedCardDeleteForm").submit();
-		} else{
+		} else {
 			alert('접근 권한이 없습니다');
 		}
 
@@ -326,21 +347,40 @@ i {
 										</dd>
 									</dl>
 								</li>
+
 								<li>
 									<dl class="list-terms-inline">
 										<dt>Shared by</dt>
 										<dd>${sharedCard.M_ID}</dd>
 									</dl>
 								</li>
+
 								<li>
-								
-									<form id="sharedCardDeleteForm" method="post" action="sharedCardDelete">
+									<dl class="list-terms-inline">
+										<a href="javascript:;" onclick="textToSpeech();"> <span
+											class="icon icon-md icon-primary fa-bullhorn"></span></a>
+										<input type="hidden"
+											value="${sharedCard.COMPANY }${sharedCard.DEPART}${sharedCard.POSITION}${sharedCard.NAME }"
+											id="textToSpeech">
+										<input type="hidden" value=${sharedCard.LANGUAGE }
+											id="language">
+
+									</dl>
+								</li>
+
+
+								<li>
+									<form id="sharedCardDeleteForm" method="post"
+										action="sharedCardDelete">
 										<input type="button" class="btn btn-info btn-xs"
-											value="공유 명함 삭제" onclick="cardDelete()">
-											<input type="hidden" id="sharedId" name="sharedId" value="${sharedCard.M_ID}">
-											<input type="hidden" id="shared_cardnum" name="shared_cardnum" value="${sharedCard.SHARED_CARDNUM }"> 
-											<input type="hidden" id="book_num" name="book_num" value="${sharedCard.BOOK_NUM}">
-											<input type="hidden" id="book_name" name="book_name" value="${book_name}">
+											value="공유 명함 삭제" onclick="cardDelete()"> <input
+											type="hidden" id="sharedId" name="sharedId"
+											value="${sharedCard.M_ID}"> <input type="hidden"
+											id="shared_cardnum" name="shared_cardnum"
+											value="${sharedCard.SHARED_CARDNUM }"> <input
+											type="hidden" id="book_num" name="book_num"
+											value="${sharedCard.BOOK_NUM}"> <input type="hidden"
+											id="book_name" name="book_name" value="${book_name}">
 									</form>
 								</li>
 							</ul>
@@ -432,15 +472,15 @@ i {
 							<div class="range">
 								<div class="cell-sm-6 cell-md-12" id="rightPanel">
 									<div id="map"></div>
-									<!-- 								<div class="offset-top-50">
-										<h6 class="text-uppercase">Menu</h6>
-										<ul class="list-marked-bordered offset-top-15">
-											<li><a href="#"><span>뒤로가기</span></a></li>
-											<li><a href="#"><span>Home</span></a></li>
-											<li><a href="#"><span>보유명함목록</span></a></li>
-											<li><a href="#"><span>공유명함첩목록</span></a></li>
-										</ul>
-									</div> -->
+									<!--                         <div class="offset-top-50">
+                              <h6 class="text-uppercase">Menu</h6>
+                              <ul class="list-marked-bordered offset-top-15">
+                                 <li><a href="#"><span>뒤로가기</span></a></li>
+                                 <li><a href="#"><span>Home</span></a></li>
+                                 <li><a href="#"><span>보유명함목록</span></a></li>
+                                 <li><a href="#"><span>공유명함첩목록</span></a></li>
+                              </ul>
+                           </div> -->
 									<div class="offset-top-50">
 										<h6 class="text-uppercase">Top Ranking</h6>
 										<div class="offset-top-30">
@@ -486,6 +526,7 @@ i {
 		</section>
 		</main>
 	</div>
+	<div id="resultAudio"></div>
 	<div id="form-output-global" class="snackbars"></div>
 	<script src="js/core.min.js"></script>
 	<script src="js/script.js"></script>
