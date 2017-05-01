@@ -48,4 +48,8 @@ public interface SharingDAO {
 
 	public int newMessage(String id);
 
+	public int cardBooksDelete(CardBooks card) throws Exception;
+
+	public int sharedCardDeleteByBook_Master(CardBooks card) throws Exception;
+
 }

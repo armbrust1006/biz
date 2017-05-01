@@ -524,6 +524,42 @@ textArea:focus {
 										<span>경유 설정</span>
 									</button>
 									<!-- 지도 끝 -->
+									<br> <br>
+									<article class="comment">
+										<div class="unit-body">
+											<div class="comment-body">
+												<div class="comment-body-header">
+													<div class="comment-meta">
+														<p class="user">제목입니다.</p>
+														<a href="#" class="link-group"><span
+															class="icon icon-xxs-smaller icon-dusty-gray mdi mdi-comment-outline"></span><span>삭제</span></a>
+														<div class="object-inline">
+															<time datetime="2016-02-16">Feb 16, 7:42 PM</time>
+															<span
+																class="icon icon-xxs-smaller icon-dusty-gray mdi mdi-clock"></span>
+														</div>
+													</div>
+												</div>
+												<div class="comment-body-text">
+													<p>인경누나! <br>명함 삭제하면 이 명함에 작성했던 메모도 삭제해주시기 바랍니다.(테이블 구조를 변경하던가 쿼리로 삭제해야 합니다.)</p>
+												</div>
+												<div class="comment-time">
+													<div class="object-inline">
+														<span
+															class="icon icon-xxs-smaller icon-dusty-gray mdi mdi-clock"></span>
+														<time>Start: 날짜넣기</time>
+
+													</div>
+													<div class="object-inline">
+														<span
+															class="icon icon-xxs-smaller icon-dusty-gray mdi mdi-clock"></span>
+														<time>End: 날짜넣기</time>
+													</div>
+												</div>
+											</div>
+										</div>
+									</article>
+
 									<div id="resultAudio"></div>
 								</div>
 								<div class="product-body">
@@ -534,9 +570,10 @@ textArea:focus {
 										${selectedCard.name}&nbsp;${selectedCard.position} <a
 											href="javascript:;" onclick="textToSpeech();"> <span
 											class="icon icon-md icon-primary fa-bullhorn"></span></a> <input
-											type="hidden" value="${selectedCard.company }${selectedCard.depart}${selectedCard.position}${selectedCard.name }" id="textToSpeech">
-										<input type="hidden" value=${selectedCard.language }
-											id="language">
+											type="hidden"
+											value="${selectedCard.company }${selectedCard.depart}${selectedCard.position}${selectedCard.name }"
+											id="textToSpeech"> <input type="hidden"
+											value=${selectedCard.language } id="language">
 
 										<button type="button" class="button"
 											style="vertical-align: middle" data-toggle="modal"

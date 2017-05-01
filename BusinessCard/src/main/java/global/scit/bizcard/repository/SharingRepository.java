@@ -204,18 +204,37 @@ public class SharingRepository {
 		return 0;
 	}
 
+	public int sharedCardDeleteByBook_Master(CardBooks card) {
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.sharedCardDeleteByBook_Master(card);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int cardBooksDelete(CardBooks card) {
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.cardBooksDelete(card);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 	public int newMessage(String id) {
 		SharingDAO dao = sql.getMapper(SharingDAO.class);
-		
+
 		try {
 			return dao.newMessage(id);
-		} catch(Exception e){
-			
+		} catch (Exception e) {
+
 		}
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	
 
 }

@@ -116,8 +116,8 @@
 		#{book_num}
 		)
 	</insert>
-	
-	
+
+
 	<select id="messageList" parameterType="String" resultType="Message">
 		SELECT
 		TARGETID, SENDER, MESSAGE, OPENDATE, TYPE,
@@ -177,12 +177,7 @@
 		)
 	</insert>
 
-	<delete id="leaveRoom" parameterType="CardBooks">
-		delete bookmembers
-		where
-		m_id = #{m_id} and
-		book_num = #{book_num}
-	</delete>
+
 
 
 	<select id="getRoomCards" resultType="CardImage" parameterType="Integer">
@@ -231,15 +226,43 @@
 		message = #{message}
 	</delete>
 
+	<delete id="sharedCardDeleteByBook_Master" parameterType="CardBooks">
+		delete
+		sharedcard
+		where book_num = #{book_num}
+	</delete>
+
+	<delete id="leaveRoom" parameterType="CardBooks">
+		delete bookmembers
+		where
+		<choose>
+			<when test="m_id != null">
+				m_id = #{m_id} and
+			</when>
+		</choose>
+		book_num = #{book_num}
+	</delete>
+
+	<delete id="cardBooksDelete" parameterType="CardBooks">
+		delete cardBooks
+		where book_num = #{book_num}
+	</delete>
+
 	<delete id="sharedCardDelete" parameterType="int">
 		delete sharedcard
 		where shared_cardnum = #{shared_cardnum}
 	</delete>
+
+
+
+
+
 	<select id="newMessage" parameterType="String" resultType="Integer">
-		select count(sender) from Message 
-		where TARGETID=#{id} and 
-		opendate is null
-		
+		select count(sender) from Message
+		where TARGETID=#{id} and
+		opendate is
+		null
+
 	</select>
 
 

@@ -1,38 +1,33 @@
 package global.scit.bizcard.vo;
 
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class Note {
-	
-	/*@JsonFormat (shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")*/
-	
+
+	/* @JsonFormat (shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd") */
+
 	private String m_id;
 	private int cardnum;
+	private String startDate;
+	private String endDate;
 	private String inputdate;
-	private String start;
-	private String end;
 	private String title;
-	private String color;
-	
+	private String content;
+	private String chk;
+
 	public Note() {
 	}
 
-	
-	
-	public Note(String m_id, int cardnum, String inputdate, String start, String end, String title, String color) {
+	public Note(String m_id, int cardnum, String startDate, String endDate, String inputdate, String title,
+			String content, String chk) {
 		super();
 		this.m_id = m_id;
 		this.cardnum = cardnum;
+		this.startDate = startDate;
+		this.endDate = endDate;
 		this.inputdate = inputdate;
-		this.start = start;
-		this.end = end;
 		this.title = title;
-		this.color = color;
+		this.content = content;
+		this.chk = chk;
 	}
-
-
 
 	public String getM_id() {
 		return m_id;
@@ -50,28 +45,28 @@ public class Note {
 		this.cardnum = cardnum;
 	}
 
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
 	public String getInputdate() {
 		return inputdate;
 	}
 
 	public void setInputdate(String inputdate) {
 		this.inputdate = inputdate;
-	}
-
-	public String getStart() {
-		return start;
-	}
-
-	public void setStart(String start) {
-		this.start = start;
-	}
-
-	public String getEnd() {
-		return end;
-	}
-
-	public void setEnd(String end) {
-		this.end = end;
 	}
 
 	public String getTitle() {
@@ -82,25 +77,26 @@ public class Note {
 		this.title = title;
 	}
 
-
-	public String getColor() {
-		return color;
+	public String getContent() {
+		return content;
 	}
 
-
-	public void setColor(String color) {
-		this.color = color;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
+	public String getChk() {
+		return chk;
+	}
 
+	public void setChk(String chk) {
+		this.chk = chk;
+	}
 
 	@Override
 	public String toString() {
-		return "Note [m_id=" + m_id + ", cardnum=" + cardnum + ", inputdate=" + inputdate + ", start=" + start
-				+ ", end=" + end + ", title=" + title + ", color=" + color + "]";
+		return "Note [m_id=" + m_id + ", cardnum=" + cardnum + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", inputdate=" + inputdate + ", title=" + title + ", content=" + content + ", chk=" + chk + "]";
 	}
 
-
-	
-	
 }

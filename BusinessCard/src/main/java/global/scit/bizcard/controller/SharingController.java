@@ -82,6 +82,8 @@ public class SharingController {
 		model.addAttribute("book_num", book_num);
 		model.addAttribute("book_name", book_name);
 		model.addAttribute("roomList", roomList);
+		String book_master = (String) roomList.get(0).get("BOOK_MASTER");
+		model.addAttribute("book_master", book_master);
 		return "sharingCards/selectOneRoom";
 	}
 
@@ -156,9 +158,26 @@ public class SharingController {
 	// 탈퇴 하기 기능
 	@RequestMapping(value = "/leaveRoom", method = RequestMethod.POST)
 	public String withdrawal(CardBooks card, HttpSession session) {
+		System.out.println("leaveRoom: " + card.toString());
 		String m_id = (String) session.getAttribute("m_id");
-		card.setM_id(m_id);
-		SharingRepository.leaveRoom(card);
+		// 1.book_master가 탈퇴할 경우
+		if (card.getBook_master().equals(m_id)) {
+			// 1-a. 공유된 명함 삭제
+			SharingRepository.sharedCardDeleteByBook_Master(card);
+
+			// 1-b. 멤버 삭제
+			SharingRepository.leaveRoom(card);
+
+			// 1-c. 공유방 삭제
+			SharingRepository.cardBooksDelete(card);
+
+			
+		} else {
+			// 2. 일반 멤버가 탈퇴할 경우
+			card.setM_id(m_id);
+			SharingRepository.leaveRoom(card);
+		}
+
 		return "redirect:sharingRoom";
 	}
 
@@ -182,15 +201,6 @@ public class SharingController {
 		String loginId = (String) session.getAttribute("m_id");
 		if (loginId.equals(sharedId)) {
 			SharingRepository.sharedCardDelete(shared_cardnum);
-			/*
-			 * attributes.addFlashAttribute("book_num", book_num);
-			 * attributes.addFlashAttribute("book_name", book_name);
-			 * ModelAndView mav = new ModelAndView(); RedirectView redirectView
-			 * = new RedirectView(); redirectView.setUrl("selectOneRoom");
-			 * redirectView.setExposeModelAttributes(false);
-			 * mav.addObject("book_num", book_num); mav.addObject("book_name",
-			 * book_name);
-			 */
 			try {
 				book_name = URLEncoder.encode(book_name, "UTF-8");
 			} catch (UnsupportedEncodingException e) {
