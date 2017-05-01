@@ -2,18 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="global.scit.bizcard.dao.BoardDAO">
 
-<insert parameterType="map" id="insertB"> insert into board (book_num, boardnum, m_id, board_title, board_content, inputdate, board_hits) values( #{booknum},board_seq.nextval,#{id},#{board_title},#{board_content},default,default ) </insert>
+<insert id="insertB" parameterType="map">
+insert into board
+(book_num, boardnum, m_id, board_title, board_content, inputdate, board_hits)
+ values(
+#{booknum},board_seq.nextval,#{id},#{board_title},#{board_content},default,default
+)
+</insert>
 
-<select parameterType="int" id="listB" resultType="Board"> select * from board where book_num = #{book_num} order by boardnum desc </select>
+<select id="listB" parameterType="int" resultType="Board">
+select *
+from board
+where book_num = #{book_num}
+order by boardnum desc
+</select> 
 
-<select parameterType="int" id="readB" resultType="Board"> select * from board where boardnum=#{boardnum} </select>
+<select id="readB" parameterType="int" resultType="Board">
+select *
+from board
+where boardnum=#{boardnum}
+</select>
 
-<delete parameterType="map" id="deleteB"> delete from board where boardnum=#{boardnum} and book_num=#{book_num} </delete>
+<delete id="deleteB" parameterType="map">
+delete from board where boardnum=#{boardnum} and book_num=#{book_num}
+</delete>
 
-<update parameterType="map" id="updateB"> update board set BOARD_CONTENT= #{content} where boardnum=#{boardnum} and book_num=#{book_num} </update>
+<update id="updateB" parameterType="map">
+update board set BOARD_CONTENT= #{content} where boardnum=#{boardnum} and book_num=#{book_num}
+</update>
 
+<update id="updateHits" parameterType="int">
+update board set board_hits=#{1}
+where boardnum=#{0}
+</update>
 
 </mapper>
-
-
-

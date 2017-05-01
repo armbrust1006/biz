@@ -52,8 +52,6 @@ DROP SEQUENCE board_seq;
 DROP SEQUENCE cardbooks_seq;
 DROP SEQUENCE shared_cardnum_seq;
 
-/* 이 밑부터 테이블 생성 */
-
 /* 회원정보 */
 CREATE TABLE Member (
    m_id VARCHAR2(20) NOT NULL, /* 아이디 */
@@ -92,6 +90,13 @@ CREATE TABLE Card (
    logoimg VARCHAR2(1000), /* 로고 */
    imgOriginal VARCHAR2(2000) /* 로고 원본 이름 */
 );
+
+ALTER TABLE Card
+   ADD
+      CONSTRAINT PK_Card
+      PRIMARY KEY (
+         cardnum
+      );
 
 ALTER TABLE Card
    ADD
@@ -175,14 +180,15 @@ ALTER TABLE Reply
 
 /* 명함 메모 */
 CREATE TABLE CardNote (
-   cardnum NUMBER NOT NULL, /* 일련번호 */
    m_id VARCHAR2(20) NOT NULL, /* 아이디 */
+   cardnum NUMBER NOT NULL, /* 일련번호 */
+   startdate DATE NOT NULL, /* 이벤트시작 */
+   enddate DATE NOT NULL, /* 이벤트종료 */
    inputdate DATE DEFAULT sysdate
  NOT NULL, /* 등록날짜 */
-   startdate DATE, /* 이벤트시작 */
-   enddate DATE, /* 이벤트종료 */
-   title VARCHAR2(1000) NOT NULL, /* 내용 */
-   color VARCHAR2(2000) NOT NULL /* 구분 */
+   title VARCHAR2(1000) NOT NULL, /* 제목 */
+   content VARCHAR2(2000), /* 내용 */
+   chk VARCHAR2(2) NOT NULL /* 구분 */
 );
 
 /* 메시지 */
@@ -213,20 +219,6 @@ ALTER TABLE Board
       PRIMARY KEY (
          boardnum
       );
-
-/* OCR매칭정보 */
-CREATE TABLE OCRMachining (
-   mach VARCHAR2(50), /* 명함 판별 */
-   name VARCHAR2(50), /* 이름 */
-   company VARCHAR2(50), /* 회사명 */
-   depart VARCHAR2(20), /* 부서 */
-   position VARCHAR2(20), /* 직위 */
-   address VARCHAR2(255), /* 주소 */
-   email VARCHAR2(40), /* 이메일 */
-   telephone VARCHAR2(30), /* 전화번호 */
-   fax VARCHAR2(30), /* 팩스 */
-   mobile VARCHAR2(30) /* 휴대폰 */
-);
 
 /* 명함첩 회원 */
 CREATE TABLE BookMembers (
@@ -377,9 +369,12 @@ ALTER TABLE BookMembers
          m_id
       );
       
+           
 /* 시퀸스 */
 CREATE SEQUENCE cardnum_seq;
 CREATE SEQUENCE replynum_seq;
 CREATE SEQUENCE board_seq;
 CREATE SEQUENCE cardbooks_seq;
 CREATE SEQUENCE shared_cardnum_seq;
+
+commit

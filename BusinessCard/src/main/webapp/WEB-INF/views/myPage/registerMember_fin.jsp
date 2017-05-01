@@ -250,7 +250,7 @@
 </head>
 <!-- body 배경화면 이미지크기 1920x900 -->
 
-<body style="background-image: url(images/register_BG.jpg);"
+<body style="background-image: url(images/register_BG.jpg);background-attachment: fixed;"
    class="one-screen-page bg-gray-darker bg-image">
 
    <div class="modal fade" id="myModal">
@@ -280,8 +280,8 @@
    <div class="page">
       <div class="page-inner">
          <header class="page-head">
-            <div class="divider-spectrum"></div>
-            <div class="page-head-inner">
+           <!--  <div class="divider-spectrum"></div> -->
+            <div class="page-head-inner" style=" margin-bottom: -41px;">
                <div class="shell text-center">
                   <a href="./" class="brand brand-md"> <img
                      src="images/logo-white.png" width="200" height="22" alt="logo" /></a>
@@ -308,7 +308,7 @@
                                     data-constraints="@Required"
                                     class="form-control form-control-has-validation"
                                     placeholder="ID"> <span id="idcheck"
-                                    style="color: red"></span> <label for="userid"
+                                    style="color: red;"></span> <label for="userid"
                                     class="form-validation"></label>
                               </div>
                               <div class="form-group offset-top-22">
@@ -370,7 +370,7 @@
                   </div>
                </div>
             </div>
-            <div class="divider-spectrum"></div>
+            <!-- <div class="divider-spectrum"></div> -->
          </footer>
       </div>
    </div>

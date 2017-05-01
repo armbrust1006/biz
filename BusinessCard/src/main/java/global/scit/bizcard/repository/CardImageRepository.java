@@ -116,6 +116,7 @@ public class CardImageRepository implements CardImageDAO {
 	      }
 	      return result;
 	   }
+	   
 
 	@Override
 	public int updateCardImage(CardImage cardImage) {
@@ -138,7 +139,7 @@ public class CardImageRepository implements CardImageDAO {
 	      }
 	      return 0;
 	   }
-	
+
 	
 	
 }

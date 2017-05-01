@@ -63,10 +63,10 @@ public class CardRepository implements CardDAO {
 	}
 
 	@Override
-	public int share(String m_id, int book_num, int cardnum) {
+	public int share(int book_num, int cardnum, String m_id) {
 		CardDAO dao = sqlsession.getMapper(CardDAO.class);
 		try {
-			return dao.share(m_id, book_num, cardnum);
+			return dao.share(book_num, cardnum, m_id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -104,6 +104,28 @@ public class CardRepository implements CardDAO {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	@Override
+	public String myAddress(String m_id) {
+		CardDAO dao = sqlsession.getMapper(CardDAO.class);
+		try {
+			return dao.myAddress(m_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Card> addStop(String m_id) {
+		CardDAO dao = sqlsession.getMapper(CardDAO.class);
+		try {
+			return dao.addStop(m_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

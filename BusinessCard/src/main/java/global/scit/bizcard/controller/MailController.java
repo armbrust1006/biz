@@ -43,14 +43,9 @@ public class MailController {
      @RequestMapping(value="sendMail", method=RequestMethod.POST)
      public int sendMail(String my_id, String my_Password, String user, String title, String message, HttpSession session, Model model)
      {
-   	   int result= SendMail.sendResult(my_id, my_Password, user, title, message);
-   	   
+		int result= SendMail.sendResult(my_id, my_Password, user, title, message);
    	   System.out.println(result+"메일컨트롤러에서 보내는 result값");
    	   model.addAttribute("result", result);
    	   return result;
-   	   
      }
-	
-	
-	
 }

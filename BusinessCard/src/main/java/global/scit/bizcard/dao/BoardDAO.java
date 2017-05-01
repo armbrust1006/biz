@@ -12,4 +12,5 @@ public interface BoardDAO {
 	public Board readB(int boardnum);
 	public int deleteB(HashMap<String, Object> map);
 	public int updateB(HashMap<String, Object> map);
+	public void updateHits(int boardnum, int hits);
 }
