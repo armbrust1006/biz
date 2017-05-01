@@ -109,6 +109,29 @@ i {
 		});
 	}
 
+	function textToSpeech() {
+		var textToSpeech = $("#textToSpeech").val();
+		var language = $("#language").val();
+		$.ajax({
+			type : "post",
+			url : "listen",
+			data : {
+				"textToSpeech" : textToSpeech,
+				"language" : language
+			},
+			success : listen
+		});
+	}
+	
+	function listen(resp) {
+		var audio = '';
+		audio = "<embed src="+resp+" autostart='true' allowscriptaccess='always'"+
+			"enablehtmlaccess='true' allowfullscreen='true' width='0' height='0' type='video/mp4'></embed><br>";
+		$("#resultAudio").html(audio);
+	}
+	
+	
+	
 	function output(resp) {
 		$("#result").empty();
 		var list = '';
@@ -304,7 +327,7 @@ i {
 							<div class="post-image">
 								<figure>
 									<img src=downloadImage?card=${sharedCard.IMAGEPATH} alt=''
-										width='400' height='200' />
+										width='400' height='200' style="border: 1px solid;border-radius: 5px;" />
 								</figure>
 							</div>
 					</div>
@@ -332,6 +355,17 @@ i {
 										<dd>${sharedCard.M_ID}</dd>
 									</dl>
 								</li>
+								
+								<li>
+								<dl class="list-terms-inline">
+								
+								<a href="javascript:;" onclick="textToSpeech();"> 
+								<span class="icon icon-md icon-primary fa-bullhorn"></span></a> 
+								<input type="hidden" value="${sharedCard.COMPANY }${sharedCard.DEPART}${sharedCard.POSITION}${sharedCard.NAME }" id="textToSpeech">
+								<input type="hidden" value=${sharedCard.LANGUAGE } id="language">
+								
+								</dl>
+								</li>
 								<li>
 								
 									<form id="sharedCardDeleteForm" method="post" action="sharedCardDelete">
@@ -341,6 +375,7 @@ i {
 											<input type="hidden" id="shared_cardnum" name="shared_cardnum" value="${sharedCard.SHARED_CARDNUM }"> 
 											<input type="hidden" id="book_num" name="book_num" value="${sharedCard.BOOK_NUM}">
 											<input type="hidden" id="book_name" name="book_name" value="${book_name}">
+											
 									</form>
 								</li>
 							</ul>
@@ -400,7 +435,7 @@ i {
 							<div
 								class="comment-list inset-sm-right-60 inset-md-right-30 inset-lg-right-100 offset-top-30">
 							</div>
-							<div id="result"></div>
+							
 						</div>
 						<div class="offset-top-40 offset-sm-top-60">
 							<div
@@ -471,6 +506,7 @@ i {
 													<div class="unit-body" id="ranking">
 														<div class="post-header">
 															${replyCount.M_ID}님<br> ${replyCount.REPLYCOUNT}개 댓글
+															<div id="resultAudio"></div>
 														</div>
 													</div>
 												</div>

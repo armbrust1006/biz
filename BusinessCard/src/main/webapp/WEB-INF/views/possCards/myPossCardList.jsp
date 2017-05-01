@@ -85,7 +85,7 @@
 				<input type="button" class="btn btn-sm btn-primary" id="name" value="이름순">
 				<input type="button" class="btn btn-sm btn-primary" id="company" value="회사이름순">
 				
-				<div class="range offset-top-40" id="list" style="margin-top:-20px;margin-bottom: 50px;">
+				 <div class="range offset-top-40" id="list" style="margin-top:-20px;margin-bottom: 50px;"> 
 					<!-- 여기서부터 for문 돌리기 -->
 					<%-- <c:forEach items="${list}" var="getCard">
 						<div class="cell-xs-6 cell-sm-4 cell-md-4">

@@ -36,9 +36,9 @@ public class HomeController {
 	public String about(HttpSession session) {
 		String id = (String) session.getAttribute("m_id");
 		if (id != null) {
-			return "home/about-us-user";
+			return "home/about-us";
 		}
-		return "home/about-us";
+		return "home/about-us-user";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
