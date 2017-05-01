@@ -513,7 +513,7 @@
 	function getSharedCard() {
 		console.log("image");
 		var booknums = document.getElementById("book_num").value;
-		
+
 		$.ajax({
 			method : "post",
 			url : "getRoomCard",
@@ -536,14 +536,19 @@
 		var div = document.getElementById("tabs-1-1");
 		var htmlText = "";
 		for (var i = 0; i < res.length; i++) {
-			htmlText += "<a href='sharedCard?cardnum=" + res[i].cardNum
-					+ "&book_num=" + book_num
-					+ "&book_name="+ book_name
-					+ "'><img src=downloadImage?card=" + res[i].imagePath
-					+ " alt='' width='400' height='200' /></a>";
+			htmlText += "<a href='sharedCard?cardnum="
+					+ res[i].cardNum
+					+ "&book_num="
+					+ book_num
+					+ "&book_name="
+					+ book_name
+					+ "'><img src=downloadImage?card="
+					+ res[i].imagePath
+					+ " alt='' width='400' height='200' style='margin:30px; width: 300px; height: 150px; border: 1px outset black; border-radius: 5px;' /></a>";
 			//+"<input type='button' class='btn btn-primary btn-sm' value='이름넣기'>";
 		}
 		div.innerHTML = htmlText;
+
 	}
 
 	//탈퇴
@@ -566,17 +571,19 @@
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h5 class="modal-title">탈퇴하시겠습니까?</h5><br>
-						<h6>매니저가 탈퇴할 경우 공유 명함첩의 모든 정보가 삭제됩니다.
-						<br>공유 명함첩 매니저: ${book_master}</h6>
-						
+						<h5 class="modal-title">탈퇴하시겠습니까?</h5>
+						<br>
+						<h6>
+							매니저가 탈퇴할 경우 공유 명함첩의 모든 정보가 삭제됩니다. <br>공유 명함첩 매니저:
+							${book_master}
+						</h6>
+
 						<input type="hidden" value="${book_num}" id="book_num"
-							name="book_num">
-						<input type="hidden" value="${book_master}" id="book_master"
-							name="book_master">
-						<input type="button" class="btn btn-primary-outline btn-shadow" data-dismiss="modal"
-							value="취소">
-						<input type="submit" class="btn btn-primary btn-shadow" id="writeMemo" value="확인">
+							name="book_num"> <input type="hidden"
+							value="${book_master}" id="book_master" name="book_master">
+						<input type="button" class="btn btn-primary-outline btn-shadow"
+							data-dismiss="modal" value="취소"> <input type="submit"
+							class="btn btn-primary btn-shadow" id="writeMemo" value="확인">
 					</form>
 				</div>
 			</div>
@@ -593,10 +600,10 @@
 			<div class="shell">
 				<div class="range range-sm-center">
 					<div class="cell-xs-12 text-center">
-						<h3>${book_name} 공유명함첩</h3>
+						<h3>${book_name}공유명함첩</h3>
 						<input type="hidden" value="${book_num}" id="book_num"
-							name="book_num">
-						<input type="hidden" value="${book_name}" id="book_name" name="book_name">	
+							name="book_num"> <input type="hidden"
+							value="${book_name}" id="book_name" name="book_name">
 					</div>
 					<div class="cell-lg-25 offset-top-50">
 						<div id="tabs-1"
@@ -697,7 +704,7 @@
 										style="vertical-align: middle" data-toggle="modal"
 										data-target="#withdrawalForm" data-whatever="@mdo"
 										id="deleteRoom">
-										<span>탈퇴하기  </span>
+										<span>탈퇴하기 </span>
 									</button>
 								</div>
 							</div>
