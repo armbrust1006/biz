@@ -121,11 +121,11 @@
 		var msg = '<table class="table table-primary">';
 		msg += "<thead>";
 		msg += "<tr>";
-		msg += "<th>Target</th>";
-		msg += "<th>Text</th>";
-		msg += "<th>SendDate</th>";
-		msg += "<th>ReadDate</th>";
-		msg += "<th>Type</th>";
+		msg += "<th>받는사람</th>";
+		msg += "<th>내용</th>";
+		msg += "<th>보낸날짜</th>";
+		msg += "<th>확인날짜</th>";
+		msg += "<th>구분</th>";
 		msg += "</tr>";
 		msg += "</thead>";
 		$.each(resp, function(index, item) {
@@ -175,8 +175,8 @@
 		form += '</div>';
 		form += '</div>';
 		form += '</div>';
-		form += "<button type='submit' class='btn btn-primary'>보내기</button>"
-		form += "<button type='reset' class='btn btn-primary-outline'>다시쓰기</button>"
+		form += "<div class='group-lg group-middle group-sm offset-top-30 text-center'>";
+		form += "<button type='submit' class='btn btn-primary'>보내기</button><button type='reset' class='btn btn-primary-outline'>다시쓰기</button></div>";
 		form += '</form>';
 		$("#showMessage").html(form);
 	}
