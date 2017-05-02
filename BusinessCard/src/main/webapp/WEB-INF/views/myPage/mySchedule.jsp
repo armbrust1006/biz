@@ -64,7 +64,7 @@
 						if (data != null) {
 							for (var i = 0; i < data.length; i++) {
 								var chk = data[i].chk;
-								if (chk == "1") {
+								if (chk == "0") {
 									if (data[i].endDate != null) {
 										tempYear = data[i].endDate.substr(0, 4);
 										tempMonth = data[i].endDate
@@ -78,10 +78,12 @@
 										notenum : data[i].notenum,
 										id : "${sessionScope.m_id}",
 										cardnum : data[i].cardnum,
-										title : data[i].title,
 										start : data[i].startDate,
 										end : temp,
-										inputDate : data[i].inputdate,
+										inputDate : data[i].inputDate,
+										title : data[i].title,
+										content : data[i].content,
+										chk : data[i].chk,
 										editable : true,
 										color : '#0066ff',
 										textColor : 'white'
@@ -89,7 +91,7 @@
 									myList.push(mine);
 								}
 								;
-								if (chk == "0") {
+								if (chk == "1") {
 									if (data[i].endDate != null) {
 										tempYear = data[i].endDate.substr(0, 4);
 										tempMonth = data[i].endDate
@@ -111,6 +113,7 @@
 										inputDate : data[i].inputDate,
 										title : data[i].title,
 										content : data[i].content,
+										chk : data[i].chk,
 										editable : true,
 										color : '#ff5050',
 										textColor : 'white'
@@ -156,25 +159,24 @@
 			eventLimit : true, // allow "more" link when too many events
 			eventSources : [ myList, yourList ],
 			eventClick : function(calEvent, jsEvent, view) {
-				var day = calEvent.start;
-				alert(day);
-				var chk = calEvent.cardnum;
+				var chk = calEvent.chk;
+				alert(chk);
 				var line="";
-				if (chk != 0) {
+				if (chk != 0) { 	//내가 입력한게 0
 					$.ajax({
 						type : "POST",
 						url : "getCard",
 						data : {
-							"cardnum" : chk
+							"cardnum" : calEvent.cardnum
 						},
 						success : function(resp) {
 							if (resp!=0) {
 								$('#yourInputDate').val(calEvent.inputDate);
 								$('#yourStartDate').val(calEvent.start);
 								$('#yourEndDate').val(calEvent.end);
-								line += "<img src='downloadImage?card="+resp.imagePath+"' alt='' width='800' height='400' />";
+								line += "<img src='downloadImage?card="+resp.imagePath+"' alt='' style='width: 500px; height: 250px; border: 1px outset black; border-radius: 3px; margin:7px;' />";
 								line += "<span><label>내용</label></sapn><textarea name='yourContent' id='yourContent' data-constraints='@Required' class='form-control'";
-								line += "placeholder='Message' style='border:1px'>"+calEvent.content+"</textarea>";
+								line += "placeholder='Message' style='background-color:#ffe6e6;'>"+calEvent.content+"</textarea>";
 								line += "<input type='hidden' value='"+calEvent.notenum+"' id='delyourN' />";
 								$('#inputLines').html(line);
 								yourModal();
@@ -185,14 +187,15 @@
 						}
 					});
 				} else if(chk==0) {
-					$('#inputDate').val(calEvent.inputDate);
-					$('#startDate').val(calEvent.start);
-					$('#endDate').val(calEvent.end);
+					$('#myInputDate').val(calEvent.inputDate);
+					$('#myStartDate').val(calEvent.start);
+					$('#myEndDate').val(calEvent.end);
 					$('#resultTitle').val(calEvent.title);
 					line += "<span><label>내용</label></sapn><textarea name='myContent' id='myContent' data-constraints='@Required' class='form-control'";
-					line += "placeholder='Message' style='border:1px'>"+calEvent.content+"</textarea>";
+					line += "placeholder='Message' style='background-color:#cce0ff;'>"+calEvent.content+"</textarea>";
 					line += "<input type='hidden' value='"+calEvent.notenum+"' id='delmyN' />";
 					$('#innerHidden').html(line);
+					alert(calEvent.start);
 					myModal();
 				}
 
@@ -228,9 +231,9 @@
 				"endDate" : eDate,
 				"title" : title,
 				"content" : content,
-				"chk" : "1"
+				"chk" : "0"
 			};
-			if (sDate.length == 0 || eDate.length == 0 || title.length == 0) {
+			if (sDate.length == 0 || title.length == 0) { 
 				alert('일정과 제목을 확인하세요');
 				return false;
 			}
@@ -245,7 +248,6 @@
 						location.reload();
 					} else {
 						alert("일정 등록 실패");
-						return '0';
 					}
 				},
 				error : function() {
@@ -376,16 +378,16 @@
 						<div
 							class="cell-xs-4 offset-top-30 offset-xs-top-30 offset-sm-top-50">
 							<div class="form-group">
-								<label>작성일</label> <input type="text" id="inputDate" />
+								<label>작성일</label> <input type="text" id="myInputDate" />
 							</div>
 							<div class="form-group">
-								<label>일정 시작일</label> <input type="text" id="startDate" />
-								<label>일정 종료일</label> <input type="text" id="endDate" />
+								<label>시작일</label> <input type="text" id="myStartDate" />
+								<label>종료일</label> <input type="text" id="myEndDate" />
 							</div>
-							<div class="form-group">
+							<div class="form-group" style="margin-top:30px">
 								<label>제목</label> <input type="text" id="resultTitle" />
-								<div id="innerHidden"></div>
 							</div>
+								<div id="innerHidden"></div>
 						</div>
 						<!-- div cell 끝 -->
 					</div>
@@ -421,8 +423,8 @@
 								<label>작성일</label> <input type="text" id="yourInputDate"/>
 							</div>
 							<div class="form-group">
-								<label>일정 시작일</label> <input type="text" id="yourStartDate"/>
-								<label>일정 종료일</label> <input type="text" id="yourEndDate"/>
+								<label>시작일</label> <input type="text" id="yourStartDate"/>
+								<label>종료일</label> <input type="text" id="yourEndDate"/>
 							</div>
 						<div id="inputLines">
 							<!-- 여기 서버 불러온 내용 입력 -->

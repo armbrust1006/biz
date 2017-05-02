@@ -44,15 +44,11 @@ public class NoteController {
 	
 	
 	/**
-	 * @param start 변환할 시작 날짜
-	   @param end 변환할 종료 날짜
-	 * @param fromFormatString 변환될 포맷
-	 * @param toFormatString 변환할 포맷
-	 * @return 변환된 날짜 문자열
+	 * 내 일정 입력
 	 */
 	@ResponseBody
 	@RequestMapping (value="addNote", method=RequestMethod.POST)
-	public int formattedDate (Note note, Model model) {
+	public int addNote (Note note, Model model) {
 		Note newNote = new Note();
 		int result = 0;
 		
@@ -66,22 +62,41 @@ public class NoteController {
 					
 			System.out.println("보내기전 확인" + newNote.toString());
 			result = noteRPS.addNote(newNote);
+			System.out.println(result);
 		return result;
 	}
 	
 	/**
-	 * 
-	 * 날짜를 원하는 형태의 문자열로 반환합니다.
-	 * 
-	 * @param date 변환할 Date 인스턴스
-	 * @param format 변환할 포맷
-	 * @return 변환된 날짜 문자열
-	 *//*
-	public static String formattedDate(Date date, String format)
-	{
-		SimpleDateFormat toFormat = new SimpleDateFormat(format);
-		return toFormat.format(date);
+	 * 타인관련 일정 입력
+	 */
+	@ResponseBody
+	@RequestMapping (value="addYourNote", method=RequestMethod.POST)
+	public int addYourNote (Note note, Model model) {
+		Note newNote = new Note();
+		int result = 0;
+		
+			newNote.setM_id(note.getM_id());
+			newNote.setCardnum(note.getCardnum());
+			newNote.setStartDate(note.getStartDate());
+			newNote.setEndDate(note.getEndDate());
+			newNote.setTitle(note.getTitle());
+			newNote.setContent(note.getContent());
+			newNote.setChk(note.getChk());
+					
+			System.out.println("보내기전 확인 네것===>" + newNote.toString());
+			result = noteRPS.addYourNote(newNote);
+			System.out.println(result);
+		return result;
 	}
+
+	
+	/**
+	 * 
+	 * @param session
+	 * @param note
+	 * @param model
+	 * @return
+	 * 캘린더에 입력된 타인 명함관련 메모 클릭시 보여줄 타인 명함 정보
 	 */
 	@ResponseBody
 	@RequestMapping (value="getCard", method=RequestMethod.POST)
@@ -96,6 +111,8 @@ public class NoteController {
 		return yourCard;
 	}
 	
+	
+	/*캘린더 입력된 메모 삭제*/
 	@ResponseBody
 	@RequestMapping (value="delCardNote", method=RequestMethod.POST)
 	public int delCardNote(Note note) {

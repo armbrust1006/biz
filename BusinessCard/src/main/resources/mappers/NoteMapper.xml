@@ -5,17 +5,28 @@
 <select parameterType="String" resultType="Note" id="noteList"> 
 	select
 	notenum, m_id, cardnum, to_char(startdate, 'yyyy-MM-dd') as "startDate", to_char(enddate, 'yyyy-MM-dd') as "endDate", inputdate, title, content, chk
-	from cardnote_test where m_id=#{m_id}
+	from cardnote where m_id=#{m_id}
 </select>
 
 <insert parameterType="Note" id="addNote">
-	insert into CARDNOTE_TEST values(
+	insert into CARDNOTE values(
+	notenum_seq.nextval, #{m_id}, (select cardnum from cardimage where m_id=#{m_id} and cardtype='my'), #{startDate}, #{endDate}, sysdate, #{title}, #{content}, #{chk} 
+	)
+</insert>
+
+<insert parameterType="Note" id="addYourNote">
+	insert into CARDNOTE values(
 	notenum_seq.nextval, #{m_id}, #{cardnum}, #{startDate}, #{endDate}, sysdate, #{title}, #{content}, #{chk} 
 	)
 </insert>
 
 <delete id="deleteNote" parameterType="Note" >
-	delete cardnote_test where notenum=#{notenum}
+	delete cardnote where notenum=#{notenum}
 </delete>
+
+<delete id="deleteYourNote" parameterType="int">
+	delete cardnote where cardnum=#{cardnum}
+</delete>
+
 
 </mapper>

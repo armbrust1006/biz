@@ -36,7 +36,7 @@
 		<%@include file="../modules/header.jsp"%>
 
 		<main class="page-content bg-wrap"
-			style="background:url(images/temp_bg2.jpg);">
+			style="background:url(images/temp4.jpg);">
 
 
 

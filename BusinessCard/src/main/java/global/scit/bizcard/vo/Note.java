@@ -9,7 +9,7 @@ public class Note {
 	private int cardnum;
 	private String startDate;
 	private String endDate;
-	private String inputdate;
+	private String inputDate;
 	private String title;
 	private String content;
 	private String chk;
@@ -17,7 +17,7 @@ public class Note {
 	public Note() {
 	}
 
-	public Note(int notenum, String m_id, int cardnum, String startDate, String endDate, String inputdate, String title,
+	public Note(int notenum, String m_id, int cardnum, String startDate, String endDate, String inputDate, String title,
 			String content, String chk) {
 		super();
 		this.notenum = notenum;
@@ -25,7 +25,7 @@ public class Note {
 		this.cardnum = cardnum;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.inputdate = inputdate;
+		this.inputDate = inputDate;
 		this.title = title;
 		this.content = content;
 		this.chk = chk;
@@ -71,12 +71,12 @@ public class Note {
 		this.endDate = endDate;
 	}
 
-	public String getInputdate() {
-		return inputdate;
+	public String getInputDate() {
+		return inputDate;
 	}
 
-	public void setInputdate(String inputdate) {
-		this.inputdate = inputdate;
+	public void setInputDate(String inputdate) {
+		this.inputDate = inputdate;
 	}
 
 	public String getTitle() {
@@ -106,7 +106,7 @@ public class Note {
 	@Override
 	public String toString() {
 		return "Note [notenum=" + notenum + ", m_id=" + m_id + ", cardnum=" + cardnum + ", startDate=" + startDate
-				+ ", endDate=" + endDate + ", inputdate=" + inputdate + ", title=" + title + ", content=" + content
+				+ ", endDate=" + endDate + ", inputDate=" + inputDate + ", title=" + title + ", content=" + content
 				+ ", chk=" + chk + "]";
 	}
 

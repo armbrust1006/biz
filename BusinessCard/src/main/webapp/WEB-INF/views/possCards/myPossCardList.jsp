@@ -80,11 +80,11 @@
 		<main class="page-content">
 		<section class="section-lg-top-10 section-66 section-sm-bottom-90 section-lg-bottom-80" style="background-color: aliceblue;">
 			<div class="shell offset-top-60 offset-sm-top-20">
-				<div class="text-center" style="font-size:36px;font-weight:500">보유 명함 목록</div>
+				<div class="group-lg group-middle group-sm offset-top-30" >
 				<input type="button" class="btn btn-sm btn-primary" id="date" value="등록날짜순">
 				<input type="button" class="btn btn-sm btn-primary" id="name" value="이름순">
 				<input type="button" class="btn btn-sm btn-primary" id="company" value="회사이름순">
-				
+				</div>
 				<div class="range offset-top-40" id="list" style="margin-top:-20px;margin-bottom: 50px;">
 					<!-- 여기서부터 for문 돌리기 -->
 					<%-- <c:forEach items="${list}" var="getCard">
