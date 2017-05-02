@@ -36,9 +36,9 @@ public class HomeController {
 	public String about(HttpSession session) {
 		String id = (String) session.getAttribute("m_id");
 		if (id != null) {
-			return "home/about-us-user";
+			return "home/about-us";
 		}
-		return "home/about-us";
+		return "home/about-us-user";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -76,20 +76,24 @@ public class HomeController {
 			// 현택1. 보유 명함 수
 			int countMyCardIndex = 0;
 			countMyCardIndex = CardImageRepository.countMyCardIndex(id);
-			if (countMyCardIndex == 0) {
+			model.addAttribute("countMyCardIndex", countMyCardIndex);
+			
+			/*if (countMyCardIndex == 0) {
 				model.addAttribute("countMyCardIndex", "등록된 다른 사람 명함이 없다 이놈아");
 			} else {
 				model.addAttribute("countMyCardIndex", countMyCardIndex);
-			}
+			}*/
 
 			// 현택2. 가입한 공유 명함방 수
 			ArrayList<HashMap<String, Object>> bookList = new ArrayList<HashMap<String, Object>>();
 			bookList = SharingRepository.listCardBooks(id);
-			if (bookList.size() == 0) {
+			model.addAttribute("countMyCardBooks", bookList.size());
+			
+			/*if (bookList.size() == 0) {
 				model.addAttribute("countMyCardBooks", "가입하신 공유명함첩이 없습니다.");
 			} else {
 				model.addAttribute("countMyCardBooks", bookList.size());
-			}
+			}*/
 				
 			// 새로운 메세지
 			int newMessage = 0;

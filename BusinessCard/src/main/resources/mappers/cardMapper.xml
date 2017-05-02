@@ -181,7 +181,7 @@
 		where m_id=#{m_id}) </when> <when test="cardNum == 0"> and img.m_id=#{m_id} 
 		</when> </choose> </select> -->
 
-	<select id="shareCheck" resultType="_int">
+	<select id="shareCheck" resultType="int">
 		select book_num
 		from
 		sharedcard

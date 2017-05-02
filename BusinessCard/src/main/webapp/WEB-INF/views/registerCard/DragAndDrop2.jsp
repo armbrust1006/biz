@@ -18,81 +18,86 @@
 .list-wide-bordered li {
 	min-height: 35px;
 	padding: 6px 0px;
-	font-size: 13px;
 }
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-	var canvas = null;
-	var ctx = null;
-	var topSize = 0;
-	var startX = 0;
-	var startY = 0;
+   var canvas = null;
+   var ctx = null;
+   var startX = 0;
+   var startY = 0;
     var img = new Image();
-	var items = [];
-	var selectItem = -1;
-	var layout_num = -1;
-	
-	window.onload = function() {
-		layout_num = document.getElementById("myCanvas").value;
-		canvas = document.getElementById("myCanvas");
-		ctx = canvas.getContext("2d");
-		topSize = document.getElementById("topSize").offsetTop;
-		
-		document.getElementById("reset").onclick = canvasClear;
-		document.getElementById("cardView").onclick = cardView;
-		document.getElementById("creatCard").onclick = imageSave;
+   var items = [];
+   var selectItem = -1;
+   var layout_num = -1;
+   
+   window.onload = function() {
+      layout_num = document.getElementById("myCanvas").value;
+      canvas = document.getElementById("myCanvas");
+      ctx = canvas.getContext("2d");
+      
+      document.getElementById("reset").onclick = canvasClear;
+      document.getElementById("cardView").onclick = cardView;
+      document.getElementById("creatCard").onclick = imageSave;
 
-		canvas.addEventListener("mousedown", function (e) {
-		 	e.preventDefault();
-		 	startX = e.pageX - this.offsetLeft;
-		    startY = e.pageY - (this.offsetTop + topSize); 
-		    for (var i = 0; i < items.length; i++) {
-		        if (hitItem(startX, startY, i)) {
-		        	selectItem = i;
-			        console.log(selectItem);
-		        }
-		    }
-	    }, true);
-	 
-		canvas.addEventListener("mousemove", function (e) {
-	        if (selectItem < 0) {
-	            return;
-	        }
-	       
-	        e.preventDefault();
-	        mouseX = e.pageX - this.offsetLeft;
-	        mouseY = e.pageY - (this.offsetTop + topSize);
+      canvas.addEventListener("mousedown", function (e) {
+          e.preventDefault();
+          console.log(this);
+          //startX = e.layerX - this.offsetLeft;
+          //startY = e.layerY - (this.offsetTop+10);
+          console.log(this.offsetLeft);
+          console.log(e.layerX);
+          console.log(e.layerX + this.offsetLeft);
+          console.log(e.layerY + this.offsetTop);
+          startX = canvas.offsetTop;
+          startY = canvas.offsetTop;
+          for (var i = 0; i < items.length; i++) {
+              if (hitItem(startX, startY, i)) {
+                 selectItem = i;
+                 console.log(selectItem);
+              }
+          }
+       }, true);
+    
+      document.addEventListener("mousemove", function (e) {
+           if (selectItem < 0) {
+               return;
+           }
+           e.preventDefault();
+           mouseX = e.clientX -canvas.offsetLeft;
+           mouseY = e.clientY - (canvas.offsetTop+10);
+           console.log(mouseX);
+           console.log(mouseY);
 
            var dx = mouseX - startX;
            var dy = mouseY - startY;
            startX = mouseX;
            startY = mouseY;
 
-	        var item = items[selectItem];
-	        item.x += dx;
-	        item.y += dy;
-	        draw();
-	    }, true);
-	    
-		canvas.addEventListener("mouseup", function (e) {
-	    	e.preventDefault();
-	    	selectItem = -1;
-	    }, true);
-	    
-		canvas.addEventListener("mouseout", function (e) {
-    	 	e.preventDefault();
-    	    selectedText = -1;
-	    });
-	}
-	
-	function hitItem(x, y, itemIndex) {
-	    var item = items[itemIndex];
-	    if(item.type =="image"){
-	    	return (x >= item.x && x <= item.x + item.width && y >= item.y && y <= item.y + item.height);
-	    }
-	    return (x >= item.x && x <= item.x + item.width && y >= item.y - item.height && y <= item.y);
-	}
+           var item = items[selectItem];
+           item.x += dx;
+           item.y += dy;
+           draw();
+       }, true);
+       
+      document.addEventListener("mouseup", function (e) {
+          e.preventDefault();
+          selectItem = -1;
+       }, true);
+       
+      document.addEventListener("mouseout", function (e) {
+           e.preventDefault();
+           selectedText = -1;
+       });
+   }
+   
+   function hitItem(x, y, itemIndex) {
+       var item = items[itemIndex];
+       if(item.type =="image"){
+          return (x >= item.x && x <= item.x + item.width && y >= item.y && y <= item.y + item.height);
+       }
+       return (x >= item.x && x <= item.x + item.width && y >= item.y - item.height && y <= item.y);
+   }
 
    /* 명함 clear */
    function canvasClear(){
@@ -287,8 +292,7 @@
 				</div>
 			</div>
 		</section>
-		<section class="section-60 section-sm-top-90 section-sm-bottom-100"
-			id="topSize">
+		<section class="section-60 section-sm-top-90 section-sm-bottom-100">
 			<div class="shell">
 				<div class="range">
 					<div class="cell-md-9 cell-lg-7">
@@ -383,7 +387,7 @@
 									<div id="selLan" style="font-size: 20px">
 										<ul class="list-wide-bordered">
 											<li><label class="radio-inline"> <input
-													id="language" type="radio" name="language" value="eng" checked
+													id="language" type="radio" name="language" value="eng"
 													class="radio-custom"><span
 													class="radio-custom-dummy"></span> English
 											</label><label class="radio-inline"> <input id="language"

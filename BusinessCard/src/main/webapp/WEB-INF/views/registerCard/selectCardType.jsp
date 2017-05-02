@@ -99,7 +99,7 @@
 			class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
 			<div class="shell">
 				<div class="page-title">
-					<h2>Select My Card Type</h2>
+					<h2>Select ${cardType} Card Type</h2>
 				</div>
 			</div>
 		</section>
@@ -107,7 +107,7 @@
 		<section class="section-30 section-sm-100 section-lg-100">
 			<div class="shell">
 				<div class="range range-sm-center range-md-left">
-					<c:forEach begin="0" end="6" step="1" var="layout">
+					<c:forEach begin="0" end="5" step="1" var="layout">
 						<div class="cell-sm-9 cell-md-6 height-fill offset-top-30">
 						
 							<div class="view fifth-effect">
