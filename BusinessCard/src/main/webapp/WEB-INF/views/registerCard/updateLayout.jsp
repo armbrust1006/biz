@@ -19,6 +19,15 @@
 .list-wide-bordered li {
 	min-height: 35px;
 	padding: 6px 0px;
+	font-size: 13px;
+}
+
+#downbutton input[type=button] {
+	padding: 6px 90px;
+}
+
+#nologo {
+	background-color: #fe4a21;
 }
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
@@ -28,11 +37,11 @@
 		r.className = r.className.replace(/(^|\s)no-js(\s|$)/, "$1js$2")
 	})(document, window, 0);
 
-	var canvas;
-	var context;
-	var file;
-	var reader;
-	var layout_num;
+	var canvas = null;
+	var context = null;
+	var file = null;
+	var reader = null;
+	var layout_num = -1;
 
 	$(document).ready(function() {
 		layout_num = document.getElementById("layout_num").value;
@@ -456,7 +465,7 @@
 											class="form-label rd-input-label">Mobile</label>
 									</div>
 								</div>
-								
+
 								<div class="cell-sm-3">
 									<div id="selLan" style="font-size: 20px">
 										<ul class="list-wide-bordered">
@@ -480,11 +489,10 @@
 									</div>
 								</div>
 
-								<div class="cell-sm-3 offset-top-20">
+								<div class="cell-sm-3 offset-top-30">
 									<div class="form-group">
 										<input class="inputfile inputfile-1" type="file" id="logo"
-											value="downloadlogo?card=${card}" name="logo"
-											style="display: none;"
+											name="logo" style="display: none;"
 											data-multiple-caption="{count} files selected" multiple=""
 											accept="image/*"> <label for="logo" id="stext"><svg
 												xmlns="http://www.w3.org/2000/svg" width="20" height="17"
@@ -495,7 +503,20 @@
 									</div>
 								</div>
 
-								<div></div>
+								<div class="cell-sm-3 offset-top-30" id="downbutton">
+									<c:choose>
+										<c:when test="${card.logoImg != null}">
+											<input type="button" value="Download"
+												class="btn btn-info btn-shadow btn-xs"
+												onclick="location.href='downloadlogo?logoImg=${card.logoImg}&imgOriginal=${card.imgOriginal}'">
+										</c:when>
+										<c:otherwise>
+											<input type="button" value="No Logo Image" id="nologo"
+												class="btn btn-info btn-shadow btn-xs">
+										</c:otherwise>
+									</c:choose>
+								</div>
+
 								<div
 									class="cell-xs-2 offset-top-30 offset-xs-top-30 offset-sm-top-50">
 									<button type="button" id="updateCard"

@@ -6,6 +6,11 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import global.scit.bizcard.vo.OCRData;
 import global.scit.bizcard.vo.OCRResultData;
@@ -36,7 +41,7 @@ public class Tess4J {
 	 * e.printStackTrace(); } }
 	 */
 
-	public OCRResultData getTess4J(OCRData ocrData) {
+	public OCRResultData getTess4J(OCRData ocrData, HttpServletRequest request) {
 		String id = ocrData.getM_id();
 		// 선택 영역 값 가져오기
 		int[][] grid = new int[9][4];
@@ -111,7 +116,7 @@ public class Tess4J {
 		}
 
 		ITesseract instance = new Tesseract();
-		instance.setDatapath("D:\\biz\\biz\\BusinessCard\\tessdata");
+		instance.setDatapath(request.getServletContext().getRealPath("resources/tessdata"));
 		instance.setLanguage(ocrData.getLanguage());
 
 		textData = new String[9];

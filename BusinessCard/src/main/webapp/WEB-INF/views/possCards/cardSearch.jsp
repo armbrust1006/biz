@@ -64,7 +64,7 @@
 					<c:forEach items="${list}" var="getCard">
 						<div class="cell-xs-6 cell-sm-4 cell-md-4">
 							<div class="thumbnail-variant-2-wrap">
-								<a href="selectOneCard?cardnum=${getCard.cardNum}">
+								<a href="searchCardSelect?cardnum=${getCard.cardNum}">
 									<div class="thumbnail thumbnail-variant-2">
 										<!-- <figure class="thumbnail-image"> -->
 										<img src="downloadImage?card=${getCard.imagePath}" alt=""

@@ -41,6 +41,13 @@
 		#{cardNum}
 		)
 	</insert>
+	
+	<select id="myListOverlap" parameterType="CardImage">
+		select cardNum 
+		from MyCardIndex
+		where m_id=#{m_id}
+		and cardNum=#{cardNum}
+	</select>
 
 	<select id="myCardExist" resultType="CardImage" parameterType="String">
 		select *

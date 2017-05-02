@@ -44,7 +44,7 @@ public class MyController {
 		logger.info("card:" + card.toString());
 		Card myCard = cardRepository.selectOneCard(card);
 		if (myCard == null) {
-			model.addAttribute("error", "명함이 생성되어 있지 않아 명함 생성 페이지로 이동합니다!");
+			model.addAttribute("error", "Go to the business card creation page because no business card is created!");
 		} else {
 			model.addAttribute("myCard", myCard);
 		}

@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -57,7 +58,6 @@ public class AccessCardController {
 	private CardImageRepository cardImageRepository;
 	@Autowired
 	private MemberRepository memberRepository;
-	
 
 	final String uploadPathLogo = "/CardImageFile/logo";
 	final String uploadPathCard = "/CardImageFile/card";
@@ -77,7 +77,7 @@ public class AccessCardController {
 			Model model) {
 		if (type.equalsIgnoreCase("my")) {
 			if (cardImageRepository.myCardExist(String.valueOf(session.getAttribute("m_id"))) != null) {
-				model.addAttribute("error", "이미 명함을 갖고 계십니다.");
+				model.addAttribute("error", "You already have a business card.");
 			} else {
 				session.setAttribute("cardType", "my");
 			}
@@ -177,12 +177,12 @@ public class AccessCardController {
 	 * @return
 	 */
 	@RequestMapping(value = "/imageScan", method = RequestMethod.POST)
-	public String ocrScan(OCRData ocrData, MultipartFile file, Model model) {
+	public String ocrScan(OCRData ocrData, MultipartFile file, Model model, HttpServletRequest request) {
 		String savedFile = FileService.saveFile(file, uploadPathOCR);
 		String savedPath = FileService.saveFile(file, uploadPathCard);
 		ocrData.setImagePath(savedFile);
 		Tess4J tess4j = new Tess4J();
-		OCRResultData result = tess4j.getTess4J(ocrData);
+		OCRResultData result = tess4j.getTess4J(ocrData, request);
 
 		Card card = new Card();
 		card.setImagePath(ocrData.getImagePath());
@@ -227,7 +227,7 @@ public class AccessCardController {
 
 		String type = card.getCardType();
 		if (type.equalsIgnoreCase("my")) {
-			return "home/login_home";
+			return "redirect:/myCard";
 		} else {
 			CardImage cardImage = new CardImage();
 			cardImage.setM_id(card.getM_id());
@@ -251,7 +251,7 @@ public class AccessCardController {
 	}
 
 	/**
-	 * 카드 검색
+	 * card search
 	 * 
 	 * @param select
 	 * @param search
@@ -259,12 +259,13 @@ public class AccessCardController {
 	 * @return
 	 */
 	@RequestMapping(value = "/searchCard", method = RequestMethod.GET)
-	public String cardSearchs(String select, String search, Model model) {
+	public String cardSearchs(String select, String search, HttpSession session, Model model) {
 		Map<String, Object> searchMap = new HashMap<>();
 		ArrayList<Card> list = new ArrayList<>();
 		if (select != null || search != null) {
 			searchMap.put("select", select);
 			searchMap.put("search", search);
+			searchMap.put("m_id", String.valueOf(session.getAttribute("m_id")));
 		}
 		list = (ArrayList<Card>) cardRepository.searchCards(searchMap);
 		model.addAttribute("list", list);
@@ -272,8 +273,41 @@ public class AccessCardController {
 	}
 
 	/**
-	 * 내 보유 명함 리스트 검색 함수
-	 * 
+	 * Select one after searching card
+	 * @param select
+	 * @param search
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/searchCardSelect", method = RequestMethod.GET)
+	public String searchCardSelect(int cardnum, Model model) {
+		model.addAttribute("selectedCard", cardRepository.searchCardSelect(cardnum));
+		model.addAttribute("searchCard", "searchCard");
+		return "possCards/selectOneCard";
+	}
+
+	/**
+	 * Add selected cards to my list
+	 * @param session
+	 * @param cardNum
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/searchCardAdd", method = RequestMethod.POST)
+	public String searchCardAdd(HttpSession session, int cardNum, Model model) {
+		CardImage cardImage = new CardImage();
+		cardImage.setM_id(String.valueOf(session.getAttribute("m_id")));
+		cardImage.setCardNum(cardNum);
+		if (cardImageRepository.myListOverlap(cardImage) == 0) {
+			return "redirect:/";
+		} else {
+			cardImageRepository.setMyCardList(cardImage);
+			return "redirect:/";
+		}
+	}
+
+	/**
+	 * Search my business card list
 	 * @param session
 	 * @param sort
 	 * @return
@@ -307,7 +341,12 @@ public class AccessCardController {
 		searchCard.setCardNum(cardNum);
 		Card card = cardRepository.selectOneCard(searchCard);
 		model.addAttribute("card", card);
-		return "registerCard/updateLayout";
+		int layout_num = card.getLayout_num();
+		if (layout_num == 1) {
+			return "registerCard/updateDragAndDrop";
+		} else {
+			return "registerCard/updateLayout";
+		}
 	}
 
 	/**
@@ -342,7 +381,7 @@ public class AccessCardController {
 	 */
 	@RequestMapping(value = "/updateCardData", method = RequestMethod.POST)
 	public String updateCard(Card card, MultipartFile logo) {
-		if (!logo.isEmpty()) {
+		if (logo != null) {
 			card.setImgOriginal(logo.getOriginalFilename());
 			String savedFile = FileService.saveFile(logo, uploadPathLogo);
 			card.setLogoImg(savedFile);
@@ -355,25 +394,25 @@ public class AccessCardController {
 		return "redirect:/myCard";
 	}
 
-	 /**
-	    * [현택] 타인 명함 삭제
-	    * 
-	    * @param cardNum
-	    * @param session("m_id")
-	    * @return 보유 명함 목록으로 이동
-	    */
+	/**
+	 * [현택] 타인 명함 삭제
+	 * 
+	 * @param cardNum
+	 * @param session("m_id")
+	 * @return 보유 명함 목록으로 이동
+	 */
 	@RequestMapping(value = "/cardDelete", method = RequestMethod.POST)
-	   public String cardDelete(CardImage cardImage, HttpSession session) {
-	      System.out.println("삭제: " + cardImage.toString());
-	      cardImage.setM_id(String.valueOf(session.getAttribute("m_id")));
-	      cardImageRepository.deleteCardImage(cardImage);
-	      if (cardImage.getCardType() == null) {
-	         return "redirect:login_home";
-	      } else {
-	         return "redirect:myCardList";
-	      }
-	   }
-	
+	public String cardDelete(CardImage cardImage, HttpSession session) {
+		System.out.println("삭제: " + cardImage.toString());
+		cardImage.setM_id(String.valueOf(session.getAttribute("m_id")));
+		cardImageRepository.deleteCardImage(cardImage);
+		if (cardImage.getCardType() == null) {
+			return "redirect:login_home";
+		} else {
+			return "redirect:myCardList";
+		}
+	}
+
 	/**
 	 * 로고 이미지 가져오기
 	 * 
@@ -382,18 +421,18 @@ public class AccessCardController {
 	 * @return
 	 */
 	@RequestMapping(value = "/downloadlogo", method = RequestMethod.GET)
-	public String downloadlogo(HttpServletResponse response, Card card) {
-		if (card.getLogoImg() == null && card.getImgOriginal() == null) {
+	public String downloadlogo(HttpServletResponse response, String logoImg, String imgOriginal) {
+		System.out.println("logodd:" + logoImg + ", ii:" + imgOriginal);
+		if (logoImg == null && imgOriginal == null) {
 			return null;
 		}
 		try {
-			response.setHeader("Content-Disposition",
-					"attachment;filename=" + URLEncoder.encode(card.getImgOriginal(), "UTF-8"));
+			response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(imgOriginal, "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 
-		String fullpath = uploadPathLogo + "/" + card.getLogoImg();
+		String fullpath = uploadPathLogo + "/" + logoImg;
 
 		ServletOutputStream fileOut = null;
 		FileInputStream fileIn = null;
@@ -522,7 +561,6 @@ public class AccessCardController {
 		c.setM_id(loginID);
 		c.setCardNum(cardnum);
 		Card selectedCard = cardRepository.selectOneCard(c);
-		System.out.println(selectedCard.toString() + "보자보자");
 		model.addAttribute("selectedCard", selectedCard);
 		return "possCards/selectOneCard";
 	}
@@ -608,5 +646,4 @@ public class AccessCardController {
 		return f.getAbsolutePath();
 	}
 
-	
 }

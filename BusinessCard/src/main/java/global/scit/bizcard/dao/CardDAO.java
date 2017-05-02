@@ -8,7 +8,7 @@ import global.scit.bizcard.vo.Card;
 public interface CardDAO {
 
 	public int insertCard(Card card) throws Exception;
-	
+
 	public int updateCard(Card card) throws Exception;
 
 	public List<Card> myCardListData(Map<String, Object> sortMap) throws Exception;
@@ -22,4 +22,6 @@ public interface CardDAO {
 	public int shareCheck(int cardnum, int book_num) throws Exception;
 
 	public int share(String m_id, int book_num, int cardnum) throws Exception;
+
+	public Card searchCardSelect(int cardnum) throws Exception;
 }

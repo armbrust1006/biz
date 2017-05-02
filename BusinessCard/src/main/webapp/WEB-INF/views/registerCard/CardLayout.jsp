@@ -19,6 +19,7 @@
 .list-wide-bordered li {
 	min-height: 35px;
 	padding: 6px 0px;
+	font-size: 13px;
 }
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
@@ -457,7 +458,7 @@
 									<div id="selLan" style="font-size: 20px">
 										<ul class="list-wide-bordered">
 											<li><label class="radio-inline"> <input
-													id="language" type="radio" name="language"
+													id="language" type="radio" name="language" checked
 													value="eng" class="radio-custom"><span
 													class="radio-custom-dummy"></span> English
 											</label><label class="radio-inline"> <input id="language"
@@ -473,7 +474,7 @@
 									</div>
 								</div>
 
-								<div class="cell-sm-3 offset-top-20">
+								<div class="cell-sm-3 offset-top-30">
 									<div class="form-group">
 										<input class="inputfile inputfile-1" type="file" id="logo"
 											name="logo" style="display: none;"

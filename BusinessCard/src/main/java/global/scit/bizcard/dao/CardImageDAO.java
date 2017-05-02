@@ -25,5 +25,5 @@ public interface CardImageDAO {
 
 	public CardImage myCardExist(String m_id) throws Exception;
 
-	
+	public int myListOverlap(CardImage cardImage) throws Exception;
 }

@@ -106,4 +106,15 @@ public class CardRepository implements CardDAO {
 		return 0;
 	}
 
+	@Override
+	public Card searchCardSelect(int cardnum) {
+		CardDAO dao = sqlsession.getMapper(CardDAO.class);
+		try {
+			return dao.searchCardSelect(cardnum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

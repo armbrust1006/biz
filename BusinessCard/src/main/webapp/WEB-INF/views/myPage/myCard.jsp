@@ -135,12 +135,12 @@
 	opacity: 1;
 	right: 0;
 }
-.item{
+
+.item {
 	border: 5px outset #217ED3;
-	height: auto; 
+	height: auto;
 	padding: 10px;
 }
-
 </style>
 
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
@@ -180,16 +180,16 @@
 		document.getElementById("cardDelete").onclick = function() {
 			updateTOdelteForm("cardDelete");
 		};
-		
+
 	}
 
 	/* 수정 및 삭제 함수 */
-	function updateTOdelteForm(path) {
+	function updateTOdelteForm() {
 		var cardnum = document.getElementById("cardNum").value;
 		var method = method || "post";
 		var form = document.createElement("form");
 		form.setAttribute("method", method);
-		form.setAttribute("action", path);
+		form.setAttribute("action", "searchCardAdd");
 
 		var hiddenField = document.createElement("input");
 		hiddenField.setAttribute("type", "hidden");
@@ -608,10 +608,6 @@
 
 														<input type="submit" value="보내기">
 													</form>
-
-
-
-
 
 												</div>
 											</div>

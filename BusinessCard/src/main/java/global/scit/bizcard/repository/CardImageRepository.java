@@ -127,6 +127,17 @@ public class CardImageRepository implements CardImageDAO {
 	      }
 	      return 0;
 	   }
+
+	@Override
+	public int myListOverlap(CardImage cardImage) {
+		 CardImageDAO dao = sqlSession.getMapper(CardImageDAO.class);
+	      try {
+	         return dao.myListOverlap(cardImage);
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      }
+		return 0;
+	}
 	
 	
 	

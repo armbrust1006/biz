@@ -18,23 +18,26 @@
 .list-wide-bordered li {
 	min-height: 35px;
 	padding: 6px 0px;
+	font-size: 13px;
 }
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-	var canvas;
-	var ctx;
-	var startX;
-	var startY;
+	var canvas = null;
+	var ctx = null;
+	var topSize = 0;
+	var startX = 0;
+	var startY = 0;
     var img = new Image();
 	var items = [];
 	var selectItem = -1;
-	var layout_num;
+	var layout_num = -1;
 	
 	window.onload = function() {
 		layout_num = document.getElementById("myCanvas").value;
 		canvas = document.getElementById("myCanvas");
 		ctx = canvas.getContext("2d");
+		topSize = document.getElementById("topSize").offsetTop;
 		
 		document.getElementById("reset").onclick = canvasClear;
 		document.getElementById("cardView").onclick = cardView;
@@ -42,8 +45,8 @@
 
 		canvas.addEventListener("mousedown", function (e) {
 		 	e.preventDefault();
-		 	startX = e.layerX;
-		    startY = e.layerY;
+		 	startX = e.pageX - this.offsetLeft;
+		    startY = e.pageY - (this.offsetTop + topSize); 
 		    for (var i = 0; i < items.length; i++) {
 		        if (hitItem(startX, startY, i)) {
 		        	selectItem = i;
@@ -52,13 +55,14 @@
 		    }
 	    }, true);
 	 
-	    canvas.addEventListener("mousemove", function (e) {
+		canvas.addEventListener("mousemove", function (e) {
 	        if (selectItem < 0) {
 	            return;
 	        }
+	       
 	        e.preventDefault();
-	        mouseX = e.layerX;
-	        mouseY = e.layerY;
+	        mouseX = e.pageX - this.offsetLeft;
+	        mouseY = e.pageY - (this.offsetTop + topSize);
 
 	        var dx = mouseX - startX;
 	        var dy = mouseY - startY;
@@ -71,12 +75,12 @@
 	        draw();
 	    }, true);
 	    
-	    canvas.addEventListener("mouseup", function (e) {
+		canvas.addEventListener("mouseup", function (e) {
 	    	e.preventDefault();
 	    	selectItem = -1;
 	    }, true);
 	    
-	    canvas.addEventListener("mouseout", function (e) {
+		canvas.addEventListener("mouseout", function (e) {
     	 	e.preventDefault();
     	    selectedText = -1;
 	    });
@@ -283,7 +287,8 @@
 				</div>
 			</div>
 		</section>
-		<section class="section-60 section-sm-top-90 section-sm-bottom-100">
+		<section class="section-60 section-sm-top-90 section-sm-bottom-100"
+			id="topSize">
 			<div class="shell">
 				<div class="range">
 					<div class="cell-md-9 cell-lg-7">
@@ -378,16 +383,16 @@
 									<div id="selLan" style="font-size: 20px">
 										<ul class="list-wide-bordered">
 											<li><label class="radio-inline"> <input
-													id="language" type="radio" name="language"
-													value="eng" class="radio-custom"><span
+													id="language" type="radio" name="language" value="eng" checked
+													class="radio-custom"><span
 													class="radio-custom-dummy"></span> English
 											</label><label class="radio-inline"> <input id="language"
-													type="radio" name="language"
-													value="kor" class="radio-custom"><span
+													type="radio" name="language" value="kor"
+													class="radio-custom"><span
 													class="radio-custom-dummy"></span> Korean
 											</label><label class="radio-inline"> <input id="language"
-													type="radio" name="language"
-													value="jpn" class="radio-custom"><span
+													type="radio" name="language" value="jpn"
+													class="radio-custom"><span
 													class="radio-custom-dummy"></span> Japanese
 											</label></li>
 										</ul>

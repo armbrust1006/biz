@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en" class="wide wow-animation">
 <head>
@@ -18,17 +19,28 @@
 .list-wide-bordered li {
 	min-height: 35px;
 	padding: 6px 0px;
+	font-size: 13px;
+}
+
+#downbutton input[type=button] {
+	padding: 6px 90px;
+}
+
+#nologo {
+	background-color: #fe4a21;
 }
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-	var canvas;
-	var ctx;
-	var startX;
-	var startY;
-    var img = new Image();
+	var canvas = null;
+	var ctx = null;
+	var topSize = 0;
+	var startX = 0;
+	var startY = 0;
+	var img = new Image();
 	var items = [];
 	var selectItem = -1;
+	var layout_num = -1;
 	
 	window.onload = function() {
 		canvas = document.getElementById("myCanvas");
@@ -37,11 +49,12 @@
 		document.getElementById("reset").onclick = canvasClear;
 		document.getElementById("cardView").onclick = cardView;
 		document.getElementById("updateCard").onclick = imageSave;
+		topSize = document.getElementById("topSize").offsetTop;
 
 		canvas.addEventListener("mousedown", function (e) {
 		 	e.preventDefault();
-		 	startX = e.layerX;
-		    startY = e.layerY;
+		 	startX = e.pageX - this.offsetLeft;
+		    startY = e.pageY - (this.offsetTop+topSize);
 		    for (var i = 0; i < items.length; i++) {
 		        if (hitItem(startX, startY, i)) {
 		        	selectItem = i;
@@ -55,8 +68,8 @@
 	            return;
 	        }
 	        e.preventDefault();
-	        mouseX = e.layerX;
-	        mouseY = e.layerY;
+	        mouseX = e.pageX - this.offsetLeft;
+	        mouseY = e.pageY - (this.offsetTop+topSize);
 
 	        var dx = mouseX - startX;
 	        var dy = mouseY - startY;
@@ -414,7 +427,20 @@
 									</div>
 								</div>
 
-								<div class="cell-sm-3 offset-top-20"></div>
+								<div class="cell-sm-3 offset-top-30">
+									<c:choose>
+										<c:when test="${card.logoImg != null}">
+											<input type="button" value="Download"
+												class="btn btn-info btn-shadow btn-xs"
+												onclick="location.href='downloadlogo?logoImg=${card.logoImg}&imgOriginal=${card.imgOriginal}'">
+										</c:when>
+										<c:otherwise>
+											<input type="button" value="No Logo Image" id="nologo"
+												class="btn btn-info btn-shadow btn-xs">
+										</c:otherwise>
+									</c:choose>
+								</div>
+
 								<div
 									class="cell-xs-2 offset-top-32 offset-xs-top-30 offset-sm-top-50">
 									<button type="button" id="updateCard"
