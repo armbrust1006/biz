@@ -311,8 +311,8 @@
 						function(index, item) {
 							msg += "<tbody>";
 							msg += "<tr>";
-							msg += "<td>" + item.book_name + "</td>";
-							msg += "<td><button type='button' class='sharebutton' style='vertical-align: middle' book_num='"+item.book_num+"'><span>공유하기</span></button>";
+							msg += "<td>" + item.BOOK_NAME + "</td>";
+							msg += "<td><button type='button' class='sharebutton' style='vertical-align: middle' book_num='"+item.BOOK_NUM+"'><span>공유하기</span></button>";
 							msg += "</tr>";
 							msg += "<tbody>";
 						});

@@ -603,7 +603,7 @@ public class AccessCardController {
 		String m_id = (String) session.getAttribute("m_id");
 		int check = cardRepository.shareCheck(cardnum, book_num);
 		if (check == 0) {
-			return cardRepository.share(m_id, book_num, cardnum);
+			return cardRepository.share(cardnum, book_num, m_id);
 		}
 		return 0;
 	}
