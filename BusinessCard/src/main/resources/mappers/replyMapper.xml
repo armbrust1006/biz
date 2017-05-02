@@ -3,27 +3,85 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="global.sesoc.sebank.dao.ReplyDAO">
-	<select id="replyList" resultType="Reply" parameterType="Integer">
-		select * from reply
-		where boardnum = #{boardnum}
-		order by replynum desc
+<mapper namespace="global.scit.bizcard.dao.ReplyDAO">
+	<select id="replyList" resultType="Reply">
+		select reply_num,
+		shared_cardnum,
+		cardnum,
+		m_id,
+		to_char(inputdate,'YY-MM-DD') inputdate,
+		reply
+		from reply
+		where
+		shared_cardnum = #{shared_cardnum}
+		order by
+		reply_num desc
 	</select>
+
 	<insert id="replyInsert" parameterType="Reply">
-		insert into reply
-			(replynum, boardnum, custid, text)
-		values
-			(reply_seq.nextval, #{boardnum}, #{custid}, #{text})
+		insert
+		into reply(
+		reply_num,
+		shared_cardnum,
+		cardnum,
+		m_id,
+		inputdate,
+		reply
+		)
+		values (
+		replynum_seq.nextval,
+		#{shared_cardnum},
+		#{cardnum},
+		#{m_id},
+		sysdate,
+		#{reply})
 	</insert>
+
+	<delete id="replyDelete" parameterType="int">
+		delete reply where
+		reply_num = #{reply_num}
+	</delete>
+
+
 	<update id="replyUpdate" parameterType="Reply">
 		update reply
-		set
-			text = #{text}
-		where
-			replynum = #{replynum}
+		set reply =
+		#{reply}
+		where m_id = #{m_id} and
+		reply_num = #{reply_num}
 	</update>
-	<delete id="replyDelete" parameterType="Integer">
-		delete reply
-		where replynum = #{replynum}
-	</delete>
+
+	<select id="shareCount" resultType="HashMap" parameterType="int">
+		select r.book_num,
+		r.m_id,
+		r.sharecount
+		from
+		(select book_num,
+		m_id,
+		count(shared_cardnum) sharecount
+		from sharedcard
+		group
+		by m_id, book_num
+		having book_num=#{book_num}
+		order by
+		count(shared_cardnum) desc) r
+		where
+		rownum = 1
+	</select>
+
+	<select id="replyCount" resultType="HashMap">
+		select r.shared_cardnum, r.m_id, r.replycount
+		from(
+		select
+		shared_cardnum, m_id, count(reply) replycount
+		from reply
+		group by m_id,
+		shared_cardnum
+		having shared_cardnum = (select shared_cardnum from sharedcard where book_num = #{param1} and cardnum=#{param2})
+		order by
+		count(reply) desc) r
+		where rownum = 1
+	</select>
+
+
 </mapper>

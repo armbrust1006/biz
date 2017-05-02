@@ -11800,6 +11800,10 @@ address {
     fill: #dcdde0;
 }
 
+.bg-ink {
+	background-color:#0073e6;
+}
+
 .bg-image {
     -webkit-background-size: cover;
     background-size: cover;
@@ -33829,7 +33833,7 @@ blockquote cite {
 }
 
 .product-order-item .product-body > * {
-    margin-left: 20px;
+    /* margin-left: 20px; */
     margin-top: 14px;
 }
 
@@ -35765,7 +35769,7 @@ dt {
     line-height: 1;
 }
 
-[class*='bg-decoration-wrap'] {
+[class*='decoration-wrap'] {
     position: relative;
     overflow: hidden;
 }
@@ -47448,7 +47452,7 @@ a.pswp__share--download:hover {
     top: 50%;
     font-weight: 400;
     margin-top: -10px;
-    right: 0;
+    right: -25px;
     height: 20px;
     line-height: 20px;
     content: '\e313';

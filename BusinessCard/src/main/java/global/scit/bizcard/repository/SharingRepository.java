@@ -20,14 +20,15 @@ public class SharingRepository {
 	@Autowired
 	SqlSession sql;
 
-	public ArrayList<CardBooks> listCardBooks(String m_id) {
+	public ArrayList<HashMap<String, Object>> listCardBooks(String m_id) {
+		ArrayList<HashMap<String, Object>> bookList = new ArrayList<HashMap<String, Object>>();
 		SharingDAO dao = sql.getMapper(SharingDAO.class);
 		try {
-			return dao.listCardBooks(m_id);
+			bookList = dao.listCardBooks(m_id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return bookList;
 	}
 
 	public int makeRoom(CardBooks card) {
@@ -39,8 +40,8 @@ public class SharingRepository {
 		}
 		return 0;
 	}
-	
-	public int getBookNum(CardBooks card){
+
+	public int getBookNum(CardBooks card) {
 		int result = 0;
 		SharingDAO dao = sql.getMapper(SharingDAO.class);
 		try {
@@ -49,10 +50,10 @@ public class SharingRepository {
 			e.printStackTrace();
 		}
 		return result;
-		
+
 	}
-	
-	public int insertManager(CardBooks card){
+
+	public int insertManager(CardBooks card) {
 		SharingDAO dao = sql.getMapper(SharingDAO.class);
 		try {
 			return dao.insertManager(card);
@@ -61,8 +62,7 @@ public class SharingRepository {
 		}
 		return 0;
 	}
-	
-	
+
 	public List<HashMap<String, Object>> selectOneRoom(int book_num) {
 		SharingDAO dao = sql.getMapper(SharingDAO.class);
 		try {
@@ -73,7 +73,7 @@ public class SharingRepository {
 		}
 		return null;
 	}
-	
+
 	public List<HashMap<String, Object>> allMember(int book_num) {
 		SharingDAO dao = sql.getMapper(SharingDAO.class);
 		try {
@@ -108,15 +108,15 @@ public class SharingRepository {
 		}
 		return 0;
 	}
-	
+
 	public int joinRoom(CardBooks card) {
-	SharingDAO dao = sql.getMapper(SharingDAO.class);
-	try {
-		return dao.joinRoom(card);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	return 0;
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.joinRoom(card);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	public ArrayList<Message> messageList(String m_id) {
@@ -150,21 +150,19 @@ public class SharingRepository {
 		}
 		return 0;
 	}
-	
+
 	public int leaveRoom(CardBooks card) {
-	SharingDAO dao = sql.getMapper(SharingDAO.class);
-	try {
-		return dao.leaveRoom(card);
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.leaveRoom(card);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
 	}
-	return 0;
-	}
 
-
-
-/*	public List<CardImage> getRoomCards(int card) {
+	public List<CardImage> getRoomCards(int card) {
 		SharingDAO dao = sql.getMapper(SharingDAO.class);
 		try {
 			return dao.getRoomCards(card);
@@ -172,8 +170,71 @@ public class SharingRepository {
 			e.printStackTrace();
 		}
 		return null;
-	}*/
+	}
 
+	public HashMap<String, Object> getOneSharedCard(int cardnum, int book_num) {
+		HashMap<String, Object> sharedCard = new HashMap<String, Object>();
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			sharedCard = dao.getOneSharedCard(cardnum, book_num);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return sharedCard;
+	}
 
+	public int delMessage(Message message) {
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.delMessage(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int sharedCardDelete(int shared_cardnum) {
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.sharedCardDelete(shared_cardnum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int sharedCardDeleteByBook_Master(CardBooks card) {
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.sharedCardDeleteByBook_Master(card);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int cardBooksDelete(CardBooks card) {
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		try {
+			return dao.cardBooksDelete(card);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int newMessage(String id) {
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+
+		try {
+			return dao.newMessage(id);
+		} catch (Exception e) {
+
+		}
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

@@ -35,14 +35,14 @@
                 <div class="col-xs-6">
                   <ul class="list-marked-variant-2">
                     <li><a href="login_home">Home</a></li>
-                    <li><a href="myDetail">내 명함 관리</a></li>
+                    <li><a href="myCard">내 명함 관리</a></li>
                     <li><a href="mySchedule">내 일정 관리</a></li>
                   </ul>
                 </div>
                 <div class="col-xs-6">
                   <ul class="list-marked-variant-2">
-                    <li><a href="listPossCard">보유명함목록</a></li>
-                    <li><a href="sharedRoom">공유 명함첩</a></li>
+                    <li><a href="myCardList">보유명함목록</a></li>
+                    <li><a href="sharingRoom">공유 명함첩</a></li>
                   </ul>
                 </div>
               </div>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import global.scit.bizcard.dao.NoteDAO;
+import global.scit.bizcard.vo.CardImage;
 import global.scit.bizcard.vo.Note;
 
 @Repository
@@ -38,6 +39,42 @@ public class NoteRepository {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return result;
+	}
+	
+	public int addYourNote(Note note) {
+		NoteDAO dao = sqlSession.getMapper(NoteDAO.class);
+		int result =0;
+		try {
+			result = dao.addYourNote(note);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public int deleteNote(Note note) {
+		NoteDAO dao = sqlSession.getMapper(NoteDAO.class);
+		int result = 0;
+		try {
+			result = dao.deleteNote(note);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public int deleteYourNote(int cardnum) {
+		NoteDAO dao = sqlSession.getMapper(NoteDAO.class);
+		int result = 0;
+			try {
+				result = dao.deleteYourNote(cardnum);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		return result;
 	}
 }

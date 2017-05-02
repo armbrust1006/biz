@@ -1,5 +1,7 @@
 package global.scit.bizcard.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import global.scit.bizcard.repository.SharingRepository;
 import global.scit.bizcard.vo.CardBooks;
@@ -34,23 +39,25 @@ public class SharingController {
 	 * @param model
 	 * @param cardnum
 	 */
-/*	@ResponseBody
+	@ResponseBody
 	@RequestMapping(value = "/showShareRoom", method = RequestMethod.GET)
-	public ArrayList<CardBooks> showShareRoom(HttpSession session) {
+	public ArrayList<HashMap<String, Object>> showShareRoom(HttpSession session) {
 		String m_id = (String) session.getAttribute("m_id");
+		ArrayList<HashMap<String, Object>> bookList = new ArrayList<HashMap<String, Object>>();
 		// 공유방 전체 목록 호출
-		ArrayList<CardBooks> cList = SharingRepository.listCardBooks(m_id);
-		System.out.println(cList.toString() + "공유방목록");
-		return cList;
-	}*/
+		bookList = SharingRepository.listCardBooks(m_id);
+		System.out.println("코카콜라" + bookList.toString());
+		return bookList;
+	}
 
 	// 1. 공유방 목록보기
 	@RequestMapping(value = "/sharingRoom", method = RequestMethod.GET)
 	public String sharedCardsList(Model model, HttpSession session) {
 		String m_id = (String) session.getAttribute("m_id");
-		ArrayList<CardBooks> cList = SharingRepository.listCardBooks(m_id);
-		model.addAttribute("CardBooks", cList);
-		System.out.println("yahoo"+cList.toString());
+		ArrayList<HashMap<String, Object>> bookList = new ArrayList<HashMap<String, Object>>();
+		bookList = SharingRepository.listCardBooks(m_id);
+		model.addAttribute("bookList", bookList);
+		System.out.println("yahoo" + bookList.toString());
 		return "sharingCards/sharingRoom";
 	}
 
@@ -66,14 +73,17 @@ public class SharingController {
 		SharingRepository.insertManager(card);
 		return "redirect:/sharingRoom";
 	}
-	
 
 	// 3. 공유방 하나 클릭
 	@RequestMapping(value = "/selectOneRoom", method = RequestMethod.GET)
-	public String selectOneRoom(int book_num, Model model) {
+	public String selectOneRoom(int book_num, String book_name, Model model) {
+		System.out.println("삭제후: " + book_name);
 		List<HashMap<String, Object>> roomList = SharingRepository.selectOneRoom(book_num);
 		model.addAttribute("book_num", book_num);
+		model.addAttribute("book_name", book_name);
 		model.addAttribute("roomList", roomList);
+		String book_master = (String) roomList.get(0).get("BOOK_MASTER");
+		model.addAttribute("book_master", book_master);
 		return "sharingCards/selectOneRoom";
 	}
 
@@ -114,6 +124,7 @@ public class SharingController {
 		message.setBook_num(message.getBook_num()); // 방 번호 set 하기
 		System.out.println("초대장보내기" + message.toString());
 		SharingRepository.invite(message);
+
 		return null;
 	}
 
@@ -123,14 +134,16 @@ public class SharingController {
 	public List<HashMap<String, Object>> allMember(int book_num, Model model) {
 		List<HashMap<String, Object>> roomList;
 		roomList = SharingRepository.allMember(book_num);
-		System.out.println("구성원보기"+roomList.toString());
+		System.out.println("구성원보기" + roomList.toString());
 		model.addAttribute("roomList", roomList);
 		return roomList;
 	}
-	
-	//초대 수락하기
+
+	// 초대 수락하기
 	@RequestMapping(value = "/joinRoom", method = RequestMethod.POST)
 	public String joinRoom(int book_num, HttpSession session) {
+		System.out.println("초대수락하기");
+		System.out.println("수락: " + book_num);
 		String m_id = (String) session.getAttribute("m_id");
 		CardBooks card = new CardBooks();
 		card.setBook_num(book_num);
@@ -141,35 +154,68 @@ public class SharingController {
 
 		return null;
 	}
-	
+
 	// 탈퇴 하기 기능
 	@RequestMapping(value = "/leaveRoom", method = RequestMethod.POST)
 	public String withdrawal(CardBooks card, HttpSession session) {
+		System.out.println("leaveRoom: " + card.toString());
 		String m_id = (String) session.getAttribute("m_id");
-		card.setM_id(m_id);
-		SharingRepository.leaveRoom(card);
+		// 1.book_master가 탈퇴할 경우
+		if (card.getBook_master().equals(m_id)) {
+			// 1-a. 공유된 명함 삭제
+			SharingRepository.sharedCardDeleteByBook_Master(card);
+
+			// 1-b. 멤버 삭제
+			SharingRepository.leaveRoom(card);
+
+			// 1-c. 공유방 삭제
+			SharingRepository.cardBooksDelete(card);
+
+			
+		} else {
+			// 2. 일반 멤버가 탈퇴할 경우
+			card.setM_id(m_id);
+			SharingRepository.leaveRoom(card);
+		}
+
 		return "redirect:sharingRoom";
 	}
-	
-	
+
 	// 근환이형 이미지 공유하기
-	/*	@ResponseBody
+	@ResponseBody
 	@RequestMapping(value = "/getRoomCard", method = RequestMethod.POST)
 	public ArrayList<CardImage> roomCard(int book_num, HttpSession session) {
 		ArrayList<CardImage> cardList = (ArrayList<CardImage>) SharingRepository.getRoomCards(book_num);
+		System.out.println("공유방의카드: " + cardList.toString());
 		if (cardList != null) {
 			return cardList;
 		}
 		return null;
-	}*/
+	}
 
+	// 댓글방에서 공유된 명함 삭제
+	@RequestMapping(value = "/sharedCardDelete", method = RequestMethod.POST)
+	public String sharedCardDelete(String sharedId, int shared_cardnum, int book_num, String book_name,
+			HttpSession session, RedirectAttributes attributes) {
 
+		String loginId = (String) session.getAttribute("m_id");
+		if (loginId.equals(sharedId)) {
+			SharingRepository.sharedCardDelete(shared_cardnum);
+			try {
+				book_name = URLEncoder.encode(book_name, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			return "redirect:selectOneRoom?book_num=" + book_num + "&book_name=" + book_name;
+		}
+		return null;
+	}
 
 	/*
 	 * 아래 부터는 쪽지 기능 * * * * * * * * * * * * * *
 	 */
 	@RequestMapping(value = "/messageList", method = RequestMethod.GET)
-	public String selectOneRoom(HttpSession session, Model model) {
+	public String messageList(HttpSession session, Model model) {
 		ArrayList<Message> inbox = new ArrayList<>();
 		String m_id = (String) session.getAttribute("m_id");
 		ArrayList<Message> messageList = SharingRepository.messageList(m_id);
@@ -228,6 +274,13 @@ public class SharingController {
 	public String invitedCard(@RequestParam(value = "book_num", defaultValue = "0") int book_num,
 			@RequestParam(value = "sender") String sender, @RequestParam(value = "message") String message,
 			@RequestParam(value = "date") String date, Model model) {
+
+		/*
+		 * if(book_num!=0){ String book_name =
+		 * SharingRepository.getBookName(book_num);
+		 * model.addAttribute("book_name", book_name); }
+		 */
+
 		model.addAttribute("m_book_num", book_num);
 		model.addAttribute("m_sender", sender);
 		model.addAttribute("m_message", message);
@@ -241,6 +294,17 @@ public class SharingController {
 		return "sharingCards/invitedCard";
 	}
 
+	// 메시지 삭제
+	@ResponseBody
+	@RequestMapping(value = "/delMessage", method = RequestMethod.POST)
+	public int delMessage(String delSender, String delMessage, HttpSession session) {
+		String loginId = (String) session.getAttribute("m_id");
+		Message message = new Message();
+		message.setSender(delSender);
+		message.setMessage(delMessage);
+		message.setTargetId(loginId);
+		return SharingRepository.delMessage(message);
+	}
 
 	// 테스트 페이지 입니다.
 	@RequestMapping(value = "/test", method = RequestMethod.GET)

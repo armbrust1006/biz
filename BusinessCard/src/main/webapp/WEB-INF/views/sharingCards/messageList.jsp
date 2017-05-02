@@ -34,13 +34,15 @@
 	//inbox(수신함) 결과 보여주기
 	function showInBoxList(resp) {
 		$("#showMessage").empty();
-		var msg = "<table class='table table-primary' id='tbl'>";
+		var msg = ''
+		msg = "<table class='table table-primary' id='tbl'>";
 		msg += "<thead>";
 		msg += "<tr>";
 		msg += "<th>보낸사람</th>";
 		msg += "<th>내용</th>";
 		msg += "<th>날짜</th>";
 		msg += "<th>확인</th>";
+		msg += "<th>삭제</th>";
 		msg += "</tr>";
 		msg += "</thead>";
 		$
@@ -53,21 +55,47 @@
 							msg += "<td>" + item.message + "</td>";
 							msg += "<td>" + item.senddate + "</td>";
 							if (item.type == 'message') {
-								msg += "<td><button class='btn btn-info btn-xs' id='flip1' book_num=0 ><span>메시지</span></button></td></td>";
-							} else if(item.type == 'invitation'){
-								msg += "<td><button class='btn btn-info btn-xs' id='flip2' book_num='" + item.book_num + "'><span>초대장</span></button></td>";
+								msg += "<td><button class='btn btn-info btn-xs' id='flip1"+index+"' book_num=0 ><span>메시지</span></button></td></td>";
+							} else if (item.type == 'invitation') {
+								msg += "<td><button class='btn btn-info btn-xs' id='flip2"+index+"' book_num='" + item.book_num + "'><span>초대장</span></button></td>";
 							}
+							msg += "<td><button class='btn btn-info btn-xs' id='del"+index+"' delSender='"+item.sender+"' delMessage='"+item.message+"'><span>삭제</span></td>"
 							msg += "</tr>";
 							msg += "</tbody>";
+
 						});
 		msg += '</table>';
 		$("#showMessage").html(msg);
-		$("#flip1").on("click", flip);
-		$("#flip2").on("click", flip);
+
+		for (var i = 0; i < resp.length; i++) {
+			$("#flip1" + i).on("click", flip);
+			$("#flip2" + i).on("click", flip);
+			$("#del" + i).on("click", deleteMessage);
+		}
+	}
+
+	//메세지 삭제
+	function deleteMessage() {
+		var delSender = $(this).attr("delSender");
+		var delMessage = $(this).attr("delMessage");
+		alert(typeof(delSender));
+ 		alert('보낸이: ' + delSender + ' 내용: ' + delMessage);
+		var data = { delSender : delSender, delMessage: delMessage};
+		
+ 		$.ajax({
+			method : "POST",
+			url : "delMessage",
+			type : "JSON",
+			data : data,
+			success: function(resp) {
+				alert('삭제하였습니다');
+				inBoxList();
+			}
+		});
+
 	}
 
 	function flip() {
-		alert('너는왜?');
 		var book_num = $(this).attr("book_num");
 		var sender = $(this).closest('tr').find('td:eq(0)').text();
 		var message = $(this).closest('tr').find('td:eq(1)').text();
@@ -93,11 +121,11 @@
 		var msg = '<table class="table table-primary">';
 		msg += "<thead>";
 		msg += "<tr>";
-		msg += "<th>Target</th>";
-		msg += "<th>Text</th>";
-		msg += "<th>SendDate</th>";
-		msg += "<th>ReadDate</th>";
-		msg += "<th>Type</th>";
+		msg += "<th>받는사람</th>";
+		msg += "<th>내용</th>";
+		msg += "<th>보낸날짜</th>";
+		msg += "<th>확인날짜</th>";
+		msg += "<th>구분</th>";
 		msg += "</tr>";
 		msg += "</thead>";
 		$.each(resp, function(index, item) {
@@ -147,8 +175,8 @@
 		form += '</div>';
 		form += '</div>';
 		form += '</div>';
-		form += "<button type='submit' class='btn btn-primary'>보내기</button>"
-		form += "<button type='reset' class='btn btn-primary-outline'>다시쓰기</button>"
+		form += "<div class='group-lg group-middle group-sm offset-top-30 text-center'>";
+		form += "<button type='submit' class='btn btn-primary'>보내기</button><button type='reset' class='btn btn-primary-outline'>다시쓰기</button></div>";
 		form += '</form>';
 		$("#showMessage").html(form);
 	}

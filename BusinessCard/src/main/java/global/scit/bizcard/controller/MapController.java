@@ -2,6 +2,7 @@ package global.scit.bizcard.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -40,20 +41,16 @@ public class MapController {
 	 * @param sort
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping(value = "/addStop", method = RequestMethod.GET)
-	public ArrayList<Card> addStop(HttpSession session, String sort) {
-		ArrayList<Card> list = new ArrayList<>();
+	public String addStop(HttpSession session, Model model) {
 		System.out.println("경유지 호출");
-		sort = "date";
 		String m_id = (String) session.getAttribute("m_id");
 		if (m_id != null) {
-			Map<String, Object> sortMap = new HashMap<>();
-			sortMap.put("m_id", m_id);
-			sortMap.put("sort", sort);
-			list = (ArrayList<Card>) cardRepository.myCardListData(sortMap);
+			List<Card> stopList = (ArrayList<Card>) cardRepository.addStop(m_id);
+			model.addAttribute("stopList", stopList);
+			return "possCards/routeStopBy";
 		}
-		return list;
+		return null;
 	}
 
 	/**
@@ -64,20 +61,16 @@ public class MapController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/routeStopBy", method = RequestMethod.GET)
-	public String routeStopBy(HttpSession session, String sort, Model model) {
-		ArrayList<Card> list = new ArrayList<>();
-		sort = "date";
-		String m_id = (String) session.getAttribute("m_id");
-		if (m_id != null) {
-			Map<String, Object> sortMap = new HashMap<>();
-			sortMap.put("m_id", m_id);
-			sortMap.put("sort", sort);
-			list = (ArrayList<Card>) cardRepository.myCardListData(sortMap);
-			model.addAttribute("stopBy", list);
-			System.out.println(list.toString() + "경유지싹다");
-		}
-		return "possCards/routeStopBy";
-	}
+	/*
+	 * @RequestMapping(value = "/routeStopBy", method = RequestMethod.GET)
+	 * public String routeStopBy(HttpSession session, String sort, Model model)
+	 * { ArrayList<Card> list = new ArrayList<>(); sort = "date"; String m_id =
+	 * (String) session.getAttribute("m_id"); if (m_id != null) { Map<String,
+	 * Object> sortMap = new HashMap<>(); sortMap.put("m_id", m_id);
+	 * sortMap.put("sort", sort); list = (ArrayList<Card>)
+	 * cardRepository.myCardListData(sortMap); model.addAttribute("stopBy",
+	 * list); System.out.println(list.toString() + "경유지싹다"); } return
+	 * "possCards/routeStopBy"; }
+	 */
 
 }

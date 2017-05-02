@@ -2,16 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="global.scit.bizcard.dao.NoteDAO" >
 
-<select id="noteList" resultType="Note" parameterType="String">
-	select  to_char(startdate, 'yyyy-MM-dd') as "start", to_char(enddate, 'yyyy-MM-dd') as "end", note as "title"
-	from cardnote_test
-	where m_id=#{m_id}
+<select parameterType="String" resultType="Note" id="noteList"> 
+	select
+	notenum, m_id, cardnum, to_char(startdate, 'yyyy-MM-dd') as "startDate", to_char(enddate, 'yyyy-MM-dd') as "endDate", inputdate, title, content, chk
+	from cardnote where m_id=#{m_id}
 </select>
 
-<insert id="addNote" parameterType="Note">
-	insert into CARDNOTE_TEST values(
-		#{m_id}, '1', #{start}, #{end}, sysdate, #{title}
-	) 
+<insert parameterType="Note" id="addNote">
+	insert into CARDNOTE values(
+	notenum_seq.nextval, #{m_id}, (select cardnum from cardimage where m_id=#{m_id} and cardtype='my'), #{startDate}, #{endDate}, sysdate, #{title}, #{content}, #{chk} 
+	)
 </insert>
+
+<insert parameterType="Note" id="addYourNote">
+	insert into CARDNOTE values(
+	notenum_seq.nextval, #{m_id}, #{cardnum}, #{startDate}, #{endDate}, sysdate, #{title}, #{content}, #{chk} 
+	)
+</insert>
+
+<delete id="deleteNote" parameterType="Note" >
+	delete cardnote where notenum=#{notenum}
+</delete>
+
+<delete id="deleteYourNote" parameterType="int">
+	delete cardnote where cardnum=#{cardnum}
+</delete>
+
 
 </mapper>

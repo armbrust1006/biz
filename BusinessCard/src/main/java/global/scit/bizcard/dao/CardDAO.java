@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import global.scit.bizcard.vo.Card;
+import global.scit.bizcard.vo.Note;
 
 public interface CardDAO {
 
@@ -24,4 +25,12 @@ public interface CardDAO {
 	public int share(String m_id, int book_num, int cardnum) throws Exception;
 
 	public Card searchCardSelect(int cardnum) throws Exception;
+	public int share(int book_num, int cardnum, String m_id) throws Exception;
+
+	// selectOneCard 요청 시 '나의 주소' 가져옴
+	public String myAddress(String m_id) throws Exception;
+
+	// 경유지 목록 가져옴
+	public List<Card> addStop(String m_id) throws Exception;
+
 }

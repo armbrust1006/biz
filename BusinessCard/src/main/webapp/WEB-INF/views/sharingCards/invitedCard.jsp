@@ -31,17 +31,10 @@
 										<div class="textarea-lined-wrap">
 											<table>
 												<tr>
-													<th>보낸사람</th>
-													<td>${m_sender}</td>
+													<th>보낸사람:</th>
+													<td>&nbsp;${m_sender}</td>
 												</tr>
 												<c:if test="${m_book_num ne 0 }">
-													<tr>
-														<th>공유방번호</th>
-														<td>&nbsp <input type="text"
-															style="border: none; border-right: 0px; border-top: 0px; boder-left: 0px; boder-bottom: 0px"
-															value="${m_book_num}" name="book_num"></td>
-													</tr>
-
 													<tr>
 														<th>공유방이름</th>
 														<td>&nbsp <input type="text"
@@ -60,6 +53,7 @@
 								<div
 									class="cell-xs-5 offset-top-30 offset-xs-top-30 offset-sm-top-50">
 									<c:if test="${m_book_num ne 0 }">
+										<input type="hidden" value="${m_book_num}" name="book_num">
 										<button type="submit" class="btn btn-primary btn-block" onclick="window.close()">수락하기</button>
 									</c:if>
 								</div>

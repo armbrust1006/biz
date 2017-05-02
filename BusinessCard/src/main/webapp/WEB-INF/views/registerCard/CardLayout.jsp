@@ -24,6 +24,7 @@
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
+	
 	(function(e, t, n) {
 		var r = e.querySelectorAll("html")[0];
 		r.className = r.className.replace(/(^|\s)no-js(\s|$)/, "$1js$2")
@@ -34,14 +35,17 @@
 	var file;
 	var reader;
 	var layout_num;
-
+	var canWidth=0;
+	var canHeight=0;
+	
 	$(document).ready(function() {
 		layout_num = document.getElementById("layout_num").value;
-
 		$("input").on("keyup", cardView);
 		$('input:file').on("change", cardView);
 		document.getElementById("reset").onclick = canvasClear;
 		document.getElementById("creatCard").onclick = imageSave;
+		
+		
 	});
 
 	/* 명함 clear */
@@ -124,6 +128,9 @@
 	function cardView() {
 		canvas = document.getElementById("myCanvas");
 		context = canvas.getContext("2d");
+		context.imageSmoothingEnabled = context.mozImageSmoothingEnabled = context.oImageSmoothingEnabled = context.webkitImageSmoothingEnabled 
+		  = false;
+		
 		file = document.querySelector("input[type=file]").files[0];
 		reader = new FileReader();
 
@@ -140,7 +147,11 @@
 				reader.addEventListener("load", function() {
 					var img = new Image();
 					img.onload = function() {
-						context.drawImage(img, 50, 35, 100, 100);
+						canWidth = img.width;
+						canHeight = img.height;
+						
+						context.drawImage(img, 50, 55, canWidth, canHeight);
+						
 					}
 					img.src = reader.result;
 				}, false);
@@ -151,30 +162,21 @@
 			}
 
 			context.font = "25px Arial";
-			context.fillText("James Cloud"
-					+ document.getElementById("name").value, 270, 70);
+			context.fillText(document.getElementById("name").value, 350, 70);
 
 			context.font = "20px Arial";
-			context.fillText("Komorebi Co"
-					+ document.getElementById("company").value, 200, 130);
+			context.fillText(document.getElementById("company").value, 250, 130);
 
 			context.font = "15px Arial";
-			context.fillText("영업부" + document.getElementById("depart").value,
-					200, 60);
-			context.fillText("부장 " + document.getElementById("position").value,
-					200, 80);
+			context.fillText(document.getElementById("depart").value, 250, 60);
+			context.fillText(document.getElementById("position").value, 250, 80);
 
 			context.font = "15px Arial";
-			context.fillText("서울시 강남구 삼성동 코엑스 4층 101호"
-					+ document.getElementById("address").value, 200, 180);
-			context.fillText("Mobile | 010-4013-1414"
-					+ document.getElementById("mobile").value, 200, 200);
-			context.fillText("Tel | 02-3213-2132"
-					+ document.getElementById("telephone").value, 200, 220);
-			context.fillText("Fax | 02-2133-2131"
-					+ document.getElementById("fax").value, 200, 240);
-			context.fillText("E-mail | komorebi@komorebi.com"
-					+ document.getElementById("email").value, 200, 260);
+			context.fillText(document.getElementById("address").value, 250, 180);
+			context.fillText("Mobile | "+ document.getElementById("mobile").value, 250, 200);
+			context.fillText("Tel | "+ document.getElementById("telephone").value, 250, 220);
+			context.fillText("Fax | "+ document.getElementById("fax").value, 250, 240);
+			context.fillText("E-mail | "+ document.getElementById("email").value, 250, 260);
 		}//2번 if
 
 		else if (layout_num == 3) {
@@ -312,6 +314,8 @@
 			if (file != null) {
 				reader.addEventListener("load", function() {
 					var img = new Image();
+					
+					
 					img.onload = function() {
 						context.drawImage(img, 400, 50, img.width, img.height);
 					}
@@ -479,12 +483,12 @@
 										<input class="inputfile inputfile-1" type="file" id="logo"
 											name="logo" style="display: none;"
 											data-multiple-caption="{count} files selected" multiple=""
-											accept="image/*"> <label for="logo" id="stext"><svg
+											accept="image/*"> <label for="logo" id="stext" style="border-radius:5px;><svg
 												xmlns="http://www.w3.org/2000/svg" width="20" height="17"
 												viewBox="0 0 20 17">
 											<path
 													d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
-											<span>Choose a file…</span></label>
+											<span">Choose a file…</span></label>
 									</div>
 								</div>
 

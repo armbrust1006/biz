@@ -31,7 +31,9 @@ delete from board where boardnum=#{boardnum} and book_num=#{book_num}
 update board set BOARD_CONTENT= #{content} where boardnum=#{boardnum} and book_num=#{book_num}
 </update>
 
+<update id="updateHits" parameterType="int">
+update board set board_hits=#{1}
+where boardnum=#{0}
+</update>
+
 </mapper>
-
-
-
