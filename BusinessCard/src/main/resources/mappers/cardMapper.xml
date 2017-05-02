@@ -62,13 +62,12 @@
 		and img.cardnum not in (select cardnum from
 		myCardIndex where m_id=#{m_id})
 		<if test="select != null and search != null">
-			and
 			<choose>
 				<when test="select.equalsIgnoreCase('name')">
-					upper(c.name) like upper('%'||#{search}||'%')
+					and upper(c.name) like upper('%'||#{search}||'%')
 				</when>
 				<when test="select.equalsIgnoreCase('company')">
-					upper(c.company) like upper('%'||#{search}||'%')
+					and upper(c.company) like upper('%'||#{search}||'%')
 				</when>
 			</choose>
 		</if>
@@ -116,16 +115,15 @@
 		from
 		mycardindex where m_id=#{m_id})
 		<if test="sort != null">
-			order by
 			<choose>
 				<when test="sort.equalsIgnoreCase('date')">
-					img.inputDate desc
+					order by img.inputDate asc
 				</when>
 				<when test="sort.equalsIgnoreCase('name')">
-					c.name desc
+					order by c.name asc
 				</when>
 				<when test="sort.equalsIgnoreCase('company')">
-					c.company desc
+					order by c.company asc
 				</when>
 			</choose>
 		</if>
@@ -133,38 +131,27 @@
 
 
 	<select id="selectOneCard" resultType="Card" parameterType="Card">
-		select
-		img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as
-		"cardType", img.shared as
-		"shared", img.layout_num as "layout_num",
-		c.name as "name", c.company as
-		"company", c.depart as
-		"depart",
-		c.position as "position", c.address as
-		"address", c.email as
-		"email",
+		select img.m_id as "m_id", img.cardNum as "cardNum", img.cardType as
+		"cardType",
+		img.shared as "shared", img.layout_num as "layout_num",
+		c.name as "name",
+		c.company as "company", c.depart as "depart",
+		c.position as
+		"position", c.address
+		as "address", c.email as "email",
 		c.telephone as "telephone", c.fax as
-		"fax", c.mobile as
-		"mobile",
-		img.inputDate as "inputDate", c.language as
-		"language",
+		"fax",
+		c.mobile as "mobile",
+		img.inputDate as "inputDate", c.language as "language",
 		c.logoImg as
 		"logoImg", img.imagePath as "imagePath", c.imgOriginal as
 		"imgOriginal"
-		from
-		cardImage img,
-		card c
-		where
-		img.cardnum = c.cardnum
+		from cardImage img, card c where img.cardnum = c.cardnum
 		and
 		img.m_id=#{m_id}
 		<choose>
-			<when test="cardNum != 0">
-				and c.cardnum = #{cardNum}
-			</when>
-			<when test="cardNum == 0">
-				and img.cardType = 'my'
-			</when>
+			<when test="cardNum != 0"> and c.cardnum = #{cardNum} </when>
+			<when test="cardNum == 0"> and img.cardType = 'my' </when>
 		</choose>
 	</select>
 
@@ -190,8 +177,14 @@
 	</select>
 
 	<insert id="share">
-		insert into sharedcard (m_id, book_num, cardnum,
-		inputdate) values(#{param1}, #{param2}, #{param3}, sysdate)
+		insert into sharedcard (
+		shared_cardnum,
+		book_num,
+		cardnum, m_id, inputdate
+		) values (
+		shared_cardnum_seq.nextval,
+		#{param1}, #{param2},
+		#{param3}, sysdate)
 	</insert>
 
 	<select id="myAddress" resultType="String" parameterType="String">

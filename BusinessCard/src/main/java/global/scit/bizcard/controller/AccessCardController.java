@@ -15,10 +15,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,6 +58,8 @@ public class AccessCardController {
 	private CardImageRepository cardImageRepository;
 	@Autowired
 	private MemberRepository memberRepository;
+	@Autowired
+	private ServletContext servletContext;
 
 	final String uploadPathLogo = "/CardImageFile/logo";
 	final String uploadPathCard = "/CardImageFile/card";
@@ -103,7 +105,7 @@ public class AccessCardController {
 	@RequestMapping(value = "/selectCardLayout", method = RequestMethod.GET)
 	public String registerMyCard(HttpSession session, int layout_num, Model model) {
 		if (session.getAttribute("cardType") == null) {
-			return "home/login_home";
+			return "login_home";
 		}
 		model.addAttribute("cardType", session.getAttribute("cardType"));
 		model.addAttribute("layout_num", layout_num);
@@ -160,7 +162,7 @@ public class AccessCardController {
 		int cardnum = cardImageRepository.getImageNumber(m_id);
 		card.setCardNum(cardnum);
 
-		if (logo != null) {
+		if (!logo.isEmpty()) {
 			card.setImgOriginal(logo.getOriginalFilename());
 			String savedFile = FileService.saveFile(logo, uploadPathLogo);
 			card.setLogoImg(savedFile);
@@ -337,6 +339,7 @@ public class AccessCardController {
 			@RequestParam(value = "sort", defaultValue = "date") String sort) {
 		String loginID = (String) session.getAttribute("m_id");
 		ArrayList<Card> list = new ArrayList<>();
+		System.out.println(sort);
 		if (loginID != null) {
 			Map<String, Object> sortMap = new HashMap<>();
 			sortMap.put("m_id", loginID);
@@ -362,7 +365,7 @@ public class AccessCardController {
 
 		Card card = cardRepository.selectOneCard(searchCard);
 		model.addAttribute("card", card);
-
+		System.out.println("asdasdwadq" + card);
 		int layout_num = card.getLayout_num();
 		if (layout_num == 1) {
 			return "registerCard/updateDragAndDrop";
@@ -403,7 +406,7 @@ public class AccessCardController {
 	 */
 	@RequestMapping(value = "/updateCardData", method = RequestMethod.POST)
 	public String updateCard(Card card, MultipartFile logo) {
-		if (logo != null) {
+		if (!logo.isEmpty()) {
 			card.setImgOriginal(logo.getOriginalFilename());
 			String savedFile = FileService.saveFile(logo, uploadPathLogo);
 			card.setLogoImg(savedFile);
@@ -578,13 +581,18 @@ public class AccessCardController {
 	@RequestMapping(value = "/selectOneCard", method = RequestMethod.GET)
 	public String selectOneCard(String email, int cardnum, HttpSession session, Model model) {
 		String loginID = (String) session.getAttribute("m_id");
+
 		email = memberRepository.getEmail(loginID);
 		model.addAttribute("m_email", email);
+
 		Card c = new Card();
 		c.setM_id(loginID);
 		c.setCardNum(cardnum);
 		Card selectedCard = cardRepository.selectOneCard(c);
 		model.addAttribute("selectedCard", selectedCard);
+
+		String myAddress = cardRepository.myAddress(loginID);
+		model.addAttribute("myAddress", myAddress);
 		return "possCards/selectOneCard";
 	}
 
@@ -603,24 +611,25 @@ public class AccessCardController {
 		String m_id = (String) session.getAttribute("m_id");
 		int check = cardRepository.shareCheck(cardnum, book_num);
 		if (check == 0) {
-			return cardRepository.share(cardnum, book_num, m_id);
+			return cardRepository.share(book_num, cardnum, m_id);
 		}
 		return 0;
 	}
 
-	/**
-	 * TTS(Text To Speech) 기능
-	 * 
-	 * @param textToSpeech
-	 * @return
-	 */
-	@ResponseBody
 	@RequestMapping(value = "/listen", method = RequestMethod.POST)
-	public String listen(String textToSpeech) {
+	public @ResponseBody String listen(String textToSpeech, String language) {
 		File f = null; // 음성을 담을 파일 객체
 		String clientId = "ONX92pr4J0ykWfLxefAd";// 애플리케이션 클라이언트 아이디값";
 		String clientSecret = "oszwvD6MCx";// 애플리케이션 클라이언트 시크릿값";
+
 		try {
+			if (language.equals("kor")) {
+				language = "mijin";
+			} else if (language.equals("eng")) {
+				language = "clara";
+			} else {
+				language = "yuri";
+			}
 			String text = URLEncoder.encode(textToSpeech, "UTF-8");
 			String apiURL = "https://openapi.naver.com/v1/voice/tts.bin";
 			URL url = new URL(apiURL);
@@ -628,7 +637,8 @@ public class AccessCardController {
 			con.setRequestMethod("POST");
 			con.setRequestProperty("X-Naver-Client-Id", clientId);
 			con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-			String postParams = "speaker=mijin&speed=0&text=" + text;
+
+			String postParams = "speaker=" + language + "&speed=0&text=" + text;
 			con.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(postParams);
@@ -640,18 +650,16 @@ public class AccessCardController {
 				InputStream is = con.getInputStream();
 				int read = 0;
 				byte[] bytes = new byte[1024];
-				// 랜덤한 이름으로 mp3 파일 생성
-				String tempname = Long.valueOf(new Date().getTime()).toString();
-				System.out.println(tempname + "파일이름");
-				f = new File(tempname + ".mp4");
+				f = new File(servletContext.getRealPath("/resources/voice/") + "voice.mp4");
 				f.createNewFile();
-				System.out.println(f.getAbsolutePath() + "파일경로");
 
+				System.out.println(f.getAbsolutePath() + "파일경로");
 				OutputStream outputStream = new FileOutputStream(f);
 				while ((read = is.read(bytes)) != -1) {
 					outputStream.write(bytes, 0, read);
 				}
 				is.close();
+				outputStream.close();
 			} else { // 에러 발생
 				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 				String inputLine;
@@ -660,13 +668,15 @@ public class AccessCardController {
 					response.append(inputLine);
 				}
 				br.close();
-				System.out.println(response.toString());
 			}
 		} catch (Exception e) {
-			System.out.println(e);
-
+			e.printStackTrace();
 		}
-		return f.getAbsolutePath();
+		try {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "./resources/voice/voice.mp4";
 	}
 
 }

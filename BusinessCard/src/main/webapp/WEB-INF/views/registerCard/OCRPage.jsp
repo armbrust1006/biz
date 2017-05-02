@@ -202,30 +202,31 @@ output {
 
 	/* 이미지 체크 및 스캔 시작 */
 	function imageSave() {
-		var file = document.querySelector("input[type=file]").files[0];
-		if (file == null) {
-			$('#myInput').html("Please check the Image!");
-			$("#myModal").modal();
-			console.log("woops");
-			return;
-		}
+		var file = null;
+		file = document.querySelector("input[type=file]").files[0];
 		if (document.getElementById("nameState").value != "OK") {
 			$('#myInput').html("Please select a name area!");
 			$("#myModal").modal();
 			console.log("woops");
-			return;
+			return false;
 		}
 		if (document.getElementById("companyState").value != "OK") {
 			$('#myInput').html("Please select a company area!");
 			$("#myModal").modal();
 			console.log("woops");
-			return;
+			return false;
 		}
 		if (document.getElementById("mobileState").value != "OK") {
 			$('#myInput').html("Please select a mobile area!");
 			$("#myModal").modal();
 			console.log("woops");
-			return;
+			return false;
+		}
+		if (file == null) {
+			$('#myInput').html("Please check the Image!");
+			$("#myModal").modal();
+			console.log("woops");
+			return false;
 		}
 		document.getElementById("imgSize").value = imgSize;
 		document.getElementById("getterValue").value = getterValue;

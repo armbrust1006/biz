@@ -43,6 +43,7 @@ public class MyController {
 		card.setM_id(String.valueOf(session.getAttribute("m_id")));
 		logger.info("card:" + card.toString());
 		Card myCard = cardRepository.selectOneCard(card);
+		System.out.println(myCard);
 		if (myCard == null) {
 			model.addAttribute("error", "Go to the business card creation page because no business card is created!");
 		} else {
