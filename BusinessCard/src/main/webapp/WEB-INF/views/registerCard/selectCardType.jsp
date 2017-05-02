@@ -99,7 +99,7 @@
 			class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
 			<div class="shell">
 				<div class="page-title">
-					<h2>Select My Card Type</h2>
+					<h2>Select ${cardType} Card Type</h2>
 				</div>
 			</div>
 		</section>

@@ -178,7 +178,7 @@
 
 </select>
 
-	<select id="shareCheck" resultType="_int">
+	<select id="shareCheck" resultType="int">
 		select book_num
 		from
 		sharedcard

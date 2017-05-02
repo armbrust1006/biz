@@ -26,7 +26,7 @@
             <h2 class="text-red-orange">komorebi OBOE</h2>
             <p class="h3 offset-top-0">Your Business Network</p>
             <p class="offset-top-40 text-secondary"> “명함은 회사가 고객이나 소비자에게 다가가고 연결되는데 중요한 역할을 하고, 광고처럼 소통의 역할도 한다”며 “85×55mm로 된 작은 예술작품은 회사의 모든 것에 대해 말해준다”고 이야기한다. 한 장의 명함을 통해 상대에게 자신을 각인시키고 새로운 사업 기회를 얻을 수도 있다는 말이다. </p>
-            <a href="login_home.html" class="btn btn-xl btn-primary">Start OBOE Now</a> </div>
+            <a href="${pageContext.request.contextPath}/" class="btn btn-xl btn-primary">Start OBOE Now</a> </div>
           <div class="cell-sm-11 cell-md-7 offset-top-40 offset-sm-top-60 offset-md-top-0">
             <div class="image-group">
               <figure data-wow-duration=".6s" data-wow-delay=".0s" data-wow-offset="80" class="wow fadeInRightSmall"> </figure>

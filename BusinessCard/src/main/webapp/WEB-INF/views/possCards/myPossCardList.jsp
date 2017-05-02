@@ -78,7 +78,7 @@
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
-		<section class="section-lg-top-10 section-66 section-sm-bottom-90 section-lg-bottom-80" style="background-color: aliceblue;">
+		<section class="section-lg-top-10 section-66 section-sm-bottom-90 section-lg-bottom-80">
 			<div class="shell offset-top-60 offset-sm-top-20">
 				<div class="text-center" style="font-size:36px;font-weight:500">보유 명함 목록</div>
 				<input type="button" class="btn btn-sm btn-primary" id="date" value="등록날짜순">

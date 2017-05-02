@@ -109,86 +109,27 @@ i {
       });
    }
 
-<<<<<<< HEAD
    function textToSpeech() {
-	      var textToSpeech = $("#textToSpeech").val();
-	      var language = $("#language").val();
-	      $.ajax({
-	         type : "post",
-	         url : "listen",
-	         data : {
-	            "textToSpeech" : textToSpeech,
-	            "language" : language
-	         },
-	         success : listen
-	      });
-	   }
-	   
-	   function listen(resp) {
-	      var audio = '';
-	      audio = "<embed src="+resp+" autostart='true' allowscriptaccess='always'"+
-	         "enablehtmlaccess='true' allowfullscreen='true' width='0' height='0' type='video/mp4'></embed><br>";
-	      $("#resultAudio").html(audio);
-	   }
-=======
-	function textToSpeech() {
-		var textToSpeech = $("#textToSpeech").val();
-		var language = $("#language").val();
-		$.ajax({
-			type : "post",
-			url : "listen",
-			data : {
-				"textToSpeech" : textToSpeech,
-				"language" : language
-			},
-			success : listen
-		});
-	}
-	
-	function listen(resp) {
-		var audio = '';
-		audio = "<embed src="+resp+" autostart='true' allowscriptaccess='always'"+
-			"enablehtmlaccess='true' allowfullscreen='true' width='0' height='0' type='video/mp4'></embed><br>";
-		$("#resultAudio").html(audio);
-	}
-	
-	
-	
-	function output(resp) {
-		$("#result").empty();
-		var list = '';
-		$
-				.each(
-						resp,
-						function(index, item) {
-							list += "<div class='comment-group'>"
-							list += "<article class='comment'>"
-							list += "<div class='unit unit-spacing-md unit-xs-horizontal'>"
-							list += "<div class='unit-left' id='unit-left'>"
-							list += "<figure>"
-							list += "<span class='icon icon-md icon-primary fa-user'></span>"
-							list += "</figure></div><div class='unit-body'><div class='comment-body'>"
-							list += "<div class='comment-body-header'>"
-							list += "<div class='comment-meta'>"
-							list += "<p class='user'>"
-									+ item.m_id
-									+ "</p></div><div class='comment-time'><div class='object-inline'>"
-							list += "<span class='icon icon-xxs-smaller icon-dusty-gray mdi mdi-clock'></span>"
-							list += "<time>" + item.inputdate + "</time>"
-							list += "</div></div></div><div class='comment-body-text'>"
-							list += "<span>"
-									+ item.reply
-									+ "  <input type='button' id='del"+index+"' class='w3-button w3-red' reply_num='"+item.reply_num+"' writer='"+item.m_id+"' value='삭제'>"
-							list += "<input type='button' class='w3-button w3-amber' id='update"+index+"' reply_num='"+item.reply_num+"' writer='"+item.m_id+"' value='수정' data-toggle='modal' data-target='#updateForm' data-whatever='@mdo'>"
-							list += "</span></div></div></div></div><article></div></div>"
-						});
-		$("#result").html(list);
->>>>>>> 홍준0430
+      var textToSpeech = $("#textToSpeech").val();
+      var language = $("#language").val();
+      $.ajax({
+         type : "post",
+         url : "listen",
+         data : {
+            "textToSpeech" : textToSpeech,
+            "language" : language
+         },
+         success : listen
+      });
+   }
 
-   
-   
-   
-   
+   function listen(resp) {
+      var audio = '';
+      audio = "<embed src="+resp+" autostart='true' allowscriptaccess='always'"+
+            "enablehtmlaccess='true' allowfullscreen='true' width='0' height='0' type='video/mp4'></embed><br>";
+      $("#resultAudio").html(audio);
+   }
+
    function output(resp) {
       $("#result").empty();
       var list = '';
@@ -323,11 +264,11 @@ i {
    }
 
    function cardDelete() {
-       var sharedId = document.getElementById('sharedId').value;
+      var sharedId = document.getElementById('sharedId').value;
       var loginId = '${m_id}';
       if (sharedId == loginId) {
          document.getElementById("sharedCardDeleteForm").submit();
-      } else{
+      } else {
          alert('접근 권한이 없습니다');
       }
 
@@ -384,7 +325,7 @@ i {
                      <div class="post-image">
                         <figure>
                            <img src=downloadImage?card=${sharedCard.IMAGEPATH} alt=''
-                              width='400' height='200' style="border: 1px solid;border-radius: 5px;" />
+                              width='400' height='200' />
                         </figure>
                      </div>
                </div>
@@ -406,34 +347,40 @@ i {
                               </dd>
                            </dl>
                         </li>
-                        
+
                         <li>
                            <dl class="list-terms-inline">
                               <dt>Shared by</dt>
                               <dd>${sharedCard.M_ID}</dd>
                            </dl>
                         </li>
-                       
+
                         <li>
-                         <dl class="list-terms-inline">
-	                        <a href="javascript:;" onclick="textToSpeech();"> 
-	                        <span class="icon icon-md icon-primary fa-bullhorn"></span></a> 
-	                        <input type="hidden" value="${sharedCard.COMPANY }${sharedCard.DEPART}${sharedCard.POSITION}${sharedCard.NAME }" id="textToSpeech">
-	                        <input type="hidden" value=${sharedCard.LANGUAGE } id="language">
-                        
-                         </dl>
+                           <dl class="list-terms-inline">
+                              <a href="javascript:;" onclick="textToSpeech();"> <span
+                                 class="icon icon-md icon-primary fa-bullhorn"></span></a>
+                              <input type="hidden"
+                                 value="${sharedCard.COMPANY }${sharedCard.DEPART}${sharedCard.POSITION}${sharedCard.NAME }"
+                                 id="textToSpeech">
+                              <input type="hidden" value=${sharedCard.LANGUAGE }
+                                 id="language">
+
+                           </dl>
                         </li>
 
 
-<<<<<<< HEAD
                         <li>
-                           <form id="sharedCardDeleteForm" method="post" action="sharedCardDelete">
+                           <form id="sharedCardDeleteForm" method="post"
+                              action="sharedCardDelete">
                               <input type="button" class="btn btn-info btn-xs"
-                                 value="공유 명함 삭제" onclick="cardDelete()">
-                                 <input type="hidden" id="sharedId" name="sharedId" value="${sharedCard.M_ID}">
-                                 <input type="hidden" id="shared_cardnum" name="shared_cardnum" value="${sharedCard.SHARED_CARDNUM }"> 
-                                 <input type="hidden" id="book_num" name="book_num" value="${sharedCard.BOOK_NUM}">
-                                 <input type="hidden" id="book_name" name="book_name" value="${book_name}">
+                                 value="공유 명함 삭제" onclick="cardDelete()"> <input
+                                 type="hidden" id="sharedId" name="sharedId"
+                                 value="${sharedCard.M_ID}"> <input type="hidden"
+                                 id="shared_cardnum" name="shared_cardnum"
+                                 value="${sharedCard.SHARED_CARDNUM }"> <input
+                                 type="hidden" id="book_num" name="book_num"
+                                 value="${sharedCard.BOOK_NUM}"> <input type="hidden"
+                                 id="book_name" name="book_name" value="${book_name}">
                            </form>
                         </li>
                      </ul>
@@ -480,109 +427,6 @@ i {
                               onclick="showRouteChoice()">
                            </td>
                         </tr>
-=======
-				<div class="range">
-					<div class="cell-md-8 cell-lg-6">
-						<article class="post post-single">
-							<div class="post-image">
-								<figure>
-									<img src=downloadImage?card=${sharedCard.IMAGEPATH} alt=''
-										width='400' height='200' style="border: 1px solid;border-radius: 5px;" />
-								</figure>
-							</div>
-					</div>
-					<div class="cell-md-8 cell-lg-9">
-						<div class="post-header">
-							<h4>
-								<span class="icon icon-md icon-primary fa-tag"></span> <span>${sharedCard.COMPANY}
-									| ${sharedCard.DEPART} | ${sharedCard.POSITION} |
-									${sharedCard.NAME}</span>
-							</h4>
-						</div>
-						<div class="post-meta">
-							<ul class="list-bordered-horizontal">
-								<li>
-									<dl class="list-terms-inline">
-										<dt>Shared_Date</dt>
-										<dd>
-											<time>${sharedCard.INPUTDATE}</time>
-										</dd>
-									</dl>
-								</li>
-								<li>
-									<dl class="list-terms-inline">
-										<dt>Shared by</dt>
-										<dd>${sharedCard.M_ID}</dd>
-									</dl>
-								</li>
-								
-								<li>
-								<dl class="list-terms-inline">
-								
-								<a href="javascript:;" onclick="textToSpeech();"> 
-								<span class="icon icon-md icon-primary fa-bullhorn"></span></a> 
-								<input type="hidden" value="${sharedCard.COMPANY }${sharedCard.DEPART}${sharedCard.POSITION}${sharedCard.NAME }" id="textToSpeech">
-								<input type="hidden" value=${sharedCard.LANGUAGE } id="language">
-								
-								</dl>
-								</li>
-								<li>
-								
-									<form id="sharedCardDeleteForm" method="post" action="sharedCardDelete">
-										<input type="button" class="btn btn-info btn-xs"
-											value="공유 명함 삭제" onclick="cardDelete()">
-											<input type="hidden" id="sharedId" name="sharedId" value="${sharedCard.M_ID}">
-											<input type="hidden" id="shared_cardnum" name="shared_cardnum" value="${sharedCard.SHARED_CARDNUM }"> 
-											<input type="hidden" id="book_num" name="book_num" value="${sharedCard.BOOK_NUM}">
-											<input type="hidden" id="book_name" name="book_name" value="${book_name}">
-											
-									</form>
-								</li>
-							</ul>
-						</div>
-						<div class="divider-fullwidth bg-gray-light offset-top-15"></div>
-						<div class="post-body">
-							<table class="table table-primary">
-								<tr>
-									<th><i class="fa fa-drivers-license fa-1x"></i> 회사</th>
-									<td>${sharedCard.COMPANY}</td>
-								</tr>
-								<tr>
-									<th><i class="fa fa-list-ol fa-1x"></i> 부서</th>
-									<td>${sharedCard.DEPART}</td>
-								</tr>
-								<tr>
-									<th><i class="fa fa-id-badge fa-1x"></i> 직책</th>
-									<td>${sharedCard.POSITION}</td>
-								</tr>
-								<tr>
-									<th><i class="fa fa-user-circle fa-1x"></i> 이름</th>
-									<td>${sharedCard.NAME}</td>
-								</tr>
-								<tr>
-									<th><i class="fa fa-fax fa-1x"></i> 전화</th>
-									<td>${sharedCard.MOBILE}</td>
-								</tr>
-								<tr>
-									<th><i class="fa fa-mobile fa-1x"></i> 휴대폰</th>
-									<td>${sharedCard.MOBILE}</td>
-								</tr>
-								<tr>
-									<th><i class="fa fa-envelope fa-1x"></i> 메일</th>
-									<td>${sharedCard.EMAIL}</td>
-								</tr>
-								<tr>
-									<th><i class="fa fa-paste fa-1x"></i> 팩스</th>
-									<td>${sharedCard.FAX}</td>
-								</tr>
-								<tr>
-									<th><i class="fa fa-crosshairs fa-1x"></i> 주소</th>
-									<td>${sharedCard.ADDRESS}<input type="button"
-										class="btn btn-info btn-xs" value="길 찾기"
-										onclick="showRouteChoice()">
-									</td>
-								</tr>
->>>>>>> 홍준0430
 
                      </table>
                      <input type="hidden" id="address" value="${sharedCard.ADDRESS}">
@@ -590,7 +434,6 @@ i {
                   </div>
                   <div class="divider-fullwidth bg-gray-light offset-top-15"></div>
 
-<<<<<<< HEAD
                   </article>
                   <div class="divider-fullwidth bg-gray-lighter offset-top-40"></div>
                   <div class="offset-top-40">
@@ -687,103 +530,5 @@ i {
    <div id="form-output-global" class="snackbars"></div>
    <script src="js/core.min.js"></script>
    <script src="js/script.js"></script>
-=======
-						</article>
-						<div class="divider-fullwidth bg-gray-lighter offset-top-40"></div>
-						<div class="offset-top-40">
-							<div
-								class="comment-list inset-sm-right-60 inset-md-right-30 inset-lg-right-100 offset-top-30">
-							</div>
-							
-						</div>
-						<div class="offset-top-40 offset-sm-top-60">
-							<div
-								class="inset-sm-right-60 inset-md-right-30 inset-lg-right-100 offset-top-15">
-								<form
-									class="rd-mailform form-classic form-classic-bordered label-outside"
-									method="post" action="replyInsert">
-									<div class="form-group">
-										<label for="comment-message" class="form-label-outside">Comment:</label>
-										<textarea id="reply" name="reply" data-constraints="@Required"
-											class="form-control"></textarea>
-									</div>
-									<div class="offset-top-30">
-										<input type="button" style="min-width: 200px;"
-											class="btn btn-primary" value="E N T E R" id="replyInsert">
-									</div>
-									<input type="hidden" id="book_num" name="book_num"
-										value="${sharedCard.BOOK_NUM}"> <input type="hidden"
-										id="shared_cardnum" name="shared_cardnum"
-										value="${sharedCard.SHARED_CARDNUM}"> <input
-										type="hidden" id="cardnum" name="cardnum"
-										value="${sharedCard.CARDNUM}">
-								</form>
-							</div>
-						</div>
-					</div>
-					<div class="cell-md-4 cell-lg-3 offset-top-50 offset-md-top-0">
-						<div class="inset-md-left-15 inset-md-right-10">
-							<div class="range">
-								<div class="cell-sm-6 cell-md-12" id="rightPanel">
-									<div id="map"></div>
-									<!-- 								<div class="offset-top-50">
-										<h6 class="text-uppercase">Menu</h6>
-										<ul class="list-marked-bordered offset-top-15">
-											<li><a href="#"><span>뒤로가기</span></a></li>
-											<li><a href="#"><span>Home</span></a></li>
-											<li><a href="#"><span>보유명함목록</span></a></li>
-											<li><a href="#"><span>공유명함첩목록</span></a></li>
-										</ul>
-									</div> -->
-									<div class="offset-top-50">
-										<h6 class="text-uppercase">Top Ranking</h6>
-										<div class="offset-top-30">
-											<article class="post post-preview offset-top-15">
-												<div class="unit unit-horizontal unit-spacing-sm">
-													<div class="unit-left">
-														<figure class="post-image">
-															<img src="resources\images\crown.png" alt="" id="kingImg">
-															<h6>공유왕</h6>
-														</figure>
-													</div>
-													<div class="unit-body" id="ranking">
-														<div class="post-header">
-															${shareCount.M_ID}님<br> ${shareCount.SHARECOUNT}개
-															명함공유
-														</div>
-													</div>
-												</div>
-											</article>
-											<article class="post post-preview offset-top-15">
-												<div class="unit unit-horizontal unit-spacing-sm">
-													<div class="unit-left">
-														<figure class="post-image">
-															<img src="resources\images\crown.png" alt="" id="kingImg">
-															<h6>댓글왕</h6>
-														</figure>
-													</div>
-													<div class="unit-body" id="ranking">
-														<div class="post-header">
-															${replyCount.M_ID}님<br> ${replyCount.REPLYCOUNT}개 댓글
-															<div id="resultAudio"></div>
-														</div>
-													</div>
-												</div>
-											</article>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		</main>
-	</div>
-	<div id="form-output-global" class="snackbars"></div>
-	<script src="js/core.min.js"></script>
-	<script src="js/script.js"></script>
->>>>>>> 홍준0430
 </body>
 </html>

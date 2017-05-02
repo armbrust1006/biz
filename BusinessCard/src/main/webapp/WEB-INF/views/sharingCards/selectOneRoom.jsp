@@ -574,28 +574,35 @@
 </head>
 <body style="">
 	<!-- 탈퇴 modal 시작 -->
-	<div class="modal fade" id="withdrawalForm" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<form method="post" action="leaveRoom">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h6 class="modal-title">탈퇴하시겠습니까?</h6>
-						<input type="hidden" value="${book_num}" id="book_num"
-							name="book_num"> <input type="button"
-							class="btn btn-primary-outline btn-shadow" data-dismiss="modal"
-							value="취소"> <input type="submit"
-							class="btn btn-primary btn-shadow" id="writeMemo" value="확인">
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 탈퇴 modal 끝 -->
+   <div class="modal fade" id="withdrawalForm" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <form method="post" action="leaveRoom">
+                  <button type="button" class="close" data-dismiss="modal"
+                     aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h5 class="modal-title">탈퇴하시겠습니까?</h5>
+                  <br>
+                  <h6>
+                     매니저가 탈퇴할 경우 공유 명함첩의 모든 정보가 삭제됩니다. <br>공유 명함첩 매니저:
+                     ${book_master}
+                  </h6>
+
+                  <input type="hidden" value="${book_num}" id="book_num"
+                     name="book_num"> <input type="hidden"
+                     value="${book_master}" id="book_master" name="book_master">
+                  <input type="button" class="btn btn-primary-outline btn-shadow"
+                     data-dismiss="modal" value="취소"> <input type="submit"
+                     class="btn btn-primary btn-shadow" id="writeMemo" value="확인">
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- 탈퇴 modal 끝 -->
 
 
 	<div class="page">
