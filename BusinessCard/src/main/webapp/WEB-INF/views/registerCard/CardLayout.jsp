@@ -121,8 +121,11 @@
 	function cardView() {
 		canvas = document.getElementById("myCanvas");
 		context = canvas.getContext("2d");
-		context.imageSmoothingEnabled = context.mozImageSmoothingEnabled = context.oImageSmoothingEnabled = context.webkitImageSmoothingEnabled 
-		  = false;
+		
+		context.imageSmoothingEnabled = context.mozImageSmoothingEnabled 
+									= context.oImageSmoothingEnabled 
+									= context.webkitImageSmoothingEnabled
+									= false;
 		
 		file = document.querySelector("input[type=file]").files[0];
 		reader = new FileReader();
@@ -143,7 +146,7 @@
 						canWidth = img.width;
 						canHeight = img.height;
 						
-						context.drawImage(img, 50, 55, canWidth, canHeight);
+						context.drawImage(img, 50, 30, canWidth/(2), canHeight/(2));
 						
 					}
 					img.src = reader.result;
@@ -154,22 +157,22 @@
 				}
 			}
 
-			context.font = "25px Arial";
-			context.fillText(document.getElementById("name").value, 350, 70);
+			context.font = "30px Arial";
+			context.fillText(document.getElementById("name").value, 380, 70);
 
 			context.font = "20px Arial";
-			context.fillText(document.getElementById("company").value, 250, 130);
+			context.fillText(document.getElementById("company").value, 300, 130);
 
 			context.font = "15px Arial";
-			context.fillText(document.getElementById("depart").value, 250, 60);
-			context.fillText(document.getElementById("position").value, 250, 80);
+			context.fillText(document.getElementById("depart").value, 300, 60);
+			context.fillText(document.getElementById("position").value, 300, 80);
 
 			context.font = "15px Arial";
-			context.fillText(document.getElementById("address").value, 250, 180);
-			context.fillText("Mobile | "+ document.getElementById("mobile").value, 250, 200);
-			context.fillText("Tel | "+ document.getElementById("telephone").value, 250, 220);
-			context.fillText("Fax | "+ document.getElementById("fax").value, 250, 240);
-			context.fillText("E-mail | "+ document.getElementById("email").value, 250, 260);
+			context.fillText(document.getElementById("address").value, 300, 180);
+			context.fillText("Mobile | "+ document.getElementById("mobile").value, 300, 200);
+			context.fillText("Tel | "+ document.getElementById("telephone").value, 300, 220);
+			context.fillText("Fax | "+ document.getElementById("fax").value, 300, 240);
+			context.fillText("E-mail | "+ document.getElementById("email").value, 300, 260);
 		}//2번 if
 
 		else if (layout_num == 3) {

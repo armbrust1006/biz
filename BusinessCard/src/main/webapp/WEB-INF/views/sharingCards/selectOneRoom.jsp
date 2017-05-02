@@ -719,7 +719,7 @@
 									<button type="button" class="withdrawalbutton"
 										style="vertical-align: middle" data-toggle="modal"
 										data-target="#withdrawalForm" data-whatever="@mdo"
-										id="showShareRoom">
+										id="deleteRoom">
 										<span>탈퇴하기</span>
 									</button>
 								</div>
