@@ -65,10 +65,12 @@ public class AccessCardController {
 	final String getPathOCR = "C:\\CardImageFile\\OCR\\";
 
 	/**
-	 * 카드 생성 타입 결정
+	 * Select business card type for create
 	 * 
 	 * @param session
+	 *            Get login id
 	 * @param type
+	 *            Get cart type
 	 * @param model
 	 * @return
 	 */
@@ -88,10 +90,15 @@ public class AccessCardController {
 	}
 
 	/**
-	 * 카드 레이아웃 선택
+	 * Select Card Layout
 	 * 
-	 * @param type
-	 * @return
+	 * @param session
+	 *            Get login id
+	 * @param layout_num
+	 *            Get select layout type
+	 * @param model
+	 *            Return select layout type
+	 * @return Change page to layout types
 	 */
 	@RequestMapping(value = "/selectCardLayout", method = RequestMethod.GET)
 	public String registerMyCard(HttpSession session, int layout_num, Model model) {
@@ -111,11 +118,13 @@ public class AccessCardController {
 	}
 
 	/**
-	 * 이미지 생성 및 서버에 이미지 저장
+	 * Create business card image and Saving
 	 * 
 	 * @param imageBase64
+	 *            Canvas array list data of changing to image file
 	 * @param cardImage
-	 * @return
+	 *            Set Card data VO
+	 * @return Saving result return
 	 */
 	@RequestMapping(value = "/saveCanvasImage", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> imageSave(
@@ -134,11 +143,16 @@ public class AccessCardController {
 	}
 
 	/**
-	 * 카드 생성 및 데이터 저장
+	 * Create business card and saving
 	 * 
 	 * @param card
+	 *            Set card data
 	 * @param logo
-	 * @return 보유 카드 목록으로 이동
+	 *            Get logo image
+	 * @param session
+	 *            Get login id
+	 * @return Save my card and move to my page OR Save others card and move to
+	 *         my card list page
 	 */
 	@RequestMapping(value = "/saveCardData", method = RequestMethod.POST)
 	public String saveCard(Card card, MultipartFile logo, HttpSession session) {
@@ -146,7 +160,7 @@ public class AccessCardController {
 		int cardnum = cardImageRepository.getImageNumber(m_id);
 		card.setCardNum(cardnum);
 
-		if (!logo.isEmpty()) {
+		if (logo != null) {
 			card.setImgOriginal(logo.getOriginalFilename());
 			String savedFile = FileService.saveFile(logo, uploadPathLogo);
 			card.setLogoImg(savedFile);
@@ -158,7 +172,7 @@ public class AccessCardController {
 
 		String type = card.getCardType();
 		if (type.equalsIgnoreCase("my")) {
-			return "home/login_home";
+			return "redirect:/myCard";
 		} else {
 			CardImage cardImage = new CardImage();
 			cardImage.setM_id(m_id);
@@ -169,7 +183,7 @@ public class AccessCardController {
 	}
 
 	/**
-	 * OCR 이미지 스캔
+	 * OCR scan image
 	 * 
 	 * @param language
 	 * @param file
@@ -199,7 +213,7 @@ public class AccessCardController {
 	}
 
 	/**
-	 * OCR 이미지 스캔
+	 * Save OCR scan image and data
 	 * 
 	 * @param language
 	 * @param file
@@ -238,12 +252,12 @@ public class AccessCardController {
 	}
 
 	/**
-	 * 명함 데이터 가져오기
+	 * Get business List
 	 * 
 	 * @param session
 	 * @param sort
 	 * @param model
-	 * @return 카드 보유 목록
+	 * @return CardList Page move
 	 */
 	@RequestMapping(value = "/myCardList", method = RequestMethod.GET)
 	public String myCardList() {
@@ -251,7 +265,7 @@ public class AccessCardController {
 	}
 
 	/**
-	 * card search
+	 * Cards searching
 	 * 
 	 * @param select
 	 * @param search
@@ -265,8 +279,9 @@ public class AccessCardController {
 		if (select != null || search != null) {
 			searchMap.put("select", select);
 			searchMap.put("search", search);
-			searchMap.put("m_id", String.valueOf(session.getAttribute("m_id")));
 		}
+		String m_id = String.valueOf(session.getAttribute("m_id"));
+		searchMap.put("m_id", m_id);
 		list = (ArrayList<Card>) cardRepository.searchCards(searchMap);
 		model.addAttribute("list", list);
 		return "possCards/cardSearch";
@@ -274,6 +289,7 @@ public class AccessCardController {
 
 	/**
 	 * Select one after searching card
+	 * 
 	 * @param select
 	 * @param search
 	 * @param model
@@ -288,6 +304,7 @@ public class AccessCardController {
 
 	/**
 	 * Add selected cards to my list
+	 * 
 	 * @param session
 	 * @param cardNum
 	 * @param model
@@ -308,9 +325,12 @@ public class AccessCardController {
 
 	/**
 	 * Search my business card list
+	 * 
 	 * @param session
+	 *            Get loginID and setting
 	 * @param sort
-	 * @return
+	 *            Set list sort
+	 * @return Search list
 	 */
 	@RequestMapping(value = "/listSort", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<Card> myCardListSort(HttpSession session,
@@ -327,7 +347,7 @@ public class AccessCardController {
 	}
 
 	/**
-	 * update target data get
+	 * Only my card can be updated and select
 	 * 
 	 * @param session
 	 * @param cardnum
@@ -339,8 +359,10 @@ public class AccessCardController {
 		Card searchCard = new Card();
 		searchCard.setM_id(String.valueOf(session.getAttribute("m_id")));
 		searchCard.setCardNum(cardNum);
+
 		Card card = cardRepository.selectOneCard(searchCard);
 		model.addAttribute("card", card);
+
 		int layout_num = card.getLayout_num();
 		if (layout_num == 1) {
 			return "registerCard/updateDragAndDrop";
@@ -350,7 +372,7 @@ public class AccessCardController {
 	}
 
 	/**
-	 * 명함 이지미 수정
+	 * Only my card image can be updated
 	 * 
 	 * @param imageBase64
 	 * @param cardImage
@@ -373,7 +395,7 @@ public class AccessCardController {
 	}
 
 	/**
-	 * 카드 수정
+	 * Only my card data can be updated
 	 * 
 	 * @param card
 	 * @param logo
@@ -414,10 +436,11 @@ public class AccessCardController {
 	}
 
 	/**
-	 * 로고 이미지 가져오기
+	 * Get logo image
 	 * 
 	 * @param response
-	 * @param card
+	 * @param logoImg
+	 * @param imgOriginal
 	 * @return
 	 */
 	@RequestMapping(value = "/downloadlogo", method = RequestMethod.GET)
@@ -460,7 +483,7 @@ public class AccessCardController {
 	}
 
 	/**
-	 * 명함 이미지 가져오기
+	 * Get business card image
 	 * 
 	 * @param response
 	 * @param card
@@ -503,7 +526,7 @@ public class AccessCardController {
 	}
 
 	/**
-	 * OCR 명함 이미지 가져오기 및 삭제
+	 * Get OCR image
 	 * 
 	 * @param response
 	 * @param card

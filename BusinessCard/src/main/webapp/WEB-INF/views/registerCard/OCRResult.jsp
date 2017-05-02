@@ -230,12 +230,6 @@
 									<button type="button" id="saveOCRData" name="saveOCRData"
 										class="btn btn-primary btn-block">Register</button>
 								</div>
-
-								<div
-									class="cell-xs-2 offset-top-22 offset-xs-top-30 offset-sm-top-50">
-									<button type="reset" class="btn btn-silver-outline btn-block"
-										id="reset" align="center">Reset</button>
-								</div>
 							</div>
 						</form>
 					</div>

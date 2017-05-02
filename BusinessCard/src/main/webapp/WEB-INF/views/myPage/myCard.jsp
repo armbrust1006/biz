@@ -13,6 +13,8 @@
 <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css"
 	href="css/css.css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
+<link rel="stylesheet" href="css/alertify.core.css" />
+<link rel="stylesheet" href="css/alertify.default.css" id="toggleCSS" />
 <link rel="stylesheet" href="css/style.css">
 <style>
 #map {
@@ -144,10 +146,11 @@
 </style>
 
 <script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="js/alertify.min.js"></script>
 <script type="text/javascript">
 	var error = "${error}";
 	if (error != null && error != '') {
-		alert(error);
+		alertify.alert(error);
 		document.location.href = "${pageContext.request.contextPath}/selectCardType?type=my";
 		//document.location.href = "selectCardType";
 	}
@@ -172,7 +175,7 @@
 
 		document.getElementById("cardUpdate").onclick = function() {
 			if ($("#layout_num").val() == 0) {
-				alert("OCR 스캔 이미지는 수정이 불가합니다. 삭제 후 재생성 해주세요!");
+				alertify.alert("OCR Scanned images can not be modified.\nPlease recreate it after deletion!");
 				return;
 			}
 			updateTOdelteForm("myCardUpdate");
@@ -515,10 +518,10 @@
 												id="sharedChange" name="sharedChange">
 												<c:choose>
 													<c:when test="${myCard.shared == 'y'}">
-														<span>공개 중</span>
+														<span>Open Card</span>
 													</c:when>
 													<c:when test="${myCard.shared == 'n'}">
-														<span>공개 중지 중</span>
+														<span>Not Card Open</span>
 													</c:when>
 												</c:choose>
 											</button>
@@ -679,9 +682,9 @@
 											</div>
 										</div>
 										<div class="btn btn-primary-outline btn-shadow"
-											id="cardUpdate">수정</div>
+											id="cardUpdate">Update</div>
 										<div class="btn btn-primary-outline btn-shadow"
-											id="cardDelete">삭제</div>
+											id="cardDelete">Delete</div>
 									</div>
 								</div>
 

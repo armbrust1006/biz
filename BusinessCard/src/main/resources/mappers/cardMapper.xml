@@ -68,10 +68,10 @@
 		(select *
 		from
 		cardImage
-		where shared = 'y') img, card c
+		where shared = 'y' and m_id!=#{m_id}) img, card c
 		where
 		img.cardnum = c.cardnum
-		and img.m_id!=#{m_id}
+		and img.cardnum not in (select cardnum from myCardIndex where m_id=#{m_id})
 		<if test="select != null and search != null">
 			and
 			<choose>

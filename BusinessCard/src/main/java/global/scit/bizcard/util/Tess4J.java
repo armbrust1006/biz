@@ -23,7 +23,6 @@ public class Tess4J {
 	private int imgHeight;
 	private BufferedImage img;
 	private BufferedImage splitImages[];
-	private String[] textData;
 	private ArrayList<Integer> index = new ArrayList<>();
 
 	private String originalImagePath = "C:\\CardImageFile\\OCR\\";
@@ -119,7 +118,6 @@ public class Tess4J {
 		instance.setDatapath(request.getServletContext().getRealPath("resources/tessdata"));
 		instance.setLanguage(ocrData.getLanguage());
 
-		textData = new String[9];
 		OCRResultData data = new OCRResultData();
 		try {
 			for (int i = 0, length = index.size(); i < length; i++) {

@@ -26,15 +26,6 @@
 }
 </style>
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-<script>
-	function searchCheck() {
-		var text = document.getElementById("rd-search-form-input-1").value;
-		if (text == null || text == "") {
-			return false;
-		}
-		return true;
-	}
-</script>
 </head>
 <body style="">
 	<div class="page">

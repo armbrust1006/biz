@@ -53,6 +53,12 @@
 		var listDiv = document.getElementById("list");
 		var tempHtml = "";
 		for (var i = 0; i < res.length; i++) {
+			if (res[i].company == null) {
+				res[i].company = "";
+			}
+			if (res[i].position == null) {
+				res[i].position = "";
+			}
 			tempHtml += "<div class='cell-xs-6 cell-sm-4 cell-md-4'> <div class='thumbnail-variant-2-wrap'> <a href='selectOneCard?cardnum="
 					+ res[i].cardNum
 					+ "'> <div class='thumbnail thumbnail-variant-2'> <!-- <figure class='thumbnail-image'> --> <img src='downloadImage?card="
@@ -60,9 +66,7 @@
 					+ "' alt='' style='width: 300px; height: 150px; border: 5px outset #217ED3;' /> <div class='thumbnail-caption'> <p class='text-header'>"
 					+ res[i].company
 					+ '&nbsp;'
-					+ res[i].depart
 					+ "</p> <div class='divider divider-md'></div> <p class='text-caption'>"
-					+ res[i].position
 					+ '&nbsp;'
 					+ res[i].name
 					+ "</p></div></div></a></div></div>";
@@ -71,8 +75,6 @@
 	}
 </script>
 <style>
-
-
 </style>
 
 
