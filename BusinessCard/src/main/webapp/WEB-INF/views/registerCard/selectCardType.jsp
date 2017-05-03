@@ -95,16 +95,18 @@
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
-		<section style="background-image: url(images/cardTypeEx/sample.jpg);"
+		<%-- <section style="background-image: url(images/cardTypeEx/sample.jpg);"
 			class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
 			<div class="shell">
 				<div class="page-title">
 					<h2>Select ${cardType} Card Type</h2>
 				</div>
 			</div>
-		</section>
-
+		</section> --%>
+		
+						
 		<section class="section-30 section-sm-100 section-lg-100">
+				<h2 style="text-align:center;">Select Card Type</h2>
 			<div class="shell">
 				<div class="range range-sm-center range-md-left">
 					<c:forEach begin="0" end="5" step="1" var="layout">

@@ -33,7 +33,7 @@
 		<main class="page-content">
 		<section class="section-66 section-sm-bottom-90 section-lg-bottom-120" style="background-color: #f2f4f7;">
 			<div class="shell offset-top-60 offset-sm-top-75">
-				<h3 class="text-center">명함 검색</h3>
+				<h2 class="text-center">Search Cards</h2>
 				<form action="searchCard" method="GET"
 					onsubmit="return searchCheck();">
 					<div class="select-group">

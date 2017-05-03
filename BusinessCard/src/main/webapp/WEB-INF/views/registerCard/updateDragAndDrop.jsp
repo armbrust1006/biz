@@ -285,14 +285,14 @@
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
-		<section style="background-image: url(images/1920x900.jpg);"
+		<%-- <section 
 			class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
 			<div class="shell">
 				<div class="page-title">
-					<h2>Register My Business Card</h2>
+					<h2>Update ${cardType} Business Card</h2>
 				</div>
 			</div>
-		</section>
+		</section> --%>
 		<section class="section-60 section-sm-top-90 section-sm-bottom-100">
 			<div class="shell">
 				<div class="range">

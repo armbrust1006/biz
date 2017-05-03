@@ -65,7 +65,7 @@ public class AccessCardController {
 	final String uploadPathCard = "C:\\CardImageFile\\card";
 	final String uploadPathOCR = "C:\\CardImageFile\\OCR";
 	final String getPathOCR = "C:\\CardImageFile\\OCR\\";
-
+	
 	/**
 	 * Select business card type for create
 	 * 

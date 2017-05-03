@@ -73,13 +73,13 @@
                     	<li><a href="searchCard">명함 검색</a> </li> <!-- 명함 검색 -->
                     	<li><a href="selectCardType">타인 명함 등록</a> </li> <!-- 명함 검색 -->
                       	<li><a href="myCardList">보유 명함 목록</a> </li> <!-- 갤러리 형식으로 명함을 나열해서 보여만 주는 간단한 sort기능만 구현 -->
-                      	<li><a href="#">명함 목록 관리</a> </li> <!-- 실제로 명함 등록, 수정, 삭제하고 리스트에 기본으로 나타낼 sorting기준 등 수정가능. -->
+                      	<!-- <li><a href="#">명함 목록 관리</a> </li> 실제로 명함 등록, 수정, 삭제하고 리스트에 기본으로 나타낼 sorting기준 등 수정가능. -->
                     </ul>
                   </li>
                   <li><a href="#">공유명함첩</a>
                     <ul class="rd-navbar-dropdown">
                       <li><a href="sharingRoom">내 공유 명함첩</a> </li>
-                      <li><a href="test">공유 명함첩 관리</a> </li>
+                      <!-- <li><a href="test">공유 명함첩 관리</a> </li> -->
                     </ul>
                   </li>
                 </ul>
