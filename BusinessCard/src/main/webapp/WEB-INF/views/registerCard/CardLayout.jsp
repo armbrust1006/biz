@@ -145,9 +145,7 @@
 					img.onload = function() {
 						canWidth = img.width;
 						canHeight = img.height;
-						
-						context.drawImage(img, 50, 30, canWidth/(2), canHeight/(2));
-						
+						context.drawImage(img, 50, 30, img.width/(1.5), img.height/(1.5));
 					}
 					img.src = reader.result;
 				}, false);

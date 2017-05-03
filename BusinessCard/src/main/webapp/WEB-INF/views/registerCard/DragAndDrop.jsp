@@ -137,9 +137,9 @@
          var text = $(this).val()
          if(text != null && text != ""){
             if($(this).attr("id") == "telephone"){
-               text = "TelePhone : " + text;
+               text = "Tel : " + text;
             }else if($(this).attr("id") == "mobile"){
-               text = "Mobiel : " + text;
+               text = "Mobile : " + text;
             }else if($(this).attr("id") == "fax"){
                text = "Fax : " + text;
             }
@@ -178,8 +178,8 @@
                      item : img,
                      x : 10,
                      y : 10,
-                     width : 100,
-                     height : 100,
+                     width : img.width/(1.5),
+                     height : img.height/(1.5),
                      type : "image"
                };
                ctx.drawImage(item.item, item.x, item.y, item.width, item.height);
