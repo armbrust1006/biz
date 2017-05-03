@@ -38,11 +38,11 @@
 		msg = "<table class='table table-primary' id='tbl'>";
 		msg += "<thead>";
 		msg += "<tr>";
-		msg += "<th>보낸사람</th>";
-		msg += "<th>내용</th>";
-		msg += "<th>날짜</th>";
-		msg += "<th>확인</th>";
-		msg += "<th>삭제</th>";
+		msg += "<th>送信者</th>";
+		msg += "<th>送信者</th>";
+		msg += "<th>日付</th>";
+		msg += "<th>送信者</th>";
+		msg += "<th>削除</th>";
 		msg += "</tr>";
 		msg += "</thead>";
 		$
@@ -57,9 +57,9 @@
 							if (item.type == 'message') {
 								msg += "<td><button class='btn btn-info btn-xs' id='flip1"+index+"' book_num=0 ><span>메시지</span></button></td></td>";
 							} else if (item.type == 'invitation') {
-								msg += "<td><button class='btn btn-info btn-xs' id='flip2"+index+"' book_num='" + item.book_num + "'><span>초대장</span></button></td>";
+								msg += "<td><button class='btn btn-info btn-xs' id='flip2"+index+"' book_num='" + item.book_num + "'><span>招待状</span></button></td>";
 							}
-							msg += "<td><button class='btn btn-info btn-xs' id='del"+index+"' delSender='"+item.sender+"' delMessage='"+item.message+"'><span>삭제</span></td>"
+							msg += "<td><button class='btn btn-info btn-xs' id='del"+index+"' delSender='"+item.sender+"' delMessage='"+item.message+"'><span>削除</span></td>"
 							msg += "</tr>";
 							msg += "</tbody>";
 
@@ -79,7 +79,7 @@
 		var delSender = $(this).attr("delSender");
 		var delMessage = $(this).attr("delMessage");
 		alert(typeof(delSender));
- 		alert('보낸이: ' + delSender + ' 내용: ' + delMessage);
+ 		alert('送信者: ' + delSender + '内容: ' + delMessage);
 		var data = { delSender : delSender, delMessage: delMessage};
 		
  		$.ajax({
@@ -88,7 +88,7 @@
 			type : "JSON",
 			data : data,
 			success: function(resp) {
-				alert('삭제하였습니다');
+				alert('削除しました。');
 				inBoxList();
 			}
 		});
@@ -121,11 +121,11 @@
 		var msg = '<table class="table table-primary">';
 		msg += "<thead>";
 		msg += "<tr>";
-		msg += "<th>받는사람</th>";
-		msg += "<th>내용</th>";
-		msg += "<th>보낸날짜</th>";
-		msg += "<th>확인날짜</th>";
-		msg += "<th>구분</th>";
+		msg += "<th>受信者</th>";
+		msg += "<th>内容</th>";
+		msg += "<th>送信日</th>";
+		msg += "<th>確認日</th>";
+		msg += "<th>区分</th>";
 		msg += "</tr>";
 		msg += "</thead>";
 		$.each(resp, function(index, item) {
@@ -161,8 +161,8 @@
 		form += '</svg>'
 		form += '</div>'
 		form += '<div class="quote-body-inner">'
-		form += "<h6>받는사람</h6> <input type='text' class='form-control' placeholder='받는 사람을 입력하세요.' name='targetId'>"
-		form += "<h6>메시지</h6><p><textarea name='message' data-constraints='@Required' class='form-control' placeholder='메시지를 작성하세요.'></textarea></p>"
+		form += "<h6>受信者</h6> <input type='text' class='form-control' placeholder='受信者を入力してください。' name='targetId'>"
+		form += "<h6>メッセージ</h6><p><textarea name='message' data-constraints='@Required' class='form-control' placeholder='メッセージを作成してください。'></textarea></p>"
 		form += '</div>'
 		form += '</div>'
 		form += '<div class="quote-footer">'
@@ -176,7 +176,7 @@
 		form += '</div>';
 		form += '</div>';
 		form += "<div class='group-lg group-middle group-sm offset-top-30 text-center'>";
-		form += "<button type='submit' class='btn btn-primary'>보내기</button><button type='reset' class='btn btn-primary-outline'>다시쓰기</button></div>";
+		form += "<button type='submit' class='btn btn-primary'>送る</button><button type='reset' class='btn btn-primary-outline'>リセット</button></div>";
 		form += '</form>';
 		$("#showMessage").html(form);
 	}
@@ -190,8 +190,8 @@
 			<div class="shell">
 				<div class="range range-sm-center range-lg-center range-lg-10">
 					<div class="cell-sm-10 cell-md-10 ">
-						<h3>메세지 박스</h3>
-						<p>회원들과 주고 받은 메세지를 확인하세요</p>
+						<h3>メッセージBOX</h3>
+						<p>他の会員と連絡してメッセージを確認してください。</p>
 						<div
 							class="group-middle group-lg offset-top-30 offset-bottom-40 text-center">
 							<div class="btn btn-primary-outline btn-shadow" id="inBoxList">InBox</div>
