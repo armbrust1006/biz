@@ -31,7 +31,7 @@
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
-		<section class="section-66 section-sm-bottom-90 section-lg-bottom-120">
+		<section class="section-66 section-sm-bottom-90 section-lg-bottom-120" style="background-color: #f2f4f7;">
 			<div class="shell offset-top-60 offset-sm-top-75">
 				<h3 class="text-center">명함 검색</h3>
 				<form action="searchCard" method="GET"
@@ -59,8 +59,8 @@
 									<div class="thumbnail thumbnail-variant-2">
 										<!-- <figure class="thumbnail-image"> -->
 										<img src="downloadImage?card=${getCard.imagePath}" alt=""
-											style="width: 300px; height: 150px" />
-										<div class="thumbnail-caption">
+											style="width: 300px; height: 150px;border: 1px solid;border-radius: 5px;" />
+										<div class="thumbnail-caption" style="border-radius:5px">
 											<p class="text-header">
 												${getCard.company}&nbsp;${getCard.depart}</p>
 											<div class="divider divider-md"></div>
