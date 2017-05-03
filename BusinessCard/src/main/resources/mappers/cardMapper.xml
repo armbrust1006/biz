@@ -147,8 +147,8 @@
 		"logoImg", img.imagePath as "imagePath", c.imgOriginal as
 		"imgOriginal"
 		from cardImage img, card c where img.cardnum = c.cardnum
-		and
-		img.m_id=#{m_id}
+		<if test="cardNum == 0"> and img.m_id=#{m_id}
+		</if>
 		<choose>
 			<when test="cardNum != 0"> and c.cardnum = #{cardNum} </when>
 			<when test="cardNum == 0"> and img.cardType = 'my' </when>

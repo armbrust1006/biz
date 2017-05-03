@@ -300,8 +300,7 @@ public class AccessCardController {
 	@RequestMapping(value = "/searchCardSelect", method = RequestMethod.GET)
 	public String searchCardSelect(int cardnum, Model model) {
 		model.addAttribute("selectedCard", cardRepository.searchCardSelect(cardnum));
-		model.addAttribute("searchCard", "searchCard");
-		return "possCards/selectOneCard";
+		return "possCards/searchSelect";
 	}
 
 	/**
@@ -317,12 +316,8 @@ public class AccessCardController {
 		CardImage cardImage = new CardImage();
 		cardImage.setM_id(String.valueOf(session.getAttribute("m_id")));
 		cardImage.setCardNum(cardNum);
-		if (cardImageRepository.myListOverlap(cardImage) == 0) {
-			return "redirect:/";
-		} else {
-			cardImageRepository.setMyCardList(cardImage);
-			return "redirect:/";
-		}
+		cardImageRepository.setMyCardList(cardImage);
+		return "redirect:/myCardList";
 	}
 
 	/**
@@ -581,6 +576,7 @@ public class AccessCardController {
 	@RequestMapping(value = "/selectOneCard", method = RequestMethod.GET)
 	public String selectOneCard(String email, int cardnum, HttpSession session, Model model) {
 		String loginID = (String) session.getAttribute("m_id");
+		System.out.println(cardnum);
 
 		email = memberRepository.getEmail(loginID);
 		model.addAttribute("m_email", email);
@@ -589,6 +585,7 @@ public class AccessCardController {
 		c.setM_id(loginID);
 		c.setCardNum(cardnum);
 		Card selectedCard = cardRepository.selectOneCard(c);
+		System.out.println(selectedCard);
 		model.addAttribute("selectedCard", selectedCard);
 
 		String myAddress = cardRepository.myAddress(loginID);
