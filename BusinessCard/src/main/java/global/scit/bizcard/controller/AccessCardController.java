@@ -61,9 +61,9 @@ public class AccessCardController {
 	@Autowired
 	private ServletContext servletContext;
 
-	final String uploadPathLogo = "/CardImageFile/logo";
-	final String uploadPathCard = "/CardImageFile/card";
-	final String uploadPathOCR = "/CardImageFile/OCR";
+	final String uploadPathLogo = "C:\\CardImageFile\\logo";
+	final String uploadPathCard = "C:\\CardImageFile\\card";
+	final String uploadPathOCR = "C:\\CardImageFile\\OCR";
 	final String getPathOCR = "C:\\CardImageFile\\OCR\\";
 
 	/**

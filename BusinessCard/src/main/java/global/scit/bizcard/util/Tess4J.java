@@ -6,11 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import global.scit.bizcard.vo.OCRData;
 import global.scit.bizcard.vo.OCRResultData;
