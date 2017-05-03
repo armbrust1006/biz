@@ -645,6 +645,7 @@ public class AccessCardController {
 			wr.flush();
 			wr.close();
 			int responseCode = con.getResponseCode();
+			System.out.println(responseCode);
 			BufferedReader br;
 			if (responseCode == 200) { // 정상 호출
 				InputStream is = con.getInputStream();
