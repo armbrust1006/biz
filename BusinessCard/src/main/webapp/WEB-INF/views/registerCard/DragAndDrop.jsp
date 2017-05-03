@@ -172,8 +172,8 @@
                      item : img,
                      x : 10,
                      y : 10,
-                     width : 100,
-                     height : 100,
+                     width : img.width/(1.5),
+                     height : img.height/(1.5),
                      type : "image"
                };
                ctx.drawImage(item.item, item.x, item.y, item.width, item.height);

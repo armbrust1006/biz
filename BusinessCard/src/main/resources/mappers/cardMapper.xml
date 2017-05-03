@@ -10,7 +10,8 @@
 		column="cardType" /> <result property="imagePath" column="imagePath" /> <result 
 		property="inputDate" column="inputDate" /> </resultMap> <resultMap type="Card" 
 		id="Card"> <result property="name" column="name" /> <result property="company" 
-		column="company" /> <result property="depart" column="depart" /> <result 
+		column="company" /> <result property="deshare
+		part" column="depart" /> <result 
 		property="address" column="address" /> <result property="email" column="email" 
 		/> <result property="telephone" column="telephone" /> <result property="fax" 
 		column="fax" /> <result property="mobile" column="mobile" /> <result property="language" 
@@ -187,14 +188,7 @@
 	</select>
 
 	<insert id="share">
-		insert into sharedcard (
-		shared_cardnum,
-		book_num,
-		cardnum, m_id, inputdate
-		) values (
-		shared_cardnum_seq.nextval,
-		#{param1}, #{param2},
-		#{param3}, sysdate)
+		.
 	</insert>
 
 	<select id="getOCRMachining" resultType="Card" parameterType="String">

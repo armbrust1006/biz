@@ -57,7 +57,6 @@ public class CardRepository implements CardDAO {
 		try {
 			result = dao.shareCheck(cardnum, book_num);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return result;
 	}
