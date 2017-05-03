@@ -193,7 +193,7 @@
       };
 
       if (sDate.length == 0 || eDate.length == 0 || message.length == 0) {
-         alert('일정과 메세지를 입력하세요');
+         alert('日程とメッセージを入力してください');
       }
 
       alert("check");
@@ -210,7 +210,7 @@
                $('#startDate').val("");
                $('#endDate').val("");
                $('#title').val("");
-               alert("일정 등록 실패");
+               alert("日程登録失敗");
             }
          },
          error : function() {
@@ -286,14 +286,14 @@
       var domain = my_id.substring(my_id.indexOf("@") + 1, my_id.length);
 
       if (domain != "gmail.com") {
-         alert("gmail.만 가능합니다.");
+         alert("gmailのみ可能です");
       } else {
          if (my_Password.length == 0) {
-            alert("password를 입력하세요");
+            alert("暗証番号を入力してください");
             return false;
          }
          if (title.length == 0 || message.length == 0) {
-            alert("제목과 내용을 입력해주세요");
+            alert("タイトルと内容を入力してください");
             return false;
          } else {
             $
@@ -310,13 +310,13 @@
 
                      success : function(resp) {
                         if (resp == 0) {
-                           alert("전송성공했습니다.");
+                           alert("伝送に成功");
                            $("#title").val('');
                            $("#message").val('');
                         } else if (resp == 1) {
-                           alert("전송실패하였습니다. 상대방의 메일주소를 확인해주세요.");
+                           alert("送信失敗しました。");
                         } else if (resp == 2) {
-                           alert("전송실패하였습니다. 본인의 gmail비밀번호 및 상대방의 메일 주소를 확인해주세요.");
+                           alert("送信失敗しました。");
                         }
                      }
                   })
@@ -336,8 +336,8 @@
       var msg = '<table class="table table-primary table-striped">';
       msg += "<thead>";
       msg += "<tr>";
-      msg += "<th>" + "공유방 목록" + "</th>";
-      msg += "<th>" + "바로 공유" + "</th>";
+      msg += "<th>" + "共有掲示リスト" + "</th>";
+      msg += "<th>" + "すぐ共有" + "</th>";
       msg += "</tr>";
       msg += "</thead>";
       $
@@ -347,7 +347,7 @@
                      msg += "<tbody>";
                      msg += "<tr>";
                      msg += "<td>" + item.BOOK_NAME + "</td>";
-                     msg += "<td><button type='button' class='sharebutton' style='vertical-align: middle' book_num='"+item.BOOK_NUM+"'><span>공유하기</span></button>";
+                     msg += "<td><button type='button' class='sharebutton' style='vertical-align: middle' book_num='"+item.BOOK_NUM+"'><span>共有する</span></button>";
                      msg += "</tr>";
                      msg += "<tbody>";
                   });
@@ -368,9 +368,9 @@
          },
          success : function(resp) {
             if (resp == 1) {
-               alert('공유하였습니다.');
+               alert('共有しました。');
             } else {
-               alert('이미 공유되어 있는 카드입니다.');
+               alert('すでに共有されているカードです。');
             }
          }
       });
@@ -422,17 +422,17 @@
          <div class="modal-content">
             <div class="modal-header">
                <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h5 class="modal-title">새 일정 입력</h5>
+               <h5 class="modal-title">新しいスケジュール入力</h5>
             </div>
             <form>
                <div class="modal-body">
                   <div
                      class="cell-xs-4 offset-top-30 offset-xs-top-30 offset-sm-top-50">
                      <div class="form-group">
-                        <label>일정 시작일</label> <input type="date" id="startDate">
+                        <label>日程開始日</label> <input type="date" id="startDate">
                      </div>
                      <div class="form-group">
-                        <label>일정 종료일</label> <input type="date" id="endDate">
+                        <label>日程終了日</label> <input type="date" id="endDate">
                      </div>
                      <div class="form-group">
                         <textarea name="content" id="content"
@@ -448,9 +448,9 @@
                <div class="modal-footer">
                   <div class="group-lg group-middle group-sm offset-top-30">
                      <button type="button" class="btn btn-primary btn-sm"
-                        data-dismiss="modal" id="confirm">확인</button>
+                        data-dismiss="modal" id="confirm">確認</button>
                      <button type="button" class="btn btn-default btn-sm"
-                        data-dismiss="modal">닫기</button>
+                        data-dismiss="modal">キャンセル</button>
                   </div>
                </div>
             </form>
@@ -471,7 +471,7 @@
                   <span aria-hidden="true">&times;</span>
                </button>
                <h4 class="modal-title" id="exampleModalLabel">공유하기</h4>
-               <h6 class="modal-title">공유할 명함방을 선택하세요.</h6>
+               <h6 class="modal-title">共有する名刺妾を選択してください。</h6>
             </div>
             <div class="modal-body">
                <form>
@@ -486,8 +486,8 @@
                      <div class="form-group" id="shareRoomList">d</div>
                   </div>
                   <input type="button" class="btn btn-primary-outline btn-shadow"
-                     data-dismiss="modal" value="닫기"> <input type="button"
-                     class="btn btn-primary btn-shadow" id="writeMemo" value="저장">
+                     data-dismiss="modal" value="キャンセル"> <input type="button"
+                     class="btn btn-primary btn-shadow" id="writeMemo" value="保存">
                </form>
             </div>
          </div>
@@ -516,12 +516,12 @@
                            <h5></h5>
                            <button type="button" class="button"
                               style="vertical-align: middle" onclick="showRouteChoice()">
-                              <span>길 찾기</span>
+                              <span>道を探す</span>
                            </button>
 
                            <button type="button" class="button" id="addStop"
                               style="vertical-align: middle">
-                              <span>경유 설정</span>
+                              <span>軽油設定</span>
                            </button>
                            <!-- 지도 끝 -->
 
@@ -617,13 +617,13 @@
                               id="selectedName" name="selectedName" value="${selectedCard.name}" readonly /> 
                               <button type="button" class="button" style="vertical-align: middle" data-toggle="modal"
                                  data-target="#addSchedule" data-whatever="@mdo">
-                                 <span>메모하기</span>
+                                 <span>メモ</span>
                               </button>
                               <button type="button" class="button"
                                  style="vertical-align: middle" data-toggle="modal"
                                  data-target="#shareModal" data-whatever="@mdo"
                                  id="showShareRoom">
-                                 <span>공유하기</span>
+                                 <span>共有</span>
                               </button>
                               <a href="javascript:;" onclick="textToSpeech();"> 
                                <span class="icon icon-md icon-primary fa-bullhorn"></span></a> 
@@ -680,7 +680,7 @@
                                           data-parent="#accordionOne" href="#accordionOneCollapse1"
                                           aria-controls="accordionOneCollapse1" class="collapsed">
                                           <span class="icon icon-md icon-primary fa-tablet"></span>
-                                          &nbsp;&nbsp;휴대전화
+                                          &nbsp;&nbsp;携帯電話
                                           <p>${selectedCard.mobile}</p> <!--   <div class="panel-arrow"></div> -->
                                        </a>
                                     </div>
@@ -693,7 +693,7 @@
                                              data-parent="#accordionOne" href="#accordionOneCollapse2"
                                              aria-controls="accordionOneCollapse2" class="collapsed">
                                              <span class="icon icon-md icon-primary fa-envelope-o"></span>
-                                             &nbsp;&nbsp;이메일
+                                             &nbsp;&nbsp;メール
                                              <p>${selectedCard.email}</p>
                                              <div class="panel-arrow"></div>
                                           </a>
@@ -703,28 +703,28 @@
                                        aria-labelledby="accordionOneHeading2"
                                        class="panel-collapse collapse">
                                        <div class="panel-body">
-                                          <label><h5>${selectedCard.email}으로메일을보냅니다.</h5></label> <label
-                                             style="color: red">(gmail일 경우에만 입력창이 활성화됩니다.)</label>
+                                          <label><h5>${selectedCard.email}にメールを送ります。</h5></label> <!-- <label
+                                             style="color: red">(gmail일 경우에만 입력창이 활성화됩니다.)</label> -->
                                           <form name="sendForm" method="post" id="sendForm">
                                              <table id="mailTable">
                                                 <tr>
-                                                   <th id="dd">보내는사람</th>
+                                                   <th id="dd">送信者</th>
                                                    <td><input type="text" name="my_id" id="my_id"
                                                       value="${m_email }"></td>
                                                 </tr>
                                                 <tr>
-                                                   <th id="dd">비밀번호</th>
+                                                   <th id="dd">パスワード</th>
                                                    <td><input type="password"
-                                                      placeholder="gmail 비밀번호" id="my_Password"
+                                                      placeholder="パスワード" id="my_Password"
                                                       name="my_Password"></td>
                                                 </tr>
                                                 <tr>
-                                                   <th id="dd">제목</th>
-                                                   <td><input type="text" placeholder="제목" id="title"
+                                                   <th id="dd">タイトル</th>
+                                                   <td><input type="text" placeholder="タイトル" id="title"
                                                       name="title"></td>
                                                 </tr>
                                                 <tr>
-                                                   <th colspan="2"><textarea placeholder="내용"
+                                                   <th colspan="2"><textarea placeholder="内容"
                                                          name="message" id="message" cols="53" rows="10"
                                                          style="resize: none; border-style: double;"></textarea></th>
                                                 </tr>
@@ -754,7 +754,7 @@
                                              data-parent="#accordionOne" href="#accordionOneCollapse3"
                                              aria-controls="accordionOneCollapse3" class="collapsed">
                                              <span class="icon icon-md icon-primary fa-phone"></span>
-                                             &nbsp;&nbsp;회사 전화
+                                             &nbsp;&nbsp;電話
                                              <p>${selectedCard.telephone}</p> <!--     <div class="panel-arrow"></div> -->
                                           </a>
                                        </div>
@@ -774,7 +774,7 @@
                                           <a role="button" data-toggle="collapse"
                                              data-parent="#accordionOne" href="#accordionOneCollapse4"
                                              aria-controls="accordionOneCollapse4" class="collapsed">
-                                             <span class="icon icon-md icon-primary fa-fax"></span>&nbsp;&nbsp;&nbsp;팩스
+                                             <span class="icon icon-md icon-primary fa-fax"></span>&nbsp;&nbsp;&nbsp;ファクス
                                              <p>${selectedCard.fax}</p> <!-- <div class="panel-arrow"></div> -->
                                           </a>
                                        </div>
@@ -794,8 +794,8 @@
                                           <a role="button" data-toggle="collapse"
                                              data-parent="#accordionOne" href="#accordionOneCollapse5"
                                              aria-controls="accordionOneCollapse5" class="collapsed">
-                                             <span class="icon icon-md icon-primary fa-map-marker"></span>&nbsp;&nbsp;&nbsp;회사
-                                             주소
+                                             <span class="icon icon-md icon-primary fa-map-marker"></span>&nbsp;&nbsp;&nbsp;
+                                             住所
                                              <p>${selectedCard.address}</p> <input type="hidden"
                                              id="address" value="${selectedCard.address}"> <!-- <div class="panel-arrow"></div> -->
                                           </a>
@@ -811,7 +811,7 @@
                                  </div>
                                  <div class="btn btn-primary-outline btn-shadow"
                                     id="cardDelete">
-                                    삭제
+                                    削除
                                     <form id="cardDeleteForm" method="POST" action="cardDelete">
                                        <input type="hidden" id="cardNum" name="cardNum"
                                           value="${selectedCard.cardNum}"> <input
