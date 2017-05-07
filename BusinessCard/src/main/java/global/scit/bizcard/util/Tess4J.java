@@ -41,6 +41,11 @@ public class Tess4J {
 	 */
 
 	public OCRResultData getTess4J(OCRData ocrData, HttpServletRequest request) {
+		File path = new File(originalImagePath);
+		if (!path.isDirectory()) {
+			path.mkdirs();
+		}
+		
 		String id = ocrData.getM_id();
 		// 선택 영역 값 가져오기
 		int[][] grid = new int[9][4];
