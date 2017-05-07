@@ -8,7 +8,7 @@
             <div class="cell-sm-6 cell-md-4">
               <div class="inset-md-right-30">
                 <h6 class="text-uppercase">About KOMOREBI</h6>
-                <p class="offset-top-22"> 명함 </p>
+                <p class="offset-top-22">Copyright ©2017. All rights reserved by Komorebi</p>
               </div>
               <div class="offset-top-22">
                 <div class="group-md group-top">

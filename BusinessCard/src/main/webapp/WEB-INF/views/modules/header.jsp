@@ -14,7 +14,7 @@
                   <li>
                     <div class="unit unit-horizontal unit-spacing-xs unit-middle">
                       <div class="unit-left"><span class="icon icon-xxs icon-primary fa-user"></span></div>
-                      <div class="unit-body"><a href="myPage" class="link-secondary">${m_id}님 접속 중</a></div>
+                      <div class="unit-body"><a href="myPage" class="link-secondary">${m_id}様の接続中</a></div>
                     </div>
                   </li>
                   <li>
@@ -22,7 +22,7 @@
                       <div class="unit-left"><span class="icon icon-xxs icon-primary fa-envelope-o"></span></div>
                       <div class="unit-body">
                       <a href="messageList" class="link-secondary">
-                      <span class="__cf_email__" data-cfemail="81e8efe7eec1e5e4eceeede8efeaafeef3e6"></span>내 메시지</a></div>
+                      <span class="__cf_email__" data-cfemail="81e8efe7eec1e5e4eceeede8efeaafeef3e6"></span>私のメッセージ</a></div>
                     </div>
                   </li>
                   <li>
@@ -30,7 +30,7 @@
                       <div class="unit-left"><span class="icon icon-xxs icon-primary fa-sign-out"></span></div>
                       <div class="unit-body">
                       <a href="logout" class="link-secondary" >
-                      <span class="__cf_email__" data-cfemail="81e8efe7eec1e5e4eceeede8efeaafeef3e6"></span>로그아웃</a></div>
+                      <span class="__cf_email__" data-cfemail="81e8efe7eec1e5e4eceeede8efeaafeef3e6"></span>ログアウト</a></div>
                     </div>
                   </li>
                 </ul>
@@ -59,30 +59,41 @@
             <div class="rd-navbar-nav-wrap">
               <div class="rd-navbar-nav-inner">
                 <ul class="rd-navbar-nav">
-                  <li><a href="login_home">Home</a> </li>
-                  <li class="active"><a>MYPAGE</a>
-                        <ul class="rd-navbar-dropdown" for="mypage">
-                          <li><a href="selectCardType?type=my">내 명함 등록</a></li>
-                          <li><a href="myCard">내 명함 관리</a></li>
-                          <li><a href="myPage">내 정보 관리</a></li>
-                          <li><a href="mySchedule">내 일정 관리</a></li> <!-- 캘린더API구현 위치 -->
+                  <li><a href="login_home">Home</a>
+                  <ul></ul>
+                  </li>
+                  
+                  <li><a href='#'>マイページ</a>
+                        <ul class="rd-navbar-dropdown">
+                          <li><a href="selectCardType?type=my">自分の名刺登録</a></li>
+                          <li><a href="myCard">自分の名刺管理</a></li>
+                          <li><a href="myPage">私の情報管理</a></li>
+                          <li><a href="mySchedule">スケジュール管理</a></li> <!-- 캘린더API구현 위치 -->
                         </ul>
                   </li>
-                  <li><a href="#">보유명함첩</a>
+                  <li><a href="#">保有名刺妾</a>
                     <ul class="rd-navbar-dropdown">
-                    	<li><a href="searchCard">명함 검색</a> </li> <!-- 명함 검색 -->
-                    	<li><a href="selectCardType">타인 명함 등록</a> </li> <!-- 명함 검색 -->
-                      	<li><a href="myCardList">보유 명함 목록</a> </li> <!-- 갤러리 형식으로 명함을 나열해서 보여만 주는 간단한 sort기능만 구현 -->
-                      	<li><a href="#">명함 목록 관리</a> </li> <!-- 실제로 명함 등록, 수정, 삭제하고 리스트에 기본으로 나타낼 sorting기준 등 수정가능. -->
+                    	<li><a href="searchCard">名刺検索</a> </li> <!-- 명함 검색 -->
+                    	<li><a href="selectCardType">他人の名刺登録</a> </li> <!-- 명함 검색 -->
+                      	<li><a href="myCardList">保有名刺リスト</a> </li> <!-- 갤러리 형식으로 명함을 나열해서 보여만 주는 간단한 sort기능만 구현 -->
+                      	<!-- <li><a href="#">명함 목록 관리</a> </li> 실제로 명함 등록, 수정, 삭제하고 리스트에 기본으로 나타낼 sorting기준 등 수정가능. -->
                     </ul>
                   </li>
-                  <li><a href="#">공유명함첩</a>
+                  
+                  
+                  <li><a href="#">共有名刺妾</a>
                     <ul class="rd-navbar-dropdown">
-                      <li><a href="sharingRoom">내 공유 명함첩</a> </li>
-                      <li><a href="test">공유 명함첩 관리</a> </li>
+                      <li><a href="sharingRoom">私の共有名刺妾</a> </li>
+                      <!-- <li><a href="test">공유 명함첩 관리</a> </li> -->
                     </ul>
                   </li>
-                </ul>
+                  
+                 <li><a href="about-us">About Us</a>
+                 <ul class="rd-navbar-nav"></ul>
+                 </li>
+                  
+                  </ul>
+                
               </div>
             </div>
           </div>

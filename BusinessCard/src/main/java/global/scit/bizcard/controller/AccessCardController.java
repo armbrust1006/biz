@@ -61,11 +61,11 @@ public class AccessCardController {
 	@Autowired
 	private ServletContext servletContext;
 
-	final String uploadPathLogo = "/CardImageFile/logo";
-	final String uploadPathCard = "/CardImageFile/card";
-	final String uploadPathOCR = "/CardImageFile/OCR";
+	final String uploadPathLogo = "C:\\CardImageFile\\logo";
+	final String uploadPathCard = "C:\\CardImageFile\\card";
+	final String uploadPathOCR = "C:\\CardImageFile\\OCR";
 	final String getPathOCR = "C:\\CardImageFile\\OCR\\";
-
+	
 	/**
 	 * Select business card type for create
 	 * 
@@ -81,7 +81,7 @@ public class AccessCardController {
 			Model model) {
 		if (type.equalsIgnoreCase("my")) {
 			if (cardImageRepository.myCardExist(String.valueOf(session.getAttribute("m_id"))) != null) {
-				model.addAttribute("error", "You already have a business card.");
+				model.addAttribute("error", "すでに自分の名刺が登録されています。");
 			} else {
 				session.setAttribute("cardType", "my");
 			}

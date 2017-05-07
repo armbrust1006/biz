@@ -8,7 +8,7 @@
             <div class="cell-sm-6 cell-md-4">
               <div class="inset-md-right-30">
                 <h6 class="text-uppercase">About KOMOREBI</h6>
-                <p class="offset-top-22"> 명함 </p>
+                <p class="offset-top-22"> Copyright ©2017. All rights reserved by Komorebi</p>
               </div>
               <div class="offset-top-22">
                 <div class="group-md group-top">
@@ -30,19 +30,19 @@
               </div>
             </div>
             <div class="cell-sm-6 cell-md-4 offset-top-50 offset-sm-top-0">
-              <h6 class="text-uppercase">바로가기</h6>
+              <h6 class="text-uppercase"></h6>
               <div style="max-width: 340px;" class="row offset-top-22 offset-md-top-30">
                 <div class="col-xs-6">
                   <ul class="list-marked-variant-2">
                     <li><a href="login_home">Home</a></li>
-                    <li><a href="myCard">내 명함 관리</a></li>
-                    <li><a href="mySchedule">내 일정 관리</a></li>
+                    <li><a href="myCard">自分の名刺管理</a></li>
+                    <li><a href="mySchedule">スケジュール管理</a></li>
                   </ul>
                 </div>
                 <div class="col-xs-6">
                   <ul class="list-marked-variant-2">
-                    <li><a href="myCardList">보유명함목록</a></li>
-                    <li><a href="sharingRoom">공유 명함첩</a></li>
+                    <li><a href="myCardList">保有名刺リスト</a></li>
+                    <li><a href="sharingRoom">共有名刺妾</a></li>
                   </ul>
                 </div>
               </div>

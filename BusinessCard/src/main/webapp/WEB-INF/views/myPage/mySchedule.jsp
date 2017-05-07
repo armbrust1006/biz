@@ -126,7 +126,7 @@
 						}//if문 list 확인하는 끝
 					}, //success 끝
 					error : function() {
-						alert("일정 목록을 불러오지 못했습니다.");
+						/* alert("일정 목록을 불러오지 못했습니다."); */
 					}
 				}); // 리스트 담는 ajax 끝
 
@@ -160,7 +160,7 @@
 			eventSources : [ myList, yourList ],
 			eventClick : function(calEvent, jsEvent, view) {
 				var chk = calEvent.chk;
-				alert(chk);
+				/* alert(chk); */
 				var line="";
 				if (chk != 0) { 	//내가 입력한게 0
 					$.ajax({
@@ -175,14 +175,14 @@
 								$('#yourStartDate').val(calEvent.start);
 								$('#yourEndDate').val(calEvent.end);
 								line += "<img src='downloadImage?card="+resp.imagePath+"' alt='' style='width: 500px; height: 250px; border: 1px outset black; border-radius: 3px; margin:7px;' />";
-								line += "<span><label>내용</label></sapn><textarea name='yourContent' id='yourContent' data-constraints='@Required' class='form-control'";
+								line += "<span><label>内容</label></sapn><textarea name='yourContent' id='yourContent' data-constraints='@Required' class='form-control'";
 								line += "placeholder='Message' style='background-color:#ffe6e6;'>"+calEvent.content+"</textarea>";
 								line += "<input type='hidden' value='"+calEvent.notenum+"' id='delyourN' />";
 								$('#inputLines').html(line);
 								yourModal();
 								
 							} else {
-								alert("먼가 이상해");
+								/* alert("먼가 이상해"); */
 							}
 						}
 					});
@@ -195,32 +195,29 @@
 					line += "placeholder='Message' style='background-color:#cce0ff;'>"+calEvent.content+"</textarea>";
 					line += "<input type='hidden' value='"+calEvent.notenum+"' id='delmyN' />";
 					$('#innerHidden').html(line);
-					alert(calEvent.start);
+					/* alert(calEvent.start); */
 					myModal();
 				}
 
 			},
 			eventDrop : function(event, delta, revertFunc) {
 
-				alert(event.title + " was dropped on " + event.start.format());
+				/* alert(event.title + " was dropped on " + event.start.format()); */
 				if (!confirm("Are you sure about this change?")) {
 					revertFunc();
 				}
 
 			}
 		});
-
 		console.log("show cal ended");
 	};//showCal 끝
-
-	
 	
 	/**
 	 * 새 일정 입력 메서드
 	 */
 	function makeAnApp() {
 		$('#confirm').on('click', function() {
-			alert("hi");
+			/* alert("hi"); */
 			var sDate = document.getElementById('startDate').value;
 			var eDate = document.getElementById('endDate').value;
 			var title = document.getElementById('title').value;
@@ -234,7 +231,7 @@
 				"chk" : "0"
 			};
 			if (sDate.length == 0 || title.length == 0) { 
-				alert('일정과 제목을 확인하세요');
+				alert('日程とタイトルを確認してください');
 				return false;
 			}
 
@@ -247,7 +244,7 @@
 						/* init(); */
 						location.reload();
 					} else {
-						alert("일정 등록 실패");
+						/* alert("일정 등록 실패"); */
 					}
 				},
 				error : function() {
@@ -260,7 +257,7 @@
 
 	function delmyMemo() {
 		var chk = document.getElementById('delmyN').value;
-		alert(chk);
+		/* alert(chk); */
 		$.ajax({
 				type : 'POST',
 				url : 'delCardNote',
@@ -271,7 +268,7 @@
 					if (resp == 1) {
 						location.reload();
 					} else {
-						alert('컨트롤러 다녀옴!');
+						/* alert('컨트롤러 다녀옴!'); */
 					}
 				}
 			});
@@ -290,7 +287,7 @@
 					if (resp == 1) {
 						location.reload();
 					} else {
-						alert('컨트롤러 다녀옴!');
+						/* alert('컨트롤러 다녀옴!'); */
 					}
 				}
 			});
@@ -329,23 +326,23 @@
 		aria-hidden="true">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header" style=" text-align: center;">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h5 class="modal-title">새 일정 입력</h5>
+					<h5 class="modal-title">新たな日程入力</h5>
 				</div>
 				<form>
 					<div class="modal-body">
 						<div class="cell-xs-4">
 							<div class="form-group">
-								<label>일정 시작 일</label> <input type="date" id="startDate">
+								<label>日程開始日</label> <input type="date" id="startDate">
 							</div>
 							<div class="form-group">
-								<label>일정 종료 일</label> <input type="date" id="endDate">
+								<label>日程終了日</label> <input type="date" id="endDate">
 							</div>
 							<div class="form-group" style="margin: 20px; text-align: left">
-								<label>제목</label> <input type="text" name="title" id="title" style="width: 100px" />
+								<label>タイトル</label> <input type="text" name="title" id="title" style="align:left;width: 100px" />
 								<textarea name="content" id="content" data-constraints="@Required" class="form-control"
-									placeholder="Message"></textarea>
+									placeholder="メッセージ"></textarea>
 							</div>
 						</div>
 						<!-- cell 끝 -->
@@ -354,9 +351,9 @@
 					<div class="modal-footer">
 						<div class="group-lg group-middle group-sm offset-top-30">
 							<button type="button" class="btn btn-primary btn-sm"
-								data-dismiss="modal" id="confirm">확인</button>
+								data-dismiss="modal" id="confirm">確認</button>
 							<button type="button" class="btn btn-default btn-sm"
-								data-dismiss="modal">닫기</button>
+								data-dismiss="modal">キャンセル</button>
 						</div>
 					</div>
 				</form>
@@ -369,23 +366,23 @@
 	<div class="modal fade" id="myModal">
 		<div class="modal-dialog">
 			<div class="modal-content" style="margin-top: 10%">
-				<div class="modal-header">
+				<div class="modal-header" style=" text-align: center;">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h5 class="modal-title">일정 확인</h5>
+					<h5 class="modal-title">日程確認</h5>
 				</div>
 				<form class="form-modern offset-top-30">
 					<div class="modal-body">
 						<div
 							class="cell-xs-4 offset-top-30 offset-xs-top-30 offset-sm-top-50">
 							<div class="form-group">
-								<label>작성일</label> <input type="text" id="myInputDate" />
+								<label>作成日</label> <input type="text" id="myInputDate" />
 							</div>
 							<div class="form-group">
-								<label>시작일</label> <input type="text" id="myStartDate" />
-								<label>종료일</label> <input type="text" id="myEndDate" />
+								<label>開始日</label> <input type="text" id="myStartDate" />
+								<label>終了日</label> <input type="text" id="myEndDate" />
 							</div>
 							<div class="form-group" style="margin-top:30px">
-								<label>제목</label> <input type="text" id="resultTitle" />
+								<label>タイトル</label> <input type="text" id="resultTitle" />
 							</div>
 								<div id="innerHidden"></div>
 						</div>
@@ -396,8 +393,8 @@
 					<div class="modal-footer">
 						<div class="group-lg group-middle group-sm offset-top-30">
 							<button type="button" class="btn btn-primary btn-sm"
-								id="noteModify">내용수정</button>
-							<button type="button" class="btn btn-default btn-sm" id="noteDel">일정삭제</button>
+								id="noteModify">内容修正</button>
+							<button type="button" class="btn btn-default btn-sm" id="noteDel">日程削除</button>
 						</div>
 					</div>
 				</form>
@@ -412,19 +409,19 @@
 	<div class="modal fade" id="yourModal">
 		<div class="modal-dialog">
 			<div class="modal-content" style="margin-top: 10%">
-				<div class="modal-header">
+				<div class="modal-header" style=" text-align: center;">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h5 class="modal-title">일정 확인</h5>
+					<h5 class="modal-title">日程確認</h5>
 				</div>
 				<form class="form-modern offset-top-30">
 					<div class="modal-body">
 						<div class="cell-xs-4 offset-top-30 offset-xs-top-30 offset-sm-top-50">
 							<div class="form-group">
-								<label>작성일</label> <input type="text" id="yourInputDate"/>
+								<label>作成日</label> <input type="text" id="yourInputDate"/>
 							</div>
 							<div class="form-group">
-								<label>시작일</label> <input type="text" id="yourStartDate"/>
-								<label>종료일</label> <input type="text" id="yourEndDate"/>
+								<label>開始日</label> <input type="text" id="yourStartDate"/>
+								<label>終了日</label> <input type="text" id="yourEndDate"/>
 							</div>
 						<div id="inputLines">
 							<!-- 여기 서버 불러온 내용 입력 -->
@@ -437,8 +434,8 @@
 					<div class="modal-footer">
 						<div class="group-lg group-middle group-sm offset-top-30">
 							<button type="button" class="btn btn-primary btn-sm"
-								id="noteModify">내용수정</button>
-							<button type="button" class="btn btn-default btn-sm" id="yourNoteDel">일정삭제</button>
+								id="noteModify">内容修正</button>
+							<button type="button" class="btn btn-default btn-sm" id="yourNoteDel">日程削除</button>
 						</div>
 					</div>
 				</form>

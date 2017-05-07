@@ -18,6 +18,7 @@ import global.scit.bizcard.repository.CardImageRepository;
 import global.scit.bizcard.repository.MemberRepository;
 import global.scit.bizcard.repository.SharingRepository;
 import global.scit.bizcard.vo.CardBooks;
+import global.scit.bizcard.vo.CardImage;
 import global.scit.bizcard.vo.Member;
 
 @Controller
@@ -100,7 +101,9 @@ public class HomeController {
 			newMessage = SharingRepository.newMessage(id);
 			model.addAttribute("newMessage",newMessage);
 			
-			
+			// 명함 이미지 삽입
+			CardImage cardImage = CardImageRepository.myCardExist(id);
+			model.addAttribute("myCard", cardImage);
 			
 			return "home/login_myHome";
 		} else {

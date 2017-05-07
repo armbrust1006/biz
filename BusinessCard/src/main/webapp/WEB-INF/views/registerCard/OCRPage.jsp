@@ -17,6 +17,10 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/component.css">
 <style type="text/css">
+#scanList li div{
+width:70%;
+}
+
 .radio-inline {
 	width: 30%;
 }
@@ -277,6 +281,14 @@ output {
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
 		<main class="page-content">
+		<%-- <section 
+			class="section-30 section-sm-40 section-md-66 section-lg-bottom-90 bg-gray-dark page-title-wrap">
+			<div class="shell">
+				<div class="page-title">
+					<h2>Register ${cardType } Business Card</h2>
+				</div>
+			</div>
+		</section> --%>
 		<section class="section-60 section-sm-top-90 section-sm-bottom-100">
 			<div class="shell">
 				<div class="range">
@@ -356,7 +368,7 @@ output {
 							<br>
 							<h3>Position Getter</h3>
 							<br>
-							<ul>
+							<ul id='scanList'>
 								<li>
 									<div class="btn btn-primary-outline btn-shadow" toggle="modal"
 										data-target="#canvasModal" id="getName">Name Select</div> <output

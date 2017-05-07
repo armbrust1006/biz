@@ -168,8 +168,8 @@
       var msg = '<table class="table table-primary">';
       msg += "<tr>";
       msg += "<td>" + "I  D" + "</td>";
-      msg += "<td>" + "이 름" + "</td>";
-      msg += "<td>" + "가입날짜" + "</td>";
+      msg += "<td>" + "名   前" + "</td>";
+      msg += "<td>" + "加入日" + "</td>";
       msg += "</tr>";
       $.each(resp, function(index, item) {
          msg += "<tr>";
@@ -367,7 +367,7 @@
                   read += '  <table width="413">';
                   read += '   <tr>';
                   read += '    <td width="0">&nbsp;</td>';
-                  read += '     <td align="center" width="76">글번호</td>';
+                  read += '     <td align="center" width="76">文番号</td>';
                   read += '      <td width="319">' + e.boardnum + '</td>';
                   read += '      <td width="0">&nbsp;</td>';
                   read += '    </tr>';
@@ -375,7 +375,7 @@
                   read += ' <tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>';
                   read += '  <tr>';
                   read += '    <td width="0">&nbsp;</td>';
-                  read += '    <td align="center" width="76">이름</td>';
+                  read += '    <td align="center" width="76">名前</td>';
                   read += '   <td width="319">' + e.m_id + '</td>';
 
                   read += '  <td width="0">&nbsp;</td>';
@@ -383,7 +383,7 @@
                   read += '   <tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>';
                   read += '  <tr>';
                   read += '    <td width="0">&nbsp;</td>';
-                  read += '   <td align="center" width="76">작성일</td>';
+                  read += '   <td align="center" width="76">作成日</td>';
                   read += '   <td width="319">' + e.inputdate + '</td>';
                   read += '    <td width="0">&nbsp;</td>';
                   read += '   </tr>';
@@ -399,10 +399,10 @@
                   read += '  <tr align="center">';
                   read += '    <td width="0">&nbsp;</td>';
                   read += '   <td colspan="2" width="399">';
-                  read += '<input type=button class="btn-sm btn-primary" style="margin-top:5px; margin-right:10px"value="목록"  id="write"  onclick="return relist();">';
-                  read += '<input type=button class="btn-sm btn-primary" style="margin-top:5px; margin-right:10px"  value="수정" onclick="return updateB('
+                  read += '<input type=button class="btn-sm btn-primary" style="margin-top:5px; margin-right:10px" value="目的"  id="write"  onclick="return relist();">';
+                  read += '<input type=button class="btn-sm btn-primary" style="margin-top:5px; margin-right:10px" value="修整" onclick="return updateB('
                         + e.boardnum + ')">';
-                  read += '<input type=button class="btn-sm btn-primary" style="margin-top:5px" value="삭제" onclick=" return deletedB('
+                  read += '<input type=button class="btn-sm btn-primary" style="margin-top:5px" value="削除" onclick=" return deletedB('
                         + e.boardnum + ')">';
                   read += '     <td width="0">&nbsp;</td>';
                   read += '   </tr>';
@@ -571,19 +571,18 @@
                      aria-label="Close">
                      <span aria-hidden="true">&times;</span>
                   </button>
-                  <h5 class="modal-title">탈퇴하시겠습니까?</h5>
+                  <h5 class="modal-title">脱退しますか。</h5>
                   <br>
                   <h6>
-                     매니저가 탈퇴할 경우 공유 명함첩의 모든 정보가 삭제됩니다. <br>공유 명함첩 매니저:
-                     ${book_master}
+                     マネージャーが脱退する場合、共有ミョンハムチョプのすべての情報が削除されます。 <br>共有名刺妾マネージャー : ${book_master}
                   </h6>
 
                   <input type="hidden" value="${book_num}" id="book_num"
                      name="book_num"> <input type="hidden"
                      value="${book_master}" id="book_master" name="book_master">
                   <input type="button" class="btn btn-primary-outline btn-shadow"
-                     data-dismiss="modal" value="취소"> <input type="submit"
-                     class="btn btn-primary btn-shadow" id="writeMemo" value="확인">
+                     data-dismiss="modal" value="キャンセル"> <input type="submit"
+                     class="btn btn-primary btn-shadow" id="writeMemo" value="確認">
                </form>
             </div>
          </div>
@@ -600,7 +599,7 @@
          <div class="shell">
             <div class="range range-sm-center">
                <div class="cell-xs-12 text-center">
-                  <h3>${book_name}공유명함첩</h3>
+                  <h3>${book_name}共有名刺妾</h3>
                   <input type="hidden" value="${book_num}" id="book_num"
                      name="book_num"> <input type="hidden"
                      value="${book_name}" id="book_name" name="book_name">
@@ -610,11 +609,11 @@
                      class="tabs-custom tabs-horizontal tabs-corporate">
                      <ul class="nav nav-tabs">
                         <li class="active"><a id="tab1" href="#tabs-1-1"
-                           data-toggle="tab">명함첩</a></li>
-                        <li><a id="tab2" href="#tabs-1-2" data-toggle="tab">게시판</a></li>
-                        <li><a id="tab3" href="#tabs-1-3" data-toggle="tab">초대하기</a></li>
-                        <li><a id="tab4" href="#tabs-1-4" data-toggle="tab">구성원</a></li>
-                        <li><a href="#tabs-1-5" data-toggle="tab">탈퇴</a></li>
+                           data-toggle="tab">共有中名刺</a></li>
+                        <li><a id="tab2" href="#tabs-1-2" data-toggle="tab">掲示板</a></li>
+                        <li><a id="tab3" href="#tabs-1-3" data-toggle="tab">他人の初代</a></li>
+                        <li><a id="tab4" href="#tabs-1-4" data-toggle="tab">メンバー</a></li>
+                        <li><a href="#tabs-1-5" data-toggle="tab">脱退</a></li>
                      </ul>
                      <div class="tab-content text-secondary">
                         <div id="tabs-1-1" class="tab-pane fade in active">
@@ -633,11 +632,11 @@
                                     style="background: url('images/table_mid.gif') repeat-x; text-align: center;">
                                     <td width="7"><img src="images/table_left.gif"
                                        width="5" height="30" /></td>
-                                    <td width="73">번호</td>
-                                    <td width="379">제목</td>
-                                    <td width="73">작성자</td>
-                                    <td width="164">작성일</td>
-                                    <td width="58">조회수</td>
+                                    <td width="73">脱退</td>
+                                    <td width="379">タイトル</td>
+                                    <td width="73">作成者</td>
+                                    <td width="164">作成日</td>
+                                    <td width="58">照会数</td>
                                     <td width="7"><img src="images/table_right.gif"
                                        width="5" height="30" /></td>
                                  </tr>
@@ -671,7 +670,7 @@
                                     <!--   <td><button class="btn btn-primary-outline btn-shadow" id="write"
                                           onclick="check();">글쓰기</button></td> -->
                                     <td><input type="button" class="btn-sm btn-primary"
-                                       id="write" onclick="check();" value="글쓰기"></td>
+                                       id="write" onclick="check();" value="書き込み"></td>
                                  </tr>
 
 
@@ -687,10 +686,10 @@
                         <div id="tabs-1-3" class="tab-pane fade">
                            <form id="inviteForm" action="inviteList" method="get">
                               <select name="searchTitle" id="searchTitle">
-                                 <option value="m_id">아이디로 검색하기</option>
-                                 <option value="m_name">이름으로 검색하기</option>
+                                 <option value="m_id">IDで検索する</option>
+                                 <option value="m_name">名前で検索する</option>
                               </select> <input type="text" id="searchText" value="${searchText}">
-                              <input type="button" class="btn btn-info btn-xs" value="검색"
+                              <input type="button" class="btn btn-info btn-xs" value="検索"
                                  id="searchInvite">
                            </form>
                            <div id="inviteListResult"></div>
@@ -704,7 +703,7 @@
                               style="vertical-align: middle" data-toggle="modal"
                               data-target="#withdrawalForm" data-whatever="@mdo"
                               id="deleteRoom">
-                              <span>탈퇴하기 </span>
+                              <span>脱退 </span>
                            </button>
                         </div>
                      </div>

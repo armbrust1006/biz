@@ -152,12 +152,12 @@
 	function idsuccess(text) {
 		var id = $('#userid').val();
 		if (text == '1') {
-			$('#idcheck').text('중복된 아이디가 존재합니다.');
+			$('#idcheck').text('重複されたハンドルネームが存在します。');
 		} else if (text == '0') {
 			if (id.length == 0) {
 				$('#idcheck').text('');
 			} else {
-				$('#idcheck').text('이 아이디는 사용할 수 있습니다.');
+				$('#idcheck').text('このアイディーは使用できます。');
 			}
 		}
 	}
@@ -177,12 +177,12 @@
 	function emailsuccess(text) {
 		var email = $('#m_email').val();
 		if (text == '1') {
-			$('#emailcheck2').text('중복된 이메일입니다.');
+			$('#emailcheck2').text('重複されたメールです');
 		} else if (text == '0') {
 			if (email.length == 0) {
 				$('#emailcheck2').text('');
 			} else {
-				$('#emailcheck2').text('이 이메일은 사용할 수 있습니다.');
+				$('#emailcheck2').text('このメールは使用できます。');
 				emailflag = true;
 			}
 		}
@@ -196,14 +196,14 @@
 
 			success : function(data) {
 				if (num == data) {
-					alert("인증에 성공하였습니다.");
+					alert("認証に成功しました。");
 					checknumflag = true;
 
 					return true;
 				}
 
 				else {
-					alert("인증번호가 일치하지 않습니다.");
+					alert("認証番号が一致しません。");
 					checknumflag = false;
 
 					return false;
@@ -222,7 +222,7 @@
 			var checkbutton = $("#checknumc").val();
 			var num = $("#checknum").val();
 
-			if (checkbutton == "메일인증") {
+			if (checkbutton == "メール認証") {
 				$.ajax({
 					type : "post",
 					url : "emailcheck",
@@ -360,7 +360,7 @@
 	<!-- modal 끝 -->
 	<div class="page">
 		<%@include file="../modules/header.jsp"%>
-		<main class="page-content" style="background-image:url(images/bg/businessMeeting.jpg)">
+		<main class="page-content">
 		 <!-- <section class="section-66 section-sm-90 section-lg-bottom-120"> --> 
 			<div class="shell">
 				
@@ -368,7 +368,7 @@
 					<div class="cell-sm-8 offset-top-0 offset-sm-top-0">
 
 						<div class="inset-lg-left-60 inset-lg-right-60 offset-top-30" id="formation">
-				<h3 class="text-center">회원정보 수정</h3>
+				<h3 class="text-center">会員情報修正</h3>
 							<blockquote class="quote-bordered">
 								<div class="quote-body">
 									<div class="quote-open">
@@ -380,7 +380,7 @@
 												d="M9.597,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.349,1.316                    c-1.287,0-2.414-0.44-3.382-1.316C0.482,12.811,0,11.758,0,10.535c0-1.226,0.58-2.716,1.739-4.473L5.603,0H9.34L6.956,6.37                    C8.716,7.145,9.597,8.493,9.597,10.412z M20.987,10.412c0,1.306-0.473,2.399-1.418,3.277c-0.944,0.876-2.06,1.316-3.35,1.316                    c-1.288,0-2.415-0.44-3.381-1.316c-0.966-0.879-1.45-1.931-1.45-3.154c0-1.226,0.582-2.716,1.74-4.473L16.994,0h3.734l-2.382,6.37                    C20.106,7.145,20.987,8.493,20.987,10.412z"></path>
                   						  </svg>
 									</div>
-									<div class="quote-body-inner" align="center" style="opacity:0.9; background-color: aliceblue;border-radius:14px;">
+									<div class="quote-body-inner" align="center" style="opacity:0.9; background-color: #f2f4f7;border-radius:14px;">
 										<form
 											class="rd-mailform form-modern form-darker offset-top-20"
 											action="updateM" method="POST">
@@ -415,7 +415,7 @@
 																<input id="m_email" type="email" name="m_email"
 																	value="${member.m_email }" class="form-control">
 																<input type="button" id="checknumc" name="checknumc"
-																	value="메일인증" class="btn btn-info btn-shadow btn-xs" style="margin-top:10px">
+																	value="メール認証" class="btn btn-info btn-shadow btn-xs" style="margin-top:10px">
 																<label for="m_email" class="form-label"></label> <span
 																	id="emailcheck2" style="color: red"> </span> <span
 																	class="form-validation"> </span>
@@ -425,7 +425,7 @@
 															<div id="test2" class="form-group ofset-top-22">
 																<div class="form-group" id="test">
 																	<input id="checknum" type="text" name="checknum"
-																		class="form-control" placeholder="메일로 전송된 인증번호 입력">
+																		class="form-control" placeholder="メールで転送された認証番号入力">
 																	<span class="form-validation"></span> <label
 																		class="form-label rd-input-label" for="checknum"></label>
 																</div>
@@ -453,8 +453,8 @@
 											
 											<input type="hidden" id="_chk_id" name="chk_Id" value="0" style="display:none">
 											<div class="group-lg group-middle group-sm offset-top-30">
-							                     <button type="submit" class="btn btn-primary btn-sm" onclick="return modalCheck();">회원수정</button>
-							                     <button type="button" class="btn btn-primary btn-sm" onclick="return goBack();">취소</button>
+							                     <button type="submit" class="btn btn-primary btn-sm" onclick="return modalCheck();">会員情報修正</button>
+							                     <button type="button" class="btn btn-primary btn-sm" onclick="return goBack();">キャンセル</button>
                      						</div>
 											
 										</form>

@@ -14,7 +14,7 @@
                     <div class="unit unit-horizontal unit-spacing-xs unit-middle">
                       <div class="unit-left"><span class="icon icon-xxs icon-primary fa-sign-in"></span></div>
                       <div class="unit-body">
-                      <a href="login" class="link-secondary">로그인</a></div>
+                      <a href="login" class="link-secondary">ログイン</a></div>
                     </div>
                   </li>
                 </ul> 
