@@ -400,13 +400,13 @@
    }
 
    function showRouteChoice() {
-      var start = '901 Cherry Ave, San Bruno';
+      var start = '${myAddress}';
       var end = document.getElementById('address').value;
       window.open("searchRoute?start=" + start + "&end=" + end);
    }
 
    function routeStopBy() {
-      window.open("routeStopBy");
+      window.open("addStop");
    }
 </script>
 <script async defer
