@@ -273,15 +273,17 @@ public class SharingController {
 	@RequestMapping(value = "/invitedCard", method = RequestMethod.GET)
 	public String invitedCard(@RequestParam(value = "book_num", defaultValue = "0") int book_num,
 			@RequestParam(value = "sender") String sender, @RequestParam(value = "message") String message,
-			@RequestParam(value = "date") String date, Model model) {
+			@RequestParam(value = "date") String date,Model model) {
 
 		/*
 		 * if(book_num!=0){ String book_name =
 		 * SharingRepository.getBookName(book_num);
 		 * model.addAttribute("book_name", book_name); }
 		 */
-
+		String bookName=SharingRepository.getBookName(book_num);
+		model.addAttribute("bookName",bookName);
 		model.addAttribute("m_book_num", book_num);
+		
 		model.addAttribute("m_sender", sender);
 		model.addAttribute("m_message", message);
 		model.addAttribute("m_date", date);
@@ -291,6 +293,10 @@ public class SharingController {
 		m.setSender(sender);
 		m.setMessage(message);
 		SharingRepository.readMessage(m);
+		
+		
+		
+		
 		return "sharingCards/invitedCard";
 	}
 

@@ -24,9 +24,9 @@ public interface SharingDAO {
 
 	public List<HashMap<String, Object>> allMember(int book_bum) throws Exception;
 
-   public ArrayList<Member> inviteList(Map<String, String> search) throws Exception;
+	public ArrayList<Member> inviteList(Map<String, String> search) throws Exception;
 
-   public int invite(Message message) throws Exception;
+	public int invite(Message message) throws Exception;
 
 	public List<CardImage> getRoomCards(int card) throws Exception;
 
@@ -41,16 +41,17 @@ public interface SharingDAO {
 	public int cardBooksDelete(CardBooks card) throws Exception;
 
 	public int sharedCardDeleteByBook_Master(CardBooks card) throws Exception;
-	
-	 public int writeMessage(Message message) throws Exception;
 
-   public int readMessage(Message message) throws Exception;
+	public int writeMessage(Message message) throws Exception;
 
-   public ArrayList<Message> messageList(String m_id) throws Exception;
-   
-   public int joinRoom(CardBooks card) throws Exception;
+	public int readMessage(Message message) throws Exception;
 
-   public int leaveRoom(CardBooks card) throws Exception;
+	public ArrayList<Message> messageList(String m_id) throws Exception;
 
-   
+	public int joinRoom(CardBooks card) throws Exception;
+
+	public int leaveRoom(CardBooks card) throws Exception;
+
+	public String getBookName(int book_num);
+
 }

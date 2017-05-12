@@ -264,6 +264,12 @@
 		null
 
 	</select>
+	<select id="getBookName" parameterType="int" resultType="String">
+		select book_name 
+		from cardbooks 
+		where book_num=#{book_num}
+
+	</select>
 
 
 </mapper>

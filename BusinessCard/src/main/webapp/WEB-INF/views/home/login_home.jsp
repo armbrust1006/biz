@@ -24,11 +24,11 @@
               <div class="shell">
                 <div class="range range-sm-center">
                   <div class="cell-sm-11 cell-md-10 cell-lg-9">
-                    <h2 data-caption-animate="fadeInUp" data-caption-delay="0s" class="slider-header">내 명함 등록</h2>
-                    <p data-caption-animate="fadeInUp" data-caption-delay="100" class="text-bigger slider-text">아직 명함을 등록하지 않으셨다구요?<br> 지금 명함을 등록하시면 더 많은 편리한 기능을 사용할 수 있답니다! </p>
+                    <h2 data-caption-animate="fadeInUp" data-caption-delay="0s" class="slider-header">自分の名刺登録</h2>
+                    <p data-caption-animate="fadeInUp" data-caption-delay="100" class="text-bigger slider-text">まだ名刺を登録していないウショッダクますか？<br> 今、名刺を登録したらもっと多くの便利な機能を使用することができます! </p>
                     <div class="group-xl-responsive offset-top-30 offset-sm-top-45">
                     <!-- <a data-caption-animate="fadeInUp" data-caption-delay="250" href="#" data-custom-scroll-to="section-start-journey" class="btn btn-xl btn-white-outline-variant-1">Start a journey</a> -->
-                    <a data-caption-animate="fadeInUp" data-caption-delay="250" href="selectCardType?type=my" class="btn btn-xl btn-primary-contrast">내 명함 등록하러 가기</a></div>
+                    <a data-caption-animate="fadeInUp" data-caption-delay="250" href="selectCardType?type=my" class="btn btn-xl btn-primary-contrast">自分の名刺登録しに行く</a></div>
                   </div>
                 </div>
               </div>
@@ -39,11 +39,11 @@
               <div class="shell">
                 <div class="range range-sm-center">
                   <div class="cell-sm-11 cell-md-10 cell-lg-9">
-                    <h2 data-caption-animate="fadeInUp" data-caption-delay="0s" class="slider-header">보유 명함 등록</h2>
-                    <p data-caption-animate="fadeInUp" data-caption-delay="100" class="text-bigger slider-text">효과적인 명함관리로 확실한 고객관리가 성공적 비즈니스의 핵심이죠. <br> 더 쉽고 간단하게 당신이 가진 명함을 관리해 보세요.<br> 성공을 위한 기회는 저절로 생길거예요!
+                    <h2 data-caption-animate="fadeInUp" data-caption-delay="0s" class="slider-header">保有名刺登録</h2>
+                    <p data-caption-animate="fadeInUp" data-caption-delay="100" class="text-bigger slider-text">効果的な名刺管理で確実な顧客管理が成功的なビジネスの核心です。 <br> もっと易くて,簡単にあなたが持つ名刺を管理してみてください。<br> 成功のための機会は自然にできるはずです!
                       </p>
                     <div class="group-xl-responsive offset-top-30 offset-sm-top-45">
-                    <a data-caption-animate="fadeInUp" data-caption-delay="250" href="registerPoss" class="btn btn-xl btn-primary-contrast">보유 명함 등록하러 가기</a>
+                    <a data-caption-animate="fadeInUp" data-caption-delay="250" href="registerPoss" class="btn btn-xl btn-primary-contrast">保有名刺登録しに行く</a>
                     </div>
                   </div>
                 </div>

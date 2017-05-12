@@ -118,7 +118,7 @@
       var msg = '<table class="table table-primary">';
       msg += "<tr>";
       msg += "<td>" + "I  D" + "</td>";
-      msg += "<td>" + "이 름" + "</td>";
+      msg += "<td>" + "名　前" + "</td>";
       msg += "<td></td>"
       msg += "</tr>";
       $
@@ -128,7 +128,7 @@
                      msg += "<tr>";
                      msg += "<td>" + item.m_id + "</td>";
                      msg += "<td>" + item.m_name + "</td>";
-                     msg += "<td><input type='button' class='btn btn-info btn-xs' id='invite1"+index+"' target-id='" + item.m_id + "' value='초대'></td>";
+                     msg += "<td><input type='button' class='btn btn-info btn-xs' id='invite1"+index+"' target-id='" + item.m_id + "' value='招待'></td>";
                      msg += "</tr>";
                   });
       msg += '</table>';
@@ -202,7 +202,7 @@
             board_content : board_content
          },
          success : function() {
-            alert('성공했습니다.');
+            alert('登録完了');
             $('#listView').show();
             $('#writeForm').hide();
 
@@ -268,7 +268,7 @@
       test += ' <div id="bbsCreated">';
       test += ' <div class="bbsCreated_bottomLine">';
       test += ' <dl>';
-      test += ' <dt>제&nbsp;&nbsp;&nbsp;&nbsp;목</dt>';
+      test += ' <dt>タ&nbsp;イ&nbsp;ト&nbsp;ル/dt>';
       test += ' <dd>';
       test += ' <input type="text" id="board_title" size="64" maxlength="100"  class="boxTF" style="border: 2px solid #5C84DC;"/>';
 
@@ -277,7 +277,7 @@
       test += ' </div>';
       test += ' <div id="bbsCreated_content">';
       test += ' <dl>';
-      test += ' <dt>내&nbsp;&nbsp;&nbsp;&nbsp;용 </dt>';
+      test += ' <dt>内&nbsp;&nbsp;&nbsp;&nbsp;容 </dt>';
       test += ' <dd>';
       test += ' <textarea id="board_content" cols="63" rows="10" class="boxTA"style="border: 2px solid #5C84DC;"></textarea>';
       test += ' </dd>';
@@ -288,8 +288,8 @@
       test += ' <td>';
       test += ' <dd>';
       test += ' <div id="button">';
-      test += ' <input type="button" class="btn-sm btn-primary" id="writeClick" style="margin-top:5px; margin-right:10px""  onclick="return asdf();" value="등록">';
-      test += ' <input type="button" class="btn-sm btn-primary" id="cancle" onclick="return relist();" value="작성취소">';
+      test += ' <input type="button" class="btn-sm btn-primary" id="writeClick" style="margin-top:5px; margin-right:10px""  onclick="return asdf();" value="登録">';
+      test += ' <input type="button" class="btn-sm btn-primary" id="cancle" onclick="return relist();" value="キャンセル">';
       test += ' </div>';
       test += ' </dd>';
       test += ' </dl>';
@@ -314,7 +314,7 @@
             book_num : book_num,
          },
          success : function() {
-            alert('성공했습니다.');
+            alert('削除完了');
             $('#listView').show();
             $('#readData').hide();
             loadList();
@@ -498,7 +498,7 @@
             content : content
          },
          success : function() {
-            alert('성공했습니다.');
+            alert('修正完了');
             $('#listView').show();
             $('#updateForm').hide();
             loadList();
