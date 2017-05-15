@@ -196,7 +196,7 @@
          alert('日程とメッセージを入力してください');
       }
 
-      alert("check");
+      
       $.ajax({
          type : "post",
          url : "addYourNote",
@@ -400,13 +400,13 @@
    }
 
    function showRouteChoice() {
-      var start = '901 Cherry Ave, San Bruno';
+      var start = '${myAddress}';
       var end = document.getElementById('address').value;
       window.open("searchRoute?start=" + start + "&end=" + end);
    }
 
    function routeStopBy() {
-      window.open("routeStopBy");
+      window.open("addStop");
    }
 </script>
 <script async defer
@@ -470,7 +470,7 @@
                   aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                </button>
-               <h4 class="modal-title" id="exampleModalLabel">공유하기</h4>
+               <h4 class="modal-title" id="exampleModalLabel">共有</h4>
                <h6 class="modal-title">共有する名刺妾を選択してください。</h6>
             </div>
             <div class="modal-body">
@@ -604,33 +604,40 @@
                            <input type="hidden" id="cardNum" value="${selectedCard.cardNum}">
                            
                            
-                           <h4 class="product-brand" style="color:gray;padding: 10px;">
-                           
-                           ${selectedCard.company}&nbsp;|&nbsp;${selectedCard.depart}
+                           <h4 class="product-brand" style="padding: 10px;">
+                           <input type="text" style="border:0px;padding-bottom:10px;font-size:35px;" 
+                              id="selectedName" name="selectedName" value="${selectedCard.name}" readonly />
+                           <input type="text" style="border: 0px;" 
+                              id="selectedPosition" name="selectedPosition" value="${selectedCard.position}" readonly />
+                          
                            
                            </h4>
                            
-                           <h4 class="product-header" style="display:inline-block;padding: 10px;">
-                              <input type="text" style="border: 0px;" 
-                              id="selectedPosition" name="selectedPosition" value="${selectedCard.position}" readonly /> 
-                              <input type="text" style="border: 0px;" 
-                              id="selectedName" name="selectedName" value="${selectedCard.name}" readonly /> 
+                            <h4 class="product-header" style="display:inline-block;color:gray;padding: 10px;"> 
+                             
+                             <p>  ${selectedCard.company}&nbsp;&nbsp;|&nbsp;&nbsp;${selectedCard.depart}</p>
+                               
+                               
+                              <br>
+                              
                               <button type="button" class="button" style="vertical-align: middle" data-toggle="modal"
                                  data-target="#addSchedule" data-whatever="@mdo">
                                  <span>メモ</span>
                               </button>
+                              
                               <button type="button" class="button"
                                  style="vertical-align: middle" data-toggle="modal"
                                  data-target="#shareModal" data-whatever="@mdo"
                                  id="showShareRoom">
                                  <span>共有</span>
                               </button>
+                              
                               <a href="javascript:;" onclick="textToSpeech();"> 
                                <span class="icon icon-md icon-primary fa-bullhorn"></span></a> 
                                <input type="hidden" value="${selectedCard.company}&nbsp;${selectedCard.depart}&nbsp;${selectedCard.position}&nbsp;${selectedCard.name }"
                                  id="textToSpeech">
                                <input type="hidden" value=${selectedCard.language } id="language">
-                           </h4>
+                          </h4> 
                            	
                            <%-- <h4 class="product-header">
 										${selectedCard.name}&nbsp;${selectedCard.position}
@@ -732,7 +739,7 @@
                                                    <th colspan="2" style="text-align: center;"><input
                                                       type="hidden" name="user" id="user"
                                                       value="${selectedCard.email}"> <input
-                                                      type="button" id="sc" name="sc" value="보내기"
+                                                      type="button" id="sc" name="sc" value="伝送"
                                                       class="btn btn-info btn-shadow btn-xs"
                                                       style="margin-top: 10px"> <label for="sc"
                                                       class="form-label"></label> <input type="reset"

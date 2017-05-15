@@ -126,7 +126,7 @@ html, body {
 
 
 			<br> <b><h6>경유지</h6></b> (Ctrl+Click 로 경유지를 추가, 삭제) <br> <select
-				multiple id="waypoints" select multiple size="3"
+				multiple id="waypoints" select multiple size="5"
 				style="width: 500px;">
 				<c:forEach var="stop" items="${stopList}">
 					<option value="${stop.address}">${stop.company}

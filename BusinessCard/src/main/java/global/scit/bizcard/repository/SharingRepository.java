@@ -237,4 +237,14 @@ public class SharingRepository {
 		return 0;
 	}
 
+	public String getBookName(int book_num){
+		SharingDAO dao = sql.getMapper(SharingDAO.class);
+		
+		return dao.getBookName(book_num);
+		
+	}
+	
+	
+	
+	
 }

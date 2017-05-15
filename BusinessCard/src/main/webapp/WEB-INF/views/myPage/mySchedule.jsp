@@ -276,7 +276,7 @@
 	
 	function delyourMemo() {
 		var chk = document.getElementById('delyourN').value;
-		alert(chk);
+		/* alert(chk); */
 		$.ajax({
 				type : 'POST',
 				url : 'delCardNote',

@@ -16,7 +16,6 @@
               </div>
             </div>
             <div class="cell-sm-6 cell-md-4 offset-top-50 offset-sm-top-0">
-              <h6 class="text-uppercase">바로가기</h6>
               <div style="max-width: 340px;" class="row offset-top-22 offset-md-top-30">
                 <div class="col-xs-6">
                   <ul class="list-marked-variant-2">

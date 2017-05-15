@@ -85,11 +85,11 @@ function idCheck() {
                   </div>
                 </div>
                 <div class="offset-top-30 offset-sm-top-60">
-                  <button class="btn btn-primary btn-block" type="submit">로그인</button>
+                  <button class="btn btn-primary btn-block" type="submit">ログイン</button>
                 </div>
               </form>
             </div>
-            <div class="group-inline offset-top-15 text-center"><span class="text-white">아직 회원이 아니신가요?</span><a class="link link-primary-inverse" href="register">회원가입</a></div>
+            <div class="group-inline offset-top-15 text-center"><span class="text-white">まだ会員はありませんか。</span><a class="link link-primary-inverse" href="register">会員加入</a></div>
           </div>
         </div>
       </div>

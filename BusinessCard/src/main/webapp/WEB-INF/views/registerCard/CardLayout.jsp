@@ -276,7 +276,7 @@
 				reader.addEventListener("load", function() {
 					var img = new Image();
 					img.onload = function() {
-						context.drawImage(img, 400, 50, 100, 100);
+						context.drawImage(img, 300, 50, img.width, img.height);
 					}
 					img.src = reader.result;
 				}, false);
@@ -286,30 +286,23 @@
 				}
 			}
 			context.font = "30px Arial";
-			context.fillText("주 현 택" + document.getElementById("name").value,
+			context.fillText(document.getElementById("name").value,
 					50, 80);
 
 			context.font = "15px Arial";
-			context.fillText("CEO" + document.getElementById("position").value,
+			context.fillText(document.getElementById("position").value,
 					50, 110);
-			context.fillText("Administrator"
-					+ document.getElementById("depart").value, 50, 130);
+			context.fillText(document.getElementById("depart").value, 50, 130);
 
 			context.font = "20px Arial";
-			context.fillText("Komorebi Co."
-					+ document.getElementById("company").value, 380, 230);
+			context.fillText(document.getElementById("company").value, 380, 230);
 
 			context.font = "15px Arial";
-			context.fillText("서울시 강남구 삼성동 코엑스 4층 101호"
-					+ document.getElementById("address").value, 70, 180);
-			context.fillText("Mobile | 010-4013-1414"
-					+ document.getElementById("mobile").value, 70, 200);
-			context.fillText("Tel | 02-3213-2132"
-					+ document.getElementById("telephone").value, 70, 220);
-			context.fillText("Fax | 02-2133-2131"
-					+ document.getElementById("fax").value, 70, 240);
-			context.fillText("E-mail  | komorebi@komorebi.com"
-					+ document.getElementById("email").value, 70, 260);
+			context.fillText(document.getElementById("address").value, 70, 180);
+			context.fillText("Mobile | "+ document.getElementById("mobile").value, 70, 200);
+			context.fillText("Tel | "+document.getElementById("telephone").value, 70, 220);
+			context.fillText("Fax | "+ document.getElementById("fax").value, 70, 240);
+			context.fillText("E-mail  | "+document.getElementById("email").value, 70, 260);
 		}//5번 if
 
 		else if (layout_num == 6) {
@@ -330,29 +323,26 @@
 				}
 			}
 			context.font = "30px Arial";
-			context.fillText("주 현 택" + document.getElementById("name").value,
+			context.fillText(document.getElementById("name").value,
 					50, 80);
 
 			context.font = "15px Arial";
-			context.fillText("CEO" + document.getElementById("position").value,
+			context.fillText(document.getElementById("position").value,
 					50, 110);
-			context.fillText("Administrator"
-					+ document.getElementById("depart").value, 50, 130);
+			context.fillText(document.getElementById("depart").value, 50, 130);
 
 			context.font = "20px Arial";
-			context.fillText("Komorebi Co."
-					+ document.getElementById("company").value, 380, 230);
+			context.fillText(document.getElementById("company").value, 380, 230);
 
 			context.font = "15px Arial";
-			context.fillText("서울시 강남구 삼성동 코엑스 4층 101호"
-					+ document.getElementById("address").value, 70, 180);
-			context.fillText("Mobile | 010-4013-1414"
-					+ document.getElementById("mobile").value, 70, 200);
-			context.fillText("Tel | 02-3213-2132"
+			context.fillText(document.getElementById("address").value, 70, 180);
+			context.fillText("Mobile | "
+					+ document.getElementById( "mobile").value, 70, 200);
+			context.fillText("Tel |"
 					+ document.getElementById("telephone").value, 70, 220);
-			context.fillText("Fax | 02-2133-2131"
+			context.fillText("Fax |"
 					+ document.getElementById("fax").value, 70, 240);
-			context.fillText("E-mail  | komorebi@komorebi.com"
+			context.fillText("E-mail  |"
 					+ document.getElementById("email").value, 70, 260);
 		}//6번 if
 	}
